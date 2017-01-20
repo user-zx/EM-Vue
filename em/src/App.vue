@@ -22,12 +22,13 @@
 <script>
 export default {
   name: 'app',
-  data () {
-    return {
+  data () {  
+    return {    
       msg: 'Welcome to Your Vue.js App'
     }
   }
-}
+} 
+console.log('test');
 </script>
 
 <style>
