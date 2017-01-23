@@ -9,7 +9,7 @@ import vueResource from "vue-resource"
 //调用  
 Vue.use(VueRouter);
   
-      
+          
 const router = new VueRouter(routerConfig); 
  
 const app =  new Vue({
