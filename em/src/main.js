@@ -5,14 +5,12 @@ import routerConfig from "./router.config.js"
 import vueResource from "vue-resource"
 import 'bootstrap/dist/js/bootstrap'
 
- 
- 
 //开启debug模式  
 Vue.config.debug = true;  
 //调用   
 Vue.use(VueRouter);
-Vue.use(vueResource);  
-                    
+Vue.use(vueResource); 
+          
 const router = new VueRouter(routerConfig); 
  
 const app =  new Vue({
