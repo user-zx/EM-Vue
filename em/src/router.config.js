@@ -5,7 +5,7 @@ export default  {
     routes: [  
         {path:"/",component: Login},
         {path:'/home',component:Home}
-    ]    
+    ],
 } 
 
 
