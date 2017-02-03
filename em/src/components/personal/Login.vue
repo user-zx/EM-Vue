@@ -7,22 +7,22 @@
 			<img src="../../assets/images/loginWord.png"  alt="">
 			<label>
 				<img src="../../assets/images/login_user.png"  alt="">
-				<input type="text" name="" class="form-control">
+				<input type="text" name="" class="form-control" v-model="item.name">
 			</label>
 			<label>
 				<img src="../../assets/images/login_password.png"  alt="">
-				<input type="text" name="" class="form-control">
+				<input type="password" name="" class="form-control" v-model="item.password">
 			</label>
-			
+			 
 			<p class="clear login_p_one">
 				<label> 
 					<input type="checkbox" name="">
 					<b>记住密码</b>
-				</label>   
+				</label>    
 				<router-link to="../personal/forgetPassword.vue" >忘记密码</router-link>
 				<router-link to="/home" >首页</router-link>
 			</p> 
-			<button type="button" class="btn btn-info">立即登录</button>
+			<button type="button" class="btn btn-info" @click="login()">立即登录</button>
 			<p>还没有慧数医美?<router-link to="../personal/Register.vue" class="login_p_two_a">立即注册</router-link></p>
 		</div> 
 		
@@ -33,17 +33,31 @@
 	 	
 	  export default{
 	  	data(){
-	  		return {
-	  			//写本组件的数据		
+	  		return { 
+	  			//写本组件的数据 
+	  			apiUrl:"/apis/weather",
+	  			item:{}	
 	  		}
-	  	},      
+	  	},
+	  	mounted: function () {
+	        this.$nextTick(function () {
+	         // 代码保证 this.$el 在 document 中
+	         //console.log(this.$el);
+	        })
+       },      
 	  	methods:{
 	  		//写ajax请求
+	  		login: function() {
+				var vm  = this;
+				    
+				vm.$http.post(vm.apiUrl,vm.item).then(response=>{
+					console.log(response);    
+				},response=>{ 
+ 					console.log('test');
+				})	 	 
+			}
 	  	}
-
 	  }
-
-
 </script>  
 
   
