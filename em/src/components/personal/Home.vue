@@ -1,10 +1,15 @@
 <template>
-	
-	<h4>首页</h4>
+	<div id="home">
+		<heads></heads>
+	</div>
 </template>
 <script>
-	    
-</script>    
+	import heads from '../head/heads.vue';
+    export default {
+        name:"home",
+        components:{heads}
+	}
+</script>
 <style>
 	
 </style>

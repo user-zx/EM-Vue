@@ -1,9 +1,12 @@
-import Vue from 'vue'; 
-import App from './App.vue'; 
-import VueRouter from 'vue-router';
-import routerConfig from "./router.config.js"; 
-import vueResource from "vue-resource";
-       
+import Vue from 'vue' 
+import App from './App.vue' 
+import VueRouter from 'vue-router'
+import routerConfig from "./router.config.js" 
+import vueResource from "vue-resource"
+import 'bootstrap/dist/js/bootstrap'
+
+ 
+
   
 Vue.config.debug = true;  
 //调用  
@@ -18,7 +21,6 @@ const app =  new Vue({
 		aa:"bb"
 	},
 	router,
-
 }).$mount("#app");
    
 

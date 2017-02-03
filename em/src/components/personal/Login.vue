@@ -20,6 +20,7 @@
 					<b>记住密码</b>
 				</label>    
 				<router-link to="../personal/forgetPassword.vue" >忘记密码</router-link>
+				<router-link to="/home" >首页</router-link>
 			</p> 
 			<button type="button" class="btn btn-info" @click="login()">立即登录</button>
 			<p>还没有慧数医美?<router-link to="../personal/Register.vue" class="login_p_two_a">立即注册</router-link></p>
