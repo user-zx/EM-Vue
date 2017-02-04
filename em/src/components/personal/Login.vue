@@ -50,7 +50,7 @@
 	  		login: function() {
 				var vm  = this;
 				    
-				vm.$http.post(vm.apiUrl,vm.item).then(response=>{
+				vm.$http.jsonp(vm.apiUrl,vm.item).then(response=>{
 					console.log(response);    
 				},response=>{ 
  					console.log('test');
