@@ -9,7 +9,7 @@
         </ul>
     </div>
 </template>
-<style>
+<style scoped> 
     .heads{height:65px;padding-left:30px;padding-right:30px;border-radius: 0;border:none;background-color: #32ccca;margin-bottom:0;}
     .heads .navbar-brand{height:auto;}
     .heads .navbar-nav>li>a{padding-top:0;padding-bottom: 0;height:65px;line-height:65px;color:#ffffff;font-size:13px;}
