@@ -10,7 +10,8 @@
         </ul>
     </div>
 </template>
-<style>
+<style scoped>
+    .poss{position: static;}
     .leftTag{position: fixed;left:0;top:65px;bottom: 0;padding-top:25px;width:135px;background-color: #273e4c;}
     .leftTag>ul>li.last{position: fixed;left:0;bottom: 25px;width:135px;}
     .leftTag>ul>li>a{text-align: center;color:#ffffff;border-left:2px solid transparent;}
@@ -44,5 +45,9 @@
        $(".leftTag>ul>li>a").on("click",function(){
            $(this).parent().addClass("active").siblings().removeClass("active");
        });
+       if($(window).height()<580){
+           console.log($(window).height());
+           $(".leftTag>ul>li.last").addClass("poss");
+       }
     });
 </script>
