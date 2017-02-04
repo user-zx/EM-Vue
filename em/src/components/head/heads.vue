@@ -5,7 +5,12 @@
     </div>
 </template>
 <style>
-
+    .heads{
+        height:65px;
+        padding-left:30px;
+        padding-right:30px;
+        background-color: #32ccca;
+    }
 </style>
 <script>
 export default{
