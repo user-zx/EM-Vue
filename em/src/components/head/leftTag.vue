@@ -1,12 +1,12 @@
 <template>
     <div class="leftTag" id="leftTag">
         <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a href="javascript:void(0);"><i class="icons icons-1"></i>销售线索</a></li>
-            <li><a href="javascript:void(0);"><i class="icons icons-2"></i>我的收藏</a></li>
-            <li><a href="javascript:void(0);"><i class="icons icons-3"></i>自动匹配</a></li>
-            <li><a href="javascript:void(0);"><i class="icons icons-4"></i>查看记录</a></li>
-            <li><a href="javascript:void(0);"><i class="icons icons-5"></i>回收站</a></li>
-            <li class="last"><a href="javascript:void(0);"><i class="icons icons-6"></i>设置</a></li>
+            <!--<li class="active"><a href="javascript:void(0);"><i class="icons icons-1"></i>销售线索</a></li>-->
+            <!--<li><a href="javascript:void(0);"><i class="icons icons-2"></i>我的收藏</a></li>-->
+            <!--<li><a href="javascript:void(0);"><i class="icons icons-3"></i>自动匹配</a></li>-->
+            <!--<li><a href="javascript:void(0);"><i class="icons icons-4"></i>查看记录</a></li>-->
+            <!--<li><a href="javascript:void(0);"><i class="icons icons-5"></i>回收站</a></li>-->
+            <li v-for="item in leftTag" v-bind:class="item.liClass"><a @click="currentFun($event);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
         </ul>
     </div>
 </template>
@@ -37,17 +37,54 @@
         name:"leftTag",
         data(){
             return {
-                msg:"左侧导航"
+                msg:"左侧导航",
+                leftTag:[
+                    {
+                        liClass:"active",
+                        icons:"icons icons-1",
+                        text:"销售线索"
+                    },
+                    {
+                        liClass:"",
+                        icons:"icons icons-2",
+                        text:"我的收藏"
+                    },
+                    {
+                        liClass:"",
+                        icons:"icons icons-3",
+                        text:"自动匹配"
+                    },
+                    {
+                        liClass:"",
+                        icons:"icons icons-4",
+                        text:"查看记录"
+                    },
+                    {
+                        liClass:"",
+                        icons:"icons icons-5",
+                        text:"回收站"
+                    },
+                    {
+                        liClass:"last",
+                        icons:"icons icons-6",
+                        text:"设置"
+                    }
+                ]
             };
+        },
+        methods:{
+            currentFun:function(event){
+                console.log(event);
+            }
         }
     }
-    $(function(){
-       $(".leftTag>ul>li>a").on("click",function(){
-           $(this).parent().addClass("active").siblings().removeClass("active");
-       });
-       if($(window).height()<580){
-           console.log($(window).height());
-           $(".leftTag>ul>li.last").addClass("poss");
-       }
-    });
+//    $(function(){
+//       $(".leftTag>ul>li>a").on("click",function(){
+//           $(this).parent().addClass("active").siblings().removeClass("active");
+//       });
+//       if($(window).height()<580){
+//           console.log($(window).height());
+//           $(".leftTag>ul>li.last").addClass("poss");
+//       }
+//    });
 </script>
