@@ -6,7 +6,7 @@
             <!--<li><a href="javascript:void(0);"><i class="icons icons-3"></i>自动匹配</a></li>-->
             <!--<li><a href="javascript:void(0);"><i class="icons icons-4"></i>查看记录</a></li>-->
             <!--<li><a href="javascript:void(0);"><i class="icons icons-5"></i>回收站</a></li>-->
-            <li v-for="item in leftTag" v-bind:class="item.liClass"><a @click="currentFun($event);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
+            <li v-for="(item,index) in leftTag" v-bind:class="item.liClass"><a @click="currentFun(index);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
         </ul>
     </div>
 </template>
@@ -73,8 +73,8 @@
             };
         },
         methods:{
-            currentFun:function(event){
-                console.log(event);
+            currentFun:function(index){
+                $(".nav-stacked>li").eq(index).addClass("active").siblings().removeClass("active");
             }
         }
     }
