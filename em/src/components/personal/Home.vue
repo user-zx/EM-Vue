@@ -4,7 +4,7 @@
         <div class="wrapper">
             <left-tag></left-tag>
             <div class="wrapper-content">
-
+                    
             </div>
             <foots></foots>
         </div>
@@ -18,10 +18,9 @@
         components:{heads,leftTag,foots}
 	}
 </script>
-<style>
-    body{background-color: #f2f2f2;}
-</style>
+
 <style scoped>
+     body{background-color: #f2f2f2;}
     .wrapper{margin-left:135px;}
     .wrapper .wrapper-content{width: 100%;padding:25px 20px;}
 </style>

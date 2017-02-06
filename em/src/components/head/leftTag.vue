@@ -1,12 +1,8 @@
 <template>
     <div class="leftTag" id="leftTag">
         <ul class="nav nav-pills nav-stacked">
-            <!--<li class="active"><a href="javascript:void(0);"><i class="icons icons-1"></i>销售线索</a></li>-->
-            <!--<li><a href="javascript:void(0);"><i class="icons icons-2"></i>我的收藏</a></li>-->
-            <!--<li><a href="javascript:void(0);"><i class="icons icons-3"></i>自动匹配</a></li>-->
-            <!--<li><a href="javascript:void(0);"><i class="icons icons-4"></i>查看记录</a></li>-->
-            <!--<li><a href="javascript:void(0);"><i class="icons icons-5"></i>回收站</a></li>-->
-            <li v-for="item in leftTag" v-bind:class="item.liClass"><a @click="currentFun($event);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
+            
+            <li v-for="item in leftTag" v-bind:class="item.liClass"><a  @click="currentFun($event);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
         </ul>
     </div>
 </template>
@@ -16,7 +12,6 @@
     .leftTag>ul>li.last{position: fixed;left:0;bottom: 25px;width:135px;}
     .leftTag>ul>li>a{text-align: center;color:#ffffff;border-left:2px solid transparent;}
     .leftTag>ul>li>a>.icons{display: block;width:35px;height:35px;margin:0 auto;background-image: url("../../assets/images/left_top_icon.png");background-repeat: no-repeat;}
-    /*.icons-1{background-position: -1px 10px;}*/
     .icons-1{background-position: 0 -34px;}
     .icons-2{background-position: 0 -127px;}
     .icons-3{background-position: 0 -226px;}
@@ -42,32 +37,38 @@
                     {
                         liClass:"active",
                         icons:"icons icons-1",
-                        text:"销售线索"
+                        text:"销售线索",
+                        location:"../personal/Home.vue"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-2",
-                        text:"我的收藏"
+                        text:"我的收藏",
+                        location:"../personal/myCollect.vue"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-3",
-                        text:"自动匹配"
+                        text:"自动匹配",
+                        location:"../personal/autoMatching.vue"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-4",
-                        text:"查看记录"
+                        text:"查看记录",
+                        location:"../personal/viewLog.vue"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-5",
-                        text:"回收站"
+                        text:"回收站",
+                        location:"../personal/recycle.vue"
                     },
                     {
                         liClass:"last",
                         icons:"icons icons-6",
-                        text:"设置"
+                        text:"设置",
+                        location:"../personal/set.vue"
                     }
                 ]
             };
