@@ -18,8 +18,8 @@
 				<label> 
 					<input type="checkbox" name="">
 					<b>记住密码</b>
-				</label>    
-				<router-link to="../personal/forgetPassword.vue" >忘记密码</router-link>
+				</label>     
+				<router-link to="/personal/forgetPassword" >忘记密码</router-link>
 				<router-link to="/home" >首页</router-link>
 			</p> 
 			<button type="button" class="btn btn-info" @click="login()">立即登录</button>

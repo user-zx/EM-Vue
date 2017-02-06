@@ -23,7 +23,7 @@
     .icons-4{background-position: 0 -324px;}
     .icons-5{background-position: 0 -421px;}
     .icons-6{background-position: 0 -503px;}
-
+    
     .leftTag>ul>li>a:hover,.leftTag>ul>li>a:focus,.leftTag>ul>li.active>a,.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{border-left-color:#32ccca;border-radius:0;background-color: #0b1c26;}
     .leftTag>ul>li>a:hover>.icons-1,.leftTag>ul>li>a:focus>.icons-1,.leftTag>ul>li.active>a>.icons-1{background-position: -42px -34px;}
     .leftTag>ul>li>a:hover>.icons-2,.leftTag>ul>li>a:focus>.icons-2,.leftTag>ul>li.active>a>.icons-2{background-position: -42px -127px;}
@@ -78,13 +78,4 @@
             }
         }
     }
-//    $(function(){
-//       $(".leftTag>ul>li>a").on("click",function(){
-//           $(this).parent().addClass("active").siblings().removeClass("active");
-//       });
-//       if($(window).height()<580){
-//           console.log($(window).height());
-//           $(".leftTag>ul>li.last").addClass("poss");
-//       }
-//    });
 </script>
