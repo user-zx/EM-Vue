@@ -1,8 +1,7 @@
 <template>
     <div class="leftTag" id="leftTag">
         <ul class="nav nav-pills nav-stacked">
-            
-            <li v-for="item in leftTag" v-bind:class="item.liClass"><a  @click="currentFun($event);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
+            <li v-for="(item,index) in leftTag" v-bind:class="item.liClass"><a @click="currentFun(index);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
         </ul>
     </div>
 </template>
@@ -74,8 +73,8 @@
             };
         },
         methods:{
-            currentFun:function(event){
-                console.log(event);
+            currentFun:function(index){
+                $(".nav-stacked>li").eq(index).addClass("active").siblings().removeClass("active");
             }
         }
     }
