@@ -19,7 +19,6 @@
 	}
 </script>
 
-<style scoped>
+<style>
      body{background-color: #f2f2f2;}
-
 </style>
