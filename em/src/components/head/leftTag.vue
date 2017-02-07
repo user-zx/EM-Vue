@@ -1,8 +1,9 @@
 <template>
     <div class="leftTag" id="leftTag">
         <ul class="nav nav-pills nav-stacked">
-            <li v-for="(item,index) in leftTag" v-bind:class="item.liClass"><a @click="currentFun(index);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
+            <li v-for="(item,index) in leftTag" v-bind:class="item.liClass"><a @click="currentFun(index,item.module);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
         </ul>
+        <component :is="activeComponent"></component>   
     </div>
 </template>
 <style scoped>
@@ -27,54 +28,71 @@
     .leftTag>ul>li>a:hover>.icons-6,.leftTag>ul>li>a:focus>.icons-6,.leftTag>ul>li.active>a>.icons-6{background-position: -42px -503px;}
 </style>
 <script>
+    import autoMatching from "../views/autoMatching.vue";
+    import myCollect from "../views/myCollect.vue";
+    import recycle from "../views/recycle.vue";
+    import set from "../views/set.vue";
+    import viewLog from "../views/viewLog.vue";
+    import sellClue from "../views/sellClue.vue"
+   
     export default {
         name:"leftTag",
         data(){
             return {
-                msg:"左侧导航",
+                activeComponent:"sellClue",
                 leftTag:[
                     {
                         liClass:"active",
                         icons:"icons icons-1",
                         text:"销售线索",
-                        location:"../personal/Home.vue"
+                        module:"sellClue"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-2",
                         text:"我的收藏",
-                        location:"../personal/myCollect.vue"
+                        module:"myCollect"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-3",
                         text:"自动匹配",
-                        location:"../personal/autoMatching.vue"
+                        module:"autoMatching"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-4",
                         text:"查看记录",
-                        location:"../personal/viewLog.vue"
+                        module:"viewLog"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-5",
                         text:"回收站",
-                        location:"../personal/recycle.vue"
+                        module:"recycle"
                     },
                     {
                         liClass:"last",
                         icons:"icons icons-6",
                         text:"设置",
-                        location:"../personal/set.vue"
+                        module:"set"
                     }
                 ]
             };
         },
+        components: {
+            sellClue,
+            myCollect,
+            autoMatching,
+            viewLog,
+            recycle,
+            set
+        },
         methods:{
-            currentFun:function(index){
+            currentFun:function(index,item){
                 $(".nav-stacked>li").eq(index).addClass("active").siblings().removeClass("active");
+                //console.log(item); 
+                this.activeComponent = item;
             }
         }
     }

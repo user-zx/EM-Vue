@@ -6,7 +6,8 @@
     </div>
 </template>
 <style scoped>
-    .footer{height:44px;line-height:44px;color:#666666;background-color:#ffffff;}
+    .footer{height:44px;line-height:44px;color:#666666;background-color:#ffffff;position: absolute;bottom: 0;}
+
 </style>
 <script>
     export default{
