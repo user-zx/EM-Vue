@@ -1,12 +1,20 @@
 <template>
-    <div class="leftTag" id="leftTag">
-        <ul class="nav nav-pills nav-stacked">
-            <li v-for="(item,index) in leftTag" v-bind:class="item.liClass"><a @click="currentFun(index,item.module);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
-        </ul>
-        <component :is="activeComponent"></component>   
+
+    <div class="wrapper">
+        <div class="leftTag" id="leftTag">
+            <ul class="nav nav-pills nav-stacked">
+                <li v-for="(item,index) in leftTag" v-bind:class="item.liClass"><a @click="currentFun(index,item.module);" href="javascript:void(0);"><i v-bind:class="item.icons"></i>{{item.text}}</a></li>
+            </ul>
+        </div>
+        <div class="wrapper-content">
+            <component :is="activeComponent"></component>
+        </div>
+        <foots></foots>
     </div>
 </template>
 <style scoped>
+    .wrapper{margin-left:135px;}
+    .wrapper .wrapper-content{width: 100%;padding:25px 20px;}
     .poss{position: static;}
     .leftTag{position: fixed;left:0;top:65px;bottom: 0;padding-top:25px;width:135px;background-color: #273e4c;}
     .leftTag>ul>li.last{position: fixed;left:0;bottom: 25px;width:135px;}
@@ -18,7 +26,7 @@
     .icons-4{background-position: 0 -324px;}
     .icons-5{background-position: 0 -421px;}
     .icons-6{background-position: 0 -503px;}
-    
+
     .leftTag>ul>li>a:hover,.leftTag>ul>li>a:focus,.leftTag>ul>li.active>a,.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{border-left-color:#32ccca;border-radius:0;background-color: #0b1c26;}
     .leftTag>ul>li>a:hover>.icons-1,.leftTag>ul>li>a:focus>.icons-1,.leftTag>ul>li.active>a>.icons-1{background-position: -42px -34px;}
     .leftTag>ul>li>a:hover>.icons-2,.leftTag>ul>li>a:focus>.icons-2,.leftTag>ul>li.active>a>.icons-2{background-position: -42px -127px;}
@@ -33,8 +41,8 @@
     import recycle from "../views/recycle.vue";
     import set from "../views/set.vue";
     import viewLog from "../views/viewLog.vue";
-    import sellClue from "../views/sellClue.vue"
-   
+    import sellClue from "../views/sellClue.vue";
+    import foots from "../head/foots.vue";
     export default {
         name:"leftTag",
         data(){
@@ -81,6 +89,7 @@
             };
         },
         components: {
+            foots,
             sellClue,
             myCollect,
             autoMatching,

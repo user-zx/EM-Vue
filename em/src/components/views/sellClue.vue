@@ -14,8 +14,5 @@
 	}
 </script>
 <style scoped>
-	.sellClue{
-		padding-left: 135px;
-		width: 100%;
-	}
+
 </style>
