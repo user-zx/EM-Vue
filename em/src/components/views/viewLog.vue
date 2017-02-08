@@ -50,8 +50,8 @@
 				<div class="col-md-2">
 					<button type="submit" class="btn btn-search">筛选</button>
 					<a href="javascript:void(0);" class="dropdown-toggle">关键词筛选<i class="caret"></i></a>
-					<ul class="dropdown-menu search-menu">
-						<li class="clearfix">
+					<div class="dropdown-menu search-menu">
+						<div class="clearfix">
 							<form class="navbar-form navbar-left" role="form">
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="输入关键词进行搜索" />
@@ -63,18 +63,23 @@
 							<div class="navbar-right">
 								<a href="javascript:void(0);" class="close-modal">&times;</a>
 							</div>
-						</li>
-						<li>
-							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" class="search-h">{{index}}</a>
-						</li>
-						<li>
-							
-						</li>
-						<li class="divider"></li>
-						<li><a href="javascript:void(0)">分离的链接</a></li>
-						<li class="divider"></li>
-						<li><a href="javascript:void(0)">另一个分离的链接</a></li>
-					</ul>
+						</div>
+						<div>
+							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
+						</div>
+						<div class="h-box">
+							<div v-for="(hItem,index) in searchHead" v-if="hItem.length>0" v-bind:id="index">
+								<div class="lyt-box">
+									<div class="lyt-item">
+										<div class="lyt-lt">{{index}}</div>
+										<div class="lyt-rt">
+											<a href="javascript:void(0);" v-bind:id="cItem.id" v-for="cItem in hItem">{{cItem.keyword}}</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</form>
 
@@ -82,11 +87,20 @@
 	</div>
 </template>
 <style scoped>
-	.search-menu>li{padding-left:20px;padding-right:20px;}
-	.search-menu>li>a{padding-left:0;padding-right:0;}
-	.search-menu>li>.navbar-form{padding-left:0;padding-right:0;}
+	.search-menu>div{padding-left:20px;padding-right:20px;}
+	.search-menu>div>a{padding-left:0;padding-right:0;}
+	.search-menu>div>.navbar-form{padding-left:0;padding-right:0;}
 	.search-h{display:inline-block;padding:0;margin-right:5px;margin-bottom:5px;width: 22px;height:22px;line-height:22px;text-align: center;color:#32ccca;border-radius:11px;font-size:14px;background-color: #e6f8f6;cursor: pointer;}
 	.search-h:hover,.search-h:focus,.search-h.active{background-color:#def2fd;color:#2aabd2;}
+	.h-box{max-height: 260px;overflow-x:hidden;overflow-y: auto;}
+	.h-box>div{padding-top:15px;padding-bottom: 15px;border-bottom: 1px solid #e9e9e9;}
+	.h-box>div:last-child{border:none;}
+	.lyt-box{display: table;width: 100%;}
+	.lyt-box .lyt-item{display: table-row;}
+	.lyt-box .lyt-item .lyt-lt{display: table-cell;width: 32px;padding-right: 10px;text-align: center;vertical-align: top;color:#666666;}
+	.lyt-box .lyt-item .lyt-rt{display: table-cell;vertical-align: top;}
+	.lyt-box .lyt-item .lyt-rt a{display:inline-block;margin-right:10px;margin-bottom:5px;color:#666666;font-size:12px;}
+	.lyt-box .lyt-item .lyt-rt a:hover,.lyt-box .lyt-item .lyt-rt a:focus{color:#2aabd2;}
 </style>
 <script>
 	import 'bootstrap-select';
@@ -137,33 +151,16 @@
 							}
 						}
                     }
-                    console.log(conObj);
                     vm.searchHead=conObj;
 				}
 			});
-//            findKeywordList();
-//            function findKeywordList(){
-//                var data={
-//                    "pageSize":10,
-//                    "pageNumber":1,
-//                    "userAccount":"13612345678"
-//                };
-//                $.ajax({
-//                    type: "post",
-//                    async: true,
-//                    url: "/apis/personal/findKeywordList",
-//                    data : JSON.stringify(data), //转JSON字符串
-//                    dataType: 'json',
-//                    contentType:'application/json;charset=UTF-8',
-//                    success:function (data) {
-//                        console.log(data);
-//
-//                    }
-//                });
-//            }
         },
 		methods:{
-
+            goAnchor(selector) {
+                var anchor = this.$el.querySelector(selector);
+                var parentEle=this.$el.querySelector(".h-box");
+                parentEle.scrollTop = anchor.offsetTop
+            }
 		}
 	}
 </script>
