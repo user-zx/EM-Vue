@@ -42,7 +42,7 @@
 						<option>发布时间</option>
 					</select>
 				</div>
-			</form>
+		</form>
 	</div>
 	
 	<div class="sellClue_list">
@@ -66,6 +66,7 @@
 		    	<button>联系人信息</button>
 		    </menu> 
 		</div>
+
 		<div class="sellClue_list_div">
 			<span>评论</span>
 			<h4>最近感觉自己太胖了</h4>
@@ -86,8 +87,17 @@
 		    	<button>联系人信息</button>
 		    </menu> 
 		</div>
-	</div>
+		
+		<table  data-toggle="table" data-classes="table table-no-bordered" data-pagination="true" data-side-pagination="server" data-page-number="1" data-page-size="10"  data-undefined-text="-" data-sort-order="asc" data-pagination-pre-text="上一页" data-pagination-next-text="下一页" data-striped="false" data-url="../data/article.json" data-method="post">
+			<thead> 
+				 <tr>
+                    <th data-field="body" data-align="left" data-sortable="false"></th>
+                 </tr>
+			</thead>
+		</table>
 
+	</div>
+	
 </div>
 	
 </template>
@@ -99,11 +109,26 @@
 				sourceList:["线索来源","不限","微博","百度贴吧"],
 				typeList:["线索类型","不限","原创","转发","评论"],
 				stateList:["标记状态","不限","已处理","未处理"],
-				timeList:["发布时间","不限","今天","昨天","自定义时间"]
+				timeList:["发布时间","不限","今天","昨天","自定义时间"],
+				titledataUrl:"apis/salesLeads/getHomePageSaleLeadsList",	
+				bodyDataUrl:"apis/salesLeads/getSaleLeadsList"
 			}
 		},
 		methods:{
+			
+		},  
+		mounted:function(){
+			var vm = this;
+			/*vm.$http.post(vm.bodyDataUrl).then(response=>{
+				console.log(response); 
+			},response=>{
+			
+			}) */  
+			/*vm.$http.post(vm.titledataUrl).then(response=>{
+				console.log(response); 
+			},response=>{
 
+			}) */
 		}
 	}
 </script>
