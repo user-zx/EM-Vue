@@ -49,7 +49,7 @@
 				</div>
 				<div class="col-md-2">
 					<button type="submit" class="btn btn-search">筛选</button>
-					<a href="javascript:void(0);" class="dropdown-toggle">关键词筛选<i class="caret"></i></a>
+					<a href="javascript:void(0);" class="dropdown-toggle dropdown-modal">关键词筛选<i class="caret"></i></a>
 					<div class="dropdown-menu search-menu">
 						<div class="clearfix">
 							<form class="navbar-form navbar-left" role="form">
@@ -107,7 +107,6 @@
 	export default {
 		data(){
 			return{
-				msg:'123',
 				searchHead:{}
 			}
 		},
@@ -117,7 +116,7 @@
                 size: 4
             });
 		    let _element=$(".search-menu");
-		    $(".dropdown-toggle").on("click",function () {
+		    $(".dropdown-modal").on("click",function () {
 				if($(this).parent().hasClass("open")){
 					$(this).parent().removeClass("open");
 				}else {
@@ -126,7 +125,7 @@
             });
             $(document).on('click', function(){
                 _element.parent().removeClass("open");
-            }).on('click', '.search-menu,.dropdown-toggle', function(event){
+            }).on('click', '.search-menu,.dropdown-modal', function(event){
                 event.stopPropagation();
             });
 		    $(".close-modal").on("click",function(){
@@ -135,7 +134,6 @@
 		    let vm=this;
 			vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1,"userAccount":"13612345678"}).then(function(response){
 				if(response.ok){
-				    //vm.searchHead=response.data.data;
 					const arr=response.data.data.content,
 						conObj={
 					    	A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
