@@ -61,23 +61,19 @@
 								</div>
 							</form>
 							<div class="navbar-right">
-								<a href="javascript:void(0);">&times;</a>
+								<a href="javascript:void(0);" class="close-modal">&times;</a>
 							</div>
 						</li>
 						<li>
-							<a href="#">A</a>
-							<a href="#">B</a>
-							<a href="#">C</a>
-							<a href="#">D</a>
-							<a href="#">E</a>
-							<a href="#">F</a>
-							<a href="#">G</a>
+							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" class="search-h">{{index}}</a>
 						</li>
-						<li><a href="#">Jasper Report</a></li>
+						<li>
+							
+						</li>
 						<li class="divider"></li>
-						<li><a href="#">分离的链接</a></li>
+						<li><a href="javascript:void(0)">分离的链接</a></li>
 						<li class="divider"></li>
-						<li><a href="#">另一个分离的链接</a></li>
+						<li><a href="javascript:void(0)">另一个分离的链接</a></li>
 					</ul>
 				</div>
 			</form>
@@ -85,13 +81,20 @@
 		</div>
 	</div>
 </template>
-<style src=""></style>
+<style scoped>
+	.search-menu>li{padding-left:20px;padding-right:20px;}
+	.search-menu>li>a{padding-left:0;padding-right:0;}
+	.search-menu>li>.navbar-form{padding-left:0;padding-right:0;}
+	.search-h{display:inline-block;padding:0;margin-right:5px;margin-bottom:5px;width: 22px;height:22px;line-height:22px;text-align: center;color:#32ccca;border-radius:11px;font-size:14px;background-color: #e6f8f6;cursor: pointer;}
+	.search-h:hover,.search-h:focus,.search-h.active{background-color:#def2fd;color:#2aabd2;}
+</style>
 <script>
 	import 'bootstrap-select';
 	export default {
 		data(){
 			return{
-				mdg:'123'
+				msg:'123',
+				searchHead:{}
 			}
 		},
         mounted(){
@@ -99,39 +102,65 @@
                 style: 'btn-default',
                 size: 4
             });
+		    let _element=$(".search-menu");
 		    $(".dropdown-toggle").on("click",function () {
 				if($(this).parent().hasClass("open")){
 					$(this).parent().removeClass("open");
-				}else{
-					$(this).parent().addClass("open");
-				}
+				}else {
+                    $(this).parent().addClass("open");
+                }
             });
-//		    var Arr=[A,B,C,D,E,F,G];
-//            var text=[
-//
-//                {szm:"A",con:"啊隆鼻"},
-//                {szm:"A",con:"啊隆鼻"},
-//                {szm:"A",con:"啊隆鼻"},
-//            ];
-			findKeywordList();
-            function findKeywordList(){
-                var data={
-                    "pageSize":10,
-                    "pageNumber":1,
-                    "userAccount":"13612345678"
-                };
-                $.ajax({
-                    type: "post",
-                    async: true,
-                    url: "http://172.168.30.21:8012/personal/findKeywordList",
-                    data : JSON.stringify(data), //转JSON字符串
-                    dataType: 'json',
-                    contentType:'application/json;charset=UTF-8',
-                    success:function (data) {
-                        console.log(data);
+            $(document).on('click', function(){
+                _element.parent().removeClass("open");
+            }).on('click', '.search-menu,.dropdown-toggle', function(event){
+                event.stopPropagation();
+            });
+		    $(".close-modal").on("click",function(){
+		        $(this).parents(".search-menu").parent().removeClass("open");
+			});
+		    let vm=this;
+			vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1,"userAccount":"13612345678"}).then(function(response){
+				if(response.ok){
+				    //vm.searchHead=response.data.data;
+					const arr=response.data.data.content,
+						conObj={
+					    	A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
+						};
+					for (let i in arr){
+						for (let j in conObj){
+						    if(j==arr[i].keywordInitial){
+						        const obj=new Object();
+                                obj.id=arr[i].id;
+                                obj.keyword=arr[i].keyword;
+                                conObj[j].push(obj);
+
+							}
+						}
                     }
-                });
-            }
+                    console.log(conObj);
+                    vm.searchHead=conObj;
+				}
+			});
+//            findKeywordList();
+//            function findKeywordList(){
+//                var data={
+//                    "pageSize":10,
+//                    "pageNumber":1,
+//                    "userAccount":"13612345678"
+//                };
+//                $.ajax({
+//                    type: "post",
+//                    async: true,
+//                    url: "/apis/personal/findKeywordList",
+//                    data : JSON.stringify(data), //转JSON字符串
+//                    dataType: 'json',
+//                    contentType:'application/json;charset=UTF-8',
+//                    success:function (data) {
+//                        console.log(data);
+//
+//                    }
+//                });
+//            }
         },
 		methods:{
 

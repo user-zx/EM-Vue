@@ -16,12 +16,13 @@ html,body{
 	color:#ffffff;
 	outline: none;
 }
+.viewLog .dropdown-toggle{color:#666666;margin-left:10px;}
 .dropdown-menu.search-menu{
 	width: 528px;
 	left: -300px;
 }
 .search-menu .navbar-right{
-	margin-right:20px;
+	margin-right:0;
 	margin-top: 15px;
 }
 .search-menu .navbar-right>a{
