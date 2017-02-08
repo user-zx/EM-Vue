@@ -7,7 +7,7 @@
 			<img src="../../assets/images/loginWord.png"  alt="">
 			<label>
 				<img src="../../assets/images/login_user.png"  alt="">
-				<input type="text" name="" class="form-control" v-model="item.name">
+				<input type="text" name="" class="form-control" v-model="item.account">
 			</label>
 			<label>
 				<img src="../../assets/images/login_password.png"  alt="">
@@ -35,8 +35,11 @@
 	  	data(){
 	  		return { 
 	  			//写本组件的数据 
-	  			apiUrl:"/apis/weather",
-	  			item:{}	
+	  			apiUrl:"/apis/login.do",
+	  			item:{
+                    account:"",
+					password:""
+				}
 	  		}
 	  	},
 	  	mounted: function () {
@@ -49,12 +52,15 @@
 	  		//写ajax请求
 	  		login: function() {
 				var vm  = this;
-				    
-				vm.$http.post(vm.apiUrl,vm.item).then(response=>{
-					console.log(response);    
-				},response=>{ 
- 					console.log('test');
-				})	 	 
+				vm.$http({
+				    method:'post',
+				    url:vm.apiUrl,
+					data:vm.item
+				}).then(function (response) {
+                    vm.$router.go("/home");
+                }).then(function(error){
+                    vm.$router.go("/home");
+                });
 			}
 	  	}
 	  }

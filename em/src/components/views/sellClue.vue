@@ -87,14 +87,6 @@
 		    	<button>联系人信息</button>
 		    </menu> 
 		</div>
-		
-		<table  data-toggle="table" data-classes="table table-no-bordered" data-pagination="true" data-side-pagination="server" data-page-number="1" data-page-size="10"  data-undefined-text="-" data-sort-order="asc" data-pagination-pre-text="上一页" data-pagination-next-text="下一页" data-striped="false" data-url="../data/article.json" data-method="post">
-			<thead> 
-				 <tr>
-                    <th data-field="body" data-align="left" data-sortable="false"></th>
-                 </tr>
-			</thead>
-		</table>
 
 	</div>
 	
@@ -102,7 +94,7 @@
 	
 </template>
 <script>
-
+    import "jqPaginator";
 	export default {
 		data(){
 			return{
