@@ -66,7 +66,7 @@
 		    	<button>联系人信息</button>
 		    </menu> 
 		</div>
-
+		
 		<div class="sellClue_list_div">
 			<span>评论</span>
 			<h4>最近感觉自己太胖了</h4>
@@ -87,16 +87,16 @@
 		    	<button>联系人信息</button>
 		    </menu> 
 		</div>
-
+		
 	</div>
 	
 </div>
 	
 </template>
-<script>
-    import "jqPaginator";
+<script>    
+    import "../../assets/js/jqPaginator.min.js";
 	export default {
-		data(){
+		data(){  
 			return{
 				sourceList:["线索来源","不限","微博","百度贴吧"],
 				typeList:["线索类型","不限","原创","转发","评论"],
@@ -111,11 +111,13 @@
 		},  
 		mounted:function(){
 			var vm = this;
-			/*vm.$http.post(vm.bodyDataUrl).then(response=>{
+
+
+			vm.$http.post(vm.bodyDataUrl).then((response)=>{
 				console.log(response); 
-			},response=>{
-			
-			}) */  
+			},(response)=>{
+				
+			})   
 			/*vm.$http.post(vm.titledataUrl).then(response=>{
 				console.log(response); 
 			},response=>{
