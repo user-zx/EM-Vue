@@ -13,8 +13,8 @@
     </div>
 </template>
 <style scoped>
-    .wrapper{margin-left:135px;margin-top: 65px;}
-    .wrapper .wrapper-content{width: 100%;padding:25px 20px;}
+    .wrapper{margin-left:135px;margin-top: 65px;} 
+    .wrapper .wrapper-content{width: 100%;padding:20px 15px;}
     .poss{position: static;}
     .leftTag{position: fixed;left:0;top:65px;bottom: 0;padding-top:25px;width:135px;background-color: #273e4c;}
     .leftTag>ul>li.last{position: fixed;left:0;bottom: 25px;width:135px;}
