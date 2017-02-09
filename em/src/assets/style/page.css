@@ -38,7 +38,8 @@
 		text-indent:2em;
 		width: 85%;
 		padding-left: 20px;
-	}  
+		min-height: 50px;
+	}   
 	.sellClue_list_div>ul{
 		position: absolute;
 		right: 20px;

@@ -30,8 +30,8 @@
 </template>
   
 <script>
-	 	
-	  export default{
+		import "security";
+	    export default{
 	  	data(){
 	  		return { 
 	  			//写本组件的数据 
@@ -49,18 +49,25 @@
 	        })
        },      
 	  	methods:{
-	  		//写ajax请求
-	  		login: function() {
+	  		//写ajax请求 
+	  		login: function() { 
 				var vm  = this;
-				vm.$http({
-				    method:'post',
-				    url:vm.apiUrl,
-					data:vm.item
-				}).then(function (response) {
-                    vm.$router.go("/home");
-                }).then(function(error){
-                    vm.$router.go("/home");
-                });
+				vm.$http.post(vm.apiUrl, JSON.stringify(vm.item)).then(function(response){
+					
+					if(response.ok){
+						// vm.$router.go({path:"home"});
+					}
+				});
+				// vm.$http({
+				//     method:'post',
+				//     url:vm.apiUrl,
+				// 	data:vm.item
+				// }).then(function (response) {
+    //                 vm.$router.go("/home");
+    //                 console.log(response);
+    //             }).then(function(error){
+    //                 vm.$router.go("/home");
+    //             });
 			}
 	  	}
 	  }

@@ -47,7 +47,6 @@
 	
 	<div class="sellClue_list">
 		<div class="sellClue_list_div" v-for="(item,index) in dataList">
-			{{index}} 
 			<span>{{item.type}}</span>
 			<h4>{{item.title}}</h4> 
 		    <div class="sellClue_list_div_div"> <span><i>关键词:</i>{{item.keywords}}</span> <span><i>发布者:</i>{{item.author}}</span><span><i>发布时间:</i>{{item.time}}</span><span><i>线索来源:</i>{{item.source}}</span></div>
@@ -125,30 +124,25 @@
 		},  
 		mounted:function(){
 			const vm = this;
-			const pagesize = {
+			const paramsVo = {
 				"pageNumber": 1,
 				 "pageSize": 10
 			}
-			vm.$http.post(vm.bodyDataUrl,pagesize).then((response)=>{
-
+			vm.$http.post(vm.bodyDataUrl,paramsVo).then((response)=>{
+				console.log(response);
 			 $("#pagination").jqPaginator({
 	            totalPages: 100,
-	            visiblePages: 10,
-	            currentPage: 1,
+	            visiblePages: paramsVo.pageSize,
+	            currentPage: paramsVo.pageNumber,
 	            first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
 	            prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 	            next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
 	            last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
 	            page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 	            onPageChange: function (n) {
-	                $("#demo1-text").html("当前第" + n + "页");
+	                console.log('test');
 	            }
 	        });
-
-
-
-
-
 				const list = response.data.data.list;
 				for (var prop in list) { 
 					const time = new Date(list[prop].publishDate).Format("yyyy-MM-dd hh:mm:ss");
@@ -156,7 +150,10 @@
 					vm.dataList.push(item);	
 				}
 			},(response)=>{
-				
+				console.log(response);
+				if(!response.ok){
+					return false;
+				}
 			})   	
 		}
 	}
