@@ -69,7 +69,7 @@
 		    </menu> 
 		</div>
 		
-		<div class="sellClue_list_div">
+		<!-- <div class="sellClue_list_div">
 			<span>评论</span>
 			<h4>最近感觉自己太胖了</h4>
 		    <div class="sellClue_list_div_div"> <span><i>关键词:</i> 减肥、胖</span> <span><i>发布者:</i>蓝色的太昂</span><span><i>发布时间:</i>2016-1-1 11:11:11</span><span><i>线索来源:</i>百度贴吧</span></div>
@@ -80,19 +80,20 @@
 		        <li><i class="glyphicon glyphicon-flag"></i>标记处理</li>
 		    </ul>
 		    <menu class="clearfix">
-	    	    <li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>北京市海淀区丹棱街3号</strong></li>
-	    	    <li><img src="../../assets/images/phone.png" height="22" width="18"><strong>13284191177</strong></li>
-	    	    <li><img src="../../assets/images/email.png" height="21" width="25"><strong>1192344027@qq.com</strong></li>
-	    	    <li><img src="../../assets/images/IP.png" height="25" width="25"><strong>192.176.1.1(北京电信)</strong></li>
-	    	    <li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>zbngood</strong></li>
-	    	    <li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>9888811122</strong></li>
+			    	    <li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>北京市海淀区丹棱街3号</strong></li>
+			    	    <li><img src="../../assets/images/phone.png" height="22" width="18"><strong>13284191177</strong></li>
+			    	    <li><img src="../../assets/images/email.png" height="21" width="25"><strong>1192344027@qq.com</strong></li>
+			    	    <li><img src="../../assets/images/IP.png" height="25" width="25"><strong>192.176.1.1(北京电信)</strong></li>
+			    	    <li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>zbngood</strong></li>
+			    	    <li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>9888811122</strong></li>
 		    	<button>联系人信息</button>
 		    </menu> 
-		</div>
+		</div> -->
 		<div class="pageList clearfix" >
-			<ul class="clearfix">
-			    <li v-for="item in pageList">{{item}}</li>
+			<ul class="clearfix pagination" id="pagination">
+	
 		     </ul>
+		    
 		     <span>
 		     	
 		     </span>
@@ -116,7 +117,7 @@
 				timeList:["发布时间","不限","今天","昨天","自定义时间"],
 				bodyDataUrl:"apis/salesLeads/getHomePageSaleLeadsList",
 				dataList:[],
-				pageList:["1","2","3","4","5","6","7","8","9"]
+				
 			}
 		},
 		methods:{
@@ -129,6 +130,25 @@
 				 "pageSize": 10
 			}
 			vm.$http.post(vm.bodyDataUrl,pagesize).then((response)=>{
+
+			 $("#pagination").jqPaginator({
+	            totalPages: 100,
+	            visiblePages: 10,
+	            currentPage: 1,
+	            first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+	            prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+	            next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+	            last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+	            page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+	            onPageChange: function (n) {
+	                $("#demo1-text").html("当前第" + n + "页");
+	            }
+	        });
+
+
+
+
+
 				const list = response.data.data.list;
 				for (var prop in list) { 
 					const time = new Date(list[prop].publishDate).Format("yyyy-MM-dd hh:mm:ss");
