@@ -36,10 +36,21 @@
 		border: 1px solid #32ccca;
 		text-align: center;
 		font: 12px "Microsoft Yahei";
-		padding: 3px 20px;
-		color: #32ccca;
 		-webkit-border-radius: 5px;
 		        border-radius: 5px;
+		cursor: pointer;
+	}
+ 	.sellClue_list_div>ul>li>a{
+		display: block;
+		padding: 3px 20px;
+		text-decoration: none;
+		color: #32ccca;
+	} 
+	.sellClue_list_div>ul>li>a:hover {
+		color: #32ccca;
+	}
+	.sellClue_list_div>ul>li>a.btn:focus{
+		color: #32ccca;
 	}
 	.sellClue_list_div>menu{
 		list-style: none; 
