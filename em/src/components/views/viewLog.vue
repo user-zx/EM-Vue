@@ -84,7 +84,7 @@
 			</form>
 		</div>
 		<div class="art-content">
-			<div class="sellClue_list_div" v-for="(artItem,index) in artContent">
+			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent">
 				<span>{{artItem.type}}</span>
 				<h4>{{artItem.title}}</h4>
 				<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.keywords}}</span> <span><i>发布者:</i>{{artItem.author}}</span><span><i>发布时间:</i>{{artItem.publishDate}}</span><span><i>线索来源:</i>{{artItem.source}}</span></div>
@@ -118,7 +118,10 @@
 		data(){
 			return{
 				searchHead:{},
-				artContent:[]
+				artList:{
+                    artContent:[],
+					totalPages:''
+                },
 			}
 		},
         mounted(){
@@ -169,7 +172,9 @@
 				    for(var i in newArr){
                         newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
 					}
-                    vm.artContent=newArr;
+                    vm.artList.artContent=newArr;
+                    vm.artList.totalPages=response.data.data.totalPages;
+//					console.log(vm.artList)
 				}
             });
         },

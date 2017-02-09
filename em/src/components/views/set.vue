@@ -16,7 +16,13 @@
 		</ul>
 		<div class="tab-content" id="myTabContent">
 			<div id="personalInfo" class="tab-pane fade in active">
-				个人信息
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">账号信息
+							<img src=""/>
+						</h4>
+					</div>
+				</div>
 			</div>
 			<div id="combo" class="tab-pane fade">
 				套餐充值
