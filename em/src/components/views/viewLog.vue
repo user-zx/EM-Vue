@@ -82,32 +82,43 @@
 					</div>
 				</div>
 			</form>
-
+		</div>
+		<div class="art-content">
+			<div class="sellClue_list_div" v-for="(artItem,index) in artContent">
+				<span>{{artItem.type}}</span>
+				<h4>{{artItem.title}}</h4>
+				<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.keywords}}</span> <span><i>发布者:</i>{{artItem.author}}</span><span><i>发布时间:</i>{{artItem.publishDate}}</span><span><i>线索来源:</i>{{artItem.source}}</span></div>
+				<p>{{artItem.content}}</p>
+				<ul class="sellClue_list_div_ul">
+					<li><a href="javascript:void(0);"><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a></li>
+					<li><a href="javascript:void(0);"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a></li>
+					<li><a href="javascript:void(0);"><i class="glyphicon glyphicon-flag"></i>标记处理</a></li>
+				</ul>
+				<menu class="clearfix">
+					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.address}}</strong></li>
+					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.phone}}</strong></li>
+					<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.email}}</strong></li>
+					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.ip}}</strong></li>
+					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.wechat}}</strong></li>
+					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.qq}}</strong></li>
+					<button class="btn btn-search">联系人信息</button>
+				</menu>
+			</div>
 		</div>
 	</div>
 </template>
 <style scoped>
-	.search-menu>div{padding-left:20px;padding-right:20px;}
-	.search-menu>div>a{padding-left:0;padding-right:0;}
-	.search-menu>div>.navbar-form{padding-left:0;padding-right:0;}
-	.search-h{display:inline-block;padding:0;margin-right:5px;margin-bottom:5px;width: 22px;height:22px;line-height:22px;text-align: center;color:#32ccca;border-radius:11px;font-size:14px;background-color: #e6f8f6;cursor: pointer;}
-	.search-h:hover,.search-h:focus,.search-h.active{background-color:#def2fd;color:#2aabd2;}
-	.h-box{max-height: 260px;overflow-x:hidden;overflow-y: auto;}
-	.h-box>div{padding-top:15px;padding-bottom: 15px;border-bottom: 1px solid #e9e9e9;}
-	.h-box>div:last-child{border:none;}
-	.lyt-box{display: table;width: 100%;}
-	.lyt-box .lyt-item{display: table-row;}
-	.lyt-box .lyt-item .lyt-lt{display: table-cell;width: 32px;padding-right: 10px;text-align: center;vertical-align: top;color:#666666;}
-	.lyt-box .lyt-item .lyt-rt{display: table-cell;vertical-align: top;}
-	.lyt-box .lyt-item .lyt-rt a{display:inline-block;margin-right:10px;margin-bottom:5px;color:#666666;font-size:12px;}
-	.lyt-box .lyt-item .lyt-rt a:hover,.lyt-box .lyt-item .lyt-rt a:focus{color:#2aabd2;}
+	@import url("../../assets/style/page.css");
 </style>
 <script>
 	import 'bootstrap-select';
+    import "../../assets/js/jqPaginator.min.js";
+    import "../../assets/js/formatData.js";
 	export default {
 		data(){
 			return{
-				searchHead:{}
+				searchHead:{},
+				artContent:[]
 			}
 		},
         mounted(){
@@ -134,7 +145,7 @@
 		    let vm=this;
 			vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1,"userAccount":"13612345678"}).then(function(response){
 				if(response.ok){
-					const arr=response.data.data.content,
+					let arr=response.data.data.content,
 						conObj={
 					    	A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
 						};
@@ -152,6 +163,15 @@
                     vm.searchHead=conObj;
 				}
 			});
+			vm.$http.post('/apis/salesLeads/getSaleLeadsList',{"pageSize":10000,"pageNumber":1,"checkStatus":"是"}).then(function (response) {
+				if(response.ok){
+                    let newArr=response.data.data.list;
+				    for(var i in newArr){
+                        newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+					}
+                    vm.artContent=newArr;
+				}
+            });
         },
 		methods:{
             goAnchor(selector) {
