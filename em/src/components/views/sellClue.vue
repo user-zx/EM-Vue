@@ -56,6 +56,7 @@
 		        <li><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</li>
 		        <li><i class="glyphicon glyphicon-flag"></i>标记处理</li>
 		    </ul>
+
 		    <menu class="clearfix">
 	    	    <li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>北京市海淀区丹棱街3号</strong></li>
 	    	    <li><img src="../../assets/images/phone.png" height="22" width="18"><strong>13284191177</strong></li>
@@ -123,10 +124,11 @@
 				const list = response.data.data.list;
 				console.log(list);
 				//vm.dataList = list;
-
+				
 				for (var prop in list) { 
-					vm.dataList[prop] =  {type:list.type,title:list.title,}
-					console.log(new Date(list[prop].publishDate).Format("yyyy-MM-dd hh:mm:ss"));
+					const time = new Date(list[prop].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+					vm.dataList[prop] =  {'type':list.type,'title':list.title,'keywords':list.keywords,'author':list.author,'time':time,'source':list.source,'content':list.content}
+					
 				}
 			},(response)=>{
 				
