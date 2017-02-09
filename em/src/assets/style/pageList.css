@@ -1,0 +1,20 @@
+.pageList{
+	
+}
+.pageList>ul{
+	list-style: none;
+	padding: 0;
+	float: right;
+	margin-right: 40px;
+}
+.pageList>ul>li{
+	float: left;
+	text-align: center;
+	margin-right: 10px;
+	background-color: #FFF;
+	font: 12px/23px "Microsoft Yahei";
+	cursor: pointer;
+} 
+.pagination>li>a, .pagination>li>span{
+	padding: 2px 8px;
+}
