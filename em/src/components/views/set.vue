@@ -140,9 +140,25 @@
 								</div>
 							</div>
 						</div>
-						<div class="table-reponse">
-							
-						</div>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>关键词</th>
+									<th>创建时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>美白针</td>
+									<td>2017-02-10 21:31:50</td>
+									<td>
+										<input type="radio" />
+										<i class="glyphicon glyphicon-trash"></i>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -174,13 +190,18 @@
 	.combo-box .combo-body{padding:15px 20px;}
 	.combo-box .comboName{font-size:18px;color:#333333;}
 	.combo-box .comboName .price{float: right;color:#32ccca;}
+	/*@import "../../../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css";*/
 </style>
 <script>
+//	import 'bootstrap-switch';
 	export default {
 		data(){
 			return{
 				mdg:'123'
 			}
+		},
+        mounted(){
+
 		}
 	}
 </script>
