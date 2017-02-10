@@ -8,11 +8,29 @@ html,body{
 	width: 100%;
 	height: 100%;
 }
+.input-search{border:1px solid #32ccca;outline: #32ccca;}
 .btn-search{
 	color:#ffffff;
 	background-color: #32ccca;
 }
 .btn-search:hover,.btn-search:focus{
+	color:#ffffff;
+	outline: none;
+}
+.btn-search-o{
+	color:#32ccca;
+	background-color: #ffffff;
+	border: 1px solid #32ccca;
+	transition: color .3s,border-color .3s,background-color .3s;
+}
+.btn-search-o:hover,.btn-search-o:focus{
+	color: #FFFFFF;
+	border-color:#32ccca;
+	background-color: #32ccca;
+	outline: none;
+}
+.btn-combo{width:100%;color:#ffffff;border-radius:0;background-color: #32ccca;}
+.btn-combo:hover,.btn-combo:focus{
 	color:#ffffff;
 	outline: none;
 }
