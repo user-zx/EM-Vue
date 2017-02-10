@@ -22,7 +22,7 @@
 				<router-link to="/personal/forgetPassword" >忘记密码</router-link>
 				<router-link to="/home" >首页</router-link>
 			</p> 
-			<button type="button" class="btn btn-info" @click="login()">立即登录</button>
+			<button type="button" class="btn btn-info" @click="generateKey()">立即登录</button>
 			<p>还没有慧数医美?<router-link to="../personal/Register.vue" class="login_p_two_a">立即注册</router-link></p>
 		</div> 
 		
@@ -30,7 +30,7 @@
 </template>
   
 <script>
-		import "security";
+		import "../../assets/js/security.js";
 	    export default{
 	  	data(){
 	  		return { 
@@ -38,7 +38,9 @@
 	  			apiUrl:"/apis/login.do",
 	  			item:{
                     account:"",
-					password:""
+					password:"",
+                    publicKeyExponent:"",
+                    publicKeyModulus:"",
 				}
 	  		}
 	  	},
@@ -49,25 +51,52 @@
 	        })
        },      
 	  	methods:{
-	  		//写ajax请求 
-	  		login: function() { 
-				var vm  = this;
-				vm.$http.post(vm.apiUrl, JSON.stringify(vm.item)).then(function(response){
-					
-					if(response.ok){
-						// vm.$router.go({path:"home"});
+	  		//写ajax请求
+            generateKey() {
+				let url='apis/generateKey.do';
+				let params='';
+				let vm=this;
+                vm.$http.post(url, params).then(function (result) {
+					vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
+					vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
+					console.log(vm.item);
+					console.log("vm.item");
+
+					let account = vm.item.account;
+					let password = vm.item.password;
+					if(account && password){
+						vm.login();
+						return false;
+					}else{
+						console.log('用户名或密码不能为空!');
+						return false;
 					}
-				});
-				// vm.$http({
-				//     method:'post',
-				//     url:vm.apiUrl,
-				// 	data:vm.item
-				// }).then(function (response) {
-    //                 vm.$router.go("/home");
-    //                 console.log(response);
-    //             }).then(function(error){
-    //                 vm.$router.go("/home");
-    //             });
+                });
+            },
+	  		login() {
+				let vm  = this;
+				let publicKeyExponent= vm.item.publicKeyExponent;
+				let publicKeyModulus= vm.item.publicKeyModulus;
+				if(publicKeyExponent==""&&publicKeyModulus==""){
+				    location.href='/#/login';
+				    return;
+				}
+                RSAUtils.setMaxDigits(200);
+                let key = new RSAUtils.getKeyPair(publicKeyExponent, "", publicKeyModulus);
+                let encrypedPwd = RSAUtils.encryptedString(key,vm.item.password);
+                vm.item.password=encrypedPwd;
+                let params=new Object();
+                params.account=vm.item.account;
+                params.password=vm.item.password;
+                console.log(params);
+                vm.$http.post(vm.apiUrl, params).then(function(result){
+                    console.log(result);
+                    if(result.ok){
+                        if(result.data.data=="success"){
+                            location.href = "/#/home";
+						}
+					}
+                });
 			}
 	  	}
 	  }
