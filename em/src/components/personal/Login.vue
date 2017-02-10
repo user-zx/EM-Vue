@@ -59,9 +59,6 @@
                 vm.$http.post(url, params).then(function (result) {
 					vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
 					vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
-					console.log(vm.item);
-					console.log("vm.item");
-
 					let account = vm.item.account;
 					let password = vm.item.password;
 					if(account && password){
@@ -88,11 +85,10 @@
                 let params=new Object();
                 params.account=vm.item.account;
                 params.password=vm.item.password;
-                console.log(params);
                 vm.$http.post(vm.apiUrl, params).then(function(result){
-                    console.log(result);
                     if(result.ok){
                         if(result.data.data=="success"){
+                            sessionStorage.setItem("username", vm.item.account);
                             location.href = "/#/home";
 						}
 					}
