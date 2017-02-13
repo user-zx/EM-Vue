@@ -84,10 +84,14 @@
 		</form>
 	</div>
 	
-	<div class="sellClue_list">
+	<div class="sellClue_list"> 
 		<div class="sellClue_list_div" v-for="(item,index) in dataList">
-			<span>{{item.type}}</span>
-			<h4>{{item.title}}</h4> 
+			
+			<span v-if="item.type=='原创'" class="origin">{{item.type}}</span>
+			<span v-else-if="item.type=='转发'" class="blue">{{item.type}}</span>
+			<span v-else-if="item.type!=null">{{item.type}}</span> 
+			
+			<h4>{{item.title}}</h4>   
 		    <div class="sellClue_list_div_div"> <span><i>关键词:</i>{{item.keywords}}</span> <span><i>发布者:</i>{{item.author}}</span><span><i>发布时间:</i>{{item.time}}</span><span><i>线索来源:</i>{{item.source}}</span></div>
 		    <p>{{item.content}}</p>
 		    <ul class="sellClue_list_div_ul">
@@ -97,13 +101,13 @@
 		    </ul>
 			
 		    <menu class="clearfix">
-	    	    <li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>北京市海淀区丹棱街3号</strong></li>
-	    	    <li><img src="../../assets/images/phone.png" height="22" width="18"><strong>13284191177</strong></li>
-	    	    <li><img src="../../assets/images/email.png" height="21" width="25"><strong>1192344027@qq.com</strong></li>
-	    	    <li><img src="../../assets/images/IP.png" height="25" width="25"><strong>192.176.1.1(北京电信)</strong></li>
-	    	    <li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>zbngood</strong></li>
-	    	    <li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>9888811122</strong></li>
-		    	<button>联系人信息</button>
+	    	    <li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong :class="message">{{item.address}}</strong></li>
+	    	    <li><img src="../../assets/images/phone.png" height="22" width="18"><strong :class="message">{{item.phone}}</strong></li>
+	    	    <li><img src="../../assets/images/email.png" height="21" width="25"><strong :class="message">{{item.email}}</strong></li>
+	    	    <li><img src="../../assets/images/IP.png" height="25" width="25"><strong :class="message">{{item.ip}}</strong></li>
+	    	    <li><img src="../../assets/images/wechat.png" height="24" width="24"><strong :class="message">{{item.wechat}}</strong></li>
+	    	    <li><img src="../../assets/images/QQ.png" height="24" width="23"><strong :class="message">{{item.qq}}</strong></li> 
+		    	<button @click="contactInfo($event)" :data-id="item.id">联系人信息</button>
 		    </menu> 
 		</div>
 		
@@ -146,17 +150,21 @@
 <script>
 	import 'bootstrap-select';  
     import "../../assets/js/jqPaginator.min.js";
-    import "../../assets/js/formatData.js";
+    import "../../assets/js/formatData.js";   
+   /* import "../../assets/js/common.js";*/
 	export default {
 		data(){  
-			return{
+			return{ 
 				sourceList:["线索来源","不限","微博","百度贴吧"],
 				typeList:["线索类型","不限","原创","转发","评论"],
 				stateList:["标记状态","不限","已处理","未处理"],
 				timeList:["发布时间","不限","今天","昨天","自定义时间"],
-				bodyDataUrl:"apis/salesLeads/getHomePageSaleLeadsList",
+				bodyDataUrl:"apis/salesLeads/getHomePageSaleLeadsList",//主体数据
+				messageList:"apis/userSalesLeads/saveCheckUserSaleLeads",//信息列表
 				dataList:[],
 				searchHead:{},
+				messageListID:"",
+				message:false,
 			}
 		},
 		methods:{ 
@@ -166,24 +174,56 @@
 				"pageNumber": 1,
 				"pageSize": 10
 			}
-				vm.$http.post(url,paramsVo).then((response)=>{
-					
+			vm.$http.post(url,paramsVo).then((response)=>{	
 				const list = response.data.data.list;
-				console.log(list);
+				
 				for (var prop in list) { 
 					const time = new Date(list[prop].publishDate).Format("yyyy-MM-dd hh:mm:ss");
-					const item = {'type':list[prop].type,'title':list[prop].title,'keywords':list[prop].keywords,'author':list[prop].author,'time':time,'source':list[prop].source,'content':list[prop].content};
+					const item = {
+						'type':list[prop].type,
+						'title':list[prop].title,
+						'keywords':list[prop].keywords,
+						'author':list[prop].author,
+						'time':time,
+						'source':list[prop].source,
+						'content':list[prop].content,
+						'id':list[prop].id,
+						'address':list[prop].address,
+						'phone':list[prop].phone,
+						'email':list[prop].email,
+						'ip':list[prop].ip,
+						'wechat':list[prop].wechat,
+						'qq':list[prop].qq
+					};
 					vm.dataList.push(item);	
 				}
+				
 				},(response)=>{
 					if(!response.ok){
 					   return false;
 				   }
 				})
+			},
+
+			contactInfo:function(el){
+
+				let vm = this;
+				let dataId = el.currentTarget.getAttribute("data-id");
+				
+				vm.$http.post(vm.messageList,dataId).then((response)=>{
+    			 		console.log(response);
+    		        },(response)=>{
+    		        	if(response.data.status==500)
+ 						console.log(response.data.message);
+ 						return false;
+    		       })
 			}
+
+
 		},   
 		mounted:function(){
-			 $(".selectpicker").selectpicker({
+
+			$(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
             }); 
@@ -240,6 +280,7 @@
 	            last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
 	            page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 	            onPageChange: function (n) {
+	            	vm.dataList = [];
 	                vm.page(vm.bodyDataUrl);
 	            }
 	        });
@@ -249,9 +290,13 @@
 				if(!response.ok){
 					return false;
 				}
-			})   	
-		}
-	}
+			});
+			//console.log(vm.messageListID);
+    		//messageList
+    		
+		}, 
+		
+	}    
 </script>
 <style scoped>
 	@import url("../../assets/style/page.css");

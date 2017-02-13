@@ -43,6 +43,7 @@
     import viewLog from "../views/viewLog.vue";
     import sellClue from "../views/sellClue.vue";
     import foots from "../head/foots.vue";
+   
     export default {
         name:"leftTag",
         data(){
