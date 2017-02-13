@@ -130,7 +130,7 @@
 				<div class="panel panel-em">
 					<div class="panel-body">
 						<div class="search-box clearfix">
-							<button class="btn btn-search-o" type="button">添加关键词</button>
+							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button>
 							<div class="navbar-form navbar-right" role="search">
 								<div class="input-group">
 									<input type="text" class="form-control input-search" placeholder="输入关键词进行查询">
@@ -140,21 +140,43 @@
 								</div>
 							</div>
 						</div>
-						<table class="table">
+						<table class="table table-hover">
 							<thead>
-								<tr>
-									<th>关键词</th>
-									<th>创建时间</th>
-									<th>操作</th>
+								<tr class="active">
+									<th class="text-center">关键词</th>
+									<th class="text-center">创建时间</th>
+									<th class="text-center">操作</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>美白针</td>
-									<td>2017-02-10 21:31:50</td>
-									<td>
-										<input type="radio" />
-										<i class="glyphicon glyphicon-trash"></i>
+									<td class="text-center">美白针</td>
+									<td class="text-center">2017-02-10 21:31:50</td>
+									<td class="text-center">
+										<div class="switch">
+											<input type="checkbox" />
+										</div>
+										<a class="del-icons" href="javascript:void(0);"> <i class="glyphicon glyphicon-trash"></i></a>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center">美白针</td>
+									<td class="text-center">2017-02-10 21:31:50</td>
+									<td class="text-center">
+										<div class="switch">
+											<input type="checkbox" />
+										</div>
+										<a class="del-icons" href="javascript:void(0);"> <i class="glyphicon glyphicon-trash"></i></a>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center">美白针</td>
+									<td class="text-center">2017-02-10 21:31:50</td>
+									<td class="text-center">
+										<div class="switch">
+											<input type="checkbox" checked />
+										</div>
+										<a class="del-icons" href="javascript:void(0);"> <i class="glyphicon glyphicon-trash"></i></a>
 									</td>
 								</tr>
 							</tbody>
@@ -163,7 +185,64 @@
 				</div>
 			</div>
 			<div id="expenseCalendar" class="tab-pane fade">
-				消费记录
+				<div class="panel panel-em">
+					<div class="panel-body">
+						<table class="table table-hover">
+							<thead>
+							<tr class="active">
+								<th>时间</th>
+								<th>消费类型</th>
+								<th>消费金额</th>
+								<th>消费状态</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>2017-02-10 21:31:50</td>
+								<td>查看线索</td>
+								<td>-¥1.99</td>
+								<td><span class="text-em">成功</span></td>
+							</tr>
+							<tr>
+								<td>2017-02-10 21:31:50</td>
+								<td>查看线索</td>
+								<td>-¥1.99</td>
+								<td><span class="text-em">成功</span></td>
+							</tr>
+							<tr>
+								<td>2017-02-10 21:31:50</td>
+								<td>查看线索</td>
+								<td>-¥1.99</td>
+								<td><span class="text-em">成功</span></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="addKeyWord" tabindex="-1" role="dialog" aria-labelledby="addKeyWordLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="addKeyWordLabel"></h4>
+					</div>
+					<div class="modal-body">
+						<textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开">
+
+						</textarea>
+						<div class="upload-box">
+							<a href="javascript:void(0);"><img src="../../assets/images/set_icon.png" /><label for="upLoadFile">批量添加</label></a>
+							<input type="file" id="upLoadFile" class="hide" />
+							<a href="javascript:void(0);"><img src="../../assets/images/set_icon1.png" />下载文件模版</a>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary">提交更改</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -190,10 +269,22 @@
 	.combo-box .combo-body{padding:15px 20px;}
 	.combo-box .comboName{font-size:18px;color:#333333;}
 	.combo-box .comboName .price{float: right;color:#32ccca;}
-	/*@import "../../../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css";*/
+	.table>thead>tr.active>th{background-color: #fafafa;}
+	.del-icons{color:#a1a1a1;}
+	.text-em{color:#32ccca;}
+	.modal .modal-content{border-radius: 0;}
+	.modal-header{border-bottom:none;}
+	.modal-body textarea{height:150px;border-radius: 5px 5px 0 0;resize: none;}
+	.modal-footer{border-top:none;text-align: center;}
+	.upload-box{background-color: #f2f2f2;border-radius: 0 0 5px 5px;border:1px solid #ccc;border-top:none;}
+	.upload-box>a{margin-left: 0.4%;display: inline-block;width: 49%;color: #999999;padding-top: 10px;padding-bottom: 10px;text-align: center;  font-weight: 400;  background-color: #f2f2f2;  vertical-align: middle;  text-decoration:none;  }
+	.upload-box>a:first-child{border-right:1px solid #ccc;}
+	.upload-box>a>label{margin-bottom: 0;font-weight: 400;vertical-align: middle;}
+	.upload-box>a img{margin-right: 5px;}
+	@import "../../assets/style/jquery-switch.css";
 </style>
 <script>
-//	import 'bootstrap-switch';
+	import '../../assets/js/jQuery.switch';
 	export default {
 		data(){
 			return{
@@ -201,7 +292,7 @@
 			}
 		},
         mounted(){
-
+			$(".switch input[type=checkbox]").jQuerySwitch();
 		}
 	}
 </script>
