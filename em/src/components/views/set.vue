@@ -113,13 +113,13 @@
 				<div class="panel panel-em">
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-3" v-for="packageItem in packageListArr">
 								<div class="combo-box">
 									<div class="combo-body">
-										<h5 class="comboName">套餐名称 <span class="price">¥199</span></h5>
-										<p>内含<span class="text-em">100次</span>线索查看</p>
+										<h5 class="comboName">{{packageItem.name}} <span class="price">¥{{packageItem.price}}</span></h5>
+										<p>内含<span class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
 									</div>
-									<a href="javascript:void(0);" class="btn btn-combo">立即充值</a>
+									<a href="javascript:void(0);" v-bind:id="packageItem.id" class="btn btn-combo">立即充值</a>
 								</div>
 							</div>
 						</div>
@@ -241,7 +241,8 @@
 				    packageInfo:{},
 					user:{}
 				},
-                consumeListObj:{}
+                consumeListObj:{},
+                packageListArr:{},
 			}
 		},
         components:{rePassword,addKeyWord},
@@ -257,9 +258,14 @@
                 }
 			});
 			/*套餐信息*/
-//            vm.$http.post("/apis/package/findPackageList",{pageNumber:1,pageSize:100}).then(function(res){
-//                console.log(res);
-//            });
+            vm.$http.post("/apis/package/getPackageList").then(function(res){
+                if(res.ok) {
+                    if (res.data.success) {
+                        console.log(res.data.data);
+                        vm.packageListArr=res.data.data;
+                    }
+                }
+            });
 //            /*修改密码*/
 //            vm.$http.post("/apis/modifyPassword",{oldPassword:"a123456",newPassword:"a123456"}).then(function(res){
 //                console.log(res);

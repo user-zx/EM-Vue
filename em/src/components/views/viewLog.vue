@@ -84,24 +84,32 @@
 			</form>
 		</div>
 		<div class="art-content">
-			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent">
-				<span>{{artItem.type}}</span>
-				<h4>{{artItem.title}}</h4>
-				<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.keywords}}</span> <span><i>发布者:</i>{{artItem.author}}</span><span><i>发布时间:</i>{{artItem.publishDate}}</span><span><i>线索来源:</i>{{artItem.source}}</span></div>
-				<p>{{artItem.content}}</p>
+			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
+				<span>{{artItem.salesLeads.type}}</span>
+				<h4>{{artItem.salesLeads.title}}</h4>
+				<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+				<p>{{artItem.salesLeads.content}}</p>
 				<ul class="sellClue_list_div_ul">
-					<li><a href="javascript:void(0);"><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a></li>
-					<li><a href="javascript:void(0);"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a></li>
-					<li><a href="javascript:void(0);"><i class="glyphicon glyphicon-flag"></i>标记处理</a></li>
+					<li v-bind:class="{active:artItem.addFavoritesStatus}">
+						<a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
+						<a href="javascript:void(0);" class="btn" @click="favoritesFun(index)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" class="btn" @click="ignoreFun(index)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
+					</li>
+					<li v-bind:class="{active:artItem.labelStatus}">
+						<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
+						<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
+					</li>
 				</ul>
 				<menu class="clearfix">
-					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.address}}</strong></li>
-					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.phone}}</strong></li>
-					<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.email}}</strong></li>
-					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.ip}}</strong></li>
-					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.wechat}}</strong></li>
-					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.qq}}</strong></li>
-					<button class="btn btn-search">联系人信息</button>
+					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
+					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
+					<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.salesLeads.email}}</strong></li>
+					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
+					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
+					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
+					<button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
 				</menu>
 			</div>
 		</div>
@@ -159,22 +167,22 @@
                                 obj.id=arr[i].id;
                                 obj.keyword=arr[i].keyword;
                                 conObj[j].push(obj);
-
 							}
 						}
                     }
                     vm.searchHead=conObj;
 				}
 			});
-			vm.$http.post('/apis/salesLeads/getSaleLeadsList',{"pageSize":10000,"pageNumber":1,"checkStatus":"是"}).then(function (response) {
+			vm.$http.post('/apis/salesLeads/getSaleLeadsList',{"pageSize":1000,"pageNumber":1,"checkStatus":"是"}).then(function (response) {
 				if(response.ok){
-                    let newArr=response.data.data.list;
-				    for(var i in newArr){
-                        newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
-					}
-                    vm.artList.artContent=newArr;
-                    vm.artList.totalPages=response.data.data.totalPages;
-//					console.log(vm.artList)
+				    if(response.data.success){
+						let newArr=response.data.data.list;
+						for(var i in newArr){
+							newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+						}
+						vm.artList.artContent=newArr;
+						vm.artList.totalPages=response.data.data.totalPages;
+                    }
 				}
             });
         },
@@ -183,7 +191,28 @@
                 var anchor = this.$el.querySelector(selector);
                 var parentEle=this.$el.querySelector(".h-box");
                 parentEle.scrollTop = anchor.offsetTop
-            }
+            },
+            favoritesFun(index){
+				if(this.artList.artContent[index].addFavoritesStatus){
+                    this.artList.artContent[index].addFavoritesStatus=false;
+				}else{
+                    this.artList.artContent[index].addFavoritesStatus=true;
+				}
+			},
+    		ignoreFun(index){
+                if(this.artList.artContent[index].ignoreStatus){
+                    this.artList.artContent[index].ignoreStatus=false;
+                }else{
+                    this.artList.artContent[index].ignoreStatus=true;
+                }
+			},
+    		labelFun(index){
+                if(this.artList.artContent[index].labelStatus){
+                    this.artList.artContent[index].labelStatus=false;
+                }else{
+                    this.artList.artContent[index].labelStatus=true;
+                }
+			}
 		}
 	}
 </script>
