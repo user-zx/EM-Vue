@@ -82,8 +82,8 @@
 					</div>
 				</div>
 		</form>
-	</div>
-	
+	</div> 
+	<new-data :hintUrl="newDataUrl" ></new-data>
 	<div class="sellClue_list"> 
 		<div class="sellClue_list_div" v-for="(item,index) in dataList">
 			
@@ -151,7 +151,9 @@
 	import 'bootstrap-select';  
     import "../../assets/js/jqPaginator.min.js";
     import "../../assets/js/formatData.js";   
-   /* import "../../assets/js/common.js";*/
+    import common from "../../assets/js/common.js";
+    import newData from "../head/newData.vue";
+
 	export default {
 		data(){  
 			return{ 
@@ -165,18 +167,20 @@
 				searchHead:{},
 				messageListID:"",
 				message:false,
+				paramsVo:{
+					"pageNumber": 1,
+				    "pageSize": 10
+				}, 
+				newDataUrl:"apis/salesLeads/getNewestSalesLeadsCount",
 			}
 		},
 		methods:{ 
 			page:function(url){
 				let vm  = this;
-				let paramsVo = {
-				"pageNumber": 1,
-				"pageSize": 10
-			}
-			vm.$http.post(url,paramsVo).then((response)=>{	
-				const list = response.data.data.list;
 				
+			vm.$http.post(url,vm.paramsVo).then((response)=>{	
+				const list = response.data.data.list;
+				//console.log(list);
 				for (var prop in list) { 
 					const time = new Date(list[prop].publishDate).Format("yyyy-MM-dd hh:mm:ss");
 					const item = {
@@ -218,11 +222,9 @@
  						return false;
     		       })
 			}
-
-
 		},   
 		mounted:function(){
-
+			//console.log(common); 
 			$(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -264,16 +266,13 @@
 				}
 			});
 			
-			let paramsVo = {
-				"pageNumber": 1,
-				"pageSize": 10
-			}
-			vm.$http.post(vm.bodyDataUrl,paramsVo).then((response)=>{
+			
+			vm.$http.post(vm.bodyDataUrl,vm.paramsVo).then((response)=>{
 				
 			 $("#pagination").jqPaginator({
 	            totalPages: response.data.data.totalPages,
-	            visiblePages: paramsVo.pageSize,
-	            currentPage: paramsVo.pageNumber,
+	            visiblePages: vm.paramsVo.pageSize,
+	            currentPage: vm.paramsVo.pageNumber,
 	            first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
 	            prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 	            next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
@@ -295,6 +294,10 @@
     		//messageList
     		
 		}, 
+
+		components:{
+			newData,
+		}
 		
 	}    
 </script>

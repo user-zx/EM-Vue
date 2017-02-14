@@ -79,7 +79,7 @@
 			}
 		},
 		mounted:function(){
-			  $(".selectpicker").selectpicker({
+			$(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
             }); 
