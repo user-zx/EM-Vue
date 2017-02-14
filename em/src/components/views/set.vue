@@ -31,19 +31,19 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label">用户名：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">张柏宁<span class="user-type">（正式用户）</span></p>
+										<p class="form-control-static">{{personalInfoObj.user.name}}<span class="user-type">（{{personalInfoObj.user.userStatus}}用户）</span></p>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">公司名称：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">中科点击（北京）科技有限公司</p>
+										<p class="form-control-static">{{personalInfoObj.user.company}}</p>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">所属行业：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">大数据舆情</span></p>
+										<p class="form-control-static">{{personalInfoObj.user.trade}}</p>
 									</div>
 								</div>
 							</div>
@@ -51,19 +51,19 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label">密码：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">*******<a href="javascript:void(0);" class="update-password">修改密码</a></p>
+										<p class="form-control-static">*******<a href="#rePassword" class="update-password" data-toggle="modal" data-target="#rePassword">修改密码</a></p>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">绑定手机号：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">136****1234</p>
+										<p class="form-control-static">{{personalInfoObj.user.userAccount}}</p>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">所在地区：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">北京-海淀</p>
+										<p class="form-control-static">{{personalInfoObj.user.county}}</p>
 									</div>
 								</div>
 							</div>
@@ -81,13 +81,13 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label">套餐信息：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">199套餐</span></p>
+										<p class="form-control-static">{{personalInfoObj.packageInfo.packageName}}</p>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">已使用查询次数：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">50次</p>
+										<p class="form-control-static">{{personalInfoObj.packageInfo.usedTimes}}次</p>
 									</div>
 								</div>
 							</div>
@@ -95,13 +95,13 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label">套餐内查询次数：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">100次</span></p>
+										<p class="form-control-static">{{personalInfoObj.packageInfo.leadsTimes}}次</p>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">剩余查询次数：</label>
 									<div class="col-md-9">
-										<p class="form-control-static">50次</p>
+										<p class="form-control-static">{{personalInfoObj.packageInfo.restTimes}}次</p>
 									</div>
 								</div>
 							</div>
@@ -149,32 +149,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="text-center">美白针</td>
-									<td class="text-center">2017-02-10 21:31:50</td>
+								<tr v-for="keyword in keyWordListObj.content">
+									<td class="text-center">{{keyword.keyword}}</td>
+									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
 										<div class="switch">
-											<input type="checkbox" />
-										</div>
-										<a class="del-icons" href="javascript:void(0);"> <i class="glyphicon glyphicon-trash"></i></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="text-center">美白针</td>
-									<td class="text-center">2017-02-10 21:31:50</td>
-									<td class="text-center">
-										<div class="switch">
-											<input type="checkbox" />
-										</div>
-										<a class="del-icons" href="javascript:void(0);"> <i class="glyphicon glyphicon-trash"></i></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="text-center">美白针</td>
-									<td class="text-center">2017-02-10 21:31:50</td>
-									<td class="text-center">
-										<div class="switch">
-											<input type="checkbox" checked />
+											<input type="checkbox" v-if="keyword.status=='启用'" checked />
+											<input type="checkbox" v-else-if="keyword.status!='启用'" />
 										</div>
 										<a class="del-icons" href="javascript:void(0);"> <i class="glyphicon glyphicon-trash"></i></a>
 									</td>
@@ -189,62 +170,28 @@
 					<div class="panel-body">
 						<table class="table table-hover">
 							<thead>
-							<tr class="active">
-								<th>时间</th>
-								<th>消费类型</th>
-								<th>消费金额</th>
-								<th>消费状态</th>
-							</tr>
+								<tr class="active">
+									<th>时间</th>
+									<th class="text-center">消费类型</th>
+									<th class="text-center">消费金额</th>
+									<th class="text-center">消费状态</th>
+								</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<td>2017-02-10 21:31:50</td>
-								<td>查看线索</td>
-								<td>-¥1.99</td>
-								<td><span class="text-em">成功</span></td>
-							</tr>
-							<tr>
-								<td>2017-02-10 21:31:50</td>
-								<td>查看线索</td>
-								<td>-¥1.99</td>
-								<td><span class="text-em">成功</span></td>
-							</tr>
-							<tr>
-								<td>2017-02-10 21:31:50</td>
-								<td>查看线索</td>
-								<td>-¥1.99</td>
-								<td><span class="text-em">成功</span></td>
-							</tr>
+								<tr v-for="consumeItem in consumeListObj.content">
+									<td>{{consumeItem.consumeDate}}</td>
+									<td class="text-center">{{consumeItem.type}}</td>
+									<td class="text-center">¥{{consumeItem.amount}}</td>
+									<td class="text-center"><span class="text-em">{{consumeItem.status}}</span></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="addKeyWord" tabindex="-1" role="dialog" aria-labelledby="addKeyWordLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="addKeyWordLabel"></h4>
-					</div>
-					<div class="modal-body">
-						<textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开">
-
-						</textarea>
-						<div class="upload-box">
-							<a href="javascript:void(0);"><img src="../../assets/images/set_icon.png" /><label for="upLoadFile">批量添加</label></a>
-							<input type="file" id="upLoadFile" class="hide" />
-							<a href="javascript:void(0);"><img src="../../assets/images/set_icon1.png" />下载文件模版</a>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary">提交更改</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		<add-key-word></add-key-word>
+		<re-password></re-password>
 	</div>
 </template>
 <style scoped>
@@ -272,27 +219,101 @@
 	.table>thead>tr.active>th{background-color: #fafafa;}
 	.del-icons{color:#a1a1a1;}
 	.text-em{color:#32ccca;}
-	.modal .modal-content{border-radius: 0;}
-	.modal-header{border-bottom:none;}
-	.modal-body textarea{height:150px;border-radius: 5px 5px 0 0;resize: none;}
-	.modal-footer{border-top:none;text-align: center;}
-	.upload-box{background-color: #f2f2f2;border-radius: 0 0 5px 5px;border:1px solid #ccc;border-top:none;}
-	.upload-box>a{margin-left: 0.4%;display: inline-block;width: 49%;color: #999999;padding-top: 10px;padding-bottom: 10px;text-align: center;  font-weight: 400;  background-color: #f2f2f2;  vertical-align: middle;  text-decoration:none;  }
-	.upload-box>a:first-child{border-right:1px solid #ccc;}
-	.upload-box>a>label{margin-bottom: 0;font-weight: 400;vertical-align: middle;}
-	.upload-box>a img{margin-right: 5px;}
 	@import "../../assets/style/jquery-switch.css";
 </style>
 <script>
 	import '../../assets/js/jQuery.switch';
+	import rePassword from './set/repassword.vue';
+	import addKeyWord from './set/addKeyWord.vue';
 	export default {
 		data(){
 			return{
-				mdg:'123'
+				userInfoUrl:"/apis/personal/findPersonalInfo",
+				packageListUrl:"/apis/package/getPackageList",
+				keyWordListUrl:"/apis/personal/findKeywordList",
+				importKeywordUrl:"/apis/import/importKeywordList",
+				delKeyWordUrl:"/apis/personal/deleteKeyword",
+				batchAddKeyWordUrl:"/apis/personal/batchAddKeyword",
+				saveKeyWordUrl:"/apis/personal/saveKeyword",
+				consumeListUrl:"/apis/personal/findConsumeList",
+                keyWordListObj:{},
+				personalInfoObj:{
+				    packageInfo:{},
+					user:{}
+				},
+                consumeListObj:{}
 			}
 		},
+        components:{rePassword,addKeyWord},
         mounted(){
-			$(".switch input[type=checkbox]").jQuerySwitch();
+			var vm =this;
+			/*查询用户信息*/
+			vm.$http.post("/apis/personal/findPersonalInfo","13612345678").then(function(res){
+                if(res.ok) {
+                    if (res.data.success) {
+                        vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
+                        vm.personalInfoObj.user = res.data.data.user;
+                    }
+                }
+			});
+			/*套餐信息*/
+//            vm.$http.post("/apis/package/findPackageList",{pageNumber:1,pageSize:100}).then(function(res){
+//                console.log(res);
+//            });
+//            /*修改密码*/
+//            vm.$http.post("/apis/modifyPassword",{oldPassword:"a123456",newPassword:"a123456"}).then(function(res){
+//                console.log(res);
+//            });
+//            /*关键词列表*/
+            vm.$http.post("/apis/personal/findKeywordList",{pageNumber:1,pageSize:10,userAccount:"13612345678"}).then(function(res){
+				if(res.ok){
+				    if(res.data.success){
+                        vm.keyWordListObj=res.data.data;
+                        for(var i in vm.keyWordListObj.content){
+                            vm.keyWordListObj.content[i].createDate=new Date(vm.keyWordListObj.content[i].createDate).Format("yyyy-MM-dd hh:mm:ss");
+                        }
+                        setTimeout(function () {
+                            $(".switch input[type=checkbox]").jQuerySwitch({
+                                onText:"启用",
+								offText:"禁用"
+							});
+                        },1000);
+                    }
+				}
+            });
+            /**批量添加关键词   import/importKeywordList
+			 * fileName：       文件名称
+			 * keywordOwner：       关键词拥有者*/
+            /**删除关键词
+			 *personal/deleteKeyword
+			 * Id
+			 * */
+            /**
+			 * 批量关键词添加
+			 * personal/batchAddKeyword
+			 * keyword
+			 * */
+            /*
+            * 更新关键词
+            * personal/saveKeyword
+            * id
+            * keyword
+            * status
+            * userAccount
+            * createDate
+            * createUser
+            * */
+            /*消费记录 personal/findConsumeList  {pageNumber:1,pageSize:100}*/
+            vm.$http.post("/apis/personal/findConsumeList",{pageNumber:1,pageSize:10,userAccount:"13284191177"}).then(function(res){
+                if(res.ok) {
+                    if (res.data.success) {
+                        vm.consumeListObj=res.data.data;
+                        for(var i in vm.consumeListObj.content){
+                        	vm.consumeListObj.content[i].consumeDate=new Date(vm.consumeListObj.content[i].consumeDate).Format("yyyy-MM-dd hh:mm:ss");
+						}
+                    }
+                }
+            });
 		}
 	}
 </script>
