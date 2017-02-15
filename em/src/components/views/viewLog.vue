@@ -1,65 +1,84 @@
 <template>
 	<div class="viewLog">
 		<div class="search-box">
-			<form class="form-horizontal clearfix" role="search">
+			<div class="form-horizontal clearfix" role="search">
 				<div class="col-md-2">
-					<select class="form-control selectpicker">
-						<option>线索来源</option>
-						<option>线索来源</option>
-						<option>线索来源</option>
-						<option>线索来源</option>
-						<option>线索来源</option>
-						<option>线索来源</option>
+					<select v-model="searchCon.source" class="form-control selectpicker" title="线索来源">
+						<option value="">不限</option>
+						<option value="微博">微博</option>
+						<option value="百度贴吧">百度贴吧</option>
 					</select>
 				</div>
 				<div class="col-md-2">
-					<select class="form-control selectpicker">
-						<option>线索类型</option>
-						<option>线索类型</option>
-						<option>线索类型</option>
-						<option>线索类型</option>
-						<option>线索类型</option>
-						<option>线索类型</option>
+					<select v-model="searchCon.type" class="form-control selectpicker" title="线索类型">
+						<option value="">不限</option>
+						<option value="原创">原创</option>
+						<option value="转发">转发</option>
+						<option value="评论">评论</option>
 					</select>
 				</div>
 				<div class="col-md-2">
-					<select class="form-control selectpicker">
-						<option>标记状态</option>
-						<option>标记状态</option>
-						<option>标记状态</option>
-						<option>标记状态</option>
-						<option>标记状态</option>
-						<option>标记状态</option>
+					<select v-model="searchCon.labelStatus" class="form-control selectpicker" title="标记状态">
+						<option value="">不限</option>
+						<option value="已处理">已处理</option>
+						<option value="未处理">未处理</option>
 					</select>
 				</div>
 				<div class="col-md-2">
-					<select class="form-control selectpicker">
-						<option>发布时间</option>
-						<option>发布时间</option>
-						<option>发布时间</option>
-						<option>发布时间</option>
-						<option>发布时间</option>
-						<option>发布时间</option>
-					</select>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="请输入关键词">
+					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="发布时间" />
+					<div class="dropdown-menu" role="menu" aria-labelledby="publishTime">
+						<div class="publish-heading search-menu">
+							<div class="clearfix">
+								<div class="navbar-form navbar-left">
+									<div class="input-group">
+										<a href="javascript:void(0);" @click="publishSearch('今天')">今天</a>
+										<a href="javascript:void(0);" @click="publishSearch('昨天')">昨天</a>
+										<a href="javascript:void(0);" @click="publishSearch('近一周')">近一周</a>
+									</div>
+								</div>
+								<div class="navbar-right">
+									<a href="javascript:void(0);" class="close-modal">×</a>
+								</div>
+							</div>
+							<div class="clearfix date-box">
+								<div class="col-md-5">
+									<div class="form_datetime">
+										<input type="text" class="form-control startDate" readonly placeholder="开始时间">
+									</div>
+								</div>
+								<div class="col-md-5">
+									<div class="form_datetime">
+										<input type="text" class="form-control endDate" readonly placeholder="结束时间">
+									</div>
+								</div>
+								<div class="col-md-2 text-center">
+									<input class="btn btn-search" type="button" @click="publishSearch('自定义')" value="确定" />
+								</div>
+								<!--<div class="col-md-2">-->
+									<!--<input class="btn btn-default" type="button" value="取消" />-->
+								<!--</div>-->
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-2">
-					<button type="submit" class="btn btn-search">筛选</button>
+					<div class="form-group">
+						<input  v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
+					</div>
+				</div>
+				<div class="col-md-2">
+					<button type="button" class="btn btn-search" @click="multipleSearch()">筛选</button>
 					<a href="javascript:void(0);" class="dropdown-toggle dropdown-modal">关键词筛选<i class="caret"></i></a>
 					<div class="dropdown-menu search-menu">
 						<div class="clearfix">
-							<form class="navbar-form navbar-left" role="form">
+							<div class="navbar-form navbar-left" role="form">
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="输入关键词进行搜索" />
 									<span class="input-group-btn">
 										<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
 									</span>
 								</div>
-							</form>
+							</div>
 							<div class="navbar-right">
 								<a href="javascript:void(0);" class="close-modal">&times;</a>
 							</div>
@@ -73,7 +92,7 @@
 									<div class="lyt-item">
 										<div class="lyt-lt">{{index}}</div>
 										<div class="lyt-rt">
-											<a href="javascript:void(0);" v-bind:id="cItem.id" v-for="cItem in hItem">{{cItem.keyword}}</a>
+											<a href="javascript:void(0);" v-bind:id="cItem.id" @click="singleSearch(cItem.keyword)" v-for="cItem in hItem">{{cItem.keyword}}</a>
 										</div>
 									</div>
 								</div>
@@ -81,7 +100,7 @@
 						</div>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 		<div class="art-content">
 			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
@@ -117,22 +136,36 @@
 </template>
 <style scoped>
 	@import url("../../assets/style/page.css");
+	@import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css");
 </style>
 <script>
 	import 'bootstrap-select';
     import "../../assets/js/jqPaginator.min.js";
     import "../../assets/js/formatData.js";
+    import common from '../../assets/js/common.js';
+    import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
+    import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
 	export default {
 		data(){
 			return{
+                saleLeadsListUrl:'/apis/salesLeads/getSaleLeadsList',
 				searchHead:{},
 				artList:{
                     artContent:[],
 					totalPages:''
                 },
+				searchCon:{
+					labelStatus:"",
+					keywords:"",
+					source:"",
+					type:"",
+					checkStartDate:"",
+					checkEndDate:""
+				},
 			}
 		},
         mounted(){
+            let vm=this;
 		    $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -151,9 +184,33 @@
                 event.stopPropagation();
             });
 		    $(".close-modal").on("click",function(){
-		        $(this).parents(".search-menu").parent().removeClass("open");
+		        $(this).parents(".open").removeClass("open");
 			});
-		    let vm=this;
+		    $(".publish-heading .navbar-left a").on("click",function () {
+				$(this).addClass("active").siblings().removeClass("active");
+            });
+            $(".form_datetime .startDate").datetimepicker({
+                language:"zh-CN",
+                format: "yyyy-MM-dd",
+				autoclose:true
+            }).on("click",function (ev) {
+                var endDate=new Date().Format("yyyy-MM-dd");
+                $(".startDate").datetimepicker("setEndDate",endDate);
+                $(".endDate").datetimepicker("setEndDate",endDate);
+            }).on("outOfRange",function (ev) {
+                $(this).val(vm.getDateStr(-1));
+            });
+            $(".form_datetime .endDate").datetimepicker({
+                language:"zh-CN",
+                format: "yyyy-MM-dd",
+                autoclose:true
+            }).on("click",function (ev) {
+                var endDate=new Date().Format("yyyy-MM-dd");
+                $(".startDate").datetimepicker("setEndDate",endDate);
+                $(".endDate").datetimepicker("setEndDate",endDate);
+            }).on("outOfRange",function (ev) {
+                $(this).val(vm.getDateStr(0));
+            });
 			vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1,"userAccount":"13612345678"}).then(function(response){
 				if(response.ok){
 					let arr=response.data.data.content,
@@ -173,7 +230,7 @@
                     vm.searchHead=conObj;
 				}
 			});
-			vm.$http.post('/apis/salesLeads/getSaleLeadsList',{"pageSize":1000,"pageNumber":1,"checkStatus":"是"}).then(function (response) {
+			vm.$http.post(vm.saleLeadsListUrl,{"pageSize":10,"pageNumber":1,"checkStatus":"是"}).then(function (response) {
 				if(response.ok){
 				    if(response.data.success){
 						let newArr=response.data.data.list;
@@ -192,6 +249,36 @@
                 var parentEle=this.$el.querySelector(".h-box");
                 parentEle.scrollTop = anchor.offsetTop
             },
+            multipleSearch(){
+				let vm=this;
+                this.$http.post(vm.saleLeadsListUrl,{"pageSize":10,"pageNumber":1,"checkStatus":"是","labelStatus":vm.searchCon.labelStatus,"keywords":vm.searchCon.keywords,"source":vm.searchCon.source,"type":vm.searchCon.type,"checkStartDate":vm.searchCon.checkStartDate,"checkEndDate":vm.searchCon.checkEndDate}).then((response)=>{
+                    if(response.ok){
+                        if(response.data.success){
+                            let newArr=response.data.data.list;
+                            for(var i in newArr){
+                                newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                            }
+                            vm.artList.artContent=newArr;
+                            vm.artList.totalPages=response.data.data.totalPages;
+                        }
+                    }
+                });
+			},
+			singleSearch(keyword){
+				let vm = this;
+				this.$http.post(vm.saleLeadsListUrl,{"pageSize":10,"pageNumber":1,"checkStatus":"是","labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
+                    if(response.ok){
+                        if(response.data.success){
+                            let newArr=response.data.data.list;
+                            for(var i in newArr){
+                                newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                            }
+                            vm.artList.artContent=newArr;
+                            vm.artList.totalPages=response.data.data.totalPages;
+                        }
+                    }
+				});
+			},
             favoritesFun(index){
 				if(this.artList.artContent[index].addFavoritesStatus){
                     this.artList.artContent[index].addFavoritesStatus=false;
@@ -212,6 +299,60 @@
                 }else{
                     this.artList.artContent[index].labelStatus=true;
                 }
+			},
+			getDateStr(AddDayCount) {
+				let dd = new Date();
+				dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+				let y = dd.getFullYear();
+                let m="";
+                if(dd.getMonth()+1>9){
+					m= dd.getMonth()+1;//获取当前月份的日期
+                }else{
+					m = "0"+(dd.getMonth()+1);//获取当前月份的日期
+				}
+                let d="";
+				if(dd.getDate()>9){
+					 d= dd.getDate();
+                }else{
+                    d = "0"+dd.getDate();
+				}
+				return y+"-"+m+"-"+d;
+			},
+            publishSearch(str){
+    		    let vm = this;
+				switch (str){
+					case "今天":
+                        const nowDate=vm.getDateStr(0);
+					    const startDate=nowDate+" 00:00:00";
+                        const endDate=nowDate+" 23:59:59";
+						vm.searchCon.checkStartDate=new Date(startDate);
+						vm.searchCon.checkEndDate=new Date(endDate);
+						vm.multipleSearch();
+					break;
+                    case "昨天":
+                        const yesterday=vm.getDateStr(-1);
+                        const yesterdayStartDate=yesterday+" 00:00:00";
+                        const yesterdayEndDate=yesterday+" 23:59:59";
+                        vm.searchCon.checkStartDate=new Date(yesterdayStartDate);
+                        vm.searchCon.checkEndDate=new Date(yesterdayEndDate);
+                        vm.multipleSearch();
+					break;
+					case "近一周":
+                        const tDay=vm.getDateStr(0);
+                        const weekStartDate=weekDate+" 00:00:00";
+                        const weekEndDate=tDay+" 23:59:59";
+                        vm.searchCon.checkStartDate=new Date(weekStartDate);
+                        vm.searchCon.checkEndDate=new Date(weekEndDate);
+                        vm.multipleSearch();
+					break;
+					case "自定义":
+                        const customStartDate=$(".startDate").val()+" 00:00:00";
+                        const customEndDate=$(".endDate").val()+" 23:59:59";
+                        vm.searchCon.checkStartDate=new Date(customStartDate);
+                        vm.searchCon.checkEndDate=new Date(customEndDate);
+                        vm.multipleSearch();
+					break;
+				}
 			}
 		}
 	}
