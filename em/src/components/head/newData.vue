@@ -31,10 +31,14 @@
 			/*console.log(common.post);*/
 			let post = common.post;
 			 
-			post(vm.$http,vm.hintUrl,(res)=>{
+			post(vm.$http,vm.hintUrl,"",(res)=>{
 					console.log(res); 
-				},(err)=>{
-					console.log(err);
+				},(err)=>{ 
+					/*if (!err.ok) {
+						console.log(err);
+						return false;
+					}*/ 
+					//console.log(err);
 				})
 			 
 			timer = setInterval(autoplay,1000*60*5);
