@@ -1,5 +1,5 @@
 <template>
-	<p id="newData" @click="newdata()">有<span>10</span>条新线索,点击刷新</p>
+	<p id="newData" @click="clicknewdata()" v-show="newSell">有<span>{{newSell}}</span>条新线索,点击刷新</p>
 </template>
 
 <style scoped>
@@ -18,37 +18,42 @@
 		data(){
 			return{
                 msg:"新数据提醒",
+                dataLength:"",
+                newdata:"",
+                newSell:0,
 			}
 		},
 		props:["hintUrl"],
 		mounted(){ 
-			/*console.log(this.hintUrl);
-			console.log(this.params);*/
-
 			let vm = this;
 			let timer = null;
-			//console.log(vm.hintUrl); 
-			/*console.log(common.post);*/
 			let post = common.post;
-			 
+
+			
 			post(vm.$http,vm.hintUrl,"",(res)=>{
-					console.log(res); 
+					vm.newdata = res.data.data; 
 				},(err)=>{ 
-					/*if (!err.ok) {
-						console.log(err);
-						return false;
-					}*/ 
-					//console.log(err);
+					console.log(err);
+					return false;
 				})
-			 
 			timer = setInterval(autoplay,1000*60*5);
-			function autoplay(){
-				
+			function autoplay(){ 
+				post(vm.$http,vm.hintUrl,"",(res)=>{
+					vm.dataLength = res.data.data;  
+					 if(vm.dataLength > vm.newdata){
+					 	vm.newSell = vm.dataLength - vm.newdata;
+					 	vm.newdata = vm.dataLength;
+					 }else{
+					 	vm.newSell = 0;
+					 }
+				},(err)=>{ 
+					console.log(err);
+					return false;
+				})
 			}
 		},
 		methods:{
-			newdata(){
-
+			clicknewdata(){
 				window.location.reload();
 			}
 		}
