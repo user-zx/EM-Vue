@@ -18,8 +18,8 @@
     height: 18px;
 }
 
-.icheckbox_square-blue {
-    background-position: 2px 0;
+.icheckbox_square-blue { 
+    background-position: -14px 0;
 }
 .icheckbox_square-blue.hover {
     background-position: -14px 0;
