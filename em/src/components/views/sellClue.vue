@@ -116,10 +116,6 @@
 			 <ul class="clearfix pagination" id="pagination">
 					
 		     </ul>
-		    
-		     <span>
-		     	
-		     </span>
 		</div>
 		
 
@@ -148,10 +144,9 @@
 				searchHead:{},
 				messageListID:"",
 				message:false,
-				paramsVo:{
-					"pageNumber": 1,
-				    "pageSize": 10
-				},   
+				pageNumber:1,
+				pageSize:10,
+				paramsVo:{},   
 				newDataUrl:"apis/salesLeads/getNewestSalesLeadsCount",
 			}
 		},
@@ -207,6 +202,7 @@
 		},   
 		mounted:function(){
 			//console.log(common); 
+			
 			$(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -247,12 +243,15 @@
                     vm.searchHead=conObj;
 				}
 			});
-			
-			
-			vm.$http.post(vm.bodyDataUrl,vm.paramsVo).then((response)=>{
 				
+			    vm.paramsVo = {
+					"pageNumber": vm.pageNumber,
+				    "pageSize": vm.pageSize
+				}; 
+			vm.$http.post(vm.bodyDataUrl,vm.paramsVo).then((response)=>{
+				console.log(response); 
 			 $("#pagination").jqPaginator({
-	            totalPages: response.data.data.totalPages,
+	            totalPages:  response.data.data.totalPages,
 	            visiblePages: vm.paramsVo.pageSize,
 	            currentPage: vm.paramsVo.pageNumber,
 	            first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
@@ -262,7 +261,13 @@
 	            page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 	            onPageChange: function (n) {
 	            	vm.dataList = [];
-	                vm.page(vm.bodyDataUrl);
+	            	vm.pageNumber = n; 
+	            	/*console.log(vm.pageNumber);*/
+	            	vm.paramsVo = { 
+					"pageNumber": vm.pageNumber,
+				    "pageSize": vm.pageSize
+				}
+	                vm.page(vm.bodyDataUrl); 
 	            }
 	        });
 			
