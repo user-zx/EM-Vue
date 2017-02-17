@@ -103,7 +103,7 @@
 		</div>
 	</div>
 	<new-data :hintUrl="newDataUrl" ></new-data>
-	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
+	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent">
 		<span v-if="artItem.type=='原创'" class="origin">{{artItem.type}}</span>
 		<span v-else-if="artItem.type=='转发'" class="blue">{{artItem.type}}</span>
 		<span v-else-if="artItem.type!=null">{{artItem.type}}</span>
@@ -130,13 +130,13 @@
 			<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.ip}}</strong></li>
 			<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.wechat}}</strong></li>
 			<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.qq}}</strong></li>
-			<button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
+			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>
 		</menu>
-		<div class="pageList clearfix" >
-			<ul class="clearfix pagination" id="pagination">
+	</div>
+	<div class="pageList clearfix" >
+		<ul class="clearfix pagination" id="pagination">
 
-			</ul>
-		</div>
+		</ul>
 	</div>
 </div>
 	
@@ -157,6 +157,7 @@
 				timeList:["发布时间","不限","今天","昨天","自定义时间"],
 				bodyDataUrl:"apis/salesLeads/getHomePageSaleLeadsList",//主体数据
 				messageList:"apis/userSalesLeads/saveCheckUserSaleLeads",//信息列表
+				addTypeUrl:"apis/userSalesLeads/updateOrSaveUserSaleLeads",
 				dataList:[],
 				messageListID:"",
 				message:false,
@@ -170,6 +171,8 @@
                     totalPages:''
                 },
                 searchCon:{
+                    pageNumber:1,
+                    pageSize:10,
                     labelStatus:"",
                     keywords:"",
                     source:"",
@@ -187,15 +190,28 @@
             },
             multipleSearch(){
                 let vm=this;
-                this.$http.post(vm.bodyDataUrl,{"pageSize":10,"pageNumber":1,"labelStatus":vm.searchCon.labelStatus,"keywords":vm.searchCon.keywords,"source":vm.searchCon.source,"type":vm.searchCon.type,"checkStartDate":vm.searchCon.checkStartDate,"checkEndDate":vm.searchCon.checkEndDate}).then((response)=>{
+                this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
-                            let newArr=response.data.data.list;
-                            for(var i in newArr){
-                                newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                            let typeOf = typeof response.data.data;
+                            if(typeOf!="string"){
+                                $("#pagination").jqPaginator({
+                                    totalPages:  response.data.data.totalPages,
+                                    visiblePages: vm.searchCon.pageSize,
+                                    currentPage: vm.searchCon.pageNumber,
+                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                    prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                    next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                    page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                    onPageChange: function (n){
+                                        vm.searchCon.pageNumber = n;
+                                        vm.page();
+                                    }
+                                });
+                            }else{
+                                alert(response.data.data);
                             }
-                            vm.artList.artContent=newArr;
-                            vm.artList.totalPages=response.data.data.totalPages;
                         }
                     }
                 });
@@ -205,12 +221,25 @@
                 this.$http.post(vm.bodyDataUrl,{"pageSize":10,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
-                            let newArr=response.data.data.list;
-                            for(var i in newArr){
-                                newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
-                            }
-                            vm.artList.artContent=newArr;
-                            vm.artList.totalPages=response.data.data.totalPages;
+                            let typeOf = typeof response.data.data;
+                            if(typeOf!="string"){
+								$("#pagination").jqPaginator({
+									totalPages:  response.data.data.totalPages,
+									visiblePages: vm.searchCon.pageSize,
+									currentPage: vm.searchCon.pageNumber,
+									first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+									prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+									next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+									last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+									onPageChange: function (n){
+										vm.searchCon.pageNumber = n;
+										vm.page();
+									}
+								});
+                            }else{
+                                alert(response.data.data);
+							}
                         }
                     }
                 });
@@ -218,7 +247,7 @@
             favoritesFun(index,artId){
                 let vm = this;
                 if(this.artList.artContent[index].addFavoritesStatus){
-                    this.$http.post(vm.bodyDataUrl,{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
+                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 vm.artList.artContent[index].addFavoritesStatus=false;
@@ -226,7 +255,7 @@
                         }
                     });
                 }else{
-                    this.$http.post(vm.bodyDataUrl,{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
+                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 vm.artList.artContent[index].addFavoritesStatus=true;
@@ -236,38 +265,41 @@
                 }
             },
             ignoreFun(index,artId){
+                let vm = this;
                 if(this.artList.artContent[index].ignoreStatus){
-                    this.$http.post(vm.bodyDataUrl,{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
+                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=false;
+                                vm.artList.artContent[index].ignoreStatus=false;
                             }
                         }
                     });
                 }else{
-                    this.$http.post(vm.bodyDataUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
+                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=true;
+                                vm.artList.artContent[index].ignoreStatus=true;
                             }
                         }
                     });
                 }
+                console.log(this.artList.artContent[index].ignoreStatus)
             },
             labelFun(index,artId){
+                let vm = this;
                 if(this.artList.artContent[index].labelStatus){
-                    this.$http.post(vm.bodyDataUrl,{salesLeadsId:artId,labelStatus:"未处理"}).then((res)=>{
+                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,labelStatus:"未处理"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.artList.artContent[index].labelStatus=false;
+                                vm.artList.artContent[index].labelStatus=false;
                             }
                         }
                     });
                 }else{
-                    this.$http.post(vm.bodyDataUrl,{salesLeadsId:artId,labelStatus:"已处理"}).then((res)=>{
+                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,labelStatus:"已处理"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.artList.artContent[index].labelStatus=true;
+                                vm.artList.artContent[index].labelStatus=true;
                             }
                         }
                     });
@@ -312,6 +344,7 @@
                         break;
                     case "近一周":
                         const tDay=vm.getDateStr(0);
+                        const weekDate=vm.getDateStr(-7);
                         const weekStartDate=weekDate+" 00:00:00";
                         const weekEndDate=tDay+" 23:59:59";
                         vm.searchCon.checkStartDate=new Date(weekStartDate);
@@ -327,9 +360,15 @@
                         break;
                 }
             },
-			page:function(url){
+            getLinkStatus(index,salesLeadsId){
+				let vm=this;
+				vm.$http.post(vm.messageList,salesLeadsId).then((result)=>{
+				   console.log(result);
+				});
+			},
+			page:function(){
 				let vm  = this;
-				vm.$http.post(url,vm.paramsVo).then((response)=>{
+				vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let newArr=response.data.data.list;
@@ -424,30 +463,26 @@
                     vm.searchHead=conObj;
 				}
 			});
-				
-			vm.paramsVo = {
-				"pageNumber": vm.pageNumber,
-				"pageSize": vm.pageSize
-			};
-			vm.$http.post(vm.bodyDataUrl,vm.paramsVo).then((response)=>{
-			 	$("#pagination").jqPaginator({
-					totalPages:  response.data.data.totalPages,
-					visiblePages: vm.paramsVo.pageSize,
-					currentPage: vm.paramsVo.pageNumber,
-					first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-					prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-					next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-					last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-					page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-					onPageChange: function (n){
-						vm.pageNumber = n;
-						vm.paramsVo = {
-							"pageNumber": vm.pageNumber,
-							"pageSize": vm.pageSize
-						}
-						vm.page(vm.bodyDataUrl);
-					}
-			 	});
+			vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
+                let typeOf = typeof response.data.data;
+                if(typeOf!="string"){
+                    $("#pagination").jqPaginator({
+                        totalPages:  response.data.data.totalPages,
+                        visiblePages: vm.searchCon.pageSize,
+                        currentPage: vm.searchCon.pageNumber,
+                        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                        onPageChange: function (n){
+                            vm.searchCon.pageNumber = n;
+                            vm.page();
+                        }
+                    });
+                }else{
+                    alert(response.data.data);
+                }
 			},(response)=>{
 				console.log(response);
 				if(!response.ok){

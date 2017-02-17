@@ -30,7 +30,16 @@ body {
     color: #ffffff;
     outline: none;
 }
-
+.btn-ory{
+    color:#ffffff;
+    background-color: #ff9b50;
+}
+.btn-ory:hover,
+.btn-ory:focus
+{
+    color:#ffffff;
+    outline: none;
+}
 .btn-search-o {
     color: #32ccca;
     background-color: #ffffff;
