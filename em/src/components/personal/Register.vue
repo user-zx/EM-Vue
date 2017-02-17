@@ -222,12 +222,19 @@
 	  				vm.phoneText = "输入个数正确"
 	  			}
 	  		},
-	  		getVerification(){
+	  		getVerification(){  
 	  			let post = common.post;
 	  			let vm = this;
 	  			let valuePhone = $("#phone").val();
-	  			if(valuePhone.length==11){
-	  				
+	  			if(valuePhone.length==11){   
+	  				 
+ 	  				post(vm.$http,"/apis/personal/sendRegistUserMessage.do",valuePhone,(res)=>{
+						console.log(res); 
+				   },(err)=>{ 
+					console.log(err);
+					return false;
+				  })
+					
 	  			}
 	  		} 
 	  	},
