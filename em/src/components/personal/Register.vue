@@ -17,7 +17,7 @@
 						<div class="form-group">
 						    <label class="col-sm-3 control-label" for="phone">手机号:</label>
 						    <div class="col-sm-5">
-			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required @input="loginPhone()">
+			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required @input="loginPhone()" v-model="cellPhone">
 			   			    </div>
 			   			    <div  class="col-sm-3">
 			   			    	<p  style="margin:0;padding-top: 8px">{{phoneText}}</p>
@@ -27,7 +27,7 @@
 			  			 <div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
 						    <div class="col-sm-5">
-						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" disabled="true">
+						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" disabled="true" @input="changeVerification">
 						    </div>
 						    <div class="col-sm-2">
 						    	<button type="button" class="btn btn-info" @click="getVerification()">获取验证码</button>
@@ -36,90 +36,58 @@
 		  				 <div class="form-group">
 						    <label for="password" class="col-sm-3 control-label">密码:</label>
 						    <div class="col-sm-5"> 
-						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true">
+						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password">  
 						    </div>
 		  				 </div>
 		  				 <p class="text-center">点击下一步,则表示您接受 <router-link to="personal/forgetPassword">《慧数医美服务条款》</router-link> 和<router-link to="personal/userInstructions">《用户须知》</router-link></p>
 		  				<div class="form-group">
 		  					<div class="col-sm-offset-3 col-sm-6">
-		  						<button type="button" class="btn btn-info btn-block" disabled="true" @click="login($event)">下一步</button> 
+		  						<button type="button" class="btn btn-info btn-block" disabled="true" @click="login($event)" id="login_btn">下一步</button> 
 		  					</div>
 		  				</div>
 		            </div>
 		            <div class="form-horizontal" role="form" v-show="register_message">
 		            	<div class="form-group">
-						    <label class="col-sm-3 control-label" for="phone">姓名:</label>
-						    <div class="col-sm-8">
-			      			    <input type="text" class="form-control" id="phone" placeholder="请输入姓名">
+						    <label class="col-sm-2 control-label" for="phone">姓名:</label>
+						    <div class="col-sm-9">
+			      			    <input type="text" class="form-control" id="phone" placeholder="请输入姓名" v-model="name">
 			   			    </div>
 			  			</div>
 			  			  
 			  			 <div class="form-group">
-			  			 	 <label class="col-sm-3 control-label" for="phone">所在地区:</label>
-			  			 	 <div class="col-sm-8">
-			  			 	 	 <div class="col-md-4">
-									<select class="form-control selectpicker">
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-									</select>
-								 </div>
-								 <div class="col-md-4">
-									<select class="form-control selectpicker">
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-									</select>
-								 </div>
-								 <div class="col-md-4">
-									<select class="form-control selectpicker">
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-									</select>
-								 </div>
+			  			 	 <label class="col-sm-2 control-label" for="phone">所在地区:</label>
+			  			 	 <div  id="province">    
+			  			 	 	   
 			  			 	 </div>
+			  			 	 
 			  			 </div>
 			  			 <div class="form-group">
-							    <div class="col-sm-offset-3 col-sm-8">
+							    <div class="col-sm-offset-2 col-sm-8">
 							      <div class="checkbox">
 							        <label>
-							          <input type="checkbox" name="quux[1]" id="one">请记住我
+							          <input type="checkbox" name="quux[1]" id="one">不限地区
 							        </label>
 							      </div>
 							    </div>
  						 </div>
  						 <div class="form-group">
-						    <label class="col-sm-3 control-label" for="phone">所属行业:</label>
-						    <div class="col-sm-8">
-			      			     <select class="form-control selectpicker">
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-										<option>线来源</option>
-							     </select>
+						    <label class="col-sm-2 control-label" for="phone">所属行业:</label>
+						    <div class="col-sm-4" v-show="industryHad">
+			      			     <select class="form-control selectpicker" id="industrySelect">
+										<option v-for="item in industryData">{{item}}</option> 
+							     </select>  
+			   			    </div>
+			   			     <div class="col-sm-4" v-show="industryAdd">
+			      			     <input type="text" name="" class="btn btn-block">
+			   			    </div>
+			   			    <div class="col-sm-4">
+			      			     <button type="button" class="btn btn-primary btn-block" @click="industryBtn">{{vocation}}</button>
 			   			    </div>
 			  			 </div>
 			  			  <div class="form-group">
-						    <label class="col-sm-3 control-label" for="phone">关键词:</label>
-						    <div class="col-sm-8">
+						    <label class="col-sm-2 control-label" for="phone">关键词:</label>
+						    <div class="col-sm-9">
 			      			   <textarea class="form-control" rows="6" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile"></textarea>
-			      			  <!--  <button type="file" class="btn col-sm-6 panel-body-btn"><span class="glyphicon glyphicon-duplicate panel-body-span-button"></span>批量添加</button> --> 
-			      			  <!--  <span>
-			      			  		<span class="glyphicon glyphicon-duplicate panel-body-span-button"></span>
-			      			      <input type="file" name="" class="btn col-sm-6 panel-body-btn">
-			      			  </span> -->
 			      			   <a href="javascript:;" class="a-upload btn col-sm-6 panel-body-btn">
 			      			      <span class="glyphicon glyphicon-duplicate panel-body-span-button"></span>
                                   <input type="file" name="" id="uploading" multiple="multiple" @change="handleFile()">点击这里上传文件
@@ -128,7 +96,7 @@
 			   			    </div>
 			  			 </div>
 			  			 <div class="form-group">
-		  					<div class="col-sm-offset-3 col-sm-8">
+		  					<div class="col-sm-offset-2 col-sm-9">
 		  						<button type="button" class="btn btn-info btn-block" @click="message()">提交并继续</button> 
 		  					</div>
 		  				 </div>
@@ -165,40 +133,66 @@
 	</div>
 </template>
 
-<script>
+<script>	
+
 	  import heads from "../head/heads.vue";
-	  import 'bootstrap-select'; 
 	  import "../../assets/js/iCkeck-v1.0.2/js/icheck.js";
 	  import common from "../../assets/js/common.js";
+	  import provincesData from "../../assets/js/area/provincesData.js";
+	  import "../../assets/js/area/jquery.provincesCity.js";
+	  import 'bootstrap-select'; 
+	
 	  export default{
 	  	data(){
 	  		return{
-	  			register_login:true,
-	  			register_message:false,
+	  			register_login:false,
+	  			register_message:true,
 	  			register_pay:false,
-	  			phoneText:""
+	  			phoneText:"",
+	  			verification:"",
+	  			cellPhone:"",
+	  			authCode:"",
+	  			password:"",
+	  			name:"",
+	  			industryHad:true,
+	  			industryAdd:false,
+	  			database:{}, 
+	  			industryData:[],
+	  			vocation:"没有我的行业,点击添加",
 	  		}
 	  	}, 
 	  	methods:{
 	  		login(el){
-	  			this.register_login = false;
-	  			this.register_message = true;   
+	  			let vm = this;
+	  			if(vm.cellPhone!="" && vm.password!=""){
+	  				vm.database.phone = vm.cellPhone;
+	  				vm.database.password = vm.password;
+	  			} 
+	  			vm.register_login = false;
+	  			vm.register_message = true;   
 	  			$(".active_i_one>s").animate({width: "100%"}, 600,function(){
 	  				$(".avtive_span_two").css({
 	  					background:"#32ccca",
 	  					color:"#fff"
 	  				})
-	  			})
+	  			});
 	  		},
 	  		message(){
 	  			this.register_message = false;
 	  			this.register_pay = true; 
+	  			let vm = this;
 	  			$(".active_i_two>s").animate({width: "100%"}, 600,function(){
 	  				$(".avtive_span_three").css({
 	  					background:"#32ccca",
 	  					color:"#fff"
 	  				})
-	  			})
+	  			});   
+	  			if(vm.name!=""){
+	  				vm.database.name = vm.name;
+	  			}
+	  		}, 
+	  		provinceSelect(){
+	  			console.log($("#provinceSelect").val());
 	  		},
 	  		submit(){
 	  			console.log('test');
@@ -212,6 +206,7 @@
 	  			} 
               $("#uploadFile").val(temp);
 	  		},
+
 	  		loginPhone(){ 
 	  			let vm = this;
 	  			if($("#phone").val().length>11){
@@ -227,27 +222,118 @@
 	  			let vm = this;
 	  			let valuePhone = $("#phone").val();
 	  			if(valuePhone.length==11){   
-	  				 
- 	  				post(vm.$http,"/apis/personal/sendRegistUserMessage.do",valuePhone,(res)=>{
+ 	  				post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
 						console.log(res); 
-				   },(err)=>{ 
-					console.log(err);
+						if(res.ok){ 
+							if(res.data.success){
+								vm.verification = res.data.data;
+								$("#lastname").attr({
+	  					         'disabled':false,
+	  				            });
+	  				            
+							}
+						}
+				   },(err)=>{  
+					 console.log(err);
+					 $("#lastname").attr({
+	  				     'disabled':true,
+	  				 }); 
 					return false;
 				  })
-					
+				  if(vm.verification==""){
+				  	   $("#lastname").attr({
+	  				     'disabled':true,
+	  				 }); 
+				  }
+				 
+	  			}	
+	  		},
+	  		changeVerification(){
+	  			var vm = this;
+	  			let verificationVal= $("#lastname").val();
+	  			if(vm.verification == verificationVal){
+	  				$("#password").attr({
+	  					'disabled': false,
+	  				});
+	  			}else{
+	  				$("#password").attr({
+	  					'disabled': true,
+	  				});
+	  			}
+	  		},
+	  		changePassword(){
+	  			if($("#password").val()!=""){
+	  				$("#login_btn").attr({
+	  					'disabled':false
+	  				})
+	  			}else{
+	  				$("#login_btn").attr({
+	  					'disabled':true
+	  				})
+	  			}
+	  		},
+	  		industryBtn(){
+	  			let vm = this;
+	  			if(vm.industryHad){
+	  				
+	  			}else if(vm.industryAdd){
+
 	  			}
 	  		} 
 	  	},
 	  	mounted(){
+	  		let _that = this;
+	  		window.GT = provincesData.GT;
+	  		window.GP = provincesData.GP;
+	  		window.GC = provincesData.GC;
+	  		
+            $("#province").ProvinceCity();
+
 	  		$("#one").iCheck({
 	  			checkboxClass: 'icheckbox_square-blue',
 	  			  labelHover: true, 
 	  			   cursor: true
-	  		});
+	  		});   
 	  		$(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
-            }); 
+            })
+            $("#provinceSelect").on("changed.bs.select",function(){
+	  			
+	  			 _that.database.province = $(this).val();
+	  		}); 
+	  		$("#citySelect").on("changed.bs.select",function(){
+	  			
+	  			_that.database.city = $(this).val();
+	  		});  
+	  		$("#countySelect").on("changed.bs.select",function(){
+	  			_that.database.county = $(this).val();
+	  		}); 
+	  		let industry = common.post;
+	  		
+	  		industry(_that.$http,"apis/personal/findAllTrade","",(res)=>{
+	  			
+	  			if(res.ok){
+	  				if(res.data.success){
+	  					let arr = [];
+	  					for (var i = 0; i <res.data.data.length; i++) {
+	  				     	arr.push(res.data.data[i].name);
+  			      		}
+  			      		_that.industryData = arr;
+  			      		setTimeout(function(){
+  			      			$("#industrySelect").selectpicker('refresh')
+  			      		},100)
+  			      		
+	  				}
+	  			} 
+
+	  		},(err)=>{
+	  			console.log(err);
+	  		})
+	  		
+	  	},  
+	  	activated(){
+	  		console.log('test'); 
 	  	},
 	  	components:{
 	  		heads
@@ -350,6 +436,8 @@
 /* #register_centre_heading>.register_centre_div>.avtive_i{
 	
 } */
+#province>select{margin-left:10px; width:100px} 
+
 </style>
  
 
