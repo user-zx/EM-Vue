@@ -283,7 +283,6 @@
                         }
                     });
                 }
-                console.log(this.artList.artContent[index].ignoreStatus)
             },
             labelFun(index,artId){
                 let vm = this;
@@ -484,15 +483,11 @@
                     alert(response.data.data);
                 }
 			},(response)=>{
-				console.log(response);
 				if(!response.ok){
 					return false;
 				}
 			});
-			//console.log(vm.messageListID);
-    		//messageList
-    		
-		}, 
+		},
 
 		components:{
 			newData,

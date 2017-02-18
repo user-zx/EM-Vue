@@ -263,7 +263,6 @@
                                     newArr[i].salesLeads.publishDate = new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
                                 }
                                 vm.artList.artContent = newArr;
-                                console.log(vm.artList.artContent);
                                 vm.artList.totalPages = response.data.data.totalPages;
                             }else{
                                 alert(response.data.data);
