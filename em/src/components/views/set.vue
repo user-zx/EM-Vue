@@ -133,9 +133,9 @@
 							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button>
 							<div class="navbar-form navbar-right" role="search">
 								<div class="input-group">
-									<input type="text" class="form-control input-search" placeholder="输入关键词进行查询">
+									<input type="text" class="form-control input-search" v-model:value="keyWordSearchCon.keyword" placeholder="输入关键词进行查询">
 									<span class="input-group-btn">
-										<button class="btn btn-search" type="button">搜索</button>
+										<button class="btn btn-search" @click="searchKeyWordFun()" type="button">搜索</button>
 									</span>
 								</div>
 							</div>
@@ -149,19 +149,24 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="keyword in keyWordListObj.content">
+								<tr v-for="(keyword,index) in keyWordListObj" v-show="keyword.isShow">
 									<td class="text-center">{{keyword.keyword}}</td>
 									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
-										<div class="switch">
-											<input type="checkbox" v-if="keyword.status=='启用'" checked />
-											<input type="checkbox" v-else-if="keyword.status!='启用'" />
+										<div class="bootstrap-switch bootstrap-switch-small">
+											<input type="checkbox" v-bind:id="keyword.id" v-if="keyword.status=='启用'" checked />
+											<input type="checkbox" v-bind:id="keyword.id" v-else-if="keyword.status!='启用'" />
 										</div>
-										<a class="del-icons" href="javascript:void(0);"> <i class="glyphicon glyphicon-trash"></i></a>
+										<a class="del-icons" href="javascript:void(0);" @click="delKeyWordFun(index,keyword.id)"> <i class="glyphicon glyphicon-trash"></i></a>
 									</td>
 								</tr>
 							</tbody>
 						</table>
+						<div class="pageList clearfix" >
+							<ul class="clearfix pagination">
+
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -186,6 +191,11 @@
 								</tr>
 							</tbody>
 						</table>
+						<div class="pageList clearfix" >
+							<ul class="clearfix pagination">
+
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -219,10 +229,14 @@
 	.table>thead>tr.active>th{background-color: #fafafa;}
 	.del-icons{color:#a1a1a1;}
 	.text-em{color:#32ccca;}
-	@import "../../assets/style/jquery-switch.css";
+	@import "../../assets/js/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css";
+	.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary,
+	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
+		background-color: #32ccca;
+	}
 </style>
 <script>
-	import '../../assets/js/jQuery.switch';
+	import '../../assets/js/bootstrap-switch/js/bootstrap-switch.min';
 	import rePassword from './set/repassword.vue';
 	import addKeyWord from './set/addKeyWord.vue';
 	export default {
@@ -236,13 +250,24 @@
 				batchAddKeyWordUrl:"/apis/personal/batchAddKeyword",
 				saveKeyWordUrl:"/apis/personal/saveKeyword",
 				consumeListUrl:"/apis/personal/findConsumeList",
-                keyWordListObj:{},
+                keyWordListObj:[],
 				personalInfoObj:{
 				    packageInfo:{},
 					user:{}
 				},
                 consumeListObj:{},
                 packageListArr:{},
+				keyWordSearchCon:{
+				    pageNumber:1,
+					pageSize:10,
+					userAccount:"13612345678",
+					keyword:""
+				},
+				consumeListSearchCon:{
+				    pageNumber:1,
+					pageSize:10,
+					userAccount:"13284191177"
+				},
 			}
 		},
         components:{rePassword,addKeyWord},
@@ -261,29 +286,33 @@
             vm.$http.post("/apis/package/getPackageList").then(function(res){
                 if(res.ok) {
                     if (res.data.success) {
-                        console.log(res.data.data);
                         vm.packageListArr=res.data.data;
                     }
                 }
             });
-//            /*修改密码*/
-//            vm.$http.post("/apis/modifyPassword",{oldPassword:"a123456",newPassword:"a123456"}).then(function(res){
-//                console.log(res);
-//            });
 //            /*关键词列表*/
-            vm.$http.post("/apis/personal/findKeywordList",{pageNumber:1,pageSize:10,userAccount:"13612345678"}).then(function(res){
+            vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
 				if(res.ok){
 				    if(res.data.success){
-                        vm.keyWordListObj=res.data.data;
-                        for(var i in vm.keyWordListObj.content){
-                            vm.keyWordListObj.content[i].createDate=new Date(vm.keyWordListObj.content[i].createDate).Format("yyyy-MM-dd hh:mm:ss");
+                        let typeOf = typeof res.data.data;
+                        if(typeOf!="string") {
+                            $("#keyWordSet .pagination").jqPaginator({
+                                totalPages: res.data.data.totalPages,
+                                visiblePages: vm.keyWordSearchCon.pageSize,
+                                currentPage: vm.keyWordSearchCon.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n) {
+                                    vm.keyWordSearchCon.pageNumber = n;
+                                    vm.getKeywordListFun();
+                                }
+                            });
+                        }else{
+                            alert(res.data.data);
                         }
-                        setTimeout(function () {
-                            $(".switch input[type=checkbox]").jQuerySwitch({
-                                onText:"启用",
-								offText:"禁用"
-							});
-                        },1000);
                     }
 				}
             });
@@ -310,16 +339,140 @@
             * createUser
             * */
             /*消费记录 personal/findConsumeList  {pageNumber:1,pageSize:100}*/
-            vm.$http.post("/apis/personal/findConsumeList",{pageNumber:1,pageSize:10,userAccount:"13284191177"}).then(function(res){
-                if(res.ok) {
+            vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
+                if (res.ok) {
                     if (res.data.success) {
-                        vm.consumeListObj=res.data.data;
-                        for(var i in vm.consumeListObj.content){
-                        	vm.consumeListObj.content[i].consumeDate=new Date(vm.consumeListObj.content[i].consumeDate).Format("yyyy-MM-dd hh:mm:ss");
+                        let typeOf = typeof res.data.data;
+                        if(typeOf!="string") {
+                            $("#expenseCalendar .pagination").jqPaginator({
+                                totalPages: res.data.data.totalPages,
+                                visiblePages: vm.consumeListSearchCon.pageSize,
+                                currentPage: vm.consumeListSearchCon.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n) {
+                                    vm.consumeListSearchCon.pageNumber = n;
+                                    vm.getConsumeList();
+                                }
+                            });
+                        }else{
+                            alert(res.data.data);
 						}
                     }
                 }
             });
+		},
+		methods:{
+            getKeywordListFun(){
+                let vm =this;
+                vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+                    if(res.ok){
+                        if(res.data.success){
+                            let typeOf = typeof res.data.data;
+                            if(typeOf!="string") {
+                                let newArr=res.data.data.content;
+                                for(var i in newArr){
+                                    newArr[i].createDate=new Date(newArr[i].createDate).Format("yyyy-MM-dd hh:mm:ss");
+                                    newArr[i].isShow=true;
+                                }
+                                vm.keyWordListObj=newArr;
+                                setTimeout(function () {
+                                    $(".bootstrap-switch input[type=checkbox]").bootstrapSwitch({
+                                        onText:"启用",
+                                        offText:"禁用",
+                                        size:"small",
+                                        onSwitchChange:function(event,state){
+                                            let data={
+                                                id:$(event.target).attr("id"),
+                                                status:""
+                                            };
+                                            if(state==true){
+                                                data.status="启用";
+                                            }else{
+                                                data.status="禁用";
+                                            }
+                                            vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
+                                                if(res.ok){
+                                                    if(res.data.success){
+                                                        console.log(res);
+													}
+												}
+											});
+                                        }
+                                    });
+                                },1000);
+                            }else{
+                                alert(res.data.data);
+                            }
+                        }
+                    }
+                });
+			},
+			getConsumeList(){
+                let vm = this;
+                vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res){
+                    if(res.ok) {
+                        if (res.data.success) {
+                            let typeOf = typeof res.data.data;
+                            if(typeOf!="string") {
+								vm.consumeListObj=res.data.data;
+								for(var i in vm.consumeListObj.content){
+									vm.consumeListObj.content[i].consumeDate=new Date(vm.consumeListObj.content[i].consumeDate).Format("yyyy-MM-dd hh:mm:ss");
+								}
+                            }else{
+                                alert(res.data.data);
+                            }
+                        }
+                    }
+                });
+			},
+			searchKeyWordFun(){
+			    let vm =this;
+			    vm.keyWordSearchCon.pageNumber=1;
+			    vm.keyWordSearchCon.pageSize=10;
+			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
+			        if(res.ok){
+			            if(res.data.success){
+                            let typeOf = typeof res.data.data;
+                            if(typeOf!="string") {
+                                $("#keyWordSet .pagination").jqPaginator({
+                                    totalPages: res.data.data.totalPages,
+                                    visiblePages: vm.keyWordSearchCon.pageSize,
+                                    currentPage: vm.keyWordSearchCon.pageNumber,
+                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                    prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                    next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                    page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                    onPageChange: function (n) {
+                                        vm.keyWordSearchCon.pageNumber = n;
+                                        vm.getKeywordListFun();
+                                    }
+                                });
+							}else{
+								alert(res.data.data);
+							}
+						}
+					}
+				});
+			},
+			delKeyWordFun(index,id){
+				let vm = this;
+                console.log(vm.keyWordListObj[index]);
+                console.log(id);
+                vm.keyWordListObj[index].isShow=false;
+                console.log(vm.keyWordListObj[index].isShow);
+				vm.$http.post(vm.delKeyWordUrl,id).then((res)=>{
+                    if(res.ok) {
+                        if (res.data.success) {
+							console.log(res.data);
+                        }
+                    }
+				});
+			}
 		}
 	}
 </script>

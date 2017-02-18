@@ -123,3 +123,11 @@
 	vertical-align: top;
 	margin-right: 10px;
 }
+/*分页样式*/
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+	background-color: #32ccca;
+	border-color: #32ccca;
+}
+.pagination>li>a, .pagination>li>span{
+	color:#32ccca;
+}

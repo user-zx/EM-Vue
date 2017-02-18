@@ -65,24 +65,28 @@
         },
         methods:{
             submit(){
-                if(this._isNull(this.data.oldPassword)){
-                    this._alert("请输入旧密码");
+                let vm=this;
+                if(this._isNull(vm.data.oldPassword)){
+                    vm._alert("请输入旧密码");
                     return;
-                }else if(this._isNull(this.data.newPassword)){
-                    this._alert("请输入新密码");
+                }else if(vm._isNull(vm.data.newPassword)){
+                    vm._alert("请输入新密码");
                     return;
-                }else if(this._isNull(this.rePwd)){
-                    this._alert("请输入确认密码");
+                }else if(vm._isNull(vm.rePwd)){
+                    vm._alert("请输入确认密码");
                     return;
-                }else if(this.data.newPassword!=this.rePwd){
-                    this._alert("两次密码输入不一致");
+                }else if(vm.data.newPassword!=vm.rePwd){
+                    vm._alert("两次密码输入不一致");
                     return;
                 }else{
-                    let params={oldPassword:this.data.oldPassword,newPassword:this.data.newPassword};
-                    this.$http.post(this.rePasswordUrl,params).then((res)=>{
-                        console.log(res);
-                    }).then((err)=>{
-                        console.log(err);
+                    vm.$http.post(vm.rePasswordUrl,vm.data).then((res)=>{
+                        if(res.ok){
+                            if(res.data.success){
+                                $("#rePassword").modal("hide");
+                            }else{
+                                vm._alert(res.data.message);
+                            }
+                        }
                     });
                 }
             },
@@ -100,6 +104,15 @@
                     return false;
                 }
             }
+        },
+        mounted(){
+            let vm=this;
+            $("#rePassword").on(".hidden.bs.modal",function () {
+                vm.data.oldPassword="";
+                vm.data.newPassword="";
+                vm.rePwd="";
+                vm.errorMsg="";
+            });
         }
     }
 </script>

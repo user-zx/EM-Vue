@@ -18,8 +18,7 @@
                             <label class="col-md-4 control-label">目标来源：</label>
                             <div class="col-md-5">
                                 <select class="form-control selectpicker" v-model:value="data.source" title="目标来源">
-                                    <option value="百度贴吧">百度贴吧</option>
-                                    <option value="微博">微博</option>
+                                    <option v-for="item in source" v-bind:value="item">{{item}}</option>
                                 </select>
                             </div>
                         </div>
@@ -39,7 +38,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
-                    <button type="button" class="btn btn-search">&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-search" @click="addMatchFun()">&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button>
                 </div>
             </div>
         </div>
@@ -55,21 +54,52 @@
     export default {
         data(){
             return{
-                addMatchingUrl:"apis/salesLeads/getSaleLeadsSource",
+                sourceType:"apis/salesLeads/getSaleLeadsSource",
+                addMatchingUrl:"apis/salesLeads/saveSaleLeads",
                 data:{
                     source:"",
                     homeLink:"",
                     author:""
                 },
-                errorMsg:""
+                errorMsg:"",
+                source:[]
             }
         },
         mounted(){
             let vm =this;
+            vm.$http.post(vm.sourceType).then((result)=>{
+                if(result.ok){
+                    if (result.data.success){
+                        vm.source=result.data.data;
+                         setTimeout(function () {
+                            $(".selectpicker").selectpicker("refresh")
+                        },200);
+                    }
+                }
+            });
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
             });
+            $("#addMatching").on("hide.bs.modal",function () {
+                vm.data.source="";
+                vm.data.homeLink="";
+                vm.data.author="";
+            }).on("hidden.bs.modal",function () {
+                $(".selectpicker").selectpicker("refresh");
+            });
+        },
+        methods:{
+            addMatchFun(){
+                let vm=this;
+                vm.$http.post(vm.addMatchingUrl,vm.data).then((result)=>{
+                    if(result.ok){
+                        if (result.data.success){
+                            $("#addMatching").modal("hide");
+                        }
+                    }
+                });
+            }
         }
     }
 </script>

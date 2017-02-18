@@ -102,6 +102,9 @@
 			</div>
 		</div>
 		<div class="art-content">
+			<div class="notResult" v-if="notResult">
+				<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
+			</div>
 			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
 				<span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
 				<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
@@ -136,7 +139,7 @@
 					<button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
 				</menu>
 			</div>
-			<div class="pageList clearfix" >
+			<div class="pageList clearfix" v-if="!notResult" >
 				<ul class="clearfix pagination" id="pagination">
 
 				</ul>
@@ -164,7 +167,8 @@
     export default {
         data(){
             return{
-                saleLeadsListUrl:'/apis/salesLeads/getMatchingSaleLeadsList',
+                notResult:false,
+                saleLeadsListUrl:'apis/salesLeads/getMatchingSaleLeadsList',
                 searchHead:{},
                 artList:{
                     artContent:[],
@@ -229,23 +233,32 @@
             }).on("outOfRange",function (ev) {
                 $(this).val(vm.getDateStr(0));
             });
-            vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1,"userAccount":"13612345678"}).then(function(response){
+            vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
                 if(response.ok){
-                    let arr=response.data.data.content,
-                        conObj={
-                            A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
-                        };
-                    for (let i in arr){
-                        for (let j in conObj){
-                            if(j==arr[i].keywordInitial){
-                                const obj=new Object();
-                                obj.id=arr[i].id;
-                                obj.keyword=arr[i].keyword;
-                                conObj[j].push(obj);
-                            }
-                        }
-                    }
-                    vm.searchHead=conObj;
+                    if(response.data.success){
+                        let typeOf=typeof response.data.data;
+                        if(typeOf!="string"){
+							let arr=response.data.data.content,
+								conObj={
+									A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
+								};
+							for (let i in arr){
+								for (let j in conObj){
+									if(j==arr[i].keywordInitial){
+										const obj=new Object();
+										obj.id=arr[i].id;
+										obj.keyword=arr[i].keyword;
+										conObj[j].push(obj);
+									}
+								}
+							}
+							vm.searchHead=conObj;
+                        }else{
+                            console.log(response.data.data);
+						}
+                    }else{
+                        alert(response.data.message);
+					}
                 }
             });
             vm.getArtListFun();
@@ -264,8 +277,11 @@
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
+                                vm.notResult=false;
                             }else{
-                                alert(response.data.data);
+                                vm.notResult=true;
+                                vm.artList.artContent="";
+                                vm.artList.totalPages="";
                             }
                         }
                     }
@@ -293,7 +309,9 @@
                                     }
                                 });
                             }else{
-                                alert(response.data.data);
+                                vm.notResult=true;
+                                vm.artList.artContent="";
+                                vm.artList.totalPages="";
                             }
                         }
                     }
@@ -326,7 +344,9 @@
                                     }
                                 });
                             }else{
-                                alert("暂无数据");
+                                vm.notResult=true;
+                                vm.artList.artContent="";
+                                vm.artList.totalPages="";
                             }
                         }
                     }
@@ -355,7 +375,9 @@
                                     }
                                 });
                             }else{
-                                alert(response.data.data);
+                                vm.notResult=true;
+                                vm.artList.artContent="";
+                                vm.artList.totalPages="";
                             }
                         }
                     }
