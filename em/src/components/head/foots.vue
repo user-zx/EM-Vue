@@ -5,16 +5,17 @@
         </p>
     </div>
 </template>
-<style scoped>
-    .footer{height:44px;line-height:44px;color:#666666;background-color:#ffffff;}
-
-</style>
+<style scoped>      
+    .footer{height:44px;line-height:44px;color:#666666;background-color:#ffffff;position: absolute;bottom: 0;width: 100%;}
+    .footer>p{margin-bottom: 0;}
+</style> 
 <script>
     export default{
         data(){
             return{
                 msg:"版权信息"
             }
-        }
+        },
+
     }
 </script>

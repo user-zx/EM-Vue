@@ -1,5 +1,5 @@
 <template>
-<div class="sellClue">
+<div class="sellClue publicClass">
 	<div class="search-box">
 		<div class="form-horizontal clearfix" role="search">
 			<div class="col-md-2">

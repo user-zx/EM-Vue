@@ -1,7 +1,7 @@
 html,
 body {
     height: 100%;
-    width: 100%;
+    width: 100%;  
     margin: 0;
     padding: 0;
 }
@@ -124,3 +124,10 @@ body {
 }*/
 .date-box .glyphicon{color:#666666;}
 .notResult{margin: 50px auto;text-align: center;}
+
+.wrapper-content,.publicClass{
+    height: 100%;
+}
+#app>.clearfix{ 
+    height: 100%;
+}     

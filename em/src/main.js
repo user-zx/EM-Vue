@@ -17,6 +17,10 @@ const app =  new Vue({
 		aa:"bb"
 	},
 	router,
+	mounted(){
+		//console.log($(".publicClass"));
+		//console.log($(window).height());
+	}
 }).$mount("#app");
    
 

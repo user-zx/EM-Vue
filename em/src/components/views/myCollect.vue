@@ -1,5 +1,5 @@
 <template>
-	<div class="viewLog">
+	<div class="viewLog publicClass">
 		<div class="search-box">
 			<div class="form-horizontal clearfix" role="search">
 				<div class="col-md-2">
@@ -181,6 +181,11 @@
 		},
         mounted(){
             let vm=this;
+
+
+           
+         
+
 		    $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -255,6 +260,7 @@
 		methods:{
             artListFun(){
                 let vm=this;
+                 let autoHeight = "";
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
@@ -266,14 +272,20 @@
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
-                                vm.notResult=false;
-                            }else{
+                                  vm.notResult=false;
+                                  autoHeight = common.autoHeight;
+                                  autoHeight(".viewLog"); 
+                            }else{ 
                                 vm.notResult=true;
                                 vm.artList.artContent = "";
                                 vm.artList.totalPages = "";
+                                 autoHeight = common.autoHeight;
+                                autoHeight(".viewLog");
 							}
+
                         }
-                    }
+                    } 
+                     
                 });
 			},
 			getArtListFun(){

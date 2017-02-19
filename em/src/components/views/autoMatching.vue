@@ -1,5 +1,5 @@
 <template>
-	<div class="viewLog">
+	<div class="viewLog publicClass">
 		<div class="search-box">
 			<div class="form-horizontal clearfix" role="search">
 				<div class="col-md-2">

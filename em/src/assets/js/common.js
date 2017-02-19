@@ -6,7 +6,14 @@ export default {
         },(err) => {
             errorFun(err)
         });
-    },
+    }, 
+    autoHeight(name){
+    	let height =  $(name).height();
+    	console.log(height);
+    	let clientHeight = $(window).height();
+    	console.log(clientHeight);
+
+    }
 }
 
 

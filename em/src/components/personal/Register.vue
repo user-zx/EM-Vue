@@ -206,9 +206,21 @@
 	  			console.log(vm.database);
 	  			let post = common.post; 
 	  			post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
-	  				console.log(res); 
-	  			},(err)=>{
 
+	  				if(res.ok){
+	  					if(res.data.success){
+	  						window.location.href = "/#/login"
+	  					}else{
+	  						vm.register_login = true;
+				  			vm.register_message =false;  
+				  			vm.register_pay = false;
+	  					}
+	  				} 
+	  			},(err)=>{
+	  				console.log("注册失败了");
+	  				vm.register_login = true; 
+		  			vm.register_message =false;  
+		  			vm.register_pay = false;
 	  			})
 	  		}, 
 	  		loginPhone(){ 

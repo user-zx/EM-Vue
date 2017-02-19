@@ -1,5 +1,5 @@
 <template>
-	<div class="set">
+	<div class="set publicClass">
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#personalInfo">个人信息</a>
