@@ -3,7 +3,7 @@
 		<heads></heads>
 		<div class="findPassword_body">
 				<h2>找回密码</h2>
-				<div>
+				<!-- <div>
 					<label>
 						<span>手机号:</span><input type="text" name="" v-model="phone" placeholder="请输入手机号">
 					</label>
@@ -18,26 +18,74 @@
 					<label>
 						<router-link to="/login" class="returnLogin"> >>返回登录</router-link>
 					</label>
+				</div> -->
+				<div class="form-horizontal" role="form">
+					    <div class="form-group">
+						    <label class="col-sm-3 control-label" for="phone">手机号:</label>
+						    <div class="col-sm-7">
+			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required  v-model="alterData.phone">
+			   			    </div>
+			  			</div>
+			  			<div class="form-group">
+						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
+						    <div class="col-sm-5">
+						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification">
+						    </div> 
+						    <div class="col-sm-2">
+						    	<button type="button" class="btn btn-info" @click="getVerification()">获取验证码</button>
+						    </div>
+		  				 </div>
+		  				 <div class="form-group">
+						       <label for="password" class="col-sm-3 control-label">密码:</label>
+							    <div class="col-sm-7"> 
+							        <input type="password" class="form-control" id="password" placeholder="请输入密码"   v-model="alterData.newPass">  
+						        </div>
+		  				 </div>
+		  				 <div class="form-group">
+		  					<div class="col-sm-offset-3 col-sm-7">
+		  						<button type="button" class="btn btn-info btn-block"  @click="submit($event)" id="login_btn">提交</button> 
+		  					</div>
+		  				</div> 
+		  				 <div class="form-group">
+		  					<div class="col-sm-12">
+		  						<p class="text-center"><router-link to="/login"> >>返回链接 </router-link></p>
+		  					</div> 
+		  				</div>
 				</div>
 		</div>
-	</div>
+	</div>  
 </template>
 <script>
     import heads from "../head/heads.vue";
+    import common from "../../assets/js/common.js";
 	export default{
 		data(){
 			return {
-				phone:"",
-				Verification:"", 
+				verification:"",
+				alterData:{newPass:"",phone:""}
 			}
-		},
+		}, 
 		methods:{  
 			submit:function(){
-				//提交
+				let vm = this;
+				let post = common.post;
+				post(vm.$http,"/apis/retrievePassword",vm.alterData,(res)=>{
+					console.log(res);
+				},(err)=>{ 
+					console.log(err);
+				})
 			},
 			getVerification:function(){
-				//获取验证码
-			}
+				let post = common.post;
+				let vm = this; 
+				if(vm.verification.length==11){
+					post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",vm.alterData.phone,(res)=>{
+					   console.log(res);
+					},(err)=>{
+						console.log(err);
+					})
+				}
+			} 
 		},
 		components:{
 			heads

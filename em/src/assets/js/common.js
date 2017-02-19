@@ -9,10 +9,10 @@ export default {
     }, 
     autoHeight(name){
     	let height =  $(name).height();
-    	console.log(height);
+    	//console.log(height);
     	let clientHeight = $(window).height();
-    	console.log(clientHeight);
-
+    	//console.log(clientHeight);
+        
     }
 }
 
