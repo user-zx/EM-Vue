@@ -140,7 +140,7 @@
 </template>
 
 <script>	
-    
+    	
 	  import heads from "../head/heads.vue";
 	  import "../../assets/js/iCkeck-v1.0.2/js/icheck.js";
 	  import common from "../../assets/js/common.js";

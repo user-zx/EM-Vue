@@ -7,12 +7,13 @@
                     <h4 class="modal-title" id="addKeyWordLabel"></h4>
                 </div>
                 <div class="modal-body">
-						<textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开">
-
+						<textarea class="form-control" style="height: 178px" v-show="isWord" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开">
 						</textarea>
-                    <div class="upload-box">
-                        <a href="javascript:void(0);"><img src="../../../assets/images/set_icon.png" /><label for="upLoadFile">批量添加</label></a>
-                        <input type="file" id="upLoadFile" class="hide" />
+                          <div class="form-control" style="height: 178px" v-show="isFile">
+                                   <input type="file" name="fileName" id="uploading"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                         </div>  
+                    <div class="upload-box"> 
+                        <a href="javascript:void(0);" @click="importContent()"><img src="../../../assets/images/set_icon.png"/>{{uploadWord}}</a>  
                         <a href="javascript:void(0);"><img src="../../../assets/images/set_icon1.png" />下载文件模版</a>
                     </div>
                 </div>
@@ -36,11 +37,60 @@
     .upload-box>a img{margin-right: 5px;}
 </style>
 <script>
+
     export default{
         data(){
             return{
-                msg:"添加关键词"
+                msg:"添加关键词",
+                isWord:false,
+                isFile:true,
+                uploadWord:"文件上传" 
             }
+        },
+        methods:{
+            initFileInput(ctrlName, uploadUrl){
+                var control = $('#' + ctrlName); 
+                 control.fileinput({
+                 language: 'zh', //设置语言
+                 uploadUrl: uploadUrl, //上传的地址
+                 allowedFileExtensions : ['xlsx'],//接收的文件后缀
+                 showUpload: false, //是否显示上传按钮
+                 showCaption: false,//是否显示标题
+                 dropZoneEnabled: false, 
+                 uploadExtraData:{"keywordOwner":"12222"},
+                 browseClass: "btn btn-primary", //按钮样式 
+                 maxFileCount:1,
+                });
+            },
+            initFileInput(ctrlName, uploadUrl){
+                var control = $('#' + ctrlName); 
+                 control.fileinput({
+                 language: 'zh', //设置语言
+                 uploadUrl: uploadUrl, //上传的地址
+                 allowedFileExtensions : ['xlsx'],//接收的文件后缀
+                 showUpload: false, //是否显示上传按钮
+                 showCaption: false,//是否显示标题
+                 dropZoneEnabled: false, 
+                 uploadExtraData:{"keywordOwner":"12222"},
+                 browseClass: "btn btn-primary", //按钮样式 
+                 maxFileCount:1,
+                });
+            },
+            importContent(){
+                let vm = this;
+               if(vm.isWord){ 
+                   vm.uploadWord = "添加关键词";
+                   vm.isWord = false;
+                   vm.isFile = true;
+               }else if(vm.isFile){
+                    vm.uploadWord = "文件上传";
+                     vm.isWord = true;
+                     vm.isFile = false;
+               }
+            } 
+        },  
+        mounted(){   
+           this.initFileInput("uploading","/apis/import/importKeywordList") 
         }
     }
 </script>

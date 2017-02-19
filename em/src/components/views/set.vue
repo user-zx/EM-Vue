@@ -294,6 +294,8 @@
             vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
 				if(res.ok){
 				    if(res.data.success){
+				    	console.log(res.data.data.totalPages);//  有错 0
+				    	console.log(vm.keyWordSearchCon.pageNumber);
                         let typeOf = typeof res.data.data;
                         if(typeOf!="string") {
                             $("#keyWordSet .pagination").jqPaginator({
