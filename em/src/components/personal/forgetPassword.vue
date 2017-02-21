@@ -29,7 +29,7 @@
 			  			<div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
 						    <div class="col-sm-5">
-						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification">
+						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification" @input="detection">
 						    </div> 
 						    <div class="col-sm-2">
 						    	<button type="button" class="btn btn-info" @click="getVerification()">获取验证码</button>
@@ -51,6 +51,11 @@
 		  						<p class="text-center"><router-link to="/login"> >>返回链接 </router-link></p>
 		  					</div> 
 		  				</div>
+		  				 <div class="form-group">
+		  					<div class="col-sm-12">
+		  						<p class="text-center">{{hint}}</p>
+		  					</div> 
+		  				</div>
 				</div>
 		</div>
 	</div>  
@@ -62,28 +67,69 @@
 		data(){
 			return {
 				verification:"",
-				alterData:{newPass:"",phone:""}
+				alterData:{newPass:"",phone:""},
+				status:false,
+				hint:"",
 			}
 		}, 
 		methods:{  
-			submit:function(){
+			submit:function(){ 
+				
 				let vm = this;
 				let post = common.post;
-				post(vm.$http,"/apis/retrievePassword",vm.alterData,(res)=>{
-					console.log(res);
-				},(err)=>{ 
-					console.log(err);
-				})
-			},
+				console.log(vm.status);
+				if(vm.status){
+					post(vm.$http,"/apis/personal/retrievePassword",vm.alterData,(res)=>{
+					 if(res.ok){  
+					  	if(res.data.success){ 
+					  		window.location.href = "#/login";
+					  	}else{
+					  		vm.hint = res.data.message;
+					  	}
+					  } 
+					},(err)=>{ 
+						vm.hint = "出错了";
+					 	return false;
+					})
+				}else{
+					vm.hint = "验证码出错";
+					$("#lastname").parent("div").addClass('has-error'); 
+				}
+			},  
 			getVerification:function(){
 				let post = common.post;
-				let vm = this; 
-				if(vm.verification.length==11){
+				let vm = this;  
+				if(vm.alterData.phone.length==11){
 					post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",vm.alterData.phone,(res)=>{
-					   console.log(res);
+						if(res.ok){
+							if(res.data.success){
+								vm.status = true;
+								$("#lastname").on("input",function(){
+									if($(this).val()==res.data.data){
+										vm.status = true;
+										$("#lastname").parent("div").removeClass('has-error')
+									}else{
+										vm.status = false;
+										$("#lastname").parent("div").addClass('has-error');
+									} 
+								})
+							}else{
+								vm.status = false;
+								vm.hint = res.data.message;
+								$("#lastname").parent("div").addClass('has-error'); 
+							}
+						}
 					},(err)=>{
-						console.log(err);
+						alert("出错了");
+						return false;
 					})
+				}else{ 
+					$("#lastname").parent("div").addClass('has-error'); 
+				}
+			},
+			detection(){
+				if ($("#lastname").val().length==0) {   
+					$("#lastname").parent("div").removeClass('has-error')
 				}
 			} 
 		},
@@ -109,7 +155,6 @@
 	}
 	.findPassword_body>div{
 		background-color: #FFF;
-		height: 100%;
 		padding-top: 50px;
 	}
 	.findPassword_body>h2{

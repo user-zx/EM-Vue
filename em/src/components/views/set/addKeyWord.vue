@@ -89,8 +89,8 @@
                }
             } 
         },  
-        mounted(){   
-           this.initFileInput("uploading","/apis/import/importKeywordList") 
+        mounted(){    
+           this.initFileInput("uploading","/apis/excel/importKeywordList") 
         }
     }
 </script>
