@@ -185,9 +185,11 @@
                 }
             }
         },
+        props:["activeClass"],
         components:{addMatching},
         mounted(){
             let vm=this;
+            //console.log(vm.activeClass);
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4

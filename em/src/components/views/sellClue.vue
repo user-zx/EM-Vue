@@ -8,7 +8,7 @@
 					<option value="微博">微博</option>
 					<option value="百度贴吧">百度贴吧</option>
 				</select>
-			</div>
+			 </div>
 			<div class="col-md-2">
 				<select v-model="searchCon.type" class="form-control selectpicker" title="线索类型">
 					<option value="">不限</option>
@@ -35,7 +35,7 @@
 									<a href="javascript:void(0);" @click="publishSearch('昨天')">昨天</a>
 									<a href="javascript:void(0);" @click="publishSearch('近一周')">近一周</a>
 								</div>
-							</div>
+							</div>  
 							<div class="navbar-right">
 								<a href="javascript:void(0);" class="close-modal">×</a>
 							</div>
@@ -102,7 +102,9 @@
 			</div>
 		</div>
 	</div>
-	<new-data :hintUrl="newDataUrl" ></new-data>
+	
+	<new-data :hintUrl="newDataUrl"></new-data>
+	
 	<div class="notResult" v-if="notResult">
 		<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 	</div>
@@ -184,6 +186,7 @@
                     checkStartDate:"",
                     checkEndDate:""
                 },
+                promptMessage:"",
 			}
 		},
 		methods:{
@@ -253,12 +256,15 @@
                 });
             },
             favoritesFun(index,artId){
-                let vm = this;
-                if(this.artList.artContent[index].addFavoritesStatus){
+                let vm = this;  
+               /*	console.log(vm.);*/ 
+                if(vm.artList.artContent[index].addFavoritesStatus){
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 vm.artList.artContent[index].addFavoritesStatus=false;
+                            }else{
+                            	vm.promptMessage = ""
                             }
                         }
                     });

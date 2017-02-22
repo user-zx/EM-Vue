@@ -15,14 +15,14 @@
 			</label>
 			 
 			<p class="clear login_p_one">
-				<label> 
+				<label @click="savePassword">   
 					<input type="checkbox" name="">
 					<b>记住密码</b>
-				</label>     
+				</label>      
 				<router-link to="/personal/forgetPassword" >忘记密码</router-link>
-				<router-link to="/home">首页</router-link>
+				<router-link to="/home" style="margin-right: 10px" >首页</router-link>
 			</p> 
-			<button type="button" class="btn btn-info" @click="generateKey()">立即登录</button>      
+			<button type="button" class="btn btn-info" @click="generateKey()" >立即登录</button>      
 			<p>还没有慧数医美?<router-link to="/personal/register" class="login_p_two_a">立即注册</router-link></p>
 		</div> 
 		
@@ -48,7 +48,8 @@
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
 	         //console.log(this.$el);
-	        })
+	        });
+
        },      
 	  	methods:{
 	  		//写ajax请求
@@ -89,15 +90,20 @@
                     if(result.ok){
                         if(result.data.data=="success"){
                             sessionStorage.setItem("username", vm.item.account);
-                            location.href = "/#/home";
+                            location.href = "/#/home/sellClue";
 						}
 					}
                 });
+			},
+			savePassword(){
+				if(item.account.length==11){
+					
+				}
 			}
 	  	}
 	  }
 </script>  
-
+     
   
 <style scoped>
 	.login{  
@@ -140,7 +146,9 @@
 		margin-top: 10px;
 		font: 12px "Microsoft Yahei";
 	} 
-	
+	.login_p_one>label{
+		cursor: pointer;
+	}
 	.login_p_one>label>b{
 		color: #FFF;
 		font-weight: 500;
