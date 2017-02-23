@@ -10,8 +10,10 @@ import viewLog from "./components/views/viewLog.vue"
 import recycle from "./components/views/recycle.vue"
 import set from "./components/views/set.vue"
 export default {
-    routes: [
-        { path: "/login", component: Login },
+    mode:"history",
+    base:__dirname, 
+    routes: [ 
+        { path: "/", component: Login },
         { path: '/home', component: Home ,children:[
         	{path:'sellClue',component:sellClue},
         	{path:'myCollect',component:myCollect},
