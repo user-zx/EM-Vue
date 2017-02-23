@@ -187,7 +187,7 @@
 									<td>{{consumeItem.consumeDate}}</td>
 									<td class="text-center">{{consumeItem.type}}</td>
 									<td class="text-center">¥{{consumeItem.amount}}</td>
-									<td class="text-center"><span class="text-em">{{consumeItem.status}}</span></td>
+									<td class="text-center"><span class="text-em">成功</span></td>
 								</tr>
 							</tbody>
 						</table>
