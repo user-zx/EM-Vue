@@ -168,8 +168,8 @@
         data(){
             return{
                 notResult:false,
-                saleLeadsListUrl:'apis/salesLeads/getMatchingSaleLeadsList',
-                searchHead:{},
+                saleLeadsListUrl:'../apis/salesLeads/getMatchingSaleLeadsList',
+                searchHead:{},   
                 artList:{
                     artContent:[],
                     totalPages:''
@@ -235,8 +235,8 @@
             }).on("outOfRange",function (ev) {
                 $(this).val(vm.getDateStr(0));
             });
-            vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
-                if(response.ok){
+            vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
+                if(response.ok){  
                     if(response.data.success){
                         let typeOf=typeof response.data.data;
                         if(typeOf!="string"){
@@ -388,7 +388,7 @@
             favoritesFun(index,artId){
                 let vm = this;
                 if(this.artList.artContent[index].addFavoritesStatus){
-                    this.$http.post("apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
+                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 vm.artList.artContent[index].addFavoritesStatus=false;
@@ -396,7 +396,7 @@
                         }
                     });
                 }else{
-                    this.$http.post("apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
+                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 vm.artList.artContent[index].addFavoritesStatus=true;
@@ -407,7 +407,7 @@
             },
             ignoreFun(index,artId){
                 if(this.artList.artContent[index].ignoreStatus){
-                    this.$http.post("apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
+                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].ignoreStatus=false;
@@ -415,7 +415,7 @@
                         }
                     });
                 }else{
-                    this.$http.post("apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
+                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].ignoreStatus=true;
@@ -426,7 +426,7 @@
             },
             labelFun(index,artId){
                 if(this.artList.artContent[index].labelStatus){
-                    this.$http.post("apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"未处理"}).then((res)=>{
+                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"未处理"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].labelStatus=false;
@@ -434,7 +434,7 @@
                         }
                     });
                 }else{
-                    this.$http.post("apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"已处理"}).then((res)=>{
+                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"已处理"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].labelStatus=true;

@@ -27,7 +27,7 @@ export default{
     methods:{
         quit:function(){ 
             let vm = this;
-            this.$http.get("/apis/logout.do").then((response)=>{
+            this.$http.get("../apis/logout.do").then((response)=>{
                if(response.ok){
                    if(response.status){
                        sessionStorage.clear();

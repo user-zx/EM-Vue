@@ -161,16 +161,16 @@
 				typeList:["线索类型","不限","原创","转发","评论"],
 				stateList:["标记状态","不限","已处理","未处理"],
 				timeList:["发布时间","不限","今天","昨天","自定义时间"],
-				bodyDataUrl:"apis/salesLeads/getHomePageSaleLeadsList",//主体数据
-				messageList:"apis/userSalesLeads/saveCheckUserSaleLeads",//信息列表
-				addTypeUrl:"apis/userSalesLeads/updateOrSaveUserSaleLeads",
+				bodyDataUrl:"../apis/salesLeads/getHomePageSaleLeadsList",//主体数据
+				messageList:"../apis/userSalesLeads/saveCheckUserSaleLeads",//信息列表
+				addTypeUrl:"../apis/userSalesLeads/updateOrSaveUserSaleLeads",
 				dataList:[],
 				messageListID:"",
 				message:false,
-				pageNumber:1,
+				pageNumber:1, 
 				pageSize:10,
 				paramsVo:{},   
-				newDataUrl:"apis/salesLeads/getNewestSalesLeadsCount",
+				newDataUrl:"../apis/salesLeads/getNewestSalesLeadsCount",
                 searchHead:{},
                 artList:{
                     artContent:[],
@@ -465,7 +465,7 @@
             }).on("outOfRange",function (ev) {
                 $(this).val(vm.getDateStr(0));
             });
-			vm.$http.post('/apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
+			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
 				if(response.ok){
 				    if(response.data.success){
 				        let typeOf=typeof response.data.data;

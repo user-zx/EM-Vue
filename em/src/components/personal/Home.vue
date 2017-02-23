@@ -7,9 +7,9 @@
 <script>
 	import heads from '../head/heads.vue';
 	import leftTag from '../head/leftTag.vue';
-    //import "vue-style-loader!css-loader!sass-loader!bootstrap-select/sass/bootstrap-select.scss";
- 
-    export default {
+    import "bootstrap-select";
+    import "vue-style-loader!css-loader!bootstrap-select/dist/css/bootstrap-select.css";
+    export default {  
         components:{heads,leftTag},
         data(){
             return{

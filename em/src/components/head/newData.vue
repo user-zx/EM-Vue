@@ -2,7 +2,7 @@
 	<p id="newData" @click="clicknewdata()" v-show="newSell">有<span>{{newSell}}</span>条新线索,点击刷新</p>
 </template>
 
-<style scoped>
+<style scoped> 
 	#newData{
 		text-align: center;
 		background-color: #fff6c6;

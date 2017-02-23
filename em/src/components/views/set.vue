@@ -241,20 +241,20 @@
 	import addKeyWord from './set/addKeyWord.vue';
 	export default {
 		data(){
-			return{
-				userInfoUrl:"/apis/personal/findPersonalInfo",
-				packageListUrl:"/apis/package/getPackageList",
-				keyWordListUrl:"/apis/personal/findKeywordList",
-				importKeywordUrl:"/apis/import/importKeywordList",
-				delKeyWordUrl:"/apis/personal/deleteKeyword",
-				batchAddKeyWordUrl:"/apis/personal/batchAddKeyword",
-				saveKeyWordUrl:"/apis/personal/saveKeyword",
-				consumeListUrl:"/apis/personal/findConsumeList",
+			return{        
+				userInfoUrl:"../apis/personal/findPersonalInfo",
+				packageListUrl:"../apis/package/getPackageList",
+				keyWordListUrl:"../apis/personal/findKeywordList",
+				importKeywordUrl:"../apis/import/importKeywordList",
+				delKeyWordUrl:"../apis/personal/deleteKeyword",
+				batchAddKeyWordUrl:"../apis/personal/batchAddKeyword",
+				saveKeyWordUrl:"../apis/personal/saveKeyword",
+				consumeListUrl:"../apis/personal/findConsumeList",
                 keyWordListObj:[],
 				personalInfoObj:{
 				    packageInfo:{},
 					user:{}
-				},
+				}, 
                 consumeListObj:{},
                 packageListArr:{},
 				keyWordSearchCon:{
@@ -274,7 +274,7 @@
         mounted(){
 			var vm =this;
 			/*查询用户信息*/
-			vm.$http.post("/apis/personal/findPersonalInfo","13612345678").then(function(res){
+			vm.$http.post("../apis/personal/findPersonalInfo","13612345678").then(function(res){
                 if(res.ok) {
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
@@ -283,7 +283,7 @@
                 }
 			});
 			/*套餐信息*/
-            vm.$http.post("/apis/package/getPackageList").then(function(res){
+            vm.$http.post("../apis/package/getPackageList").then(function(res){
                 if(res.ok) {
                     if (res.data.success) {
                         vm.packageListArr=res.data.data;

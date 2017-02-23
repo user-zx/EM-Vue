@@ -3,10 +3,11 @@ import App from './App.vue';
 import VueRouter from 'vue-router';
 import routerConfig from "./router.config.js";
 import vueResource from "vue-resource";
-import 'bootstrap/dist/js/bootstrap';
-
+import 'bootstrap';  
+import "vue-style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css";
+import "vue-style-loader!css-loader!./assets/style/main.css";   
 Vue.config.debug = true;  
-//调用  
+//调用   
 Vue.use(VueRouter);
 Vue.use(vueResource);
 

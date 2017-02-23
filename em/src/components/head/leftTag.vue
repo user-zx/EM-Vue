@@ -3,7 +3,7 @@
     <div class="wrapper">
         <div class="leftTag" id="leftTag">
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="(item,index) in leftTag" v-bind:class="item.liClass"  @click="currentFun(item,index,$event)">
+                <li v-for="(item,index) in leftTag" v-bind:class="item.liClass">
                     <router-link :to="item.module">
                         <i v-bind:class="item.icons"></i>
                         {{item.text}}
@@ -61,37 +61,37 @@
                         liClass:"", 
                         icons:"icons icons-1",
                         text:"销售线索",
-                        module:"/home/sellClue",
+                        module:"sellClue",
                     },
                     {
                         liClass:"",
                         icons:"icons icons-2",
                         text:"我的收藏",
-                        module:"/home/myCollect"
+                        module:"myCollect"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-3",
                         text:"自动匹配",
-                        module:"/home/autoMatching"
+                        module:"autoMatching"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-4",
                         text:"查看记录",
-                        module:"/home/viewLog"
+                        module:"viewLog"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-5",
                         text:"回收站",
-                        module:"/home/recycle"
+                        module:"recycle" 
                     },
                     { 
                         liClass:"last",
                         icons:"icons icons-6",
                         text:"设置", 
-                        module:"/home/set"
+                        module:"set"
                     }
                 ],
             }; 
@@ -99,7 +99,7 @@
         components: {
             foots,
         },
-        methods:{
+        methods:{ 
            /* currentFun:function(item,index,el){  
                $(".router-link-active").parent("li").addClass('active').siblings('li').removeClass('active')
             }*/
