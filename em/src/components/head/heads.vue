@@ -2,10 +2,10 @@
     <div id="heads" class="heads navbar navbar-default">
         <div class="navbar-header">
             <a class="navbar-brand" href="#"><img src="../../assets/images/logo.png" alt="logo"></a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
+        </div> 
+        <ul class="nav navbar-nav navbar-right" v-if="topMessage">
             <li><a href="javascript:void(0);"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
-            <li @click="quit()"><a href="javascript:void(0);"><span class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
+            <li @click="quit()" ><a href="javascript:void(0);"><span class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
         </ul>
     </div>
 </template>
@@ -20,9 +20,10 @@ export default{
     data(){
         return {
             msg:'头部',
-            username:sessionStorage.getItem("username")
+            username:sessionStorage.getItem("username"),
         };
     },
+    props:["topMessage"],
     methods:{
         quit:function(){ 
             let vm = this;
@@ -38,6 +39,9 @@ export default{
                return false;
             })
         }
-    }
+    },
+    mounted(){
+        //console.log(this.topMessage);
+    },
 }
 </script>

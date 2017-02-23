@@ -1,21 +1,19 @@
 <template>
 	<div class="clearfix">
-		<heads></heads>
+		<heads :topMessage="isShow"></heads>
         <left-tag></left-tag>
-        <!--<div class="wrapper">-->
-            <!--<left-tag></left-tag>-->
-            <!--<div class="wrapper-content">-->
-            
-            <!--</div>-->
-            <!--<foots></foots>-->
-        <!--</div>-->
 	</div>
 </template>
 <script>
 	import heads from '../head/heads.vue';
 	import leftTag from '../head/leftTag.vue';
     export default {
-        components:{heads,leftTag}
+        components:{heads,leftTag},
+        data(){
+            return{
+                isShow:true,
+            }
+        }
 	}
 </script>
 
