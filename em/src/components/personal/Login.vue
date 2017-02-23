@@ -76,7 +76,7 @@
 				let publicKeyExponent= vm.item.publicKeyExponent;
 				let publicKeyModulus= vm.item.publicKeyModulus;
 				if(publicKeyExponent==""&&publicKeyModulus==""){
-				    location.href='/#/login';
+				    location.href='/login';
 				    return;
 				}
                 RSAUtils.setMaxDigits(200);
@@ -90,7 +90,7 @@
                     if(result.ok){
                         if(result.data.data=="success"){
                             sessionStorage.setItem("username", vm.item.account);
-                            location.href = "/#/home/sellClue";
+                            location.href = "/home/sellClue";
 						}
 					}
                 });

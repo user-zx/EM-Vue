@@ -7,6 +7,8 @@
 <script>
 	import heads from '../head/heads.vue';
 	import leftTag from '../head/leftTag.vue';
+    //import "vue-style-loader!css-loader!sass-loader!bootstrap-select/sass/bootstrap-select.scss";
+ 
     export default {
         components:{heads,leftTag},
         data(){
@@ -18,5 +20,6 @@
 </script>
 
 <style>
+    
      body{background-color: #f2f2f2;}
 </style>
