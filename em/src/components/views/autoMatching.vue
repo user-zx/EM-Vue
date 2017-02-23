@@ -17,7 +17,7 @@
 					</select>
 				</div>
 				<div class="col-md-2">
-					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="发布时间" />
+					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="匹配时间" />
 					<div class="dropdown-menu" role="menu" aria-labelledby="publishTime">
 						<div class="publish-heading search-menu">
 							<div class="clearfix">
@@ -114,7 +114,7 @@
                     <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
                     <img v-else src="../../assets/images/unSucImg.png" />
                 </h4>
-				<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+				<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.createDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
 				<p>{{artItem.salesLeads.content}}</p>
 				<ul class="sellClue_list_div_ul">
 					<li v-bind:class="{active:artItem.addFavoritesStatus}">
@@ -275,7 +275,7 @@
                             if(typeOf!="string") {
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
-                                    newArr[i].salesLeads.publishDate = new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                                    newArr[i].salesLeads.createDate = new Date(newArr[i].salesLeads.createDate).Format("yyyy-MM-dd hh:mm:ss");
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;

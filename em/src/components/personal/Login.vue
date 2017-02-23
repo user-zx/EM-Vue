@@ -7,11 +7,11 @@
 			<img src="../../assets/images/loginWord.png"  alt="">
 			<label>
 				<img src="../../assets/images/login_user.png"  alt="">
-				<input type="text" name="" class="form-control" v-model="item.account">
+				<input type="text" name="" class="form-control" v-model="item.account" placeholder="手机号">
 			</label>
 			<label>
 				<img src="../../assets/images/login_password.png"  alt="">
-				<input type="password" name="" class="form-control" v-model="item.password">
+				<input type="password" name="" class="form-control" v-model="item.password" placeholder="密码">
 			</label>
 			 
 			<p class="clear login_p_one">
