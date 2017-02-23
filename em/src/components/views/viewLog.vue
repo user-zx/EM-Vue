@@ -25,7 +25,7 @@
 					</select>
 				</div>
 				<div class="col-md-2">
-					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="发布时间" />
+					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="查看时间" />
 					<div class="dropdown-menu" role="menu" aria-labelledby="publishTime">
 						<div class="publish-heading search-menu">
 							<div class="clearfix">
