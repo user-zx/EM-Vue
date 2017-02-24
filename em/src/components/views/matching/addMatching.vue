@@ -54,8 +54,8 @@
     export default {
         data(){
             return{
-                sourceType:"apis/salesLeads/getSaleLeadsSource",
-                addMatchingUrl:"apis/salesLeads/saveSaleLeads",
+                sourceType:"../apis/salesLeads/getSaleLeadsSource",
+                addMatchingUrl:"../apis/salesLeads/saveSaleLeads",
                 data:{
                     source:"",
                     homeLink:"",
