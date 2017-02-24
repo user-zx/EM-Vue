@@ -225,12 +225,11 @@
 	  		}, 
 	  		loginPhone(){ 
 	  			let vm = this;
-	  			if($("#phone").val().length>11){
-	  				vm.phoneText = "输入的个数大于11位"
-	  			}else if($("#phone").val().length<11){
-	  				vm.phoneText = "输入的个数小于11位"
+				var re = /^1\d{10}$/;
+	  			if(re.test($("#phone").val())){
+	  				vm.phoneText = ""
 	  			}else{
-	  				vm.phoneText = "输入个数正确"
+	  				vm.phoneText = "手机号格式不正确"
 	  			}
 	  		},
 	  		getVerification(){  
@@ -262,7 +261,9 @@
 	  				 }); 
 				  }
 				 
-	  			}	
+	  			}else{
+					alert("手机号不能为空！");
+				}	
 	  		},
 	  		changeVerification(){
 	  			var vm = this;
