@@ -31,6 +31,7 @@
 						<div class="clearfix">
 							<div class="navbar-form navbar-left">
 								<div class="input-group">
+									<a href="javascript:void(0);" @click="publishSearch('不限')">不限</a>
 									<a href="javascript:void(0);" @click="publishSearch('今天')">今天</a>
 									<a href="javascript:void(0);" @click="publishSearch('昨天')">昨天</a>
 									<a href="javascript:void(0);" @click="publishSearch('近一周')">近一周</a>
@@ -339,20 +340,25 @@
             publishSearch(str){
                 let vm = this;
                 switch (str){
+					case "不限":
+						vm.searchCon.publishStartDate="";
+                        vm.searchCon.publishEndDate="";
+                        vm.multipleSearch();
+						break;
                     case "今天":
                         const nowDate=vm.getDateStr(0);
                         const startDate=nowDate+" 00:00:00";
                         const endDate=nowDate+" 23:59:59";
-                        vm.searchCon.checkStartDate=new Date(startDate);
-                        vm.searchCon.checkEndDate=new Date(endDate);
+                        vm.searchCon.publishStartDate=new Date(startDate);
+                        vm.searchCon.publishEndDate=new Date(endDate);
                         vm.multipleSearch();
                         break;
                     case "昨天":
                         const yesterday=vm.getDateStr(-1);
                         const yesterdayStartDate=yesterday+" 00:00:00";
                         const yesterdayEndDate=yesterday+" 23:59:59";
-                        vm.searchCon.checkStartDate=new Date(yesterdayStartDate);
-                        vm.searchCon.checkEndDate=new Date(yesterdayEndDate);
+                        vm.searchCon.publishStartDate=new Date(yesterdayStartDate);
+                        vm.searchCon.publishStartDate=new Date(yesterdayEndDate);
                         vm.multipleSearch();
                         break;
                     case "近一周":
@@ -360,15 +366,15 @@
                         const weekDate=vm.getDateStr(-7);
                         const weekStartDate=weekDate+" 00:00:00";
                         const weekEndDate=tDay+" 23:59:59";
-                        vm.searchCon.checkStartDate=new Date(weekStartDate);
-                        vm.searchCon.checkEndDate=new Date(weekEndDate);
+                        vm.searchCon.publishStartDate=new Date(weekStartDate);
+                        vm.searchCon.publishStartDate=new Date(weekEndDate);
                         vm.multipleSearch();
                         break;
                     case "自定义":
                         const customStartDate=$(".startDate").val()+" 00:00:00";
                         const customEndDate=$(".endDate").val()+" 23:59:59";
-                        vm.searchCon.checkStartDate=new Date(customStartDate);
-                        vm.searchCon.checkEndDate=new Date(customEndDate);
+                        vm.searchCon.publishStartDate=new Date(customStartDate);
+                        vm.searchCon.publishStartDate=new Date(customEndDate);
                         vm.multipleSearch();
                         break;
                 }
