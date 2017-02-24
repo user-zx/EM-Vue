@@ -13,6 +13,9 @@
 				<img src="../../assets/images/login_password.png"  alt="">
 				<input type="password" name="" class="form-control" v-model="item.password" placeholder="密码">
 			</label>
+			<label>
+				<div id="showError" class="showError"></div>
+			</label>
 			 
 			<p class="clear login_p_one">
 				<label @click="savePassword">   
@@ -66,6 +69,8 @@
 						vm.login();
 						return false;
 					}else{
+						$("#showError").css("display","block");
+						$("#showError").html("用户名或密码不能为空!");
 						console.log('用户名或密码不能为空!');
 						return false;
 					}
@@ -89,8 +94,12 @@
                 vm.$http.post(vm.apiUrl, params).then(function(result){
                     if(result.ok){
                         if(result.data.data=="success"){
+							$("#showError").css("display","none");
                             sessionStorage.setItem("username", vm.item.account);
                             location.href = "/home/sellClue";
+						}else{
+							$("#showError").css("display","block");
+							$("#showError").html(result.data.message);
 						}
 					}
                 });
@@ -168,4 +177,8 @@
 		color: #ee7306;
 		text-decoration: none;
 	}   
+	.showError{
+		color:red;
+		display:none;
+	}
 </style>
