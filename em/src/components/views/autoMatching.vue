@@ -56,7 +56,7 @@
 				</div>
 				<div class="col-md-2">
 					<div class="form-group">
-						<input  v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
+						<input  v-model="searchCon.author" type="text" class="form-control" placeholder="请输入昵称进行搜索">
 					</div>
 				</div>
 				<div class="col-md-2">
