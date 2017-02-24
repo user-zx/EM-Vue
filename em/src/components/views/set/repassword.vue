@@ -82,6 +82,10 @@
                     vm.$http.post(vm.rePasswordUrl,vm.data).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
+								alert("密码修改成功");
+								vm.data.oldPassword = "";
+								vm.data.newPassword ="";
+								vm.rePwd = "";
                                 $("#rePassword").modal("hide");
                             }else{
                                 vm._alert(res.data.message);
