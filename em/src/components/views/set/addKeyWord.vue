@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="clearValue()">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" @click="clearValue()">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
                     <button type="button" class="btn btn-search" @click="submit">&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button>
                 </div>
             </div>
@@ -94,8 +94,24 @@
             submit(){
                 let post = commont.post;
                 let vm = this;
-                post(vm.$http,"url","porms",(res)=>{
-                    log
+                let url = '/apis/personal/batchAddKeyword';
+                let keywordArray = new Array();
+                let keyword = $('#keyword').val();
+                if(keyword && keyword.length > 0){
+                    let keywordList = keyword.split('，');
+                    for(let i=0; i<keywordList.length; i++){
+                        let kw = {};
+                        kw.keyword = keywordList[i];
+                        keywordArray.push(kw);
+                    }
+                }else{
+                    alert('关键词不能为空');
+                    return;
+                }
+                let params = JSON.stringify(keywordArray);
+                console.log(params)
+                post(vm.$http,url,params,(res)=>{
+                    console.log(res);
                 },(err)=>{
 
                 })
