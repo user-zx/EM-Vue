@@ -7,19 +7,19 @@
                     <h4 class="modal-title" id="addKeyWordLabel"></h4>
                 </div>
                 <div class="modal-body">
-						<textarea class="form-control" style="height: 178px" v-show="isWord" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开">
+						<textarea class="form-control" id="keyword" style="height: 178px" v-show="isWord"  placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开">
 						</textarea>
                           <div class="form-control" style="height: 178px" v-show="isFile">
                                    <input type="file" name="fileName" id="uploading"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                          </div>  
                     <div class="upload-box"> 
                         <a href="javascript:void(0);" @click="importContent()"><img src="../../../assets/images/set_icon.png"/>{{uploadWord}}</a>  
-                        <a href="javascript:void(0);"><img src="../../../assets/images/set_icon1.png" />下载文件模版</a>
+                        <a href="../apis/excel/downloadKeywordImportTemplate"><img src="../../../assets/images/set_icon1.png" />下载文件模版</a>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
-                    <button type="button" class="btn btn-search">&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="clearValue()">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-search" @click="submit">&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
     .upload-box>a img{margin-right: 5px;}
 </style>
 <script>
-
+    import commont from "../../../assets/js/common.js"
     export default{
         data(){
             return{
@@ -87,10 +87,23 @@
                      vm.isWord = true;
                      vm.isFile = false;
                }
-            } 
+            },
+            clearValue:function(){
+                $('#keyword').val('');
+            },
+            submit(){
+                let post = commont.post;
+                let vm = this;
+                post(vm.$http,"url","porms",(res)=>{
+                    log
+                },(err)=>{
+
+                })
+            }
         },  
         mounted(){    
-           this.initFileInput("uploading","/apis/excel/importKeywordList") 
+           this.initFileInput("uploading","/apis/excel/importKeywordList") ;
+
         }
     }
 </script>
