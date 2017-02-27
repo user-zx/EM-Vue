@@ -463,18 +463,22 @@
 				});
 			},
 			delKeyWordFun(index,id){
-				let vm = this;
-                console.log(vm.keyWordListObj[index]);
-                console.log(id);
-                vm.keyWordListObj[index].isShow=false;
-                console.log(vm.keyWordListObj[index].isShow);
-				vm.$http.post(vm.delKeyWordUrl,id).then((res)=>{
-                    if(res.ok) {
-                        if (res.data.success) {
-							console.log(res.data);
+			    if(window.confirm('确定删除该关键词吗？')){
+                    let vm = this;
+                    console.log(vm.keyWordListObj[index]);
+                    console.log(id);
+                    vm.keyWordListObj[index].isShow=false;
+                    console.log(vm.keyWordListObj[index].isShow);
+                    vm.$http.post(vm.delKeyWordUrl,id).then((res)=>{
+                        if(res.ok) {
+                            if (res.data.success) {
+                                console.log(res.data);
+                                alert('关键词删除成功');
+                            }
                         }
-                    }
-				});
+                    });
+				}
+				
 			}
 		}
 	}
