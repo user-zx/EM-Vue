@@ -1,0 +1,114 @@
+$fs13:13px;
+$font: PingFang SC,Lantinghei SC,Helvetica Neue,Helvetica,Arial,Microsoft YaHei,微软雅黑,STHeitiSC-Light,simsun,宋体,WenQuanYi Zen Hei,WenQuanYi Micro Hei,'sans-serif';
+$dColor:#999999;
+$fff:#ffffff;
+$temColor:#32ccca;
+$f2f:#f2f2f2;
+$c333:#333333;
+body{
+    font-family: $font;
+    font-size:$fs13;
+    color:$dColor;
+}
+textarea{resize: none;}
+.text-em{color:$temColor;}
+.input-icon{
+    position:relative;
+    .form-control{
+        padding-left:33px;
+        -webkit-border-radius:4px;
+        -moz-border-radius:4px;
+        -ms-border-radius:4px;
+        -o-border-radius:4px;
+        border-radius:4px
+    }
+    i{
+        display:block;
+        margin:11px 2px 4px 10px;
+        width:16px;
+        position:absolute;
+        font-size:16px;
+        text-align:center;
+        color:#ccc;
+        z-index:3;
+    }
+}
+.form-horizontal {
+    .nopadding{padding-top: 0;}
+    .input-textarea-group{
+        .form-control{
+            border-radius: 4px 4px 0 0 ;
+        }
+        textarea.form-control{
+            border-radius: 0 0 4px 4px;
+            border-top:none;
+        }
+    }
+}
+.btn-em{
+    background-color: $temColor;
+    color:$fff;
+    &:hover,
+    &:focus{
+        color:$fff;
+        outline: none;
+    }
+}
+.btn-dark{
+    background-color: #273e4c;
+    color:$fff;
+    &:hover,
+    &:focus{
+        color:$fff;
+        outline:none;
+    }
+}
+.btn-radius{border-radius: 30px;}
+.search-box {
+    .form-control,.btn-em,.btn-dark{
+        margin-top: 15px;
+    }
+    .checkbox{
+        padding-top: 10px;
+    }
+}
+.table-box{
+    margin-top: 20px;
+    min-height: 450px;
+    border:1px solid #f2f2f2;
+    .table{
+        thead{
+            tr{
+                th{
+                    padding:15px 0;
+                    color:$dColor;
+                    text-align: center;
+                    font-weight:400;
+                    background-color: $f2f;
+                }
+            }
+        }
+        tbody{
+            tr{
+                td{
+                    padding:10px 0;
+                    color:$c333;
+                    text-align: center;
+                    border-bottom: 1px solid $f2f;
+                    a{
+                        color:$dColor;
+                        &:hover,
+                        &focus{
+                            color:$temColor;
+                        }
+                    }
+                }
+                &:last-child{
+                    td{
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+html,body,#app,.login{height:100%;}
+nav.navbar{
+  margin-bottom: 50px;
+  .navbar-right{
+    padding:15px 0;
+    color:#ffffff;
+    font-size:20px;
+    span{
+      color:#ffffff;
+      font-size: 20px;
+    }
+  }
+}
+#login{
+  background-image: url(../images/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  .form-horizontal{
+    padding: 60px;
+    background-color: rgba(255,255,255,.5);
+    border-radius: 10px;
+    .form-control-static{
+      padding-left:10px;
+      font-size: 13px;
+    }
+    .form-group{
+      .input-icon {
+        .form-control{
+          height:45px;
+          border-radius:22px;
+          font-size:16px;
+          color:#333333;
+          background-color: rgba(255,255,255,.5);
+        }
+        i{margin-top:0;
+          line-height:45px}
+      }
+      .btn{width:100%;}
+    }
+  }
+}
