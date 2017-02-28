@@ -9,7 +9,7 @@ import "vue-style-loader!css-loader!./assets/style/main.css";
 Vue.config.debug = true;  
 //调用   
 Vue.use(VueRouter);
-Vue.use(vueResource);
+Vue.use(vueResource); 
 
 const router = new VueRouter(routerConfig);
  

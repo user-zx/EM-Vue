@@ -7,22 +7,21 @@
 			<img src="../../assets/images/loginWord.png"  alt="">
 			<label>
 				<img src="../../assets/images/login_user.png"  alt="">
-				<input type="text" name="" class="form-control" v-model="item.account" placeholder="手机号">
-			</label>
+				<input type="text" name="" class="form-control" v-model="item.account" placeholder="手机号" @input="changeVal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required>
+			</label> 
 			<label>
 				<img src="../../assets/images/login_password.png"  alt="">
-				<input type="password" name="" class="form-control" v-model="item.password" placeholder="密码">
+				<input type="password" name="" class="form-control" v-model="item.password" placeholder="密码" @input="changeVal">
 			</label>
 			<label>
-				<div id="showError" class="showError"></div>
+				<p  class="showError" v-show="hint"></p>
 			</label>
-			 
 			<p class="clear login_p_one">
 				<label @click="savePassword">   
 					<input type="checkbox" name="">
 					<b>记住密码</b>
 				</label>      
-				<router-link to="/personal/forgetPassword" >忘记密码</router-link>
+				<router-link to="/personal/forgetPassword">忘记密码</router-link>
 			</p> 
 			<button type="button" class="btn btn-info" @click="generateKey()" >立即登录</button>      
 			<p>还没有慧数医美?<router-link to="/personal/register" class="login_p_two_a">立即注册</router-link></p>
@@ -43,7 +42,8 @@
 					password:"",
                     publicKeyExponent:"",
                     publicKeyModulus:"",
-				}
+				},
+				hint:false,
 	  		}
 	  	},
 	  	mounted: function () {
@@ -62,15 +62,19 @@
                 vm.$http.post(url, params).then(function (result) {
 					vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
 					vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
+
 					let account = vm.item.account;
 					let password = vm.item.password;
-					if(account && password){
+					console.log(account.length); 
+					if(account.length==11 && password!=""){
 						vm.login();
 						return false;
 					}else{
-						$("#showError").css("display","block");
-						$("#showError").html("用户名或密码不能为空!");
-						console.log('用户名或密码不能为空!');
+						vm.hint = true;
+						vm.item.account = "";
+						vm.item.password = ""; 
+						$(".showError").html("用户名或密码出错!");
+						console.log('用户名或密码出错!');
 						return false;
 					}
                 });
@@ -106,6 +110,12 @@
 			savePassword(){
 				if(item.account.length==11){
 					
+				}
+			},
+			changeVal(){
+
+				if(this.hint){
+					this.hint  = false;
 				}
 			}
 	  	}
@@ -178,6 +188,8 @@
 	}   
 	.showError{
 		color:red;
-		display:none;
+		text-align: center; 
+		line-height: 30px;
+		margin-bottom: 0;
 	}
 </style>
