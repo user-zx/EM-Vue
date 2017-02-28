@@ -22,7 +22,6 @@
 			   			    <div  class="col-sm-3">
 			   			    	<p  style="margin:0;padding-top: 8px">{{phoneText}}</p>
 			   			    </div>
-			   			    
 			  			 </div> 
 			  			 <div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
@@ -349,7 +348,6 @@
 	  			checkboxClass: 'icheckbox_square-blue',
 	  			labelHover: true, 
 	  			cursor: true,
-
 	  		});   
 	  		$(".selectpicker").selectpicker({
                 style: 'btn-default',

@@ -30,6 +30,7 @@ export default{
             this.$http.get("../apis/logout.do").then((response)=>{
                if(response.ok){
                    if(response.status){
+                        
                        sessionStorage.clear();
                        window.location.href = "/"
                    } 

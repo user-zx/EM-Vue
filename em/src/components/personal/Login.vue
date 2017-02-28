@@ -17,10 +17,9 @@
 				<p  class="showError" v-show="hint"></p>
 			</label>
 			<p class="clear login_p_one">
-				<label @click="savePassword">   
-					<input type="checkbox" name="">
-					<b>记住密码</b>
-				</label>      
+				 <label>
+					 <input type="checkbox"  id="remember" >记住密码
+				 </label>        
 				<router-link to="/personal/forgetPassword">忘记密码</router-link>
 			</p> 
 			<button type="button" class="btn btn-info" @click="generateKey()" >立即登录</button>      
@@ -44,14 +43,25 @@
                     publicKeyModulus:"",
 				},
 				hint:false,
+                rememberMe:false
 	  		}
 	  	},
 	  	mounted: function () {
+	  		let vm = this;
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
 	         //console.log(this.$el);
-	        });
+	        }); 
+	           
+	  		$("#remember").iCheck({
+                checkboxClass : 'icheckbox_square-blue',
+            }).on("ifChecked",function () {
+                vm.rememberMe=true;
 
+            }).on("ifUnchecked",function () {
+                vm.rememberMe=false;
+            });
+ 
        },      
 	  	methods:{
 	  		//写ajax请求
@@ -62,19 +72,16 @@
                 vm.$http.post(url, params).then(function (result) {
 					vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
 					vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
-
 					let account = vm.item.account;
 					let password = vm.item.password;
-					console.log(account.length); 
 					if(account.length==11 && password!=""){
 						vm.login();
 						return false;
 					}else{
 						vm.hint = true;
 						vm.item.account = "";
-						vm.item.password = ""; 
+						vm.item.password = "";   
 						$(".showError").html("用户名或密码出错!");
-						console.log('用户名或密码出错!');
 						return false;
 					}
                 });
@@ -94,24 +101,21 @@
                 let params=new Object();
                 params.account=vm.item.account;
                 params.password=vm.item.password;
+                params.rememberMe = vm.rememberMe;
                 vm.$http.post(vm.apiUrl, params).then(function(result){
-                    if(result.ok){
-                        if(result.data.data=="success"){
-							$("#showError").css("display","none");
-                            sessionStorage.setItem("username", vm.item.account);
-                            location.href = "/home/sellClue";
-						}else{
-							$("#showError").css("display","block");
-							$("#showError").html(result.data.message);
+                    if(result.ok){  
+                        if(result.data.success){
+							vm.hint = false;    
+                            sessionStorage.setItem("username", result.data.data);
+                            vm.$router.push({path:"/home/sellClue"}); 
+						}else{ 
+							vm.hint = true;  
+							$(".showError").html(result.data.message);
 						}
 					}
                 });
 			},
-			savePassword(){
-				if(item.account.length==11){
-					
-				}
-			},
+			
 			changeVal(){
 
 				if(this.hint){

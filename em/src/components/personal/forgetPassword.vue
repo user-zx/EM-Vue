@@ -30,9 +30,9 @@
 		  						<button type="button" class="btn btn-info btn-block"  @click="submit($event)" id="login_btn">提交</button> 
 		  					</div>
 		  				</div> 
-		  				 <div class="form-group">
-		  					<div class="col-sm-12">
-		  						<p class="text-center"><router-link to="/login"> >>返回链接 </router-link></p>
+		  				 <div class="form-group"> 
+		  					<div class="col-sm-12"> 
+		  						<p class="text-center"><router-link to="/"> >>返回首页 </router-link></p>
 		  					</div> 
 		  				</div>
 		  				 <div class="form-group">
