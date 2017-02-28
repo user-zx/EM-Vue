@@ -61,7 +61,6 @@
 				</div>
 				<div class="col-md-2">
 					<button type="button" class="btn btn-search" @click="multipleSearch()">筛选</button>
-					<a href="javascript:void(0);" class="dropdown-toggle dropdown-modal">关键词筛选<i class="caret"></i></a>
 					<div class="dropdown-menu search-menu">
 						<div class="clearfix">
 							<div class="navbar-form navbar-left" role="form">
