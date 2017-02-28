@@ -31,7 +31,7 @@ export default{
                if(response.ok){
                    if(response.status){
                        sessionStorage.clear();
-                       window.location.href = "/#/login"
+                       window.location.href = "/"
                    } 
                }
             }, (response)=>{

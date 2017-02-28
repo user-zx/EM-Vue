@@ -21,6 +21,10 @@
 .sellClue_list_div>h4{
 	padding-top: 30px;
 	padding-left: 20px;
+	width: 90%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .sellClue_list_div_div{
 	margin: 15px 20px;

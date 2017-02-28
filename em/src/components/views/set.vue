@@ -208,8 +208,11 @@
 	.nav-tabs{padding-left:20px;padding-right:20px;margin-bottom:15px;border:1px solid #dddddd;background-color: #ffffff;}
 	.nav-tabs>li{padding-left:15px;padding-right:15px;}
 	.nav-tabs>li>a{border-left:0;border-right:0;border-top:0;padding-top:15px;padding-bottom:15px;font-size:16px;color:#333333;border-bottom:2px solid transparent;}
-	.nav-tabs>li.active>a:hover,.nav-tabs>li.active>a{border-left:0;border-right:0;border-top:0;border-bottom: 2px solid #32ccca;}
 	.nav-tabs>li>a:hover{background-color: #ffffff;border-bottom-color:rgba(50,204,202,.8); }
+	.nav-tabs>li.active>a:hover,
+	.nav-tabs>li.active>a,
+	.nav-tabs>li.active>a:focus
+	{border-left:0;border-right:0;border-top:0;border-bottom: 2px solid #32ccca;}
 	.panel.panel-em>.panel-heading{border-bottom:1px solid #ededed;background-color: #ffffff;}
 	.panel.panel-em{padding:20px;}
 	.panel-em .panel-heading .panel-title{position: relative;color: #333333;font-size: 16px;border-left:2px solid #32ccca;padding:5px 5px;}
