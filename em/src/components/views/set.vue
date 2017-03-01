@@ -29,40 +29,40 @@
 						<div class="form-horizontal">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-3 control-label">用户名：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">用户名：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.user.name}}<span class="user-type">（{{personalInfoObj.user.userStatus}}用户）</span></p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label">公司名称：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">公司名称：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.user.company}}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label">所属行业：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">所属行业：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.user.trade}}</p>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-3 control-label">密码：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">密码：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">*******<a href="#rePassword" class="update-password" data-toggle="modal" data-target="#rePassword">修改密码</a></p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label">绑定手机号：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">绑定手机号：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.user.userAccount}}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label">所在地区：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">所在地区：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.user.county}}</p>
 									</div>
 								</div>
@@ -79,28 +79,28 @@
 						<div class="form-horizontal">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-3 control-label">套餐信息：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">套餐信息：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.packageName}}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label">已使用查询次数：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">已使用查询次数：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.usedTimes}}次</p>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-3 control-label">套餐内查询次数：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">套餐内查询次数：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.leadsTimes}}次</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label">剩余查询次数：</label>
-									<div class="col-md-9">
+									<label class="col-md-4 control-label">剩余查询次数：</label>
+									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.restTimes}}次</p>
 									</div>
 								</div>
