@@ -89,12 +89,11 @@
 			  			  <div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">关键词:</label>
 						    <div class="col-sm-9">
-			      			   <textarea class="form-control" style="height: 178px;resize:none" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile" v-text="textarea"></textarea>  
-			      			  
-			      			    
+			      			   <textarea class="form-control" style="height: 178px;resize:none" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile" v-model="database.keywordList"></textarea>  
+			      			   
 			      			    <a  class="a-upload btn col-sm-6 panel-body-btn"> 
 			      			    	 <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
-			      			    	 <input type="file" name="fileName" @change="fileUpload" id="fileUpload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
+			      			    	 <input type="file" name="fileName" @change="fileUpload" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
 			      			    </a>                                
                               
 			      			   <a type="button" class="btn  col-sm-6 panel-body-btn" href="/apis/excel/downloadKeywordImportTemplate"><span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板</a> 
@@ -145,12 +144,13 @@
 	  import common from "../../assets/js/common.js";
 	  import provincesData from "../../assets/js/area/provincesData.js";
 	  import "../../assets/js/area/jquery.provincesCity.js";
-	  import 'bootstrap-select';  
+	  import 'bootstrap-select'; 
+	  import "../../assets/js/ajaxfileupload.js";   
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login: false, 
-	  			register_message: true,  
+	  			register_login:  true, 
+	  			register_message: false,  
 	  			register_pay:false,
 	  			phoneText:"",
 	  			verification:"",  
@@ -160,12 +160,11 @@
 	  			userInputTrade:"",
 	  			industryHad:true,  
 	  			industryAdd:false, 
-	  			database:{trade:"",province:"",city:"",county:"",name:"",phone:"",password:"",company:""}, 
+	  			database:{trade:"",province:"",city:"",county:"",name:"",phone:"",password:"",company:"",keywordList:""}, 
 	  			industryData:[],
 	  			vocation:"没有我的行业,点击添加",
 	  			uploadWord:"点击这里上传文件",
-	  			isFile:false,
-	  			textarea:"", 
+	  			isFile:false, 
 	  			fileUrl:"../apis/excel/importKeywordList"
 	  		}
 	  	}, 
@@ -189,6 +188,7 @@
 	  			this.register_message = false;
 	  			this.register_pay = true; 
 	  			let vm = this;
+
 	  			$(".active_i_two>s").animate({width: "100%"}, 600,function(){
 	  				$(".avtive_span_three").css({
 	  					background:"#32ccca",
@@ -201,6 +201,11 @@
 	  		},
 	  		submit(){ 
 	  			let vm = this;
+	  			var patt = new RegExp(".(xls|xlsx)$", "i"); 
+	  			
+	  			if(patt.test(vm.database.keywordList)){
+	  				vm.database.keywordList = "";
+	  			}
 	  			console.log(vm.database);
 	  			let post = common.post; 
 	  			post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
@@ -234,9 +239,9 @@
 	  			let post = common.post;
 	  			let vm = this;
 	  			let valuePhone = $("#phone").val();
-	  			if(valuePhone.length==11){   
+	  			if(valuePhone.length==11){    
  	  				post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
-						console.log(res); 
+						//console.log(res); 
 						if(res.ok){ 
 							if(res.data.success){
 								vm.verification = res.data.data;
@@ -309,9 +314,25 @@
 	  		},
 	  		fileUpload(){
 	  			let vm = this;  
-	  			console.log($("#fileUpload")[0].files[0].name);
-		  		vm.textarea = $("#fileUpload")[0].files[0].name;
-		  		//$("#fileUpload").parents("form").submit();
+		  		vm.database.keywordList = $("#fileName")[0].files[0].name;
+		  		 $.ajaxFileUpload({ 
+		  		 	url: vm.fileUrl,
+		  		 	fileElementId:"fileName",
+		  		 	secureuri: false, 
+		  		 	dataType: 'json',
+		  		 	type:"post", 
+		  		 	data: {keywordOwner:vm.database.phone},　　　　　　　　　 	　　　　　　　　　  
+		  		 	success:function(data,status){
+		  		 		if(!data.success){
+		  		 			alert(data.message)
+		  		 		}
+		  		 	},
+		  		 	error: function (data, status, e){//服务器响应失败处理函数
+                        alert(e);
+                    }
+		  		 })
+		  		
+		  		  return false;
 	  		}  
 	  	},
 	  	mounted(){
@@ -358,9 +379,9 @@
 	  		let industry = common.post;
 	  		
 	  		industry(_that.$http,"../apis/personal/findAllTrade","",(res)=>{
-	  			
 	  			if(res.ok){ 
 	  				if(res.data.success){
+
 	  					let arr = [];
 	  					for (var i = 0; i <res.data.data.length; i++) {
 	  				     	arr.push(res.data.data[i].name);
@@ -376,7 +397,6 @@
 	  		},(err)=>{
 	  			console.log(err);
 	  		}) 
-	  		//this.initFileInput("uploading","/apis/excel/importKeywordList");
 	  	},  
 	  	activated(){
 	  		console.log('test'); 
