@@ -10,8 +10,8 @@
     </div>
 </template>
 <style scoped> 
-    .heads{position:fixed;top:0;width:100%;height:65px;padding-left:30px;padding-right:30px;border-radius: 0;border:none;background-color: #32ccca;margin-bottom:0;z-index: 999}
-    .heads .navbar-brand{height:auto;}
+    .heads{position:fixed;top:0;width:100%;height:65px;padding-left:30px;padding-right:30px;border-radius: 0;border:none;background-color: #32ccca;margin-bottom:0;z-index: 9999}
+    .heads .navbar-brand{height:auto;}   
     .heads .navbar-nav>li>a{padding-top:0;padding-bottom: 0;height:65px;line-height:65px;color:#ffffff;font-size:13px;}
 </style>
 <script>
@@ -30,7 +30,7 @@ export default{
             this.$http.get("../apis/logout.do").then((response)=>{
                if(response.ok){
                    if(response.status){
-                        
+
                        sessionStorage.clear();
                        window.location.href = "/"
                    } 

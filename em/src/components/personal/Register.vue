@@ -57,20 +57,20 @@
 						    <div class="col-sm-9"> 
 			      			    <input type="text" class="form-control" id="companyName" placeholder="请输入公司名称" v-model="database.company">
 			   			    </div>
-			  			</div> 
+			  			 </div> 
 			  			 <div class="form-group">
 			  			 	 <label class="col-sm-2 control-label" for="phone">所在地区:</label>
 			  			 	 <div  id="province">    
 			  			 	 </div>
 			  			 </div>
 			  			 <div class="form-group">
-							    <div class="col-sm-offset-2 col-sm-8">
-							      <div class="checkbox"> 
-							        <label>
-							          <input type="checkbox"  id="one" checked="true">不限地区
-							        </label>
-							      </div>
-							    </div>
+						    <div class="col-sm-offset-2 col-sm-8">
+						      <div class="checkbox"> 
+						        <label>
+						          <input type="checkbox"  id="one" checked="true">不限地区
+						        </label>
+						      </div>
+						    </div>
  						 </div>
  						 <div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">所属行业:</label>
@@ -89,14 +89,14 @@
 			  			  <div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">关键词:</label>
 						    <div class="col-sm-9">
-			      			   <textarea class="form-control" style="height: 178px;resize:none" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile"  v-show="isWord"></textarea>  
-			      			   <div class="form-control" style="height: 178px" v-show="isFile">
-			      			  	 	<input type="file" name="fileName" id="uploading"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-			      			   </div>  
-			      			   <a href="javascript:;" class="a-upload btn col-sm-6 panel-body-btn" @click="changeUpload">
-			      			      <span class="glyphicon glyphicon-duplicate panel-body-span-button"></span>
-                                  {{uploadWord}}
-                               </a>   
+			      			   <textarea class="form-control" style="height: 178px;resize:none" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile" v-text="textarea"></textarea>  
+			      			  
+			      			    
+			      			    <a  class="a-upload btn col-sm-6 panel-body-btn"> 
+			      			    	 <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
+			      			    	 <input type="file" name="fileName" @change="fileUpload" id="fileUpload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
+			      			    </a>                                
+                              
 			      			   <a type="button" class="btn  col-sm-6 panel-body-btn" href="/apis/excel/downloadKeywordImportTemplate"><span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板</a> 
 			   			    </div>
 			  			 </div>
@@ -145,19 +145,17 @@
 	  import common from "../../assets/js/common.js";
 	  import provincesData from "../../assets/js/area/provincesData.js";
 	  import "../../assets/js/area/jquery.provincesCity.js";
-	  import 'bootstrap-select'; 
-	  import "../../assets/js/bootstrap-fileinput/js/fileinput.min.js";
-	  import "../../assets/js/bootstrap-fileinput/js/locales/zh.js";
+	  import 'bootstrap-select';  
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login:true, 
-	  			register_message:false,  
+	  			register_login: false, 
+	  			register_message: true,  
 	  			register_pay:false,
 	  			phoneText:"",
 	  			verification:"",  
 	  			cellPhone:"",
-	  			authCode:"",
+	  			authCode:"", 
 	  			password:"",
 	  			userInputTrade:"",
 	  			industryHad:true,  
@@ -167,7 +165,8 @@
 	  			vocation:"没有我的行业,点击添加",
 	  			uploadWord:"点击这里上传文件",
 	  			isFile:false,
-	  			isWord:true,
+	  			textarea:"", 
+	  			fileUrl:"../apis/excel/importKeywordList"
 	  		}
 	  	}, 
 	  	methods:{
@@ -299,42 +298,21 @@
 	  				vm.industryHad = true;
 	  				vm.industryAdd = false;
 	  			}
-	  		},
-	  		initFileInput(ctrlName, uploadUrl){
-	  			var control = $('#' + ctrlName); 
-                 control.fileinput({
-                 language: 'zh', //设置语言
-				 uploadUrl: uploadUrl, //上传的地址
-				 allowedFileExtensions : ['xlsx'],//接收的文件后缀
-				 showUpload: false, //是否显示上传按钮
-				 showCaption: false,//是否显示标题
-				 dropZoneEnabled: false, 
-				 uploadExtraData:{"keywordOwner":"12222"},
-				 browseClass: "btn btn-primary", //按钮样式 
-				 maxFileCount:1,
- 				});
-	  		},
-	  		changeUpload(){
-	  			let vm = this;
-	  			if(vm.isFile){
-	  				vm.isFile = false; 
-	  				vm.isWord = true;
-	  				vm.uploadWord = "点击这里上传文件";
-	  			}else if(vm.isWord){
-	  				vm.isFile = true;
-	  				vm.isWord = false; 
-	  				vm.uploadWord = "添加关键词";
-	  			}
-	  		},
+	  		}, 
 	  		changeInputTrade(){
 	  			if(this.userInputTrade!=""){
 	  				this.database.trade = this.userInputTrade;
 	  			}
-	  			
 	  		},
 	  		chnageArea(el){ 
 	  			console.log(el.target);  
 	  		},
+	  		fileUpload(){
+	  			let vm = this;  
+	  			console.log($("#fileUpload")[0].files[0].name);
+		  		vm.textarea = $("#fileUpload")[0].files[0].name;
+		  		//$("#fileUpload").parents("form").submit();
+	  		}  
 	  	},
 	  	mounted(){
 	  		let _that = this;
@@ -379,9 +357,9 @@
 	  		})
 	  		let industry = common.post;
 	  		
-	  		industry(_that.$http,"apis/personal/findAllTrade","",(res)=>{
+	  		industry(_that.$http,"../apis/personal/findAllTrade","",(res)=>{
 	  			
-	  			if(res.ok){
+	  			if(res.ok){ 
 	  				if(res.data.success){
 	  					let arr = [];
 	  					for (var i = 0; i <res.data.data.length; i++) {
@@ -392,14 +370,13 @@
   			      			$("#industrySelect").selectpicker('refresh')
   			      			_that.database.trade = $("#industrySelect option:selected").val();
   			      		},100)
-  			      		
 	  				}
 	  			}  
 
 	  		},(err)=>{
 	  			console.log(err);
 	  		}) 
-	  		this.initFileInput("uploading","/apis/excel/importKeywordList");
+	  		//this.initFileInput("uploading","/apis/excel/importKeywordList");
 	  	},  
 	  	activated(){
 	  		console.log('test'); 
@@ -411,13 +388,13 @@
 
 </script>
 
-<style scoped>  
+<style scoped>   
 	@import url("../../assets/js/iCkeck-v1.0.2/css/skins/square/blue.css");
-	@import url("../../assets/js/bootstrap-fileinput/css/fileinput.css");
+	/* @import url("../../assets/js/bootstrap-fileinput/css/fileinput.css"); */
 	/* @import url("../../assets/js/iCkeck-v1.0.2/css/skins/all.css"); */
-	#register{
+	#register{  
 		width: 100%;
-		height: 100%;
+		height: 100%; 
 		background-color: #f2f2f2;
 	}
 	.register_centre{

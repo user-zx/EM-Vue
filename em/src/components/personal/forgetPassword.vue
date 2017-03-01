@@ -29,17 +29,17 @@
 		  					<div class="col-sm-offset-3 col-sm-7">
 		  						<button type="button" class="btn btn-info btn-block"  @click="submit($event)" id="login_btn">提交</button> 
 		  					</div>
-		  				</div> 
+		  				 </div> 
 		  				 <div class="form-group"> 
 		  					<div class="col-sm-12"> 
 		  						<p class="text-center"><router-link to="/"> >>返回首页 </router-link></p>
 		  					</div> 
-		  				</div>
+		  				 </div>
 		  				 <div class="form-group">
 		  					<div class="col-sm-12">
 		  						<p class="text-center">{{hint}}</p>
 		  					</div> 
-		  				</div>
+		  				 </div>
 				</div>
 		</div>
 	</div>  
