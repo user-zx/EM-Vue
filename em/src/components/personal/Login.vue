@@ -110,6 +110,8 @@
                             vm.$router.push({path:"/home/sellClue"}); 
 						}else{ 
 							vm.hint = true;  
+							vm.item.account = "";
+						    vm.item.password = "";   
 							$(".showError").html(result.data.message);
 						}
 					}
@@ -117,7 +119,6 @@
 			},
 			
 			changeVal(){
-
 				if(this.hint){
 					this.hint  = false;
 				}

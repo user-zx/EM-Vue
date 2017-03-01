@@ -241,7 +241,6 @@
 	  			let valuePhone = $("#phone").val();
 	  			if(valuePhone.length==11){    
  	  				post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
-						//console.log(res); 
 						if(res.ok){ 
 							if(res.data.success){
 								vm.verification = res.data.data;
