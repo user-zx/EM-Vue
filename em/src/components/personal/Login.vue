@@ -103,10 +103,12 @@
                 params.password=vm.item.password;
                 params.rememberMe = vm.rememberMe;
                 vm.$http.post(vm.apiUrl, params).then(function(result){
+                	console.log(result);
                     if(result.ok){  
                         if(result.data.success){
-							vm.hint = false;    
+							vm.hint = false;             
                             sessionStorage.setItem("username", result.data.data);
+                            sessionStorage.setItem("usernumber",vm.item.account);
                             vm.$router.push({path:"/home/sellClue"}); 
 						}else{ 
 							vm.hint = true;  

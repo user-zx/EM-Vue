@@ -7,14 +7,18 @@
                     <h4 class="modal-title" id="addKeyWordLabel"></h4>
                 </div>
                 <div class="modal-body">
-						<textarea class="form-control" id="keyword" style="height: 178px" v-show="isWord"  placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开">
+						<textarea class="form-control" id="keyword" style="height: 178px"   placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="textareaVal">
 						</textarea>
-                          <div class="form-control" style="height: 178px" v-show="isFile">
-                                   <input type="file" name="fileName" id="uploading"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                         </div>  
-                    <div class="upload-box"> 
-                        <a href="javascript:void(0);" @click="importContent()"><img src="../../../assets/images/set_icon.png"/>{{uploadWord}}</a>  
-                        <a href="../apis/excel/downloadKeywordImportTemplate"><img src="../../../assets/images/set_icon1.png" />下载文件模版</a>
+                         
+                    <div class="upload-box">   
+                        <a href="javascript:void(0);"  class="btn panel-body-btn a-upload">
+                              <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
+                              <input type="file" name="fileName" @change="fileUpload" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
+                        </a>     
+                        
+                        <a href="../apis/excel/downloadKeywordImportTemplate" class="btn panel-body-btn">
+                            <span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板
+                        </a>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -35,58 +39,57 @@
     .upload-box>a:first-child{border-right:1px solid #ccc;}
     .upload-box>a>label{margin-bottom: 0;font-weight: 400;vertical-align: middle;}
     .upload-box>a img{margin-right: 5px;}
+    .a-upload {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    display: inline-block;
+}
+    .a-upload input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+    
+}
 </style>
 <script>
     import commont from "../../../assets/js/common.js"
     export default{
         data(){
             return{
-                msg:"添加关键词",
-                isWord:false,
-                isFile:true,
-                uploadWord:"文件上传" 
-            }
+                msg:"添加关键词", 
+                //uploadWord:"文件上传" 
+                textareaVal:"",
+                fileUrl:"../apis/excel/importKeywordList",
+            } 
         },
         methods:{
-            initFileInput(ctrlName, uploadUrl){
-                var control = $('#' + ctrlName); 
-                 control.fileinput({
-                 language: 'zh', //设置语言
-                 uploadUrl: uploadUrl, //上传的地址
-                 allowedFileExtensions : ['xlsx'],//接收的文件后缀
-                 showUpload: false, //是否显示上传按钮
-                 showCaption: false,//是否显示标题
-                 dropZoneEnabled: false, 
-                 uploadExtraData:{"keywordOwner":"12222"},
-                 browseClass: "btn btn-primary", //按钮样式 
-                 maxFileCount:1,
-                });
-            },
-            initFileInput(ctrlName, uploadUrl){
-                var control = $('#' + ctrlName); 
-                 control.fileinput({
-                 language: 'zh', //设置语言
-                 uploadUrl: uploadUrl, //上传的地址
-                 allowedFileExtensions : ['xlsx'],//接收的文件后缀
-                 showUpload: false, //是否显示上传按钮
-                 showCaption: false,//是否显示标题
-                 dropZoneEnabled: false, 
-                 uploadExtraData:{"keywordOwner":"12222"},
-                 browseClass: "btn btn-primary", //按钮样式 
-                 maxFileCount:1,
-                });
-            },
-            importContent(){
-                let vm = this;
-               if(vm.isWord){ 
-                   vm.uploadWord = "添加关键词";
-                   vm.isWord = false;
-                   vm.isFile = true;
-               }else if(vm.isFile){
-                    vm.uploadWord = "文件上传";
-                     vm.isWord = true;
-                     vm.isFile = false;
-               }
+            fileUpload(){
+                let vm = this; 
+                let usernumber = sessionStorage.getItem('usernumber');
+               console.log('test');
+                 $.ajaxFileUpload({ 
+                    url: vm.fileUrl,
+                    fileElementId:"fileName",
+                    secureuri: false, 
+                    dataType: 'json',
+                    type:"post", 
+                    data: {keywordOwner:usernumber},　　　　　　　　　    　　　　　　　　　  
+                    success:function(data,status){
+                        if(!data.success){
+                            alert(data.message)
+                        }
+                    },
+                    error: function (data, status, e){//服务器响应失败处理函数
+                        alert(e);
+                    }
+                 })
+                
+                  return false;
             },
             clearValue:function(){
                 $('#keyword').val('');
@@ -117,8 +120,7 @@
                 })
             }
         },  
-        mounted(){    
-           this.initFileInput("uploading","/apis/excel/importKeywordList") ;
+        mounted(){   
 
         }
     }

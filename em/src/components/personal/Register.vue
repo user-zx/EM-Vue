@@ -149,8 +149,8 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login:  true, 
-	  			register_message: false,  
+	  			register_login: false , 
+	  			register_message: true,  
 	  			register_pay:false,
 	  			phoneText:"",
 	  			verification:"",  
@@ -188,7 +188,7 @@
 	  			this.register_message = false;
 	  			this.register_pay = true; 
 	  			let vm = this;
-
+	  			
 	  			$(".active_i_two>s").animate({width: "100%"}, 600,function(){
 	  				$(".avtive_span_three").css({
 	  					background:"#32ccca",
@@ -247,7 +247,6 @@
 								$("#lastname").attr({
 	  					         'disabled':false,
 	  				            });
-	  				            
 							}
 						}
 				   },(err)=>{  
@@ -262,7 +261,6 @@
 	  				     'disabled':true,
 	  				 }); 
 				  }
-				 
 	  			}else{
 					alert("手机号不能为空！");
 				}	
@@ -341,7 +339,7 @@
 	  		window.GC = provincesData.GC;
 	  		
             $("#province").ProvinceCity();
-
+            
 	  		$("#one").iCheck({
 	  			checkboxClass: 'icheckbox_square-blue',
 	  			labelHover: true, 

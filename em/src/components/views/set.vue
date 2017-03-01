@@ -263,20 +263,21 @@
 				keyWordSearchCon:{
 				    pageNumber:1,
 					pageSize:10,
-					userAccount:"13612345678",
+					userAccount:"",
 					keyword:""
 				},
 				consumeListSearchCon:{
 				    pageNumber:1,
-					pageSize:10,
-					userAccount:"13284191177"
+					pageSize:10,  
+					userAccount:""
 				},
 			}
 		},
         components:{rePassword,addKeyWord},
         mounted(){
-			var vm =this;
-			/*查询用户信息*/
+			let vm =this;
+			/*查询用户信息*/       
+			let data = sessionStorage.getItem('usernumber');
 			vm.$http.post("../apis/personal/findPersonalInfo","13612345678").then(function(res){
                 if(res.ok) {
                     if (res.data.success) {
@@ -293,14 +294,14 @@
                     }
                 }
             });
-//            /*关键词列表*/
-			console.log(vm.keyWordSearchCon);   
+//            /*关键词列表*/ 
+			//console.log(vm.keyWordSearchCon);  
+			//console.log(vm.keyWordSearchCon); 
             vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
 				if(res.ok){
 				    if(res.data.success){
-				    	console.log(res.data.data.totalPages);//  有错 0
-				    	//console.log(vm.keyWordSearchCon.pageNumber);
                         let typeOf = typeof res.data.data;
+                        //console.log(res.data.data);
                         if(typeOf!="string") {
                             $("#keyWordSet .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,
@@ -314,6 +315,7 @@
                                 onPageChange: function (n) {
                                     vm.keyWordSearchCon.pageNumber = n;
                                     vm.getKeywordListFun();
+
                                 }
                             });
                         }else{
@@ -345,7 +347,9 @@
             * createUser
             * */
             /*消费记录 personal/findConsumeList  {pageNumber:1,pageSize:100}*/
+            //console.log(vm.consumeListSearchCon);
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
+            	//console.log(res);
                 if (res.ok) {
                     if (res.data.success) {
                         let typeOf = typeof res.data.data;
@@ -374,6 +378,7 @@
 		methods:{
             getKeywordListFun(){
                 let vm =this;
+                console.log(vm.keyWordSearchCon);     
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
                     if(res.ok){
                         if(res.data.success){
@@ -426,7 +431,7 @@
                             if(typeOf!="string") {
 								vm.consumeListObj=res.data.data;
 								for(var i in vm.consumeListObj.content){
-									vm.consumeListObj.content[i].consumeDate=new Date(vm.consumeListObj.content[i].consumeDate).Format("yyyy-MM-dd hh:mm:ss");
+									vm.consumeListObj.content[i].consumeDate = new Date(vm.consumeListObj.content[i].consumeDate).Format("yyyy-MM-dd hh:mm:ss");
 								}
                             }else{
                                 alert(res.data.data);
