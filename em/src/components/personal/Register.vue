@@ -206,7 +206,7 @@
 	  			if(patt.test(vm.database.keywordList)){
 	  				vm.database.keywordList = "";
 	  			}
-	  			console.log(vm.database);
+	  			//console.log(vm.database);
 	  			let post = common.post; 
 	  			post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
 

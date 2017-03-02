@@ -47,9 +47,7 @@
 								<div class="col-md-2 text-center">
 									<input class="btn btn-search" type="button" @click="publishSearch('自定义')" value="确定" />
 								</div>
-								<!--<div class="col-md-2">-->
-								<!--<input class="btn btn-default" type="button" value="取消" />-->
-								<!--</div>-->
+								
 							</div>
 						</div>
 					</div>
@@ -325,11 +323,14 @@
             },
             multipleSearch(){
                 let vm=this;
+                console.log(vm.searchCon); 
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
+                            console.log(response.data.data.totalPages);
                             if(typeOf!="string") {
+                                console.log('test'); 
                                 $("#pagination").jqPaginator({
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,

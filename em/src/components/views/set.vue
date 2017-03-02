@@ -200,7 +200,7 @@
 				</div>
 			</div>
 		</div>
-		<add-key-word></add-key-word>
+		<add-key-word :userNumber="keyWordSearchCon.userAccount"></add-key-word>
 		<re-password></re-password>
 	</div>
 </template>
@@ -276,18 +276,21 @@
         components:{rePassword,addKeyWord},
         mounted(){
 			let vm =this;
-			/*查询用户信息*/       
+			/*个人信息*/       
 			let data = sessionStorage.getItem('usernumber');
-			vm.$http.post("../apis/personal/findPersonalInfo","13612345678").then(function(res){
+			vm.$http.post("../apis/personal/findPersonalInfo","").then(function(res){
+ 				console.log(res); 
                 if(res.ok) {
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
+                        vm.keyWordSearchCon.userAccount = res.data.data.user.userAccount;
                     }
                 }
 			});
 			/*套餐信息*/
             vm.$http.post("../apis/package/getPackageList").then(function(res){
+
                 if(res.ok) {
                     if (res.data.success) {
                         vm.packageListArr=res.data.data;
@@ -298,6 +301,7 @@
 			//console.log(vm.keyWordSearchCon);  
 			//console.log(vm.keyWordSearchCon); 
             vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+            	//console.log(res); 
 				if(res.ok){
 				    if(res.data.success){
                         let typeOf = typeof res.data.data;

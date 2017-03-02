@@ -11,11 +11,11 @@
 						</textarea>
                          
                     <div class="upload-box">   
-                        <a href="javascript:void(0);"  class="btn panel-body-btn a-upload">
+                        <a href="javascript:void(0);"  class="btn panel-body-btn a-upload" id="upload-box-a">
                               <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
-                              <input type="file" name="fileName" @change="fileUpload" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
-                        </a>     
-                        
+                              <input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
+                        </a>       
+                          
                         <a href="../apis/excel/downloadKeywordImportTemplate" class="btn panel-body-btn">
                             <span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板
                         </a>
@@ -66,62 +66,90 @@
                 textareaVal:"",
                 fileUrl:"../apis/excel/importKeywordList",
             } 
-        },
-        methods:{
-            fileUpload(){
+        },  
+        methods:{ 
+           /* filechange(el){ 
+               var content = ' <input type="file" name="fileName" @change="fileUpload($event)" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">';
+               $(".upload-box-a").append(content);
                 let vm = this; 
-                let usernumber = sessionStorage.getItem('usernumber');
-               console.log('test');
+                vm.$nextTick(function () {
+                  let fileanme = $("#fileName")[0].files[0].name;
+                  console.log(fileanme);
+               });  
+                console.log('test');
+                let fileanme = $("#fileName")[0].files[0].name;
+                   
                  $.ajaxFileUpload({ 
                     url: vm.fileUrl,
                     fileElementId:"fileName",
                     secureuri: false, 
                     dataType: 'json',
                     type:"post", 
-                    data: {keywordOwner:usernumber},　　　　　　　　　    　　　　　　　　　  
+                    data: {keywordOwner:vm.userNumber},　　　　　　　　　    　　　　　　　　　  
                     success:function(data,status){
                         if(!data.success){
                             alert(data.message)
-                        }
+                        }else{
+                           vm.textareaVal = fileanme; 
+                        } 
                     },
                     error: function (data, status, e){//服务器响应失败处理函数
                         alert(e);
                     }
-                 })
-                
-                  return false;
-            },
+                 })    
+                  return false;   
+            },*/  
             clearValue:function(){
                 $('#keyword').val('');
             },
             submit(){
                 let post = commont.post;
-                let vm = this;
-                let url = '/apis/personal/batchAddKeyword';
-                let keywordArray = new Array();
-                let keyword = $('#keyword').val();
-                if(keyword && keyword.length > 0){
-                    let keywordList = keyword.split('，');
-                    for(let i=0; i<keywordList.length; i++){
-                        let kw = {};
-                        kw.keyword = keywordList[i];
-                        keywordArray.push(kw);
-                    }
+                let vm = this;          
+                let url = '../apis/personal/batchAddKeyword';
+                let params = "";  
+                var patt = new RegExp(".(xls|xlsx)$", "i");
+                if(patt.test(vm.textareaVal)){
+                    params = "";
                 }else{
-                    alert('关键词不能为空');
-                    return;
+                    params = vm.textareaVal;
                 }
-                let params = JSON.stringify(keywordArray);
-                console.log(params)
+                 console.log(params); 
                 post(vm.$http,url,params,(res)=>{
                     console.log(res);
                 },(err)=>{
 
                 })
             }
-        },  
-        mounted(){   
-
+        },
+        props:['userNumber'],  
+        mounted(){    
+            let vm = this;  
+            $(document).on("change","#fileName",function(){
+                let fileanme = $("#fileName")[0].files[0].name;
+                 $.ajaxFileUpload({ 
+                    url: vm.fileUrl,
+                    fileElementId:"fileName",
+                    secureuri: false, 
+                    dataType: 'json',
+                    type:"post", 
+                    data: {keywordOwner:vm.userNumber},　　　　　　　　　    　　　　　　　　　  
+                    success:function(data,status){
+                        if(!data.success){
+                            alert(data.message)
+                        }else{
+                           vm.textareaVal = fileanme; 
+                        } 
+                    },
+                    error: function (data, status, e){//服务器响应失败处理函数
+                        alert(e);
+                    }
+                 })    
+                  return false;    
+            })
+            $("#addKeyWord").on("hidden.bs.modal",function(){
+              $("#fileName").val("");
+            });
+           
         }
     }
 </script>
