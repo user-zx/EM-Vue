@@ -425,6 +425,7 @@
 			}
 		},   
 		mounted:function(){
+			console.log('test');      
             let vm=this;
             $(".selectpicker").selectpicker({
                 style: 'btn-default',

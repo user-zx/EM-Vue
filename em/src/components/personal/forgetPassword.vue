@@ -32,7 +32,7 @@
 		  				 </div> 
 		  				 <div class="form-group"> 
 		  					<div class="col-sm-12"> 
-		  						<p class="text-center"><router-link to="/"> >>返回首页 </router-link></p>
+		  						<p class="text-center"><router-link to="/"> >>返回登录 </router-link></p>
 		  					</div> 
 		  				 </div>
 		  				 <div class="form-group">

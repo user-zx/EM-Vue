@@ -17,7 +17,7 @@
 					</select>
 				</div>
 				<div class="col-md-2">
-					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="匹配时间" />
+					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="发布时间"/>  
 					<div class="dropdown-menu" role="menu" aria-labelledby="publishTime">
 						<div class="publish-heading search-menu">
 							<div class="clearfix">
@@ -136,12 +136,12 @@
 					<button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
 				</menu>
 			</div>
-			<div class="pageList clearfix" v-if="!notResult" >
-				<ul class="clearfix pagination" id="pagination">
-
+			<div class="pageList clearfix" v-show="!notResult" >
+				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" id="pagination">
+                    
 				</ul>
 			</div>
-		</div>
+		</div> 
         <add-matching></add-matching>
 	</div>
 </template>
@@ -170,6 +170,10 @@
                 artList:{
                     artContent:[],
                     totalPages:''
+                },
+                page:{
+                    clearfix:true,
+                    pagination:true,
                 },
                 searchCon:{
                     pageSize:10,
@@ -232,7 +236,7 @@
             }).on("outOfRange",function (ev) {
                 $(this).val(vm.getDateStr(0));
             });
-            vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
+            vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
                 if(response.ok){  
                     if(response.data.success){
                         let typeOf=typeof response.data.data;
@@ -264,11 +268,13 @@
         },
         methods:{
             artListFun(){
-                let vm=this;
+                let vm = this;
+                console.log(vm.searchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
+                            
                             if(typeOf!="string") {
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
@@ -321,20 +327,27 @@
                 var parentEle=this.$el.querySelector(".h-box");
                 parentEle.scrollTop = anchor.offsetTop
             },
+            //筛选
             multipleSearch(){
+                
                 let vm=this;
-                console.log(vm.searchCon); 
+              
+               /* this.$nextTick(function () {
+                     console.log($(".pagination")[0])
+                });*/  
+               // console.log(vm.$el.querySelect(".pagination"));      
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
-                            console.log(response.data.data.totalPages);
+
+                           
                             if(typeOf!="string") {
-                                console.log('test'); 
+                                //console.log('test');   
                                 $("#pagination").jqPaginator({
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
-                                    currentPage: vm.searchCon.pageNumber,
+                                    currentPage: vm.searchCon.pageNumber,  
                                     first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
@@ -343,7 +356,13 @@
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
                                         vm.artListFun();
-                                    }
+                                      /*  vm.$nextTick(function () { 
+                                          
+                                        })*/  
+                                          console.log($(".pagination")[0])
+                                        //console.log($("#pagination")[0]);
+                                        console.log(response.data.data.totalPages);
+                                    }, 
                                 });
                             }else{
                                 vm.notResult=true;

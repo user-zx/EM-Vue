@@ -9,13 +9,11 @@
                 <div class="modal-body">
 						<textarea class="form-control" id="keyword" style="height: 178px"   placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="textareaVal">
 						</textarea>
-                         
                     <div class="upload-box">   
                         <a href="javascript:void(0);"  class="btn panel-body-btn a-upload" id="upload-box-a">
                               <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
                               <input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
                         </a>       
-                          
                         <a href="../apis/excel/downloadKeywordImportTemplate" class="btn panel-body-btn">
                             <span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板
                         </a>
@@ -104,8 +102,8 @@
             },
             submit(){
                 let post = commont.post;
-                let vm = this;          
-                let url = '../apis/personal/batchAddKeyword';
+                let vm = this;             
+                let url = '../apis//excel/importKeywordList';
                 let params = "";  
                 var patt = new RegExp(".(xls|xlsx)$", "i");
                 if(patt.test(vm.textareaVal)){
