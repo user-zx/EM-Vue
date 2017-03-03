@@ -12,7 +12,7 @@ import set from "./components/views/set.vue"
 export default {
     mode:"history",
     base:__dirname, 
-    routes: [  
+    routes: [    
         { path: "/", component: Login },
         { path: '/home', component: Home ,children:[
         	{path:'sellClue',component:sellClue},
