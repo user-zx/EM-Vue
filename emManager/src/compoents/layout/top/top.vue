@@ -8,7 +8,7 @@
                     </a>
                 </div>
                 <div class="navbar navbar-right">
-                    <router-link to="home/userManage">
+                    <router-link to="/home/personalInfo">
                         <i class="glyphicon glyphicon-user"></i>
                         <span>用户名</span>
                     </router-link>

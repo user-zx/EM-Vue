@@ -59,7 +59,6 @@
     html,body,#app,.login{@extend %full}
 </style>
 <style lang="scss" scoped>
-    .alert{display: none;position: fixed;top:20px;left:20px;right: 20px;}
     nav.navbar{
         margin-bottom: 50px;
         .navbar-right{

@@ -1,13 +1,13 @@
 /**
-* Created by zhangxin on 2017/2/22.
+* Created by zhangxin on 2017/3/1.
 */
 <template>
-    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+    <div class="modal fade" id="updateUser" tabindex="-1" role="dialog" aria-labelledby="updateUserLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="addUserLabel">添加用户</h4>
+                    <h4 class="modal-title" id="updateUserLabel">修改用户</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
@@ -32,17 +32,17 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">所在地区：</label>
                             <div class="col-md-3">
-                                <select class="form-control selectpicker mcity" v-model="searchCon.sheng1Val" id="sheng1" title="省">
+                                <select class="form-control selectpicker mcity shengs" v-model="searchCon.sheng1Val" id="sheng1" title="省">
                                     <option v-for="item in sheng1">{{item}}</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-control selectpicker mcity" v-model="searchCon.shi1Val" id="shi1" title="市">
+                                <select class="form-control selectpicker mcity shis" v-model="searchCon.shi1Val" id="shi1" title="市">
                                     <option v-for="item in shi1">{{item}}</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-control selectpicker mcity" v-model="searchCon.xian1Val" id="xian1" title="县／区">
+                                <select class="form-control selectpicker mcity xians" v-model="searchCon.xian1Val" id="xian1" title="县／区">
                                     <option v-for="item in xian1">{{item}}</option>
                                 </select>
                             </div>
@@ -56,9 +56,9 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">所属行业：</label>
                             <div class="col-md-6">
-                                <select class="form-control selectpicker" title="请选择所属行业" v-model="addUser.params.trade">
+                                <select class="form-control selectpicker trade" title="请选择所属行业" v-model="addUser.params.trade">
                                     <option value="">不限</option>
-                                    <option v-for="item in userTrade.result" v-bind:value="item.name">{{item.name}}</option>
+                                    <option v-for="item in userTrade1.result" v-bind:value="item.name">{{item.name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -66,15 +66,18 @@
                             <label class="col-md-3 control-label">用户状态：</label>
                             <div class="col-md-6">
                                 <label>
-                                    <input type="radio" name="userStatus" value="试用" checked />
+                                    <input type="radio" name="userStatus" value="试用" v-if="addUser.params.userStatus=='试用'" checked />
+                                    <input type="radio" name="userStatus" value="试用" v-else />
                                     试用
                                 </label>
                                 <label>
-                                    <input type="radio" name="userStatus" value="正式" />
+                                    <input type="radio" name="userStatus" value="正式" v-if="addUser.params.userStatus=='正式'" checked />
+                                    <input type="radio" name="userStatus" value="正式" v-else />
                                     正式
                                 </label>
                                 <label>
-                                    <input type="radio" name="userStatus" value="冻结" />
+                                    <input type="radio" name="userStatus" value="冻结" v-if="addUser.params.userStatus=='冻结'" checked />
+                                    <input type="radio" name="userStatus" value="冻结" v-else />
                                     冻结
                                 </label>
                             </div>
@@ -83,11 +86,13 @@
                             <label class="col-md-3 control-label">套餐状态：</label>
                             <div class="col-md-9">
                                 <label>
-                                    <input type="radio" value="" name="packageId" checked/>
+                                    <input type="radio" value="" name="packageId" v-if="!addUser.params.packageId" checked/>
+                                    <input type="radio" value="" name="packageId" v-else />
                                     未办理套餐
                                 </label>
-                                <label v-for="item in packageList.result">
-                                    <input type="radio" v-bind:value="item.id" name="packageId"/>
+                                <label v-for="item in packageList1.result">
+                                    <input type="radio" v-bind:value="item.id" v-if="item.id==addUser.params.packageId" checked name="packageId"/>
+                                    <input type="radio" v-bind:value="item.id" v-else name="packageId"/>
                                     {{item.name}}
                                 </label>
                             </div>
@@ -98,10 +103,10 @@
                                 <textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="addUser.params.keywordList"></textarea>
                             </div>
                             <!--<div class="col-md-offset-3 col-md-6">-->
-                                <!--<div class="upload-box">-->
-                                    <!--<a href="javascript:void(0);"><img src="./images/set_icon.png"/>批量添加</a>-->
-                                    <!--<a href="javascript:void(0);"><img src="./images/set_icon1.png" />下载文件模版</a>-->
-                                <!--</div>-->
+                            <!--<div class="upload-box">-->
+                            <!--<a href="javascript:void(0);"><img src="./images/set_icon.png"/>批量添加</a>-->
+                            <!--<a href="javascript:void(0);"><img src="./images/set_icon1.png" />下载文件模版</a>-->
+                            <!--</div>-->
                             <!--</div>-->
                         </div>
                     </div>
@@ -116,48 +121,48 @@
 </template>
 <style scoped lang="scss">
     .modal{
-        .modal-content{
-            border-radius: 0;
-            .modal-body{
-                textarea{
-                    height:150px;
-                    border-radius: 5px 5px 0 0;
-                    resize: none;
-                }
-                .upload-box{
-                    background-color: #f2f2f2;
-                    border-radius: 0 0 5px 5px;
-                    border:1px solid #ccc;
-                    border-top:none;
-                    a{
-                        margin-left: 0.4%;
-                        display: inline-block;
-                        width: 48%;
-                        color: #999999;
-                        padding-top: 10px;
-                        padding-bottom: 10px;
-                        text-align: center;
-                        font-weight: 400;
-                        background-color: #f2f2f2;
-                        vertical-align: middle;
-                        text-decoration:none;
-                        &:first-child{
-                            border-right:1px solid #ccc;
-                            img{
-                                margin-right: 5px;
-                            }
-                        }
-                    }
-                }
-                label{
-                    font-weight: 400;
-                }
-            }
-        }
-        .modal-footer{
-            border-top:none;
-            text-align: center;
-        }
+    .modal-content{
+        border-radius: 0;
+    .modal-body{
+    textarea{
+        height:150px;
+        border-radius: 5px 5px 0 0;
+        resize: none;
+    }
+    .upload-box{
+        background-color: #f2f2f2;
+        border-radius: 0 0 5px 5px;
+        border:1px solid #ccc;
+        border-top:none;
+    a{
+        margin-left: 0.4%;
+        display: inline-block;
+        width: 48%;
+        color: #999999;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        font-weight: 400;
+        background-color: #f2f2f2;
+        vertical-align: middle;
+        text-decoration:none;
+    &:first-child{
+         border-right:1px solid #ccc;
+    img{
+        margin-right: 5px;
+    }
+    }
+    }
+    }
+    label{
+        font-weight: 400;
+    }
+    }
+    }
+    .modal-footer{
+        border-top:none;
+        text-align: center;
+    }
     }
 </style>
 <script>
@@ -166,28 +171,18 @@
         data(){
             return{
                 "msg":"添加用户",
+                getUser:{
+                    url:"../apis/user/findUserById",
+                },
                 addUser:{
                     url:"../apis/user/saveUser",
-                    params:{
-                        id:"",
-                        phone:"",
-                        name:"",
-                        province:"",
-                        city:"",
-                        county:"",
-                        trade:"",
-                        company:"",
-                        userStatus:"试用",
-                        packageId:"",
-                        registerDate:"",
-                        keywordList:""
-                    }
+                    params:{}
                 },
-                packageList:{
+                packageList1:{
                     url:"../apis/package/getPackageList",
                     result:{}
                 },
-                userTrade:{
+                userTrade1:{
                     url:"../apis/personal/findAllTrade",
                     result:{}
                 },
@@ -217,10 +212,9 @@
                 vm.addUser.params.province=vm.searchCon.sheng1Val;
                 vm.addUser.params.city=vm.searchCon.shi1Val;
                 vm.addUser.params.county=vm.searchCon.xian1Val;
-                vm.addUser.params.registerDate=new Date();
                 vm.post(vm.addUser.url,vm.addUser.params,function(response){
                     if(response.success){
-                        $("#addUser").modal("hide");
+                        $("#updateUser").modal("hide");
                         vm.$router.push({path:"/home/success"});
                     }else{
                         alert(response.message);
@@ -231,17 +225,80 @@
             }
         },
         mounted(){
-            $(".mbx").iCheck({
-                checkboxClass : 'icheckbox_square-blue',
-            }).on("ifChecked",function(){
-                    vm.searchCon.sheng1Val="",
-                    vm.searchCon.shi1Val="",
-                    vm.searchCon.xian1Val="",
-                    $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
-            }).on("ifUnchecked",function () {
-                $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
+            let vm=this,shiIndex1,xianIndex1,obj;
+            $("#updateUser").on("show.bs.modal",function () {
+                vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
+                    if (response.success) {
+                        vm.addUser.params = response.data;
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+                vm.post(vm.packageList1.url, "", function (response) {
+                    if (response.success) {
+                        if (response.data.length > 0) {
+                            vm.packageList1.result = response.data;
+                        }
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+                vm.post(vm.userTrade1.url, "", function (response) {
+                    if (response.success) {
+                        if (response.data.length > 0) {
+                            vm.userTrade1.result = response.data;
+                        }
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+            }).on("shown.bs.modal",function () {
+                for(let i in vm.sheng1){
+                    if(vm.addUser.params.province==vm.sheng1[i]){
+                        for(let j in data.citySearch.GT[i]){
+                            if(vm.addUser.params.city==data.citySearch.GT[i][j]){
+                                shiIndex1=i+1;
+                                xianIndex1=j+1;
+                                vm.shi1=data.citySearch.GT[i];
+                                vm.xian1=data.citySearch.GC[i][j];
+                                vm.searchCon.sheng1Val=vm.addUser.params.province;
+                                vm.searchCon.shi1Val=vm.addUser.params.city;
+                                vm.searchCon.xian1Val=vm.addUser.params.county;
+                            }
+                        }
+                    }
+                }
+                setTimeout(function () {
+                    $(".mbx").iCheck({
+                        checkboxClass : 'icheckbox_square-blue',
+                    }).on("ifChecked",function(){
+                        vm.searchCon.sheng1Val="",
+                            vm.searchCon.shi1Val="",
+                            vm.searchCon.xian1Val="",
+                            $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
+                    }).on("ifUnchecked",function () {
+                        $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
+                    });
+                    $("input[name=userStatus]").iCheck({
+                        radioClass : 'iradio_square-blue',
+                    }).on("ifChecked",function () {
+                        vm.addUser.params.userStatus=$(this).val();
+                    });
+                    $("input[name=packageId]").iCheck({
+                        radioClass : 'iradio_square-blue',
+                    }).on("ifChecked",function () {
+                        vm.addUser.params.packageId=$(this).val();
+                    });
+                    $(".trade").selectpicker('val',vm.addUser.params.trade).selectpicker("refresh");
+                    $(".shengs").selectpicker('val',vm.addUser.params.province).selectpicker("refresh");
+                    $(".shis").selectpicker('val',vm.addUser.params.city).selectpicker("refresh");
+                    $(".xians").selectpicker('val',vm.addUser.params.county).selectpicker("refresh");
+                },200);
+            }).on("hidden.bs.modal",function () {
+                vm.addUser.params={};
+                vm.packageList1.result=[];
+                vm.userTrade1.result=[];
             });
-            let vm=this,shiIndex1,xianIndex1;
             $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex1=clickedIndex-1;
                 vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
@@ -255,37 +312,6 @@
             }).on("hide.bs.select",function () {
                 $("#xian1").selectpicker("refresh").selectpicker('val', '');
             });
-            vm.post(vm.packageList.url,"",function (response) {
-                if(response.success){
-                    if(response.data.length>0){
-                        vm.packageList.result=response.data;
-                    }
-                }
-            },function (error) {
-                console.log(error);
-            });
-            vm.post(vm.userTrade.url,"",function (response) {
-                if(response.success){
-                    if(response.data.length>0){
-                        vm.userTrade.result=response.data;
-                    }
-                }
-            },function (error) {
-                console.log(error);
-            });
-            setTimeout(function(){
-                $(".selectpicker").selectpicker("refresh");
-                $("input[name=userStatus]").iCheck({
-                    radioClass : 'iradio_square-blue',
-                }).on("ifChecked",function () {
-                    vm.addUser.params.userStatus=$(this).val();
-                });
-                $("input[name=packageId]").iCheck({
-                    radioClass : 'iradio_square-blue',
-                }).on("ifChecked",function () {
-                    vm.addUser.params.packageId=$(this).val();
-                });
-            },200);
         }
     }
 </script>

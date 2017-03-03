@@ -93,18 +93,18 @@
 </template>
 <style scoped lang="scss">
     .people-info{
-    .photo{
-        margin:0 auto 10px;
-        width:85px;
-        height:85px;
-        line-height: 85px;
-        text-align: center;
-        border-radius: 50px;
-        box-shadow: 0 0 10px rgba(0,0,0,.2);
-    }
-    p.text-center:nth-of-type(2){
-        margin-bottom: 25px;
-    }
+        .photo{
+            margin:0 auto 10px;
+            width:85px;
+            height:85px;
+            line-height: 85px;
+            text-align: center;
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,.2);
+        }
+        p.text-center:nth-of-type(2){
+            margin-bottom: 25px;
+        }
     }
     p.text-right{margin-top: 25px;}
 </style>

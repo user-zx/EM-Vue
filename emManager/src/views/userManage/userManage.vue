@@ -7,55 +7,58 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户行业">
-                            <option v-for="item in searchData.industrySearch">{{item}}</option>
+                        <select class="form-control selectpicker" title="用户行业" v-model="userList.params.trade">
+                            <option value="">不限</option>
+                            <option v-for="item in userTrade.result" v-bind:value="item.name">{{item.name}}</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户状态">
-                            <option v-for="item in searchData.userStates">{{item}}</option>
+                        <select class="form-control selectpicker" title="用户状态" v-model="userList.params.userStatus">
+                            <option value="">不限</option>
+                            <option v-for="item in searchData.userStates" v-bind:value="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="套餐状态">
-                            <option v-for="item in searchData.packageSearch">{{item}}</option>
+                        <select class="form-control selectpicker" title="套餐状态" v-model="userList.params.packageId">
+                            <option value="">不限</option>
+                            <option v-for="item in packageList.result" v-bind:value="item.id">{{item.name}}</option>
                         </select>
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-3">
-                            <select class="form-control selectpicker" v-model="searchCon.shengVal" id="sheng" title="省">
+                            <select class="form-control selectpicker city" v-model="searchCon.shengVal" id="sheng" title="省">
                                 <option v-for="item in sheng">{{item}}</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control selectpicker" v-model="searchCon.shiVal" id="shi" title="市">
+                            <select class="form-control selectpicker city" v-model="searchCon.shiVal" id="shi" title="市">
                                 <option v-for="item in shi">{{item}}</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control selectpicker" v-model="searchCon.xianVal" id="xian" title="县／区">
+                            <select class="form-control selectpicker city" v-model="searchCon.xianVal" id="xian" title="县／区">
                                 <option v-for="item in xian">{{item}}</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label class="checkbox">
-                                <input type="checkbox" />
+                                <input type="checkbox" class="ibx" />
                                 不限地区
                             </label>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" readonly id="regTime" placeholder="注册时间" />
+                        <input type="text" class="form-control" readonly id="regTime" placeholder="注册时间"/>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索"/>
+                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="userList.params.keyword"/>
                     </div>
                     <div class="col-md-4">
                         <div class="col-md-6 text-left">
-                            <button type="button" class="btn btn-em">查询</button>
+                            <button type="button" class="btn btn-em" @click="search()">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button type="button" data-toggle="modal" data-target="#addUser" class="btn btn-dark">
+                            <button type="button" data-toggle="modal" data-target="#addUser" @click="showModal(modal.addUser)" class="btn btn-dark">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 添加用户
                             </button>
@@ -91,10 +94,10 @@
                             <td v-if="item.restTimes">{{item.restTimes}}</td>
                             <td v-else>0</td>
                             <td>
-                                <a href="javascript:void(0);" :id="item.id">
+                                <a href="#userInfo" :id="item.id" data-toggle="modal" data-target="#userInfo" @click="showModal(modal.userInfo,item.id)">
                                     <i class="glyphicon glyphicon-th-list"></i>
                                 </a>
-                                <a href="javascript:void(0);" :id="item.id">
+                                <a href="#updateUser" :id="item.id" data-toggle="modal" data-target="#updateUser" @click="showModal(modal.updateUser,item.id)">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </a>
                             </td>
@@ -108,7 +111,7 @@
                 </ul>
             </div>
         </div>
-        <add-user></add-user>
+        <components :is="modal.current" keep-alive></components>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -123,13 +126,35 @@
     import 'bootstrap-daterangepicker';
     import 'vue-style-loader!css-loader!sass-loader!bootstrap-daterangepicker/daterangepicker.scss';
     import addUser from './addUser/addUser.vue';
+    import updateUser from './updateUser/updateUser.vue';
+    import userInfo from './userInfo/userInfo.vue';
     import '../../assets/vendor/jqPaginator.min';
     export default{
         data(){
             return{
                 userList:{
                     url:"../apis/user/findUserList",
-                    params:{pageNumber:1,pageSize:10},
+                    params:{
+                        trade:"",
+                        userStatus:"",
+                        packageId:"",
+                        province:"",
+                        city:"",
+                        county:"",
+                        registerStartDate:"",
+                        registerEndDate:"",
+                        keyword:"",
+                        pageNumber:1,
+                        pageSize:10
+                    },
+                    result:{}
+                },
+                packageList:{
+                    url:"../apis/package/getPackageList",
+                    result:{}
+                },
+                userTrade:{
+                    url:"../apis/personal/findAllTrade",
                     result:{}
                 },
                 msg:"用户管理",
@@ -141,10 +166,16 @@
                     shengVal:"",
                     shiVal:"",
                     xianVal:"",
+                },
+                modal:{
+                    addUser:"addUser",
+                    updateUser:"updateUser",
+                    userInfo:"userInfo",
+                    current:"",
                 }
             }
         },
-        components:{addUser},
+        components:{addUser,userInfo,updateUser},
         methods:{
             post(urls, params, successFun, errorFun){
                 this.$http.post(urls, params).then((response) => {
@@ -165,17 +196,64 @@
                 },function (error) {
                     console.log(error);
                 });
+            },
+            paginator(){
+                let vm =this;
+                vm.post(vm.userList.url,vm.userList.params,function (response) {
+                    if(response.success){
+                        if(response.data.content.length>0&&response.data){
+                            vm.userList.result=response.data;
+                            $("#pagination").jqPaginator({
+                                totalPages:  vm.userList.result.totalPages,
+                                visiblePages: vm.userList.params.pageSize,
+                                currentPage: vm.userList.params.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n){
+                                    vm.userList.params.pageNumber = n;
+                                    vm.getList();
+                                }
+                            });
+                        }else{
+                            alert("没有数据！");
+                        }
+                    }
+                },function (error) {
+                    console.log(error);
+                });
+            },
+            search(){
+                let vm =this;
+                vm.userList.params.province=vm.searchCon.shengVal;
+                vm.userList.params.city=vm.searchCon.shiVal;
+                vm.userList.params.county=vm.searchCon.xianVal;
+                vm.paginator();
+            },
+            showModal(modalName,params){
+                let vm =this;
+                vm.$store.commit(modalName,params);
+                this.modal.current=modalName;
             }
         },
         mounted(){
+            let vm=this,shiIndex,xianIndex;
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
             });
-            $("input[type=checkbox]").iCheck({
+            $(".ibx").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
+            }).on("ifChecked",function(){
+                vm.searchCon.shengVal="",
+                vm.searchCon.shiVal="",
+                vm.searchCon.xianVal="",
+                $(".city").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
+            }).on("ifUnchecked",function () {
+                $(".city").selectpicker('show').selectpicker('val','').selectpicker('refresh');
             });
-            let vm=this,shiIndex,xianIndex;
             $("#sheng").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex=clickedIndex-1;
                 vm.shi=vm.searchData.citySearch.GT[shiIndex];
@@ -190,6 +268,7 @@
                 $("#xian").selectpicker("refresh").selectpicker('val', '');
             });
             $("#regTime").daterangepicker({
+                autoUpdateInput:false,
                 maxDate : moment(), //最大时间
                 showDropdowns : true,
                 ranges:{
@@ -214,29 +293,33 @@
                     firstDay : 1
                 }
             }, function(start, end, label) {//格式化日期显示框
+                this.autoUpdateInput=true;
                 $(this).val(start.format('YYYY-MM-DD') + ' 到 ' + end.format('YYYY-MM-DD'));
+                vm.userList.params.registerStartDate=start.format("YYYY-MM-DD");
+                vm.userList.params.registerEndDate=end.format("YYYY-MM-DD");
             });
-            vm.post(vm.userList.url,vm.userList.params,function (response) {
+            vm.paginator();
+            vm.post(vm.packageList.url,"",function (response) {
                 if(response.success){
-                    vm.userList.result=response.data;
-                    $("#pagination").jqPaginator({
-                        totalPages:  vm.userList.result.totalPages,
-                        visiblePages: vm.userList.params.pageSize,
-                        currentPage: vm.userList.params.pageNumber,
-                        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-                        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-                        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                        onPageChange: function (n){
-                            vm.userList.params.pageNumber = n;
-                            vm.getList();
-                        }
-                    });
+                    if(response.data.length>0){
+                        vm.packageList.result=response.data;
+                    }
                 }
             },function (error) {
                 console.log(error);
             });
+            vm.post(vm.userTrade.url,"",function (response) {
+                if(response.success){
+                    if(response.data.length>0){
+                        vm.userTrade.result=response.data;
+                    }
+                }
+            },function (error) {
+                console.log(error);
+            });
+            setTimeout(function(){
+                $(".selectpicker").selectpicker("refresh");
+            },100);
         }
     }
 </script>

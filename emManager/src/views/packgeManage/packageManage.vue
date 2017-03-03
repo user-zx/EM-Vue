@@ -7,14 +7,14 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索"/>
+                        <input type="text" class="form-control" v-model="packageList.params.name" placeholder="请输入关键字进行搜索"/>
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-em">查询</button>
+                            <button type="button" class="btn btn-em" @click="search()">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button type="button" data-toggle="modal" data-target="#addUser" class="btn btn-dark">
+                            <button type="button" data-toggle="modal" data-target="#addPackage" class="btn btn-dark">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 新建套餐
                             </button>
@@ -44,7 +44,8 @@
                         <td>{{item.updateUser}}</td>
                         <td>{{item.updateDate}}</td>
                         <td>
-                            <input type="checkbox" class="switch" />
+                            <input type="checkbox" data-on="success" v-if="item.status=='上架'" checked class="switch" />
+                            <input type="checkbox" data-on="success" v-else class="switch" />
                             <a href="javascript:void(0);" :id="item.id">
                                 <i class="glyphicon glyphicon-pencil"></i>
                             </a>
@@ -84,7 +85,7 @@
             return{
                 packageList:{
                     url:"../apis/package/findPackageList",
-                    params:{pageNumber:1,pageSize:10},
+                    params:{pageNumber:1,pageSize:10,name:""},
                     result:{}
                 },
                 msg:"套餐管理"
@@ -112,10 +113,54 @@
                             result.content[i].updateDate=new Date(result.content[i].updateDate).Format("yyyy-MM-dd hh:mm:ss");
                         }
                         vm.packageList.result=result;
+                        setTimeout(function () {
+                            $(".switch").bootstrapSwitch({
+                                animate:true,
+                                size:'mini',
+                                onColor:'success',
+                                offColor:'default',
+                                onText:'上架',
+                                offText:'下架'
+                            });
+                        },200);
                     }
                 },function (error) {
                     console.log(error);
                 });
+            },
+            /*分页*/
+            pagintor(){
+                let vm =this;
+                vm.post(vm.packageList.url,vm.packageList.params,function (response) {
+                    if(response.success){
+                        if(response.data.content.length>0&&response.data) {
+                            vm.packageList.result = response.data;
+                            $("#pagination").jqPaginator({
+                                totalPages: vm.packageList.result.totalPages,
+                                visiblePages: vm.packageList.params.pageSize,
+                                currentPage: vm.packageList.params.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n) {
+                                    vm.packageList.params.pageNumber = n;
+                                    vm.getList();
+                                }
+                            });
+                        }else {
+                            alert('暂无数据');
+                        }
+                    }
+                },function (error) {
+                    console.log(error);
+                });
+            },
+            /*筛选*/
+            search(){
+                let vm =this;
+                vm.pagintor();
             }
         },
         mounted(){
@@ -126,7 +171,6 @@
 //            $("input[type=checkbox]").iCheck({
 //                checkboxClass : 'icheckbox_square-blue',
 //            });
-            $(".switch").bootstrapSwitch();
             let vm=this,shiIndex,xianIndex;
             $("#sheng").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex=clickedIndex-1;
@@ -168,28 +212,7 @@
             }, function(start, end, label) {//格式化日期显示框
                 $(this).val(start.format('YYYY-MM-DD') + ' 到 ' + end.format('YYYY-MM-DD'));
             });
-            //vm.getList();
-            vm.post(vm.packageList.url,vm.packageList.params,function (response) {
-                if(response.success){
-                    vm.packageList.result=response.data;
-                    $("#pagination").jqPaginator({
-                        totalPages:  vm.packageList.result.totalPages,
-                        visiblePages: vm.packageList.params.pageSize,
-                        currentPage: vm.packageList.params.pageNumber,
-                        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-                        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-                        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                        onPageChange: function (n){
-                            vm.packageList.params.pageNumber = n;
-                            vm.getList();
-                        }
-                    });
-                }
-            },function (error) {
-                console.log(error);
-            });
+            vm.pagintor();
         }
     }
 </script>
