@@ -46,6 +46,7 @@
 </template>
 <style scoped>
     .modal .modal-content{border-radius: 0;}
+    .modal{z-index: 9999} 
     .modal-header .modal-title{text-align: center;color:#666666;font-size:16px;}
     .modal-body textarea{height:150px;border-radius: 5px 5px 0 0;resize: none;}
     .modal-footer{border-top:none;text-align: center;}
