@@ -425,14 +425,28 @@
                 }
             },
             ignoreFun(index,artId){
-                if(this.artList.artContent[index].ignoreStatus){
+
+               if(!this.artList.artContent[index].ignoreStatus){
+                 this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
+                        if(res.ok){
+                            if(res.data.success){
+                                this.artList.artContent[index].ignoreStatus=true;
+                                if($(".sellClue_list_div").length==1){
+                                    this.notResult = true;
+                                }
+                            }
+                        }
+                    });
+               }
+               
+                /*if(this.artList.artContent[index].ignoreStatus){
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].ignoreStatus=false;
                             }
                         }
-                    });
+                    }); 
                 }else{
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
@@ -441,7 +455,7 @@
                             }
                         }
                     });
-                }
+                }*/
             },
             labelFun(index,artId){
                 if(this.artList.artContent[index].labelStatus){

@@ -136,7 +136,7 @@
 			<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.ip}}</strong></li>
 			<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.wechat}}</strong></li>
 			<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.qq}}</strong></li>
-			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>
+			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>   
 		</menu>
 	</div>
 	<div class="pageList clearfix" v-if="!notResult" >
@@ -282,14 +282,17 @@
             ignoreFun(index,artId){
                   let vm = this;   
                   //console.log(vm.artList.artContent[index].ignoreStatus); 
-                
+                	
                    if(!vm.artList.artContent[index].ignoreStatus){
                    	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 vm.artList.artContent[index].ignoreStatus=true;
+                                if($(".sellClue_list_div").length==1){
+                                	vm.notResult = true;
+                                }
                             }
-                        }
+                        } 
                     });
   				} 
                /* if(this.artList.artContent[index].ignoreStatus){
