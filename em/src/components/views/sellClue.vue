@@ -109,8 +109,8 @@
 	<div class="notResult" v-if="notResult">
 		<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 	</div>
-	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent">
-		<span v-if="artItem.type=='原创'" class="origin">{{artItem.type}}</span>
+	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
+		<span v-if="artItem.type=='原创'" class="origin">{{artItem.type}}</span> 
 		<span v-else-if="artItem.type=='转发'" class="blue">{{artItem.type}}</span>
 		<span v-else-if="artItem.type!=null">{{artItem.type}}</span>
 		<h4>{{artItem.title}}</h4>
@@ -280,8 +280,19 @@
                 }
             },
             ignoreFun(index,artId){
-                let vm = this;
-                if(this.artList.artContent[index].ignoreStatus){
+                  let vm = this;   
+                  //console.log(vm.artList.artContent[index].ignoreStatus); 
+                
+                   if(!vm.artList.artContent[index].ignoreStatus){
+                   	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
+                        if(res.ok){
+                            if(res.data.success){
+                                vm.artList.artContent[index].ignoreStatus=true;
+                            }
+                        }
+                    });
+  				} 
+               /* if(this.artList.artContent[index].ignoreStatus){
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
@@ -289,7 +300,7 @@
                             }
                         }
                     });
-                }else{
+                }else{       
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
@@ -297,7 +308,7 @@
                             }
                         }
                     });
-                }
+                }*/ 
             },
             labelFun(index,artId){
                 let vm = this;

@@ -51,7 +51,7 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label">密码：</label>
 									<div class="col-md-8">
-										<p class="form-control-static">*******<a href="#rePassword" class="update-password" data-toggle="modal" data-target="#rePassword">修改密码</a></p>
+										<p class="form-control-static"><a href="#rePassword" class="update-password" data-toggle="modal" data-target="#rePassword">修改密码</a></p>
 									</div>
 								</div>
 								<div class="form-group">
@@ -237,6 +237,7 @@
 	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
 		background-color: #32ccca;
 	}
+	.modal{z-index: 9999}
 </style>
 <script>
 	import '../../assets/js/bootstrap-switch/js/bootstrap-switch.min';

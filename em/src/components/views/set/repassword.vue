@@ -17,13 +17,13 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">原密码：</label>
                             <div class="col-md-5">
-                                <input class="form-control" type="password" v-model:value="data.oldPassword" placeholder="请您输入原密码" />
+                                <input class="form-control" type="password" v-model="data.oldPassword" placeholder="请您输入原密码" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">新密码：</label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="password" v-model:value="data.newPassword" placeholder="请您输入新密码" />
+                            <div class="col-md-5"> 
+                                <input class="form-control" type="password" v-model="data.newPassword" placeholder="请您输入新密码" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -35,13 +35,13 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" @click="cancel">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
                     <button type="button" class="btn btn-search" @click="submit">&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button>
                 </div>
             </div>
         </div>
     </div>
-</template>
+</template> 
 <style scoped>
     .modal .modal-content{border-radius: 0;}
     .modal-header .modal-title{text-align: center;color:#666666;font-size:16px;}
@@ -64,6 +64,11 @@
             }
         },
         methods:{
+            cancel(){
+                this.data.oldPassword = "";
+                this.data.newPassword = "";
+                this.rePwd = "";
+            },
             submit(){
                 let vm=this;
                 if(this._isNull(vm.data.oldPassword)){
