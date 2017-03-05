@@ -109,34 +109,37 @@
 	<div class="notResult" v-if="notResult">
 		<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 	</div>
-	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent">
-		<span v-if="artItem.type=='原创'" class="origin">{{artItem.type}}</span>
-		<span v-else-if="artItem.type=='转发'" class="blue">{{artItem.type}}</span>
-		<span v-else-if="artItem.type!=null">{{artItem.type}}</span>
-		<h4>{{artItem.title}}</h4>
-		<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.keywords}}</span> <span><i>发布者:</i>{{artItem.author}}</span><span><i>发布时间:</i>{{artItem.publishDate}}</span><span><i>线索来源:</i>{{artItem.source}}</span></div>
-		<p>{{artItem.content}}</p>
-		<ul class="sellClue_list_div_ul">
-			<li v-bind:class="{active:artItem.addFavoritesStatus}">
-				<a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
-				<a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
-			</li>
-			<li>
-				<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
-			</li>
-			<li v-bind:class="{active:artItem.labelStatus}">
-				<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
-				<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
-			</li>
-		</ul>
-		<menu class="clearfix">
-			<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.address}}</strong></li>
-			<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.phone}}</strong></li>
-			<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.email}}</strong></li>
-			<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.ip}}</strong></li>
-			<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.wechat}}</strong></li>
-			<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.qq}}</strong></li>
-			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>
+	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
+		<div >
+			<span v-if="artItem.type=='原创'" class="origin">{{artItem.type}}</span> 
+			<span v-else-if="artItem.type=='转发'" class="blue">{{artItem.type}}</span>
+			<span v-else-if="artItem.type!=null">{{artItem.type}}</span>
+			<h4>{{artItem.title}}</h4>
+			<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.keywords}}</span> <span><i>发布者:</i>{{artItem.author}}</span><span><i>发布时间:</i>{{artItem.publishDate}}</span><span><i>线索来源:</i>{{artItem.source}}</span></div>
+			<p>{{artItem.content}}</p>
+			<ul class="sellClue_list_div_ul">
+				<li v-bind:class="{active:artItem.addFavoritesStatus}">
+					<a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
+					<a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
+				</li>
+				<li v-bind:class="{active:artItem.labelStatus}">
+					<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
+					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
+				</li>
+			</ul>
+			<button class="btn btn-search" v-if="artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>   
+		</div>
+		
+		<menu class="clearfix" > 
+			<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>qq</strong></li> 
+			<li><img src="../../assets/images/phone.png" height="22" width="18"><strong></strong></li>
+			<li><img src="../../assets/images/email.png" height="21" width="25"><strong></strong></li>
+			<li><img src="../../assets/images/IP.png" height="25" width="25"><strong></strong></li>
+			<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong></strong></li>
+			<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong></strong></li>
 		</menu>
 	</div>
 	<div class="pageList clearfix" v-if="!notResult" >
@@ -188,8 +191,9 @@
                     checkEndDate:""
                 },
                 promptMessage:"",
+                itemData:"",
 			}
-		},
+		}, 
 		methods:{
             goAnchor(selector) {
                 var anchor = this.$el.querySelector(selector);
@@ -280,24 +284,22 @@
                 }
             },
             ignoreFun(index,artId){
-                let vm = this;
-                if(this.artList.artContent[index].ignoreStatus){
-                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                vm.artList.artContent[index].ignoreStatus=false;
-                            }
-                        }
-                    });
-                }else{
-                    vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
+                  let vm = this;   
+                  //console.log(vm.artList.artContent[index].ignoreStatus); 
+                	
+                   if(!vm.artList.artContent[index].ignoreStatus){
+                   	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 vm.artList.artContent[index].ignoreStatus=true;
+                                if($(".sellClue_list_div").length==1){
+                                	vm.notResult = true;
+                                }
                             }
-                        }
+                        } 
                     });
-                }
+  				} 
+               
             },
             labelFun(index,artId){
                 let vm = this;
@@ -382,8 +384,11 @@
             getLinkStatus(index,salesLeadsId){
 				let vm=this;
 				vm.$http.post(vm.messageList,salesLeadsId).then((result)=>{
-				   console.log(result);
+				   //console.log(result);
+				   vm.itemData = result.data.data;
+				   console.log( vm.itemData);
 				});
+
 			},
 			page:function(){
 				let vm  = this;

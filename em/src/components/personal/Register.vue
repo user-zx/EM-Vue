@@ -149,9 +149,9 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login: false , 
-	  			register_message: true,  
-	  			register_pay:false,
+	  			register_login: true, 
+	  			register_message:false,  
+	  			register_pay:false, 
 	  			phoneText:"",
 	  			verification:"",  
 	  			cellPhone:"",

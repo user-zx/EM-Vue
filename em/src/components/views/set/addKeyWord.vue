@@ -102,8 +102,8 @@
             },
             submit(){
                 let post = commont.post;
-                let vm = this;             
-                let url = '../apis//excel/importKeywordList';
+                let vm = this;               
+                let url = '../apis/excel/importKeywordList';
                 let params = "";  
                 var patt = new RegExp(".(xls|xlsx)$", "i");
                 if(patt.test(vm.textareaVal)){
@@ -124,7 +124,7 @@
             let vm = this;  
             $(document).on("change","#fileName",function(){
                 let fileanme = $("#fileName")[0].files[0].name;
-                 $.ajaxFileUpload({ 
+                 $.ajaxFileUpload({  
                     url: vm.fileUrl,
                     fileElementId:"fileName",
                     secureuri: false, 
@@ -134,12 +134,14 @@
                     success:function(data,status){
                         if(!data.success){
                             alert(data.message)
+                             vm.textareaVal = "添加失败";
                         }else{
                            vm.textareaVal = fileanme; 
                         } 
                     },
                     error: function (data, status, e){//服务器响应失败处理函数
                         alert(e);
+                         vm.textareaVal = "添加失败";
                     }
                  })    
                   return false;    

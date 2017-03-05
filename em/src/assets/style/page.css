@@ -18,10 +18,10 @@
 	margin: 15px;
 	position: relative;
 }
-.sellClue_list_div>h4{
+.sellClue_list_div>div>h4{
 	padding-top: 30px;
 	padding-left: 20px;
-	width: 90%;
+	width: 85%; 
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -38,20 +38,20 @@
 	font-style: normal;
 	color: #bfc1c1;
 }
-.sellClue_list_div>p{
+.sellClue_list_div>div>p{
 	font: 12px/22px inherit;
 	text-indent:2em;
 	width: 85%;
 	padding-left: 20px;
 	min-height: 50px;
 }
-.sellClue_list_div>ul{
+.sellClue_list_div>div>ul{
 	position: absolute;
 	right: 20px;
 	top: 30px;
 	list-style: none;
 }
-.sellClue_list_div>ul>li{
+.sellClue_list_div>div>ul>li{
 	margin-bottom: 15px;
 	text-align: center;
 	font-size: 12px;
@@ -59,30 +59,30 @@
 			border-radius: 5px;
 	cursor: pointer;
 }
-.sellClue_list_div>ul>li>a{
+.sellClue_list_div>div>ul>li>a{
 	display: block;
 	padding: 3px 20px;
 	text-decoration: none;
 	border: 1px solid #32ccca;
 	color: #32ccca;
 }
-.sellClue_list_div>ul>li>a:hover {
+.sellClue_list_div>div>ul>li>a:hover {
 	color: #32ccca;
 }
-.sellClue_list_div>ul>li>a.btn:focus{
+.sellClue_list_div>div>ul>li>a.btn:focus{
 	color: #32ccca;
 }
-.sellClue_list_div>ul>li.active>a.btn{
+.sellClue_list_div>div>ul>li.active>a.btn{
 	border-color: #ff8c26;
 	color:#ff8c26;
 }
-.sellClue_list_div>ul>li.active>a.btn:hover,.sellClue_list_div>ul>li.active>a.btn:focus{
+.sellClue_list_div>div>ul>li.active>a.btn:hover,.sellClue_list_div>div>ul>li.active>a.btn:focus{
 	border-color: #ff8c26;
 	color:#ff8c26;
 }
 .sellClue_list_div>menu{
 	list-style: none;
-	padding: 15px 5px;
+	padding: 15px 5px; 
 	margin-bottom: 0px;
 	position: relative;
 	background-color: #fafafa;
@@ -95,8 +95,8 @@
 	margin-left: 10px;
 	color: #32ccca;
 }
-.sellClue_list_div>menu>button{
-	border:0;
+/* .sellClue_list_div>menu>button{
+	border:0; 
 	background-color: #32ccca;
 	color: #fff;
 	padding: 3px 10px;
@@ -106,8 +106,8 @@
 	position: absolute;
 	right: 20px;
 	top: 15px;
-}
-.sellClue_list_div>span{
+} */
+.sellClue_list_div>div>span{
 	font-size: 12px;
 	position: absolute;
 	left: 0;
@@ -116,10 +116,10 @@
 	padding: 2px 5px;
 	color: #fff;
 }
-.sellClue_list_div>span.origin{
+.sellClue_list_div>div>span.origin{
 	background-color: #ff9b50;
 }
-.sellClue_list_div>span.blue{
+.sellClue_list_div>div>span.blue{
 	background-color:#6bd1f9;
 }
 .sellClue_list_div_ul>li>i,.sellClue_list_div_ul>li>img{
@@ -127,6 +127,22 @@
 	vertical-align: top;
 	margin-right: 10px;
 }
+.sellClue_list_div>div{
+	position: relative;
+}
+.sellClue_list_div>div>button{
+	border:0; 
+	background-color: #32ccca;
+	color: #fff;
+	padding: 3px 10px;
+	-webkit-border-radius: 5px;
+			border-radius: 5px;
+	width: 115px;
+	position: absolute;
+	right: 20px;
+	bottom: -55px;
+	z-index: 99;
+} 
 /*分页样式*/
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
 	background-color: #32ccca;
