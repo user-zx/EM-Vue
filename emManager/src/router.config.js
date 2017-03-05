@@ -12,6 +12,7 @@ import logout from './views/logout/logout.vue';
 import personalInfo from './views/personal/personalInfo.vue';
 import success from './views/userManage/addUser/success.vue';
 import addPackageSuccess from './views/packgeManage/addPackage/success.vue';
+import saveOperationUserSuccess from './views/om/addUser/success.vue';
 export default {
     mode: 'history',
     base: __dirname,
@@ -54,6 +55,10 @@ export default {
                 {
                     path:'addPackageSuccess',
                     component:addPackageSuccess
+                },
+                {
+                    path:"saveOperationUserSuccess",
+                    component:saveOperationUserSuccess
                 }
             ]
         },

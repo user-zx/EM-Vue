@@ -6,28 +6,31 @@
         <div class="search-box">
             <div class="row">
                 <div class="col-md-2">
-                    <select class="form-control selectpicker" title="匹配结果">
-                        <option v-for="item in searchData.matchResult">{{item}}</option>
+                    <select class="form-control selectpicker" title="匹配结果" v-model="matchingRecordList.params.matchingResult">
+                        <option value="">不限</option>
+                        <option v-for="item in searchData.matchResult" :value="item">{{item}}</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control selectpicker" title="线索来源">
-                        <option v-for="item in searchData.salesSource">{{item}}</option>
+                    <select class="form-control selectpicker" title="线索来源" v-model="matchingRecordList.params.source">
+                        <option value="">不限</option>
+                        <option v-for="item in searchData.salesSource" :value="item">{{item}}</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control selectpicker" title="匹配来源">
-                        <option v-for="item in searchData.matchSource">{{item}}</option>
+                    <select class="form-control selectpicker" title="匹配来源" v-model="matchingRecordList.params.matchingSource">
+                        <option value="">不限</option>
+                        <option v-for="item in searchData.matchSource" :value="item">{{item}}</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <input type="text" class="form-control" readonly id="matchTime" placeholder="匹配时间" />
                 </div>
                 <div class="col-md-4">
-                    <input type="text" class="form-control"  placeholder="请输入关键字进行搜索"/>
+                    <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="matchingRecordList.params.keywords"/>
                 </div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-em">查询</button>
+                    <button type="button" class="btn btn-em" @click="search()">查询</button>
                 </div>
             </div>
         </div>
@@ -55,11 +58,9 @@
                         <td>{{item.matchingSource}}</td>
                         <td>{{item.matchingUser}}</td>
                         <td>
-                            <a href="javascript:void(0);" :id="item.id">
-                                <i class="glyphicon glyphicon-th-list"></i>
-                            </a>
-                            <a href="javascript:void(0);" :id="item.id">
+                            <a href="javascript:void(0);" :id="item.id" data-target="autoMatching" class="currentParentTab">
                                 <i class="glyphicon glyphicon-pencil"></i>
+                                重新匹配
                             </a>
                         </td>
                     </tr>
@@ -83,7 +84,16 @@
             return{
                 matchingRecordList:{
                     url:"../apis/matching/findMatchingRecordList",
-                    params:{pageNumber:1,pageSize:10},
+                    params:{
+                        pageNumber:1,
+                        pageSize:10,
+                        matchingResult:"",
+                        source:"",
+                        matchingSource:"",
+                        keywords:"",
+                        matchingStartDate:"",
+                        matchingEndDate:""
+                    },
                     result:{}
                 },
                 msg:"用户管理",
@@ -119,6 +129,37 @@
                 },function (error) {
                     console.log(error);
                 });
+            },
+            pagintor(){
+                let vm =this;
+                vm.post(vm.matchingRecordList.url,vm.matchingRecordList.params,function (response) {
+                    if(response.success){
+                        if(response.data.content.length>0&&response.data){
+                            vm.matchingRecordList.result=response.data;
+                            $("#pagination").jqPaginator({
+                                totalPages:  vm.matchingRecordList.result.totalPages,
+                                visiblePages: vm.matchingRecordList.params.pageSize,
+                                currentPage: vm.matchingRecordList.params.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n){
+                                    vm.matchingRecordList.params.pageNumber = n;
+                                    vm.getList();
+                                }
+                            });
+                        }else{
+                            alert("没有数据！");
+                        }
+                    }
+                },function (error) {
+                    console.log(error);
+                });
+            },
+            search(){
+                this.pagintor();
             }
         },
         mounted(){
@@ -131,6 +172,7 @@
             });
             let vm=this;
             $("#matchTime").daterangepicker({
+                autoUpdateInput:false,
                 maxDate : moment(), //最大时间
                 showDropdowns : true,
                 ranges:{
@@ -155,29 +197,12 @@
                     firstDay : 1
                 }
             }, function(start, end, label) {//格式化日期显示框
+                this.autoUpdateInput=true;
                 $(this).val(start.format('YYYY-MM-DD') + ' 到 ' + end.format('YYYY-MM-DD'));
+                vm.matchingRecordList.params.matchingStartDate=start.format("YYYY-MM-DD");
+                vm.matchingRecordList.params.matchingEndDate=end.format("YYYY-MM-DD");
             });
-            vm.post(vm.matchingRecordList.url,vm.matchingRecordList.params,function (response) {
-                if(response.success){
-                    vm.matchingRecordList.result=response.data;
-                    $("#pagination").jqPaginator({
-                        totalPages:  vm.matchingRecordList.result.totalPages,
-                        visiblePages: vm.matchingRecordList.params.pageSize,
-                        currentPage: vm.matchingRecordList.params.pageNumber,
-                        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-                        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-                        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                        onPageChange: function (n){
-                            vm.matchingRecordList.params.pageNumber = n;
-                            vm.getList();
-                        }
-                    });
-                }
-            },function (error) {
-                console.log(error);
-            });
+            vm.pagintor();
         }
     }
 </script>

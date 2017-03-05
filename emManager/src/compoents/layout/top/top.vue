@@ -10,7 +10,7 @@
                 <div class="navbar navbar-right">
                     <router-link to="/home/personalInfo">
                         <i class="glyphicon glyphicon-user"></i>
-                        <span>用户名</span>
+                        <span>{{userName}}</span>
                     </router-link>
                     <router-link to="/logout">
                         <i class="glyphicon glyphicon-log-out"></i>
@@ -43,7 +43,8 @@
         name:'topBar',
         data(){
             return{
-                msg:"顶部"
+                msg:"顶部",
+                userName:sessionStorage.getItem("userAccount")
             }
         }
     }

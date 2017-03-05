@@ -7,24 +7,27 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户权限">
-                            <option v-for="item in searchData.userPermission">{{item}}</option>
+                        <select class="form-control selectpicker" title="用户权限" v-model="userList.params.permissions">
+                            <option value="">不限</option>
+                            <option v-for="item in searchData.userPermission" :value="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户状态">
-                            <option v-for="item in searchData.userStates">{{item}}</option>
+                        <select class="form-control selectpicker" title="用户状态" v-model="userList.params.userStatus">
+                            <option value="">不限</option>
+                            <option value="正常">正常</option>
+                            <option value="冻结">冻结</option>
                         </select>
                     </div>
                     <div class="col-md-5">
-                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索"/>
+                        <input type="text" class="form-control" v-model="userList.params.keyword" placeholder="请输入关键字进行搜索"/>
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-6 text-left">
-                            <button type="button" class="btn btn-em">查询</button>
+                            <button type="button" class="btn btn-em" @click="search()">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button type="button" data-toggle="modal" data-target="#addUser" class="btn btn-dark">
+                            <button type="button" data-toggle="modal" data-target="#addUser" @click="showModal(modal.addUser)" class="btn btn-dark">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 添加用户
                             </button>
@@ -50,11 +53,14 @@
                         <td>{{item.createDate}}</td>
                         <td>{{item.userStatus}}</td>
                         <td>
-                            <a href="javascript:void(0);" :id="item.id">
-                                <i class="glyphicon glyphicon-th-list"></i>
-                            </a>
-                            <a href="javascript:void(0);" :id="item.id">
+                            <a href="#updateUser" title="编辑" data-toggle="modal" data-target="#updateUser" @click="showModal(modal.updateUser,item.userAccount)">
                                 <i class="glyphicon glyphicon-pencil"></i>
+                            </a>
+                            <a href="javascript:void(0);" v-if="item.userStatus=='冻结'" title="解除冻结" @click="thawFun(item.userAccount)">
+                                <img src="./images/jiedong.png" alt="解除冻结" />
+                            </a>
+                            <a href="javascript:void(0);" v-else title="冻结" @click="freezeFun(item.userAccount)">
+                                <img src="./images/dongjie.png" alt="冻结">
                             </a>
                         </td>
                     </tr>
@@ -67,6 +73,7 @@
                 </ul>
             </div>
         </div>
+        <components :is="modal.current" keep-alive></components>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -76,33 +83,43 @@
     import data from '../../assets/data/data.js';
     import "vue-style-loader!css-loader!sass-loader!bootstrap-select/sass/bootstrap-select.scss";
     import 'bootstrap-select';
-    import '../../assets/vendor/iCkeck-v1.0.2/js/icheck.min';
-    import "vue-style-loader!css-loader!sass-loader!../../assets/vendor/iCkeck-v1.0.2/css/skins/square/blue.css";
     import moment from 'moment';
     import 'bootstrap-daterangepicker';
     import 'vue-style-loader!css-loader!sass-loader!bootstrap-daterangepicker/daterangepicker.scss';
     import '../../assets/vendor/jqPaginator.min';
+    import addUser from './addUser/addUser.vue';
+    import updateUser from './updateUser/updateUser.vue';
     export default{
         data(){
             return{
                 userList:{
                     url:"../apis/operation/findOperationUserList",
-                    params:{pageNumber:1,pageSize:10},
+                    params:{
+                        pageNumber:1,
+                        pageSize:10,
+                        userStatus:"",
+                        keyword:"",
+                        permissions:""
+                    },
                     result:{}
                 },
-                msg:"用户管理",
+                freeze:{
+                    url:"../apis/operation/freezeUser",
+                    params:{
+                        userAccount:"",
+                        userStatus:""
+                    }
+                },
                 searchData:data,
-                sheng:data.citySearch.GP,
-                shi:data.citySearch.GT[0],
-                xian:data.citySearch.GC[0][0],
-                searchCon:{
-                    shengVal:"",
-                    shiVal:"",
-                    xianVal:"",
+                modal:{
+                    addUser:"addUser",
+                    updateUser:"updateUser",
+                    userInfo:"userInfo",
+                    current:"",
                 }
             }
         },
-        components:{},
+        components:{addUser,updateUser},
         methods:{
             post(urls, params, successFun, errorFun){
                 this.$http.post(urls, params).then((response) => {
@@ -127,6 +144,64 @@
                 },function (error) {
                     console.log(error);
                 });
+            },
+            paginator(){
+                let vm=this;
+                vm.post(vm.userList.url,vm.userList.params,function (response) {
+                    if(response.success){
+                        vm.userList.result=response.data;
+                        if(response.data.content.length>0&&response.data){
+                            $("#pagination").jqPaginator({
+                                totalPages:  vm.userList.result.totalPages,
+                                visiblePages: vm.userList.params.pageSize,
+                                currentPage: vm.userList.params.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n){
+                                    vm.userList.params.pageNumber = n;
+                                    vm.getList();
+                                }
+                            });
+                        }else{
+                            alert("没有数据！");
+                        }
+                    }
+                },function (error) {
+                    console.log(error);
+                });
+            },
+            search(){
+                this.paginator();
+            },
+            showModal(modalName,params){
+                let vm =this;
+                vm.$store.commit(modalName,params);
+                this.modal.current=modalName;
+            },
+            /*冻结*/
+            freezeFun(id){
+                let vm=this;
+                vm.freeze.params.userAccount=id;
+                vm.freeze.params.userStatus="冻结";
+                vm.post(vm.freeze.url,vm.freeze.params,function (response) {
+                    console.log(response);
+                },function (error) {
+                    console.log(error);
+                });
+            },
+            /*解冻*/
+            thawFun(id){
+                let vm =this;
+                vm.freeze.params.userAccount=id;
+                vm.freeze.params.userStatus="冻结";
+                vm.post(vm.freeze.url,vm.freeze.params,function (response) {
+                    console.log(response);
+                },function (error) {
+                    console.log(error);
+                });
             }
         },
         mounted(){
@@ -134,23 +209,7 @@
                 style: 'btn-default',
                 size: 4
             });
-            $("input[type=checkbox]").iCheck({
-                checkboxClass : 'icheckbox_square-blue',
-            });
-            let vm=this,shiIndex,xianIndex;
-            $("#sheng").on("changed.bs.select",function (e,clickedIndex) {
-                shiIndex=clickedIndex-1;
-                vm.shi=vm.searchData.citySearch.GT[shiIndex];
-            }).on("hide.bs.select",function () {
-                $("#shi").selectpicker("refresh").selectpicker('val', '');
-                $("#xian").selectpicker("refresh").selectpicker('val', '');
-            });
-            $("#shi").on("changed.bs.select",function (e,clickedIndex) {
-                xianIndex=clickedIndex-1;
-                vm.xian=vm.searchData.citySearch.GC[shiIndex][xianIndex];
-            }).on("hide.bs.select",function () {
-                $("#xian").selectpicker("refresh").selectpicker('val', '');
-            });
+            let vm=this;
             $("#regTime").daterangepicker({
                 maxDate : moment(), //最大时间
                 showDropdowns : true,
@@ -178,27 +237,7 @@
             }, function(start, end, label) {//格式化日期显示框
                 $(this).val(start.format('YYYY-MM-DD') + ' 到 ' + end.format('YYYY-MM-DD'));
             });
-            vm.post(vm.userList.url,vm.userList.params,function (response) {
-                if(response.success){
-                    vm.userList.result=response.data;
-                    $("#pagination").jqPaginator({
-                        totalPages:  vm.userList.result.totalPages,
-                        visiblePages: vm.userList.params.pageSize,
-                        currentPage: vm.userList.params.pageNumber,
-                        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-                        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-                        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                        onPageChange: function (n){
-                            vm.userList.params.pageNumber = n;
-                            vm.getList();
-                        }
-                    });
-                }
-            },function (error) {
-                console.log(error);
-            });
+            vm.paginator();
         }
     }
 </script>

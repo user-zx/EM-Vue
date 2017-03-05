@@ -1,43 +1,45 @@
 /**
-* Created by zhangxin on 2017/2/24.
+* Created by zhangxin on 2017/3/4.
 */
 <template>
-    <div class="modal fade" id="addPackage" tabindex="-1" role="dialog" aria-labelledby="addPackageLabel" aria-hidden="true">
+    <div class="modal fade" id="updatePackage" tabindex="-1" role="dialog" aria-labelledby="updatePackageLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="addPackageLabel">新建套餐</h4>
+                    <h4 class="modal-title" id="updatePackageLabel">修改套餐</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="control-label col-md-3">套餐名称：</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="请输入套餐名称" v-model="addPackage.params.name" />
+                                <input type="text" class="form-control" placeholder="请输入套餐名称" v-model="updatePackage.params.name" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">套餐价格：</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="请输入套餐价格" v-model="addPackage.params.price" />
+                                <input type="text" class="form-control" placeholder="请输入套餐价格" v-model="updatePackage.params.price" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">查看线索次数：</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="请输入线索查看次数" v-model="addPackage.params.leadsTimes" />
+                                <input type="text" class="form-control" placeholder="请输入线索查看次数" v-model="updatePackage.params.leadsTimes" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">套餐状态：</label>
                             <div class="col-md-6">
                                 <label class="checkbox-inline">
-                                    <input type="radio" name="packageStatus" value="上架" v-model="addPackage.params.status" />
+                                    <input type="radio" name="packageStatus" value="上架" v-if="updatePackage.params.status=='上架'" checked />
+                                    <input type="radio" name="packageStatus" value="上架" v-else />
                                     上架
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="radio" name="packageStatus" value="下架" v-model="addPackage.params.status" />
+                                    <input type="radio" name="packageStatus" value="下架" v-if="updatePackage.params.status=='下架'" checked />
+                                    <input type="radio" name="packageStatus" value="下架" v-else />
                                     下架
                                 </label>
                             </div>
@@ -65,25 +67,12 @@
     * import "vue-style-loader!css-loader!sass-loader!../../assets/vendor/iCkeck-v1.0.2/css/skins/square/blue.css";
     * import loginButton from './components/loginButton.vue';
     */
-     import '../../../assets/vendor/iCkeck-v1.0.2/js/icheck.min';
-     import "vue-style-loader!css-loader!sass-loader!../../../assets/vendor/iCkeck-v1.0.2/css/skins/square/blue.css";
     export default{
         data(){
             return {
-                msg:"添加套餐",
-                addPackage:{
+                updatePackage:{
                     url:"../apis/package/savePackage",
-                    params:{
-                        id:"",
-                        name:"",
-                        price:"",
-                        leadsTimes:"",
-                        status:"上架",
-                        createDate:"",
-                        createUser:"",
-                        updateDate:"",
-                        updateUser:""
-                    }
+                    params:{}
                 }
             }
         },
@@ -99,11 +88,22 @@
                 });
             },
             addPack(){
-                let vm = this;
-                vm.addPackage.params.createDate=new Date();
-                vm.post(vm.addPackage.url,vm.addPackage.params,function (response) {
+                let vm = this,params={
+                    createDate:new Date(vm.updatePackage.params.createDate),
+                    createUser:vm.updatePackage.params.createUser,
+                    id:vm.updatePackage.params.id,
+                    leadsTimes:vm.updatePackage.params.leadsTimes,
+                    name:vm.updatePackage.params.name,
+                    pageNumber:vm.updatePackage.params.pageNumber,
+                    pageSize:vm.updatePackage.params.pageSize,
+                    price:vm.updatePackage.params.price,
+                    status:vm.updatePackage.params.status,
+                    updateDate:new Date(),
+                    updateUser:sessionStorage.getItem("userAccount")
+                };
+                vm.post(vm.updatePackage.url,params,function (response) {
                     if(response.success){
-                        $("#addPackage").modal("hide");
+                        $("#updatePackage").modal("hide");
                         vm.$router.push({path:"/home/addPackageSuccess"});
                     }else{
                         alert(response.message);
@@ -118,8 +118,19 @@
             $("input[type=radio]").iCheck({
                 radioClass : 'iradio_square-blue'
             }).on("ifChecked",function () {
-                vm.addPackage.params.status=$(this).val();
+                vm.updatePackage.params.status=$(this).val();
             });
+            $("#updatePackage").on("show.bs.modal",function () {
+                vm.updatePackage.params=vm.$store.state.packageManager.params;
+            }).on("shown.bs.modal",function(){
+                $("input[type=radio]").iCheck({
+                    radioClass : 'iradio_square-blue'
+                }).on("ifChecked",function () {
+                    vm.updatePackage.params.status=$(this).val();
+                });
+            }).on("hidden.bs.modal",function () {
+                vm.updatePackage.params={};
+            })
         }
     }
 </script>

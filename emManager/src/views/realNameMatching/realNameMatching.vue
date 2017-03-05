@@ -6,13 +6,13 @@
         <div class="col-md-12">
             <ul id="matchingTab" class="nav nav-tabs nav-tabs-em">
                 <li class="active">
-                    <a href="javascript:void(0);" @click="currentTab(tab1,$event)">自助匹配</a>
+                    <a href="javascript:void(0);" :class="tab1" @click="currentTab(tab1,$event)">自助匹配</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" @click="currentTab(tab2,$event)">普通匹配</a>
+                    <a href="javascript:void(0);" :class="tab2" @click="currentTab(tab2,$event)">普通匹配</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" @click="currentTab(tab3,$event)">匹配记录</a>
+                    <a href="javascript:void(0);" :class="tab3" @click="currentTab(tab3,$event)">匹配记录</a>
                 </li>
             </ul>
             <div id="matchingTabContent" class="tab-content">
@@ -66,20 +66,28 @@
     export default{
         data(){
             return{
-                msg:"实名匹配",
-                tab1:"autoMatching",
-                tab2:"matching",
-                tab3:"matched",
-                current:"autoMatching"
+                msg:"匹配领取",
+                tab1:this.$store.state.matchingManager.tab1,
+                tab2:this.$store.state.matchingManager.tab2,
+                tab3:this.$store.state.matchingManager.tab3,
+                current:this.$store.state.matchingManager.current
             }
         },
         components:{autoMatching,matching,matched},
         methods:{
             currentTab(targetName,event){
-                this.current=targetName;
+                this.current= targetName;
                 let _el=event.target;
                 $(_el).parent().addClass("active").siblings().removeClass("active");
             }
+        },
+        mounted(){
+            let vm = this;
+            $(document).on("click",".currentParentTab",function () {
+                let currentTab=$(this).attr('data-target'),ele='.'+$(this).attr('data-target');
+                vm.current= currentTab;
+                $(ele).parent().addClass("active").siblings().removeClass("active");
+            });
         }
     }
 </script>

@@ -6,7 +6,7 @@
         <div class="photo">
             <img src="../realNameMatching/tabContent/images/photo.png" alt="头像" />
         </div>
-        <p class="text-center">天才小熊猫</p>
+        <p class="text-center">{{userName}}</p>
         <div class="form-box">
             <div class="form-horizontal">
                 <div class="form-group">
@@ -29,7 +29,6 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-4 col-md-offset-4 text-center">
-                        <button class="btn btn-default" type="button">取消</button>
                         <button class="btn btn-em" type="button" @click="update()">提交</button>
                     </div>
                 </div>
@@ -62,6 +61,7 @@
     export default{
         data(){
             return {
+                userName:sessionStorage.getItem("userAccount"),
                 updateUrl:"../apis/admin/modifyPassword",
                 params:{
                     oldPassword:"",

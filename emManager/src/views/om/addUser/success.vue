@@ -1,5 +1,5 @@
 /**
-* Created by zhangxin on 2017/2/23.
+* Created by zhangxin on 2017/2/28.
 */
 <template>
     <div>
@@ -25,16 +25,7 @@
             
         },
         mounted(){
-            let vm =this;
-            vm.$http.post("apis/admin/logout.do").then((response)=>{
-                if(response.ok) {
-                    sessionStorage.clear();
-                    vm.$router.push({path: '/'});
-                }else if(response.status=='404'){
-                    sessionStorage.clear();
-                    vm.$router.push({path: '/'});
-                }
-            });
+            this.$router.push({path:"/home/userManage"});
         }
     }
 </script>

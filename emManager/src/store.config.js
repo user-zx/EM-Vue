@@ -4,11 +4,24 @@
 export default {
     state:{
         count:0,
+        userAccount:"",
         userManager:{
             userId:""
+        },
+        packageManager:{
+            params:{}
+        },
+        matchingManager:{
+            tab1:"autoMatching",
+            tab2:"matching",
+            tab3:"matched",
+            current:"autoMatching"
         }
     },
     mutations:{
+        setUserAccount(state,params){
+            state.userAccount=params;
+        },
         addUser(state,params){
             state.count++;
         },
@@ -17,6 +30,12 @@ export default {
         },
         userInfo(state,params){
             state.userManager.userId=params;
+        },
+        updatePackage(state,params){
+            state.packageManager.params=params;
+        },
+        currentComponent(state,params){
+            state.matchingManager.current=params;
         }
     }
 }

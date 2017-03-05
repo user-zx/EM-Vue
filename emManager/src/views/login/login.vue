@@ -184,6 +184,8 @@
                 vm.params.password=encrypedPwd;
                 vm.post(vm.loginUrl, vm.params,function(result){
                     if(result.success){
+                        sessionStorage.setItem("userAccount", vm.item.account);
+//                        vm.$store.commit('setUserAccount',vm.item.account);
                         vm.$router.push({path:"home/userManage"});
                     }
                 },function (error) {

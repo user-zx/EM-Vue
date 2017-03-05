@@ -225,7 +225,7 @@
             }
         },
         mounted(){
-            let vm=this,shiIndex1,xianIndex1,obj;
+            let vm=this,shiIndex1,xianIndex1;
             $("#updateUser").on("show.bs.modal",function () {
                 vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
                     if (response.success) {

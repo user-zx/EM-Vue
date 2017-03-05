@@ -14,7 +14,7 @@
                             <button type="button" class="btn btn-em" @click="search()">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button type="button" data-toggle="modal" data-target="#addPackage" class="btn btn-dark">
+                            <button type="button" data-toggle="modal" data-target="#addPackage" @click="addPackage()" class="btn btn-dark">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 新建套餐
                             </button>
@@ -36,7 +36,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in packageList.result.content">
+                    <tr v-for="(item,index) in packageList.result.content">
                         <td>{{item.name}}</td>
                         <td>{{item.createDate}}</td>
                         <td>¥{{item.price}}</td>
@@ -44,9 +44,9 @@
                         <td>{{item.updateUser}}</td>
                         <td>{{item.updateDate}}</td>
                         <td>
-                            <input type="checkbox" data-on="success" v-if="item.status=='上架'" checked class="switch" />
-                            <input type="checkbox" data-on="success" v-else class="switch" />
-                            <a href="javascript:void(0);" :id="item.id">
+                            <input type="checkbox" data-on="success" v-if="item.status=='上架'" :id="index" checked class="switch" />
+                            <input type="checkbox" data-on="success" v-else class="switch" :id="index" />
+                            <a href="#updatePackage" :id="item.id" data-toggle="modal" data-target="#updatePackage" @click="updatePge('updatePackage',item)">
                                 <i class="glyphicon glyphicon-pencil"></i>
                             </a>
                         </td>
@@ -60,7 +60,7 @@
                 </ul>
             </div>
         </div>
-        <add-package></add-package>
+        <components :is="modal.current" keep-alive></components>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -77,6 +77,7 @@
     import 'bootstrap-daterangepicker';
     import 'vue-style-loader!css-loader!sass-loader!bootstrap-daterangepicker/daterangepicker.scss';
     import addPackage from './addPackage/addPackage.vue';
+    import updatePackage from './updatePackage/updatePackage.vue';
     import '../../assets/vendor/jqPaginator.min';
     import 'bootstrap-switch';
     import "vue-style-loader!css-loader!sass-loader!bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css";
@@ -88,10 +89,17 @@
                     params:{pageNumber:1,pageSize:10,name:""},
                     result:{}
                 },
-                msg:"套餐管理"
+                updatePackage:{
+                    url:"../apis/package/savePackage"
+                },
+                modal:{
+                    addPackage:"addPackage",
+                    updatePackage:"updatePackage",
+                    current:"",
+                }
             }
         },
-        components:{addPackage},
+        components:{addPackage,updatePackage},
         methods:{
             post(urls, params, successFun, errorFun){
                 this.$http.post(urls, params).then((response) => {
@@ -107,7 +115,7 @@
                 let vm =this;
                 vm.post(vm.packageList.url,vm.packageList.params,function (response) {
                     if(response.success){
-                        let result=response.data;
+                        let result=response.data,obj=response.data;
                         for (let i in result.content){
                             result.content[i].createDate=new Date(result.content[i].createDate).Format("yyyy-MM-dd hh:mm:ss");
                             result.content[i].updateDate=new Date(result.content[i].updateDate).Format("yyyy-MM-dd hh:mm:ss");
@@ -120,8 +128,32 @@
                                 onColor:'success',
                                 offColor:'default',
                                 onText:'上架',
-                                offText:'下架'
-                            });
+                                offText:'下架',
+                            }).on('switchChange.bootstrapSwitch',function (event,state) {
+                                let index=$(this).attr("id"),params={};
+                                if(state==true){
+                                    $(this).val("上架");
+                                    vm.packageList.result.content[index].status="上架";
+                                }else{
+                                    $(this).val("下架");
+                                    vm.packageList.result.content[index].status="下架";
+                                }
+                                params.id=vm.packageList.result.content[index].id;
+                                params.createUser=vm.packageList.result.content[index].createUser;
+                                params.leadsTimes=vm.packageList.result.content[index].leadsTimes;
+                                params.name=vm.packageList.result.content[index].name;
+                                params.pageNumber=vm.packageList.result.content[index].pageNumber;
+                                params.pageSize=vm.packageList.result.content[index].pageSize;
+                                params.price=vm.packageList.result.content[index].price;
+                                params.status=vm.packageList.result.content[index].status;
+                                params.updateUser=vm.packageList.result.content[index].updateUser;
+                                params.createDate=new Date(obj.content[index].createDate);
+                                params.updateDate=new Date(obj.content[index].updateDate);
+                                vm.post(vm.updatePackage.url,params,function (response) {
+                                },function (error) {
+                                    console.log(error);
+                                })
+                            })
                         },200);
                     }
                 },function (error) {
@@ -161,6 +193,14 @@
             search(){
                 let vm =this;
                 vm.pagintor();
+            },
+            addPackage(){
+                this.modal.current="addPackage";
+            },
+            updatePge(modalName,params){
+                let vm =this;
+                vm.$store.commit(modalName,params);
+                this.modal.current=modalName;
             }
         },
         mounted(){
@@ -168,23 +208,7 @@
                 style: 'btn-default',
                 size: 4
             });
-//            $("input[type=checkbox]").iCheck({
-//                checkboxClass : 'icheckbox_square-blue',
-//            });
-            let vm=this,shiIndex,xianIndex;
-            $("#sheng").on("changed.bs.select",function (e,clickedIndex) {
-                shiIndex=clickedIndex-1;
-                vm.shi=vm.searchData.citySearch.GT[shiIndex];
-            }).on("hide.bs.select",function () {
-                $("#shi").selectpicker("refresh").selectpicker('val', '');
-                $("#xian").selectpicker("refresh").selectpicker('val', '');
-            });
-            $("#shi").on("changed.bs.select",function (e,clickedIndex) {
-                xianIndex=clickedIndex-1;
-                vm.xian=vm.searchData.citySearch.GC[shiIndex][xianIndex];
-            }).on("hide.bs.select",function () {
-                $("#xian").selectpicker("refresh").selectpicker('val', '');
-            });
+            let vm=this;
             $("#regTime").daterangepicker({
                 maxDate : moment(), //最大时间
                 showDropdowns : true,
@@ -213,6 +237,7 @@
                 $(this).val(start.format('YYYY-MM-DD') + ' 到 ' + end.format('YYYY-MM-DD'));
             });
             vm.pagintor();
+
         }
     }
 </script>
