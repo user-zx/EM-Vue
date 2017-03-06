@@ -75,10 +75,11 @@
  						 <div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">所属行业:</label>
 						    <div class="col-sm-4" v-show="industryHad">
-			      			     <select class="form-control selectpicker" id="industrySelect">
+			      			     <select class="form-control selectpicker" id="industrySelect" >
+			      			     		<option>选择所属行业</option>
 										<option v-for="item in industryData">{{item}}</option> 
 							     </select>  
-			   			    </div>
+			   			    </div>  
 			   			     <div class="col-sm-4" v-show="industryAdd"> 
 			      			     <input type="text" name="" class="form-control" id="userTrade" v-model="userInputTrade" @input="changeInputTrade">
 			   			    </div> 
@@ -149,8 +150,8 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login: true, 
-	  			register_message:false,  
+	  			register_login:false , 
+	  			register_message:true,  
 	  			register_pay:false, 
 	  			phoneText:"",
 	  			verification:"",  

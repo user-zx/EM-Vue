@@ -122,17 +122,16 @@
 					<a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
 					<a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
 				</li>
-				<li>
+				<li> 
 					<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
 				</li>
 				<li v-bind:class="{active:artItem.labelStatus}">
 					<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
 					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
-				</li>
-			</ul>
-			<button class="btn btn-search" v-if="artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>   
+				</li> 
+			</ul> 
+			<button class="btn btn-search" v-if="artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>     
 		</div>
-		
 		<menu class="clearfix" > 
 			<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>qq</strong></li> 
 			<li><img src="../../assets/images/phone.png" height="22" width="18"><strong></strong></li>
@@ -284,10 +283,9 @@
                 }
             },
             ignoreFun(index,artId){
+            	console.log(index);
                   let vm = this;   
-                  //console.log(vm.artList.artContent[index].ignoreStatus); 
-                	
-                   if(!vm.artList.artContent[index].ignoreStatus){
+                   /*if(!vm.artList.artContent[index].ignoreStatus){
                    	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
@@ -298,8 +296,7 @@
                             }
                         } 
                     });
-  				} 
-               
+  				} */ 
             },
             labelFun(index,artId){
                 let vm = this;
@@ -382,6 +379,7 @@
                 }
             },
             getLinkStatus(index,salesLeadsId){
+            	console.log(salesLeadsId);
 				let vm=this;
 				vm.$http.post(vm.messageList,salesLeadsId).then((result)=>{
 				   //console.log(result);
