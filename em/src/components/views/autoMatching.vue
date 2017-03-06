@@ -17,7 +17,7 @@
 					</select>
 				</div>
 				<div class="col-md-2">
-					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="发布时间"/>  
+					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="匹配时间"/>  
 					<div class="dropdown-menu" role="menu" aria-labelledby="publishTime">
 						<div class="publish-heading search-menu">
 							<div class="clearfix">
@@ -112,7 +112,7 @@
                         <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
                         <img v-else src="../../assets/images/unSucImg.png" />
                     </h4>
-                    <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.createDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+                    <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>匹配时间:</i>{{artItem.salesLeads.createDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
                     <ul class="sellClue_list_div_ul">
                         <li v-bind:class="{active:artItem.addFavoritesStatus}">
@@ -443,23 +443,6 @@
                     });
                }
                
-                /*if(this.artList.artContent[index].ignoreStatus){
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=false;
-                            }
-                        }
-                    }); 
-                }else{
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=true;
-                            }
-                        }
-                    });
-                }*/
             },
             labelFun(index,artId){
                 if(this.artList.artContent[index].labelStatus){
