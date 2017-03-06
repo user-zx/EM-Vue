@@ -16,6 +16,9 @@ export default {
             tab2:"matching",
             tab3:"matched",
             current:"autoMatching"
+        },
+        updateOmUser:{
+            params:{}
         }
     },
     mutations:{
@@ -36,6 +39,9 @@ export default {
         },
         currentComponent(state,params){
             state.matchingManager.current=params;
+        },
+        updateOmUser(state,params){
+            state.updateOmUser.params=params;
         }
     }
 }

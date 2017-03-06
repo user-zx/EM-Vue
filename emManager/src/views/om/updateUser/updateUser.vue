@@ -32,26 +32,10 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">用户权限：</label>
                             <div class="col-md-6">
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="用户管理"/>
-                                    用户管理
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="套餐管理"/>
-                                    套餐管理
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="线索研判"/>
-                                    线索研判
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="实名匹配"/>
-                                    实名匹配
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="运维账户管理"/>
-                                    运维账户管理
-                                </label>
+                                <span v-for="(j,index) in permissions.result">
+                                    <!--<span v-if="permissionsArr[i]==j.name">{{j.name}}</span>-->
+                                    <span v-if="j.name==permissionsArr">{{j.name}}-----</span>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -116,9 +100,6 @@
         data(){
             return{
                 "msg":"修改用户",
-                getUser:{
-                    url:"../apis/user/findUserById",
-                },
                 addUser:{
                     url:"../apis/operation/saveOperationUser",
                     params:{
@@ -133,6 +114,11 @@
                         permissions:"",
                     }
                 },
+                permissionsArr:[],
+                permissions:{
+                    url:"../apis/permission/findAllPermission",
+                    result:[]
+                }
             }
         },
         methods:{
@@ -162,13 +148,19 @@
             }
         },
         mounted(){
-            let vm=this;
+            let vm=this,arr=[];
             $("#updateUser").on("show.bs.modal",function () {
-                vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
-                    if (response.success) {
-                        vm.addUser.params = response.data;
+                let arrs=[];
+                arrs=vm.$store.state.updateOmUser.params.permissions.split('，');
+                console.log(arrs)
+                vm.permissionsArr=arrs;
+                vm.addUser.params=vm.$store.state.updateOmUser.params;
+                vm.addUser.params.password="";
+                vm.post(vm.permissions.url,"",function(response){
+                    if(response.success){
+                        vm.permissions.result=response.data;
                     }
-                }, function (error) {
+                },function(error){
                     console.log(error);
                 });
             }).on("shown.bs.modal",function () {
@@ -176,10 +168,10 @@
                     checkboxClass : 'icheckbox_square-blue',
                 }).on("ifChecked",function () {
                     arr.push($(this).val());
-                    vm.addUser.params.permissions=arr.toString().replace(/,/g,"，");
+                    vm.addUser.params.permissions=arr.toString();
                 }).on("ifUnchecked",function () {
                     arr.remove($(this).val());
-                    vm.addUser.params.permissions=arr.toString().replace(/,/g,"，");
+                    vm.addUser.params.permissions=arr.toString();
                 });
             }).on("hidden.bs.modal",function () {
                 vm.addUser.params={};
