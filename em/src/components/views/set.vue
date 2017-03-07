@@ -140,7 +140,10 @@
 								</div>
 							</div>
 						</div>
-						<table class="table table-hover">
+						<div class="notResult" v-if="notResult">
+							<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
+						</div>
+						<table v-if="!notResult" class="table table-hover">
 							<thead>
 								<tr class="active">
 									<th class="text-center">关键词</th>
@@ -162,7 +165,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="pageList clearfix" >
+						<div v-if="!notResult" class="pageList clearfix" >
 							<ul class="clearfix pagination">
 
 							</ul>
@@ -245,7 +248,8 @@
 	import addKeyWord from './set/addKeyWord.vue';
 	export default {
 		data(){
-			return{        
+			return{  
+				notResult:false,			
 				userInfoUrl:"../apis/personal/findPersonalInfo",
 				packageListUrl:"../apis/package/getPackageList",
 				keyWordListUrl:"../apis/personal/findKeywordList",
@@ -447,6 +451,7 @@
 			},
 			searchKeyWordFun(){
 			    let vm =this;
+				vm.notResult = false;
 			    vm.keyWordSearchCon.pageNumber=1;
 			    vm.keyWordSearchCon.pageSize=10;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
@@ -473,8 +478,8 @@
 									alert(res.data.data);
 								}
 							}else{
-								
-								return;
+								vm.keyWordListObj="";
+								this.notResult = true;
 							}
 						}
 					}
