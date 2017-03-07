@@ -65,6 +65,10 @@ export default {
         {
             path:"/logout",
             component:logout
+        },
+        {
+            path:"*",
+            component:Login
         }
     ]
 }
