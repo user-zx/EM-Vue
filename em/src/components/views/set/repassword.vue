@@ -83,6 +83,9 @@
                 }else if(vm.data.newPassword!=vm.rePwd){
                     vm._alert("两次密码输入不一致");
                     return;
+                }else if(vm.data.newPassword.length<6||vm.data.newPassword.length>16||vm.rePwd.length<6||vm.rePwd.length>16){
+                     vm._alert("密码长度有误");
+                     return; 
                 }else{
                     vm.$http.post(vm.rePasswordUrl,vm.data).then((res)=>{
                         if(res.ok){

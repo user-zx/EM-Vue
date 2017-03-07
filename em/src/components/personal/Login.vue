@@ -103,7 +103,7 @@
                 params.password=vm.item.password;
                 params.rememberMe = vm.rememberMe;
                 vm.$http.post(vm.apiUrl, params).then(function(result){
-                	console.log(result);
+                	//console.log(result);
                     if(result.ok){  
                         if(result.data.success){
 							vm.hint = false;             

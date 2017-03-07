@@ -1,5 +1,8 @@
 <template>
 	<div class="viewLog publicClass">
+
+        <expense :indexData="modelData"></expense>
+        
 		<div class="search-box">
 			<div class="form-horizontal clearfix" role="search">
 				<div class="col-md-2">
@@ -127,7 +130,8 @@
                             <a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
                         </li>
                     </ul>
-                    <button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
+                    
+                    <button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" >联系人信息</button>
                 </div>
 				
 				<menu class="clearfix">
@@ -137,7 +141,7 @@
 					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
 					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
 					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
-
+                    
 				</menu>
 			</div>
 			<div class="pageList clearfix" v-show="!notResult" >
@@ -165,6 +169,7 @@
     import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
     import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import addMatching from './matching/addMatching.vue';
+    import expense from "../prompt/expense.vue";
     export default {
         data(){
             return{
@@ -175,6 +180,7 @@
                     artContent:[],
                     totalPages:''
                 },
+                messageList:"../apis/userSalesLeads/saveCheckUserSaleLeads",
                 page:{
                     clearfix:true,
                     pagination:true,
@@ -187,14 +193,14 @@
 					matchingEndDate:"",
                     labelStatus:"",
                     keywords:"",
-                }
+                },
+                modelData:{},
             }
         },
         props:["activeClass"],
-        components:{addMatching},
+        components:{addMatching,expense},
         mounted(){
             let vm=this;
-            //console.log(vm.activeClass);
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -243,6 +249,7 @@
             vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
                 if(response.ok){  
                     if(response.data.success){
+                        //console.log(response);
                         let typeOf=typeof response.data.data;
                         if(typeOf!="string"){
 							let arr=response.data.data.content,
@@ -267,18 +274,18 @@
                         alert(response.data.message);
 					}
                 }
-            });
+            }); 
+           
             vm.getArtListFun();
         },
         methods:{
             artListFun(){
                 let vm = this;
-                console.log(vm.searchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
-                            
+                            //console.log(response.data.data); 
                             if(typeOf!="string") {
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
@@ -287,6 +294,7 @@
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
                                 vm.notResult=false;
+                                console.log(vm.artList.artContent);
                             }else{
                                 vm.notResult=true;
                                 vm.artList.artContent="";
@@ -298,7 +306,8 @@
             },
             getArtListFun(){
                 let vm=this;
-                vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
+                //console.log(vm.searchCon);   
+                vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then( (response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
@@ -315,15 +324,21 @@
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
                                         vm.artListFun();
+                                        
                                     }
                                 });
-                            }else{
+                            }else{ 
                                 vm.notResult=true;
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
                             }
+                        }else{
+                            console.log(response.data.message);
+
                         }
                     }
+                },(err)=>{
+                    console.log(err);
                 });
             },
             goAnchor(selector) {
@@ -336,10 +351,7 @@
                 
                 let vm=this;
               
-               /* this.$nextTick(function () {
-                     console.log($(".pagination")[0])
-                });*/  
-               // console.log(vm.$el.querySelect(".pagination"));      
+                   
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -347,7 +359,6 @@
 
                            
                             if(typeOf!="string") {
-                                //console.log('test');   
                                 $("#pagination").jqPaginator({
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
@@ -360,12 +371,9 @@
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
                                         vm.artListFun();
-                                      /*  vm.$nextTick(function () { 
-                                          
-                                        })*/  
-                                          console.log($(".pagination")[0])
-                                        //console.log($("#pagination")[0]);
-                                        console.log(response.data.data.totalPages);
+                                    
+                                          //console.log($(".pagination")[0])
+                                        //console.log(response.data.data.totalPages);
                                     }, 
                                 });
                             }else{
@@ -522,7 +530,35 @@
                         vm.multipleSearch();
                         break;
                 }
-            }
+            },
+            getLinkStatus(index,artItemId){
+                let vm = this;
+                //console.log(artItemId); 
+                
+                 
+                vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
+                    //console.log(result);
+                    if(result.ok){  
+                        if(result.data.success){
+
+                            vm.modelData.url = vm.messageList;
+                             vm.modelData.index = artItemId; 
+                             vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
+                             // console.log( vm.artList.artContent[index].salesLeads); 
+                             vm.$store.commit("setExpenseModelStatus",true)
+                             $("#expense").modal("show");   
+                        }else{
+                             vm.$store.commit("setExpenseModelStatus",false) 
+                             $("#expense").modal("show");  
+                        }
+                    }
+                }, (err)=>{
+                     console.log(err); 
+                     vm.$store.commit("setExpenseModelStatus",false) 
+                     alert(err);  
+                     return false;
+                })
+           }
         }
     }
 </script>

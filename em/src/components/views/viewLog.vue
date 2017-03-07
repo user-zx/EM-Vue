@@ -263,6 +263,7 @@
             artListFun(){
                 let vm=this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
+                	
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
@@ -321,11 +322,13 @@
             multipleSearch(){
 				let vm=this;
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
+                	console.log(vm.searchCon);
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
-                                $("#pagination").jqPaginator({
+                            	console.log(vm.searchCon.pageSize);
+                                $("#pagination").jqPaginator({ 
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,

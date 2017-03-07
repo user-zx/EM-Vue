@@ -95,7 +95,7 @@
 			      			    <a  class="a-upload btn col-sm-6 panel-body-btn"> 
 			      			    	 <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
 			      			    	 <input type="file" name="fileName" @change="fileUpload" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
-			      			    </a>                                
+			      			    </a>                                 
                               
 			      			   <a type="button" class="btn  col-sm-6 panel-body-btn" href="/apis/excel/downloadKeywordImportTemplate"><span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板</a> 
 			   			    </div>
@@ -150,8 +150,8 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login:false , 
-	  			register_message:true,  
+	  			register_login: true,  
+	  			register_message: false,   
 	  			register_pay:false, 
 	  			phoneText:"",
 	  			verification:"",  
@@ -313,13 +313,14 @@
 	  		fileUpload(){
 	  			let vm = this;  
 		  		vm.database.keywordList = $("#fileName")[0].files[0].name;
+		  		//console.log(vm.database); 
 		  		 $.ajaxFileUpload({ 
 		  		 	url: vm.fileUrl,
 		  		 	fileElementId:"fileName",
 		  		 	secureuri: false, 
 		  		 	dataType: 'json',
 		  		 	type:"post", 
-		  		 	data: {keywordOwner:vm.database.phone},　　　　　　　　　 	　　　　　　　　　  
+		  		 	data: {keywordOwner:vm.database.phone,keywordList:vm.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
 		  		 	success:function(data,status){
 		  		 		if(!data.success){
 		  		 			alert(data.message)

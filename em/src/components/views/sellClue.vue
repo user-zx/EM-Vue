@@ -1,5 +1,7 @@
 <template>
 <div class="sellClue publicClass">
+	<expense :indexData="modelData"></expense>
+	
 	<div class="search-box">
 		<div class="form-horizontal clearfix" role="search">
 			<div class="col-md-2">
@@ -75,7 +77,7 @@
 						<div class="navbar-form navbar-left" role="form">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="输入关键词进行搜索" />
-								<span class="input-group-btn">
+								    <span class="input-group-btn">
 										<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
 									</span>
 							</div>
@@ -109,41 +111,42 @@
 	<div class="notResult" v-if="notResult">
 		<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 	</div>
-	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
-		<div >
-			<span v-if="artItem.type=='原创'" class="origin">{{artItem.type}}</span> 
-			<span v-else-if="artItem.type=='转发'" class="blue">{{artItem.type}}</span>
-			<span v-else-if="artItem.type!=null">{{artItem.type}}</span>
-			<h4>{{artItem.title}}</h4>
-			<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.keywords}}</span> <span><i>发布者:</i>{{artItem.author}}</span><span><i>发布时间:</i>{{artItem.publishDate}}</span><span><i>线索来源:</i>{{artItem.source}}</span></div>
-			<p>{{artItem.content}}</p>
+	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.salesLeads.ignoreStatus">
+		<div> 
+			<span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span> 
+			<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
+			<span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
+			<h4>{{artItem.salesLeads.title}}</h4>
+			<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+			<p>{{artItem.salesLeads.content}}</p>
 			<ul class="sellClue_list_div_ul">
-				<li v-bind:class="{active:artItem.addFavoritesStatus}">
-					<a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
-					<a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
+				<li v-bind:class="{active:artItem.salesLeads.addFavoritesStatus}">
+					<a href="javascript:void(0);" class="btn" v-if="artItem.salesLeads.addFavoritesStatus" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
+					<a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
 				</li>
 				<li> 
-					<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
+					<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
 				</li>
-				<li v-bind:class="{active:artItem.labelStatus}">
-					<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
-					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
+				<li v-bind:class="{active:artItem.salesLeads.labelStatus}">
+					<a v-if="artItem.salesLeads.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
+					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
 				</li> 
-			</ul> 
-			<button class="btn btn-search" v-if="artItem.checkStatus" @click="getLinkStatus(index,artItem.id)">联系人信息</button>     
+			</ul>      
+ 
+			<button class="btn btn-search" v-show="artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
 		</div>
-		<menu class="clearfix" > 
-			<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>qq</strong></li> 
-			<li><img src="../../assets/images/phone.png" height="22" width="18"><strong></strong></li>
-			<li><img src="../../assets/images/email.png" height="21" width="25"><strong></strong></li>
-			<li><img src="../../assets/images/IP.png" height="25" width="25"><strong></strong></li>
-			<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong></strong></li>
-			<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong></strong></li>
-		</menu>
-	</div>
+		<menu class="clearfix">  
+			<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong >{{artItem.salesLeads.address}}</strong></li> 
+			<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
+			<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.salesLeads.email}}</strong></li>
+			<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
+			<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
+			<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
+		</menu> 
+	</div>  
 	<div class="pageList clearfix" v-if="!notResult" >
 		<ul class="clearfix pagination" id="pagination">
-
+			
 		</ul>
 	</div>
 </div>
@@ -155,7 +158,7 @@
     import "../../assets/js/formatData.js";   
     import common from "../../assets/js/common.js";
     import newData from "../head/newData.vue";
-
+    import expense from "../prompt/expense.vue";
 	export default {
 		data(){  
 			return{
@@ -190,7 +193,7 @@
                     checkEndDate:""
                 },
                 promptMessage:"",
-                itemData:"",
+                modelData:{},
 			}
 		}, 
 		methods:{
@@ -261,7 +264,6 @@
             },
             favoritesFun(index,artId){
                 let vm = this;  
-               /*	console.log(vm.);*/ 
                 if(vm.artList.artContent[index].addFavoritesStatus){
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
                         if(res.ok){
@@ -283,9 +285,11 @@
                 }
             },
             ignoreFun(index,artId){
-            	console.log(index);
-                  let vm = this;   
-                   /*if(!vm.artList.artContent[index].ignoreStatus){
+            	//console.log(index);
+            	//console.log($(event.target).parents(".sellClue_list_div")[0]);
+                  let vm = this;  
+                 // $(event.target).parents(".sellClue_list_div").css("display","none")
+                   if(!vm.artList.artContent[index].ignoreStatus){
                    	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
@@ -294,9 +298,9 @@
                                 	vm.notResult = true;
                                 }
                             }
-                        } 
-                    });
-  				} */ 
+                        }  
+                    }); 
+  				  }    
             },
             labelFun(index,artId){
                 let vm = this;
@@ -379,14 +383,26 @@
                 }
             },
             getLinkStatus(index,salesLeadsId){
-            	console.log(salesLeadsId);
+            	console.log(index);  
 				let vm=this;
-				vm.$http.post(vm.messageList,salesLeadsId).then((result)=>{
-				   //console.log(result);
-				   vm.itemData = result.data.data;
-				   console.log( vm.itemData);
-				});
-
+				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
+					 if(result.ok){  
+                        if(result.data.success){
+                        	vm.modelData.url = vm.messageList;
+							vm.modelData.index = salesLeadsId; 
+							vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
+                            vm.$store.commit("setExpenseModelStatus",true)   
+                        }else{
+                            vm.$store.commit("setExpenseModelStatus",false)   
+                        } 
+                    }
+				}, (err)=>{
+					 console.log(err); 
+                     vm.$store.commit("setExpenseModelStatus",false) 
+                     alert(err);  
+                     return false;
+				})
+				
 			},
 			page:function(){
 				let vm  = this;
@@ -396,12 +412,14 @@
                             let typeOf=typeof response.data.data;
                             if(typeOf!="string"){
                                 let newArr=response.data.data.list;
+                                
                                 for(var i in newArr){
                                     newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
                                 }
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
+                                console.log(vm.artList.artContent);
 							}else{
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -428,7 +446,7 @@
 			}
 		},   
 		mounted:function(){
-			console.log('test');      
+			//console.log('test');      
             let vm=this;
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
@@ -530,6 +548,7 @@
 
 		components:{
 			newData,
+			expense,
 		}
 		
 	}    

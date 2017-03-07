@@ -113,8 +113,8 @@
 				<div class="panel panel-em">
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-md-3" v-for="packageItem in packageListArr">
-								<div class="combo-box">
+							<div class="col-md-3 panel-body-div" v-for="packageItem in packageListArr" >  
+								<div class="combo-box" >
 									<div class="combo-body">
 										<h5 class="comboName">{{packageItem.name}} <span class="price">¥{{packageItem.price}}</span></h5>
 										<p>内含<span class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
@@ -224,6 +224,7 @@
 	.panel-em .panel-body .control-label{color:#999999;font-weight: 400;}
 	.panel-em .panel-body .form-control-static .user-type{color:#ff9b50;}
 	.panel-em .panel-body .form-control-static .update-password{color:#32ccca;margin-left: 5px;}
+	.panel-body-div{margin-bottom: 15px;} 
 	.panel-em .panel-body .text-em{color: #32ccca;margin: 0 3px;}
 	.combo-box{background-color: #f2f2f2;border-radius:5px 5px 0 0;}
 	.combo-box .combo-body{padding:15px 20px;}
