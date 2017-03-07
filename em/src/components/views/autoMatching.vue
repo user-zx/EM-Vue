@@ -434,10 +434,8 @@
                  this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=true;
-                                if($(".sellClue_list_div").length==1){
-                                    this.notResult = true;
-                                }
+                                this.getArtListFun();
+
                             }
                         }
                     });
