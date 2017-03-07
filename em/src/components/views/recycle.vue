@@ -407,6 +407,7 @@
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].ignoreStatus=false;
+								data();
                             }
                         }
                     })

@@ -453,23 +453,28 @@
 			        if(res.ok){
 			            if(res.data.success){
                             let typeOf = typeof res.data.data;
-                            if(typeOf!="string") {
-                                $("#keyWordSet .pagination").jqPaginator({
-                                    totalPages: res.data.data.totalPages,
-                                    visiblePages: vm.keyWordSearchCon.pageSize,
-                                    currentPage: vm.keyWordSearchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-                                    prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                                    next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-                                    page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                                    onPageChange: function (n) {
-                                        vm.keyWordSearchCon.pageNumber = n;
-                                        vm.getKeywordListFun();
-                                    }
-                                });
+							if(res.data.data.totalPages>0){
+								if(typeOf!="string") {
+									$("#keyWordSet .pagination").jqPaginator({
+										totalPages: res.data.data.totalPages,
+										visiblePages: vm.keyWordSearchCon.pageSize,
+										currentPage: vm.keyWordSearchCon.pageNumber,
+										first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+										prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+										next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+										last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+										page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+										onPageChange: function (n) {
+											vm.keyWordSearchCon.pageNumber = n;
+											vm.getKeywordListFun();
+										}
+									});
+								}else{
+									alert(res.data.data);
+								}
 							}else{
-								alert(res.data.data);
+								
+								return;
 							}
 						}
 					}
