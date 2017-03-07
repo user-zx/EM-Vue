@@ -32,25 +32,9 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">用户权限：</label>
                             <div class="col-md-6">
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="用户管理"/>
-                                    用户管理
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="套餐管理"/>
-                                    套餐管理
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="线索研判"/>
-                                    线索研判
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="实名匹配"/>
-                                    实名匹配
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="运维账户管理"/>
-                                    运维账户管理
+                                <label v-for="item in permissions.result">
+                                    <input type="checkbox" name="userStatus" :value="item.id"/>
+                                    {{item.name}}
                                 </label>
                             </div>
                         </div>
@@ -130,6 +114,10 @@
                         permissions:"",
                     }
                 },
+                permissions:{
+                    url:"../apis/permission/findAllPermission",
+                    result:[]
+                }
             }
         },
         methods:{
@@ -161,15 +149,23 @@
         },
         mounted(){
             let vm=this,arr=[];
-            $("#addUser").on("shown.bs.modal",function () {
+            $("#addUser").on("show.bs.modal",function () {
+                vm.post(vm.permissions.url,"",function(response){
+                    if(response.success){
+                        vm.permissions.result=response.data;
+                    }
+                },function(error){
+                    console.log(error);
+                });
+            }).on("shown.bs.modal",function () {
                 $("input[type=checkbox]").iCheck({
                     checkboxClass : 'icheckbox_square-blue',
                 }).on("ifChecked",function () {
                     arr.push($(this).val());
-                    vm.addUser.params.permissions=arr.toString().replace(/,/g,"，");
+                    vm.addUser.params.permissions=arr.toString();
                 }).on("ifUnchecked",function () {
                     arr.remove($(this).val());
-                    vm.addUser.params.permissions=arr.toString().replace(/,/g,"，");
+                    vm.addUser.params.permissions=arr.toString();
                 });
             });
         }

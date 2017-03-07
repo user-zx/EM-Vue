@@ -395,10 +395,7 @@
 			    	 this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
 				        if(res.ok){
 				            if(res.data.success){ 
-                                vm.artList.artContent[index].addFavoritesStatus=false;
-                                if($(".sellClue_list_div").length==1){
-                                	vm.notResult = true;
-                                }
+                                this.getArtListFun();
                             } 
 						} 
                     });

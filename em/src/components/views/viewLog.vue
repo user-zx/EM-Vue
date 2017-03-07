@@ -407,7 +407,7 @@
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=false;
+                                this.getArtListFun();
                             }
                         }
                     });

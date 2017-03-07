@@ -25,7 +25,7 @@
             
         },
         mounted(){
-            this.$router.push({path:"/home/userManage"});
+            this.$router.push({path:"/home/om"});
         }
     }
 </script>

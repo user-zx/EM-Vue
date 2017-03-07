@@ -53,10 +53,10 @@
                         <td>{{item.createDate}}</td>
                         <td>{{item.userStatus}}</td>
                         <td>
-                            <a href="#updateUser" title="编辑" data-toggle="modal" data-target="#updateUser" @click="showModal(modal.updateUser,item.userAccount)">
+                            <a href="#updateUser" title="编辑" data-toggle="modal" data-target="#updateUser" @click="updateModal(modal.updateUser,item)">
                                 <i class="glyphicon glyphicon-pencil"></i>
                             </a>
-                            <a href="javascript:void(0);" v-if="item.userStatus=='冻结'" title="解除冻结" @click="thawFun(item.userAccount)">
+                            <a href="javascript:void(0);" v-if="item.userStatus=='冻结'" title="解除冻结" @click="freezeFun(item.userAccount)">
                                 <img src="./images/jiedong.png" alt="解除冻结" />
                             </a>
                             <a href="javascript:void(0);" v-else title="冻结" @click="freezeFun(item.userAccount)">
@@ -105,15 +105,11 @@
                 },
                 freeze:{
                     url:"../apis/operation/freezeUser",
-                    params:{
-                        userAccount:"",
-                        userStatus:""
-                    }
                 },
                 searchData:data,
                 modal:{
                     addUser:"addUser",
-                    updateUser:"updateUser",
+                    updateUser:"updateOmUser",
                     userInfo:"userInfo",
                     current:"",
                 }
@@ -181,28 +177,20 @@
                 vm.$store.commit(modalName,params);
                 this.modal.current=modalName;
             },
+            updateModal(modalName,params){
+                let vm =this;
+                vm.$store.commit(modalName,params);
+                this.modal.current="updateUser";
+            },
             /*冻结*/
             freezeFun(id){
                 let vm=this;
-                vm.freeze.params.userAccount=id;
-                vm.freeze.params.userStatus="冻结";
-                vm.post(vm.freeze.url,vm.freeze.params,function (response) {
-                    console.log(response);
-                },function (error) {
+                vm.post(vm.freeze.url,id,function (response) {
+                    vm.paginator();
+                    },function (error) {
                     console.log(error);
                 });
             },
-            /*解冻*/
-            thawFun(id){
-                let vm =this;
-                vm.freeze.params.userAccount=id;
-                vm.freeze.params.userStatus="冻结";
-                vm.post(vm.freeze.url,vm.freeze.params,function (response) {
-                    console.log(response);
-                },function (error) {
-                    console.log(error);
-                });
-            }
         },
         mounted(){
             $(".selectpicker").selectpicker({

@@ -115,9 +115,9 @@
                         <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
                         <img v-else src="../../assets/images/unSucImg.png" />
                     </h4>
-                    <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>匹配时间:</i>{{artItem.salesLeads.createDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+                    <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>匹配时间:</i>{{artItem.salesLeads.matchingDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
-                    <ul class="sellClue_list_div_ul">
+                    <ul v-if="artItem.salesLeads.matchingResult=='匹配成功'" class="sellClue_list_div_ul">
                         <li v-bind:class="{active:artItem.addFavoritesStatus}">
                             <a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
                             <a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
@@ -130,11 +130,15 @@
                             <a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
                         </li>
                     </ul>
+<!-- <<<<<<< HEAD
                     
                     <button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" >联系人信息</button>
+======= -->   
+                    <button class="btn btn-search" v-if="!artItem.checkStatus && artItem.salesLeads.matchingResult=='匹配成功'">联系人信息</button>
+
                 </div>
 				
-				<menu class="clearfix">
+				<menu class="clearfix" v-if="artItem.salesLeads.matchingResult=='匹配成功'">
 					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
 					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
 					<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.salesLeads.email}}</strong></li>
@@ -442,10 +446,8 @@
                  this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=true;
-                                if($(".sellClue_list_div").length==1){
-                                    this.notResult = true;
-                                }
+                                this.getArtListFun();
+
                             }
                         }
                     });

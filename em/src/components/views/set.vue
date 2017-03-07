@@ -140,7 +140,10 @@
 								</div>
 							</div>
 						</div>
-						<table class="table table-hover">
+						<div class="notResult" v-if="notResult">
+							<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
+						</div>
+						<table v-if="!notResult" class="table table-hover">
 							<thead>
 								<tr class="active">
 									<th class="text-center">关键词</th>
@@ -162,7 +165,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="pageList clearfix" >
+						<div v-if="!notResult" class="pageList clearfix" >
 							<ul class="clearfix pagination">
 
 							</ul>
@@ -246,7 +249,8 @@
 	import addKeyWord from './set/addKeyWord.vue';
 	export default {
 		data(){
-			return{        
+			return{  
+				notResult:false,			
 				userInfoUrl:"../apis/personal/findPersonalInfo",
 				packageListUrl:"../apis/package/getPackageList",
 				keyWordListUrl:"../apis/personal/findKeywordList",
@@ -448,29 +452,35 @@
 			},
 			searchKeyWordFun(){
 			    let vm =this;
+				vm.notResult = false;
 			    vm.keyWordSearchCon.pageNumber=1;
 			    vm.keyWordSearchCon.pageSize=10;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
 			        if(res.ok){
 			            if(res.data.success){
                             let typeOf = typeof res.data.data;
-                            if(typeOf!="string") {
-                                $("#keyWordSet .pagination").jqPaginator({
-                                    totalPages: res.data.data.totalPages,
-                                    visiblePages: vm.keyWordSearchCon.pageSize,
-                                    currentPage: vm.keyWordSearchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-                                    prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                                    next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-                                    page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                                    onPageChange: function (n) {
-                                        vm.keyWordSearchCon.pageNumber = n;
-                                        vm.getKeywordListFun();
-                                    }
-                                });
+							if(res.data.data.totalPages>0){
+								if(typeOf!="string") {
+									$("#keyWordSet .pagination").jqPaginator({
+										totalPages: res.data.data.totalPages,
+										visiblePages: vm.keyWordSearchCon.pageSize,
+										currentPage: vm.keyWordSearchCon.pageNumber,
+										first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+										prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+										next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+										last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+										page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+										onPageChange: function (n) {
+											vm.keyWordSearchCon.pageNumber = n;
+											vm.getKeywordListFun();
+										}
+									});
+								}else{
+									alert(res.data.data);
+								}
 							}else{
-								alert(res.data.data);
+								vm.keyWordListObj="";
+								this.notResult = true;
 							}
 						}
 					}

@@ -32,25 +32,10 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">用户权限：</label>
                             <div class="col-md-6">
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="用户管理"/>
-                                    用户管理
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="套餐管理"/>
-                                    套餐管理
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="线索研判"/>
-                                    线索研判
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="实名匹配"/>
-                                    实名匹配
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="userStatus" value="运维账户管理"/>
-                                    运维账户管理
+                                <label v-for="(j,index) in newPermissionsArr">
+                                   <input type="checkbox" v-if="j.type" checked :value="j.id" />
+                                    <input type="checkbox" v-else  :value="j.id" />
+                                    {{j.name}}
                                 </label>
                             </div>
                         </div>
@@ -116,9 +101,6 @@
         data(){
             return{
                 "msg":"修改用户",
-                getUser:{
-                    url:"../apis/user/findUserById",
-                },
                 addUser:{
                     url:"../apis/operation/saveOperationUser",
                     params:{
@@ -133,6 +115,12 @@
                         permissions:"",
                     }
                 },
+                permissionsArr:[],
+                newPermissionsArr:[],
+                permissions:{
+                    url:"../apis/permission/findAllPermission",
+                    result:[]
+                }
             }
         },
         methods:{
@@ -147,42 +135,83 @@
             },
             addUsers(){
                 let vm =this;
+                vm.addUser.params.createDate=new Date(vm.addUser.params.createDate);
                 vm.addUser.params.updateDate=new Date();
                 vm.addUser.params.updateUser=sessionStorage.getItem("userAccount");
+                console.log(vm.addUser.params.permissions)
                 vm.post(vm.addUser.url,vm.addUser.params,function(response){
                     if(response.success){
                         $("#updateUser").modal("hide");
-                        vm.$router.push({path:"/home/success"});
+                        vm.$router.push({path:"/home/saveOperationUserSuccess"});
                     }else{
                         alert(response.message);
                     }
                 },function (error) {
                     console.log(error)
                 });
+            },
+            isArri(arr,str){
+                for (let i in arr){
+                    if(arr[i]==str){
+                        return true;
+                    }
+                }
+                return false;
             }
         },
         mounted(){
-            let vm=this;
+            let vm=this,arr=[];
             $("#updateUser").on("show.bs.modal",function () {
-                vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
-                    if (response.success) {
-                        vm.addUser.params = response.data;
+                let arrs=[],ass="";
+                arrs=vm.$store.state.updateOmUser.params.permissions.split('，');
+                vm.permissionsArr=arrs;
+                vm.addUser.params=vm.$store.state.updateOmUser.params;
+                vm.addUser.params.password="";
+                vm.post(vm.permissions.url,"",function(response){
+                    if(response.success){
+                        vm.permissions.result=response.data;
+                        for(let i=0;i<vm.permissions.result.length;i++){
+                            if(!vm.isArri(vm.permissionsArr,vm.permissions.result[i].name)){
+                                let obj={};
+                                obj.type=false;
+                                obj.id=vm.permissions.result[i].id;
+                                obj.name=vm.permissions.result[i].name;
+                                vm.newPermissionsArr.push(obj);
+                            }else{
+                                let obj={};
+                                obj.type=true;
+                                obj.id=vm.permissions.result[i].id;
+                                obj.name=vm.permissions.result[i].name;
+                                vm.newPermissionsArr.push(obj);
+                            }
+                        }
                     }
-                }, function (error) {
+                },function(error){
                     console.log(error);
                 });
             }).on("shown.bs.modal",function () {
+                let oldArr=vm.addUser.params.permissions.split("，");
+                for(let i=0;i<oldArr.length;i++){
+                    for(let j=0;j<vm.permissions.result.length;j++){
+                        if(vm.permissions.result[j].name==oldArr[i]){
+                            arr.push(vm.permissions.result[j].id);
+                        }
+                    }
+                }
+                vm.addUser.params.permissions=arr.toString();
                 $("input[type=checkbox]").iCheck({
                     checkboxClass : 'icheckbox_square-blue',
                 }).on("ifChecked",function () {
                     arr.push($(this).val());
-                    vm.addUser.params.permissions=arr.toString().replace(/,/g,"，");
+                    vm.activePer=arr.toString();
                 }).on("ifUnchecked",function () {
                     arr.remove($(this).val());
-                    vm.addUser.params.permissions=arr.toString().replace(/,/g,"，");
+                    vm.activePer=arr.toString();
                 });
             }).on("hidden.bs.modal",function () {
+                vm.newPermissionsArr=[];
                 vm.addUser.params={};
+                vm.$router.push({path:"/home/saveOperationUserSuccess"});
             });
         }
     }
