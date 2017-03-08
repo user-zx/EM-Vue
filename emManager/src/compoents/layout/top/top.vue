@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="javascript:void(0)">
-                        <img src="./images/logo.png" alt="logo" />
+                        <img src="./images/clogo.png" alt="logo" />
                     </a>
                 </div>
                 <div class="navbar navbar-right">
@@ -44,17 +44,27 @@
         data(){
             return{
                 msg:"顶部",
-                userName:sessionStorage.getItem("userAccount"),
+                userName:"",
                 userInfo:{
-                    url:"../apis/findUserName",
+                    url:"../../apis/admin/findUserName",
                     name:""
                 }
             }
         },
+        watch(){
+
+        },
         mounted(){
             let vm = this;
             vm.$http.post(vm.userInfo.url).then((response)=>{
-                console.log(response);
+                if(response.ok){
+                    if(response.data.success){
+                        sessionStorage.setItem("userAccount", response.data.data);
+                        vm.userName=response.data.data;
+                    }else{
+                        vm.$router.push({path:"/"})
+                    }
+                }
             });
         },
     }

@@ -134,7 +134,6 @@
                 let vm =this;
                 vm.addUser.params.createDate=new Date();
                 vm.addUser.params.createUser=sessionStorage.getItem("userAccount");
-                console.log(vm.addUser.params);
                 vm.post(vm.addUser.url,vm.addUser.params,function(response){
                     if(response.success){
                         $("#addUser").modal("hide");
