@@ -46,7 +46,7 @@
                 msg:"顶部",
                 userName:"",
                 userInfo:{
-                    url:"../../apis/admin/findUserName",
+                    url:"../../apis/admin/findUserInfo",
                     name:""
                 }
             }
@@ -59,8 +59,9 @@
             vm.$http.post(vm.userInfo.url).then((response)=>{
                 if(response.ok){
                     if(response.data.success){
-                        sessionStorage.setItem("userAccount", response.data.data);
-                        vm.userName=response.data.data;
+                        sessionStorage.setItem("userAccount", response.data.data.userName);
+                        vm.userName=response.data.data.userName;
+                        vm.$store.commit("setUserInfo",response.data.data.permissions);
                     }else{
                         vm.$router.push({path:"/"})
                     }

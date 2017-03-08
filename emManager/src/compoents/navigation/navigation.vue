@@ -7,13 +7,29 @@
             <div class="menu">
                 <div class="lyt-box">
                     <div class="lyt-item">
-                        <div class="lyt-cell">
-                            <router-link to="/home/userManage" class="yellow">
+                        <div class="lyt-cell" v-for="item in permissions">
+                            <router-link to="/home/userManage" class="yellow" v-if="item=='用户管理'">
                                 <img src="./images/mainMenu1.png" alt="用户管理" />
                                 <span>用户管理</span>
                             </router-link>
+                            <router-link to="/home/packageManage" class="green" v-if="item=='套餐管理'">
+                                <img src="./images/mainMenu2.png" alt="套餐管理" />
+                                <span>套餐管理</span>
+                            </router-link>
+                            <router-link to="/home/studyClue" class="blue" v-if="item=='线索研判'">
+                                <img src="./images/mainMenu3.png" alt="线索研判" />
+                                <span>线索研判</span>
+                            </router-link>
+                            <router-link to="/home/realNameMatching/getMatching" class="red" v-if="item=='实名匹配'">
+                                <img src="./images/mainMenu4.png" alt="实名匹配" />
+                                <span>实名匹配</span>
+                            </router-link>
+                            <router-link to="/home/om" class="darkblue" v-if="item=='运维账户管理'">
+                                <img src="./images/mainMenu5.png" alt="运维管理" />
+                                <span>运维管理</span>
+                            </router-link>
                         </div>
-                        <div class="lyt-cell">
+                        <!--<div class="lyt-cell">
                             <router-link to="/home/packageManage" class="green">
                                 <img src="./images/mainMenu2.png" alt="套餐管理" />
                                 <span>套餐管理</span>
@@ -36,7 +52,7 @@
                                 <img src="./images/mainMenu5.png" alt="运维管理" />
                                 <span>运维管理</span>
                             </router-link>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -131,8 +147,15 @@
         name:"mainMenu",
         data(){
             return{
-                msg:"菜单"
+                msg:"菜单",
+                permissions:this.$store.state.userInfo.permissions
             }
+        },
+        mounted(){
+            let vm =this;
+            setTimeout(()=>{
+                vm.permissions=vm.$store.state.userInfo.permissions;
+            },300);
         }
     }
 </script>

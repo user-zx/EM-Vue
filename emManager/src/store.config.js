@@ -19,6 +19,9 @@ export default {
         },
         updateOmUser:{
             params:{}
+        },
+        userInfo:{
+            permissions:[]
         }
     },
     mutations:{
@@ -42,6 +45,9 @@ export default {
         },
         updateOmUser(state,params){
             state.updateOmUser.params=params;
+        },
+        setUserInfo(state,params){
+            state.userInfo.permissions=params;
         }
     }
 }
