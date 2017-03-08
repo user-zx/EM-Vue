@@ -402,19 +402,17 @@
 
 	  		$(document).on("change","#fileName",function(){
 	  			_that.database.keywordList = $("#fileName")[0].files[0].name;
-	  			//console.log(_that.database.keywordList); 
 	  			 $.ajaxFileUpload({ 
 		  		 	url: _that.fileUrl,
 		  		 	fileElementId:"fileName",
 		  		 	secureuri: false,   
 		  		 	dataType: 'json',   
-		  		 	type:"post",         
+		  		 	type:"post",          
 		  		 	data: {keywordOwner:_that.database.phone,keywordList:_that.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
 		  		 	success:function(data,status){
 		  		 		console.log(data); 
 		  		 		if(!data.success){
 		  		 			console.log(data.message);
-		  		 			//alert(data.message) 
 		  		 		} 
 		  		 	},
 		  		 	error: function (data, status, e){//服务器响应失败处理函数
