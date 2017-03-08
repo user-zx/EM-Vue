@@ -150,9 +150,9 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login: true,  
+	  			register_login:true ,     
 	  			register_message: false,   
-	  			register_pay:false, 
+	  			register_pay:false,  
 	  			phoneText:"",
 	  			verification:"",  
 	  			cellPhone:"",
@@ -311,7 +311,7 @@
 	  			console.log(el.target);  
 	  		},
 	  		fileUpload(){
-	  			let vm = this;  
+	  			/*let vm = this;  
 		  		vm.database.keywordList = $("#fileName")[0].files[0].name;
 		  		//console.log(vm.database); 
 		  		 $.ajaxFileUpload({ 
@@ -323,16 +323,19 @@
 		  		 	data: {keywordOwner:vm.database.phone,keywordList:vm.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
 		  		 	success:function(data,status){
 		  		 		if(!data.success){
+		  		 			//alert()
+		  		 			console.log(data.message);
 		  		 			alert(data.message)
 		  		 		}
 		  		 	},
 		  		 	error: function (data, status, e){//服务器响应失败处理函数
-                        alert(e);
+                        //alert(e); 
+                        console.log(e); 
                     }
 		  		 })
 		  		
-		  		  return false;
-	  		}  
+		  		  return false;*/
+	  		}   
 	  	},
 	  	mounted(){
 	  		let _that = this;
@@ -396,6 +399,28 @@
 	  		},(err)=>{
 	  			console.log(err);
 	  		}) 
+
+	  		$(document).on("change","#fileName",function(){
+	  			_that.database.keywordList = $("#fileName")[0].files[0].name;
+	  			 $.ajaxFileUpload({ 
+		  		 	url: _that.fileUrl,
+		  		 	fileElementId:"fileName",
+		  		 	secureuri: false,   
+		  		 	dataType: 'json',   
+		  		 	type:"post",          
+		  		 	data: {keywordOwner:_that.database.phone,keywordList:_that.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
+		  		 	success:function(data,status){
+		  		 		console.log(data); 
+		  		 		if(!data.success){
+		  		 			console.log(data.message);
+		  		 		} 
+		  		 	},
+		  		 	error: function (data, status, e){//服务器响应失败处理函数
+                        console.log(e); 
+                    }
+		  		 })
+	  		})
+
 	  	},  
 	  	activated(){
 	  		console.log('test'); 
