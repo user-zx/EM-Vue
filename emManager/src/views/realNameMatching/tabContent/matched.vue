@@ -2,7 +2,7 @@
 * Created by zhangxin on 2017/2/24.
 */
 <template>
-    <div>
+    <div id="matched">
         <div class="search-box">
             <div class="row">
                 <div class="col-md-2">
@@ -83,7 +83,7 @@
         data(){
             return{
                 matchingRecordList:{
-                    url:"../apis/matching/findMatchingRecordList",
+                    url:"../../apis/matching/findMatchingRecordList",
                     params:{
                         pageNumber:1,
                         pageSize:10,

@@ -2,7 +2,7 @@
 * Created by zhangxin on 2017/2/24.
 */
 <template>
-    <div>
+    <div id="autoMatching">
         <p class="text-right">
             今天<span class="text-em">889</span>条实名匹配
         </p>

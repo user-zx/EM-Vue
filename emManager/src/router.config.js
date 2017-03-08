@@ -13,6 +13,8 @@ import personalInfo from './views/personal/personalInfo.vue';
 import success from './views/userManage/addUser/success.vue';
 import addPackageSuccess from './views/packgeManage/addPackage/success.vue';
 import saveOperationUserSuccess from './views/om/addUser/success.vue';
+import getMatching from './views/realNameMatching/getMatching.vue';
+import matchingTab from './views/realNameMatching/tab.vue';
 export default {
     mode: 'history',
     base: __dirname,
@@ -37,7 +39,17 @@ export default {
                 },
                 {
                     path:'realNameMatching',
-                    component:realNameMatching
+                    component:realNameMatching,
+                    children:[
+                        {
+                            path:'getMatching',
+                            component:getMatching
+                        },
+                        {
+                            path:'matchingTab',
+                            component:matchingTab
+                        }
+                    ]
                 },
                 {
                     path:'om',

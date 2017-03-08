@@ -63,6 +63,16 @@ textarea{resize: none;}
         outline:none;
     }
 }
+.btn-em-o{
+    border-color:$temColor;
+    background-color: $fff;
+    color:#273e4c;
+    &:hover,
+    &:focus{
+        color:$temColor;
+        outline: none;
+    }
+}
 .btn-radius{border-radius: 30px;}
 .search-box {
     .form-control,.btn-em,.btn-dark{
@@ -75,7 +85,7 @@ textarea{resize: none;}
 .table-box{
     margin-top: 20px;
     min-height: 450px;
-    border:1px solid #f2f2f2;
+    border:1px solid $f2f;
     .table{
         thead{
             tr{
@@ -113,3 +123,28 @@ textarea{resize: none;}
     }
 }
 .alert{display: none;position: fixed;top:20px;left:20px;right: 20px;}
+.center-content{
+    width: 454px;
+    margin: 100px auto;
+    border: 1px solid #e1e1e1;
+    .banner{
+        padding-top:13px;
+        padding-bottom:7px;
+        margin-bottom: 38px;
+        background-color: $f2f;
+        text-align: center;
+    }
+    p.text-center{
+        color:#273e4c;
+        font-size:16px;
+        margin-bottom: 30px;
+    }
+    .btn-block-box{
+        margin-bottom: 15px;
+        text-align: center;
+        &+.btn-block-box{
+            margin-bottom: 30px;
+        }
+    }
+    .line-bottom{height:2px;margin-bottom:2px;border-bottom:1px solid #e1e1e1;}
+}
