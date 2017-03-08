@@ -131,12 +131,9 @@
                             <a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
                         </li>
                     </ul>
-<!-- <<<<<<< HEAD
-                    
-                    <button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" >联系人信息</button>
-======= -->              
+      
                     <button class="btn btn-search" v-if="!artItem.checkStatus && artItem.salesLeads.matchingResult=='匹配成功'" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
-                   
+                    
                 </div>
 				
 				<menu class="clearfix" v-if="artItem.salesLeads.matchingResult=='匹配成功'">
@@ -154,8 +151,8 @@
                     
 				</ul>
 			</div>
-		</div> 
-        <add-matching></add-matching>
+		</div>  
+        <add-matching @increment="getArtListFun"></add-matching>
 	</div>
 </template>
 <style scoped>
@@ -200,8 +197,11 @@
                     keywords:"",
                 },
                 modelData:{},
+                refresh:{
+
+                },
             }
-        },
+        }, 
         props:["activeClass"],
         components:{addMatching,expense},
         mounted(){
@@ -299,7 +299,7 @@
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
                                 vm.notResult=false;
-                                console.log(vm.artList.artContent);
+                                //console.log(vm.artList.artContent);
                             }else{
                                 vm.notResult=true;
                                 vm.artList.artContent="";
@@ -310,6 +310,7 @@
                 });
             },
             getArtListFun(){
+                //console.log('test1122');  
                 let vm=this;
                 //console.log(vm.searchCon);   
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then( (response)=>{
@@ -536,7 +537,7 @@
             },
             getLinkStatus(index,artItemId){
                 let vm = this;
-                //console.log(artItemId); 
+              
                 
                  
                 vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{

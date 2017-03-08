@@ -96,11 +96,14 @@
                 vm.$http.post(vm.addMatchingUrl,vm.data).then((result)=>{
                     if(result.ok){
                         if (result.data.success){
+                                 
+                            vm.$emit("increment")
                             $("#addMatching").modal("hide");
-                        }
-                    }
+                        }   
+                    }   
                 });
             }
-        }
+        },  
+       
     }
 </script>
