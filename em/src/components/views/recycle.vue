@@ -1,6 +1,7 @@
 <template>
 	<div class="viewLog publicClass">
-		<div class="search-box">
+         <expense :indexData="modelData"></expense>
+		<div class="search-box"> 
 			<div class="form-horizontal clearfix" role="search">
 				<div class="col-md-2">
 					<select v-model="searchCon.source" class="form-control selectpicker" title="线索来源">
@@ -132,9 +133,9 @@
                             <a  href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
                         </li> 
                      </ul> 
-                     <button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
+                     <button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
                 </div>
-				
+				  
 				<menu class="clearfix" >
 					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
 					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
@@ -163,11 +164,13 @@
     import common from '../../assets/js/common.js';
     import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
     import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
+    import expense from "../prompt/expense.vue";
     export default {
         data(){
             return{
                 notResult:false, 
                 saleLeadsListUrl:'../apis/salesLeads/getSaleLeadsList',
+                messageList:"../apis/userSalesLeads/saveCheckUserSaleLeads",
                 searchHead:{},
                 artList:{
                     artContent:[],
@@ -183,9 +186,11 @@
                     type:"",
                     checkStartDate:"",
                     checkEndDate:""
-                }
+                },
+                modelData:{},
             }
-        },
+        }, 
+        components:{expense},
         mounted(){
             let vm=this;
             $(".selectpicker").selectpicker({
@@ -502,7 +507,31 @@
                         vm.multipleSearch();
                         break;
                 }
-            }
+            },
+            getLinkStatus(index,artItemId){
+                let vm = this;
+                vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
+                    if(result.ok){    
+                        if(result.data.success){
+                             vm.modelData.url = vm.messageList; 
+                             vm.modelData.index = artItemId;  
+                             vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
+                             vm.$store.commit("setExpenseModelStatus",true)
+                             $("#expense").modal("show"); 
+                             //console.log(vm.modelData.url); 
+                             //console.log( vm.modelData.itemData );  
+                        }else{
+                             vm.$store.commit("setExpenseModelStatus",false) 
+                             $("#expense").modal("show");  
+                        }
+                    }
+                }, (err)=>{
+                     console.log(err); 
+                     vm.$store.commit("setExpenseModelStatus",false) 
+                     alert(err);  
+                     return false;
+                })
+           }
         }
     }
 </script>

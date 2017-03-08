@@ -1,5 +1,6 @@
 <template>
 	<div class="viewLog publicClass">
+	    <expense :indexData="modelData"></expense>
 		<div class="search-box">
 			<div class="form-horizontal clearfix" role="search">
 				<div class="col-md-2">
@@ -131,8 +132,8 @@
 							<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
 							<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
 						</li>
-					</ul> 
-					<button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
+					</ul>  
+					<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
 				</div>
 				
 				<menu class="clearfix">
@@ -163,11 +164,13 @@
     import common from '../../assets/js/common.js';
     import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
     import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
+    import expense from "../prompt/expense.vue";
 	export default {
 		data(){
 			return{
                 notResult:false,
                 saleLeadsListUrl:'../apis/salesLeads/getSaleLeadsList',
+                messageList:"../apis/userSalesLeads/saveCheckUserSaleLeads",
 				searchHead:{},
 				artList:{
                     artContent:[],
@@ -183,7 +186,8 @@
 					type:"",
 					checkStartDate:"",
 					checkEndDate:""
-				}
+				},
+				modelData:{},
 			}
 		},
         mounted(){
@@ -499,7 +503,32 @@
                         vm.multipleSearch();
 					break;
 				}
-			}
-		}
+			},
+			getLinkStatus(index,artItemId){
+                let vm = this;
+                vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
+                    if(result.ok){   
+                        if(result.data.success){
+                             vm.modelData.url = vm.messageList; 
+                             vm.modelData.index = artItemId;  
+                             vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
+                             vm.$store.commit("setExpenseModelStatus",true)
+                             $("#expense").modal("show"); 
+                             console.log(vm.modelData.url);
+                             console.log( vm.modelData.itemData );  
+                        }else{
+                             vm.$store.commit("setExpenseModelStatus",false) 
+                             $("#expense").modal("show");  
+                        }
+                    }
+                }, (err)=>{
+                     console.log(err); 
+                     vm.$store.commit("setExpenseModelStatus",false) 
+                     alert(err);  
+                     return false;
+                })
+           }
+		},
+		components:{expense},
 	}
 </script>

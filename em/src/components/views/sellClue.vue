@@ -77,9 +77,9 @@
 						<div class="navbar-form navbar-left" role="form">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="输入关键词进行搜索" />
-								    <span class="input-group-btn">
-										<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
-									</span>
+							    <span class="input-group-btn">
+									<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
+								</span>
 							</div>
 						</div>
 						<div class="navbar-right">
@@ -277,10 +277,10 @@
                     }); 
                 }else{     
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
-                    	console.log(artId); 
+                    	//console.log(artId); 
                         if(res.ok){ 
-                            if(res.data.success){   
-                            	console.log('test22');      
+                            if(res.data.success){    
+                            	//console.log('test22');      
                                 vm.artList.artContent[index].addFavoritesStatus=true;
                             } 
                         }
@@ -289,7 +289,6 @@
             },
             ignoreFun(index,artId){
                   let vm = this;        
-                 
                    if(!vm.artList.artContent[index].ignoreStatus){
                    	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
@@ -499,13 +498,16 @@
             });
 			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
 				if(response.ok){
+						//console.log(response.data.data.content);
 				    if(response.data.success){
 				        let typeOf=typeof response.data.data;
 				        if(typeOf!='string'){
                             let arr=response.data.data.content,
+
                                 conObj={
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
+
                             for (let i in arr){
                                 for (let j in conObj){
                                     if(j==arr[i].keywordInitial){
@@ -516,7 +518,8 @@
                                     }
                                 }
                             }
-                            vm.searchHead=conObj;
+                            vm.searchHead=conObj; 
+                            console.log(vm.searchHead);
 						}
 					}
 				}
