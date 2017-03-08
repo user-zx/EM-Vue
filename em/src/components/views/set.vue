@@ -5,7 +5,7 @@
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#personalInfo">个人信息</a>
 			</li>
 			<li>
-				<a href="javascript:void(0);" data-toggle="tab" data-target="#combo">套餐充值</a>
+				<a href="javascript:void(0);" data-toggle="tab" data-target="#combo" @click="combo">套餐充值</a>
 			</li>
 			<li>
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#keyWordSet">关键词设置</a>
@@ -113,7 +113,12 @@
 				<div class="panel panel-em">
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-md-3 panel-body-div" v-for="packageItem in packageListArr" >  
+							<div v-if="packageListArr=='暂无数据'" class="col-md-3 panel-body-div">
+								<div >
+									<h2>暂无数据</h2>
+								</div>
+							</div>
+							<div v-else class="col-md-3 panel-body-div" v-for="packageItem in packageListArr" >
 								<div class="combo-box" >
 									<div class="combo-body">
 										<h5 class="comboName">{{packageItem.name}} <span class="price">¥{{packageItem.price}}</span></h5>
@@ -122,7 +127,7 @@
 									<a href="javascript:void(0);" v-bind:id="packageItem.id" class="btn btn-combo">立即充值</a>
 								</div>
 							</div>
-						</div>
+						</div> 
 					</div>
 				</div>
 			</div>
@@ -291,8 +296,9 @@
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
                         vm.keyWordSearchCon.userAccount = res.data.data.user.userAccount;
+                       // console.log(vm.keyWordSearchCon.userAccount);
                     }
-                }
+                } 
 			});
 			/*套餐信息*/
             vm.$http.post("../apis/package/getPackageList").then(function(res){
@@ -300,6 +306,7 @@
                 if(res.ok) {
                     if (res.data.success) {
                         vm.packageListArr=res.data.data;
+                        console.log(vm.packageListArr); 
                     }
                 }
             });
@@ -503,6 +510,20 @@
                     });
 				}
 				
+			},
+			combo(){ 
+				let vm = this; 
+				 vm.$http.post("../apis/package/getPackageList").then(function(res){
+				 	console.log(res); 
+                if(res.ok) { 
+                    if (res.data.success) {
+                    	console.log('test'); 
+                        vm.packageListArr=res.data.data;
+                        //console.log();
+                        console.log( vm.packageListArr);
+                    }
+                }
+            });
 			}
 		}
 	}

@@ -354,17 +354,13 @@
             },
             //筛选
             multipleSearch(){
-                
                 let vm=this;
-              
-                   
-                this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
+                
+                     this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
-
-                           
-                            if(typeOf!="string") {
+                            if(typeOf!="string") { 
                                 $("#pagination").jqPaginator({
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
@@ -377,9 +373,10 @@
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
                                         vm.artListFun();
-                                    
-                                          //console.log($(".pagination")[0])
-                                        //console.log(response.data.data.totalPages);
+                                        if($(".sellClue_list_div").length==1){
+                                           vm.notResult = false;
+                                        } 
+                                         
                                     }, 
                                 });
                             }else{
@@ -390,6 +387,9 @@
                         }
                     }
                 });
+              
+               
+               
             },
             singleSearch(keyword){
                 let vm = this;

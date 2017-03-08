@@ -15,6 +15,20 @@ Vue.config.debug = true;
 Vue.use(VueRouter);
 Vue.use(vueResource); 
 Vue.use(Vuex);
+Vue.http.interceptors.push((request, next) => {
+    //console.log(request);    
+    request.method = 'POST';
+    next((response) => {
+      if(response.ok){
+        if(response.data.success){
+          return response;
+        }
+      }else{
+        alert("请求错误，请重试！")
+      }
+    });
+});
+
 const router = new VueRouter(routerConfig);
 const store = new Vuex.Store(storeConfig) 
 const app =  new Vue({	

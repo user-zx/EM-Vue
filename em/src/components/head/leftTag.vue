@@ -72,7 +72,7 @@
                     {
                         liClass:"",
                         icons:"icons icons-3",
-                        text:"自动匹配",
+                        text:"自助匹配", 
                         module:"autoMatching"
                     },
                     {

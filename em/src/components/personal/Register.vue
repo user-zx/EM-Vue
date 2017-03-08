@@ -150,9 +150,9 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login:true ,     
+	  			register_login:  true,     
 	  			register_message: false,   
-	  			register_pay:false,  
+	  			register_pay: false,    
 	  			phoneText:"",
 	  			verification:"",  
 	  			cellPhone:"",
@@ -210,21 +210,14 @@
 	  			//console.log(vm.database);
 	  			let post = common.post; 
 	  			post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
-
-	  				if(res.ok){
-	  					if(res.data.success){
-	  						window.location.href = "/#/login"
-	  					}else{
-	  						vm.register_login = true;
-				  			vm.register_message =false;  
-				  			vm.register_pay = false;
-	  					}
-	  				} 
+ 					window.location.href = "/"
+	  				
 	  			},(err)=>{
 	  				console.log("注册失败了");
-	  				vm.register_login = true; 
+	  				window.location.href = "/"
+	  				/*vm.register_login = true; 
 		  			vm.register_message =false;  
-		  			vm.register_pay = false;
+		  			vm.register_pay = false;*/ 
 	  			})
 	  		}, 
 	  		loginPhone(){ 
