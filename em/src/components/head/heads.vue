@@ -20,7 +20,7 @@ export default{
     data(){
         return {
             msg:'头部',
-            username:sessionStorage.getItem("username"),
+            username:"",
         };
     },
     props:["topMessage"],
@@ -31,7 +31,8 @@ export default{
                if(response.ok){
                    if(response.status){
                         
-                       sessionStorage.clear();
+                       //sessionStorage.clear();
+                       this.username = "";
                        window.location.href = "/"
                    } 
                }
@@ -42,7 +43,21 @@ export default{
         }
     },
     mounted(){
-        //console.log(this.topMessage);
+        let vm = this;
+        vm.$http.post("../apis/findUserName").then((res)=>{
+            //console.log(res);
+            if(res.ok){
+                if(res.data.success){ 
+                    vm.username = res.data.data;
+                    //console.log(res.data.data.substr(0, 1));
+                    //vm.username = res.data.data.substr(0, 1)+""
+                }else{
+                    vm.username = "";
+                }
+            }
+        },(err)=>{
+            alert(err)
+        })
     },
 }
 </script>

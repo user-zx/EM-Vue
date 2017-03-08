@@ -107,8 +107,8 @@
                     if(result.ok){  
                         if(result.data.success){
 							vm.hint = false;             
-                            sessionStorage.setItem("username", result.data.data);
-                            sessionStorage.setItem("usernumber",vm.item.account);
+                           // sessionStorage.setItem("username", result.data.data);
+                            //sessionStorage.setItem("usernumber",vm.item.account);
                             vm.$router.push({path:"/home/sellClue"}); 
 						}else{ 
 							vm.hint = true;  

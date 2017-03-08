@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">目标主页链接：</label>
+                            <label class="col-md-4 control-label">原文地址：</label>
                             <div class="col-md-5">
                                 <input class="form-control" type="text" v-model:value="data.homeLink" placeholder="请您输入目标主页链接" />
                             </div>
@@ -93,6 +93,8 @@
         methods:{
             addMatchFun(){
                 let vm=this;
+                
+                
                 vm.$http.post(vm.addMatchingUrl,vm.data).then((result)=>{
                     if(result.ok){
                         if (result.data.success){

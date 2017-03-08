@@ -96,7 +96,7 @@
                 <div class="col-md-2">
                     <button type="button" class="btn btn-ory" data-toggle="modal" data-target="#addMatching">
                         <i class="glyphicon glyphicon-plus"></i>
-                        新建匹配
+                        新建线索
                     </button>
                 </div>
 			</div>

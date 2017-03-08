@@ -66,13 +66,13 @@
                     {
                         liClass:"",
                         icons:"icons icons-2",
-                        text:"我的收藏",
+                        text:"线索收藏",
                         module:"myCollect"
                     },
                     {
                         liClass:"",
                         icons:"icons icons-3",
-                        text:"自助匹配", 
+                        text:"添加线索", 
                         module:"autoMatching"
                     },
                     {
@@ -84,7 +84,7 @@
                     {
                         liClass:"",
                         icons:"icons icons-5",
-                        text:"回收站",
+                        text:"忽略线索",
                         module:"recycle" 
                     },
                     { 
