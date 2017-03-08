@@ -31,11 +31,11 @@
             <div class="article-box">
                 <div v-for="item in studyClueList.result.content" class="article-content">
                     <div class="article-item">
-                        <div class="article-left">
-                            <input type="checkbox" name="checkbox" v-bind:value="item.id" />
-                        </div>
+                        <!--<div class="article-left">-->
+                            <!--<input type="checkbox" name="checkbox" v-bind:value="item.id" />-->
+                        <!--</div>-->
                         <div class="article-right">
-                            <a :href="item.link" target="_blank" class="title">{{item.title}}</a>
+                            <a :href="item.link" target="_blank" class="title">{{item.title}}   <span class="text-yellow">[主贴]</span></a>
                             <div class="source">
                                 <label>线索发布者：</label><span>{{item.author}}</span>
                                 <label>线索来源：</label><span>{{item.source}}</span>
@@ -147,6 +147,7 @@
     </div>
 </template>
 <style lang="scss" scoped>
+    .text-yellow{color:#e29b4b;}
     .center-content{
         width:457px;
         padding:0;
@@ -186,7 +187,7 @@
                     text-align: left;
                 }
                 .article-right{
-                    margin-left:30px;
+                    /*margin-left:30px;*/
                     .title{
                         margin:0 0 10px;
                         font-size: 16px;

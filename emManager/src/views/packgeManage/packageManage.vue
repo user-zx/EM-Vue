@@ -113,6 +113,8 @@
             /*请求数据*/
             getList(){
                 let vm =this;
+                vm.packageList.result={};
+                $(".switch").bootstrapSwitch('destroy');
                 vm.post(vm.packageList.url,vm.packageList.params,function (response) {
                     if(response.success){
                         let result=response.data,obj=response.data;

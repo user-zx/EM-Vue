@@ -22,7 +22,7 @@ Vue.http.interceptors.push((request, next) => {
         if(response.data.success){
           return response;
         }else{
-
+          return false;
         }
       }
     });
