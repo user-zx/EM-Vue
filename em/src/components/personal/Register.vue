@@ -29,7 +29,7 @@
 						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" disabled="true" @input="changeVerification">
 						    </div>
 						    <div class="col-sm-2">
-						    	<button type="button" class="btn btn-info" @click="getVerification()">获取验证码</button>
+						    	<button type="button" class="btn btn-info" id="getYzm" @click="getVerification()">获取验证码</button>
 						    </div>
 		  				 </div>
 		  				 <div class="form-group">
@@ -38,7 +38,7 @@
 						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password">  
 						    </div>
 		  				 </div>
-		  				 <p class="text-center">点击下一步,则表示您接受<router-link to="personal/userInstructions">《用户须知》</router-link></p>
+		  				 <p class="text-center">点击下一步,则表示您接受<router-link to="/personal/userInstructions">《用户须知》</router-link></p>
 		  				<div class="form-group"> 
 		  					<div class="col-sm-offset-3 col-sm-6">
 		  						<button type="button" class="btn btn-info btn-block" disabled="true" @click="login($event)" id="login_btn">下一步</button> 
@@ -67,7 +67,7 @@
 						    <div class="col-sm-offset-2 col-sm-8">
 						      <div class="checkbox"> 
 						        <label>
-						          <input type="checkbox"  id="one" checked="true">不限地区
+						          <input type="checkbox" id="one">不限地区
 						        </label>
 						      </div>
 						    </div>
@@ -75,9 +75,8 @@
  						 <div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">所属行业:</label>
 						    <div class="col-sm-4" v-show="industryHad">
-			      			     <select class="form-control selectpicker" id="industrySelect" >
-			      			     		<option>选择所属行业</option>
-										<option v-for="item in industryData">{{item}}</option> 
+			      			     <select class="form-control selectpicker" title="选择所属行业" id="industrySelect" >
+									<option v-for="item in industryData">{{item}}</option>
 							     </select>  
 			   			    </div>  
 			   			     <div class="col-sm-4" v-show="industryAdd"> 
@@ -111,14 +110,14 @@
     						<p class="text-center">若您想让我们为您提供优质的服务，还请您缴纳一定的注册费用，以便我们为您提供更优质的服务!</p>
 							<div class="register_pay_div form-group">
 								<div class="col-sm-5">
-									<label>
-										<input type="checkbox" name="">
-										支付宝
-								    </label>
-									<label>
-										<input type="checkbox" name="">
-										微信
-									</label>
+									<ul class="tab-box">
+										<li class="active">
+											<a href="javascript:void(0);">微信</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);">支付宝</a>
+										</li>
+									</ul>
 								</div>
 								<span class="col-sm-6">
 									<img src="../../assets/images/payQR.png" height="221" width="269">
@@ -137,7 +136,30 @@
 		</div>
 	</div>
 </template>
-
+<style scoped>
+	.tab-box{
+		width:100%;
+		list-style: none;
+	}
+	.tab-box>li>a{
+		display: block;
+		padding:10px 15px;
+		border:1px solid #e1e1e1;
+		color:#32ccca;
+		background-color: #f2f2f2;
+		text-align: center;
+		text-decoration: none;
+		border-radius:4px;
+		margin-bottom: 10px;
+	}
+	.tab-box>li>a:hover,
+	.tab-box>li>a:focus,
+	.tab-box>li>a:active,
+	.tab-box>li.active>a{
+		color:#ffffff;
+		background-color: #32ccca;
+	}
+</style>
 <script>	
     	
 	  import heads from "../head/heads.vue";
@@ -150,8 +172,8 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login:  true,     
-	  			register_message: false,   
+	  			register_login:  true,
+	  			register_message: false,
 	  			register_pay: false,    
 	  			phoneText:"",
 	  			verification:"",  
@@ -190,12 +212,31 @@
 	  			this.register_pay = true; 
 	  			let vm = this;
 	  			
-	  			$(".active_i_two>s").animate({width: "100%"}, 600,function(){
-	  				$(".avtive_span_three").css({
-	  					background:"#32ccca",
-	  					color:"#fff"
-	  				})
-	  			});   
+                let patt = new RegExp(".(xls|xlsx)$", "i");
+
+                if(patt.test(vm.database.keywordList)){
+                    vm.database.keywordList = "";
+                }
+                //console.log(vm.database);
+                let post = common.post;
+                post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
+					if(res.ok){
+					    if(res.data.success){
+                            $(".active_i_two>s").animate({width: "100%"}, 600,function(){
+                                $(".avtive_span_three").css({
+                                    background:"#32ccca",
+                                    color:"#fff"
+                                })
+                            });
+						}
+					}
+            	},(err)=>{
+                    console.log("注册失败了");
+					/*window.location.href = "/"
+					vm.register_login = true;
+					 vm.register_message =false;
+					 vm.register_pay = false;*/
+                })
 	  		}, 
 	  		provinceSelect(){
 	  			console.log($("#provinceSelect").val());
@@ -207,19 +248,20 @@
 	  			if(patt.test(vm.database.keywordList)){
 	  				vm.database.keywordList = "";
 	  			}
+	  			vm.$router.push({path:"/"});
 	  			//console.log(vm.database);
-	  			let post = common.post; 
+				/*let post = common.post;
 	  			post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
  					window.location.href = "/"
-	  				
+
 	  			},(err)=>{
 	  				console.log("注册失败了");
 	  				window.location.href = "/"
-	  				/*vm.register_login = true; 
-		  			vm.register_message =false;  
-		  			vm.register_pay = false;*/ 
-	  			})
-	  		}, 
+	  				vm.register_login = true;
+		  			vm.register_message =false;
+		  			vm.register_pay = false;
+	  			})*/
+            },
 	  		loginPhone(){ 
 	  			let vm = this;
 				var re = /^1\d{10}$/;
@@ -241,6 +283,17 @@
 								$("#lastname").attr({
 	  					         'disabled':false,
 	  				            });
+								let t=60,timer=null;
+                                timer=setInterval(()=>{
+                                    t--;
+                                    $("#getYzm").text(t+"秒后重试").attr("disable","disable");
+								},1000);
+                                setTimeout(()=>{
+									clearInterval(timer);
+                                    $("#getYzm").text("获取验证码").removeAttr("disable");
+								},60000)
+							}else{
+							    alert(res.data.message)
 							}
 						}
 				   },(err)=>{  
@@ -412,8 +465,10 @@
                         console.log(e); 
                     }
 		  		 })
-	  		})
-
+	  		});
+			$(".tab-box").on("click","a",function () {
+				$(this).parent().addClass("active").siblings().removeClass("active");
+            })
 	  	},  
 	  	activated(){
 	  		console.log('test'); 
