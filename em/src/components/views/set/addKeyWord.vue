@@ -129,8 +129,8 @@
                     fileElementId:"fileName",
                     secureuri: false, 
                     dataType: 'json',
-                    type:"post", 
-                    data: {keywordOwner:vm.userNumber},　　　　　　　　　    　　　　　　　　　  
+                    type:"post",  
+                    data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},　　　　　　　　　    　　　　　　　　　  
                     success:function(data,status){
                         if(!data.success){
                             alert(data.message)

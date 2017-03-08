@@ -38,8 +38,8 @@
 						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password">  
 						    </div>
 		  				 </div>
-		  				 <p class="text-center">点击下一步,则表示您接受 <router-link to="personal/forgetPassword">《慧数医美服务条款》</router-link> 和<router-link to="personal/userInstructions">《用户须知》</router-link></p>
-		  				<div class="form-group">
+		  				 <p class="text-center">点击下一步,则表示您接受<router-link to="personal/userInstructions">《用户须知》</router-link></p>
+		  				<div class="form-group"> 
 		  					<div class="col-sm-offset-3 col-sm-6">
 		  						<button type="button" class="btn btn-info btn-block" disabled="true" @click="login($event)" id="login_btn">下一步</button> 
 		  					</div>

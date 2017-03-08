@@ -119,23 +119,23 @@
                     </h4>
                     <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
-                    <ul class="sellClue_list_div_ul">
+                    <ul  class="sellClue_list_div_ul">
                         <li v-bind:class="{active:artItem.addFavoritesStatus}">
-                            <a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
-                            <a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
+                           <!--  <a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a> -->  
+                            <a  href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
                         </li>
                         <li>
                             <a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">取消忽略</a>
-                        </li>
+                        </li> 
                         <li v-bind:class="{active:artItem.labelStatus}">
-                            <a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
-                            <a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
-                        </li>
+                           <!--  <a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a> --> 
+                            <a  href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
+                        </li> 
                      </ul> 
                      <button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
                 </div>
 				
-				<menu class="clearfix">
+				<menu class="clearfix" >
 					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
 					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
 					<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.salesLeads.email}}</strong></li>
@@ -380,11 +380,26 @@
                 });
             },
             favoritesFun(index,artId){
-                let vm = this;
-                if(this.artList.artContent[index].addFavoritesStatus){
+                let vm = this; 
+                if(vm.artList.artContent[index].ignoreStatus){
+                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
+                        if(res.ok){
+                            if(res.data.success){
+                                vm.artList.artContent[index].ignoreStatus = false;
+                               
+                               if($(".sellClue_list_div").length==1){
+                                    vm.notResult = false;
+                               }
+                            }
+                        }
+                    });
+                }
+                /*if(this.artList.artContent[index].addFavoritesStatus){
+
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
+                                 console.log('test');
                                 vm.artList.artContent[index].addFavoritesStatus=false;
                             }
                         }
@@ -393,11 +408,12 @@
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
+                                console.log('test111');
                                 vm.artList.artContent[index].addFavoritesStatus=true;
                             }
                         }
                     });
-                }
+                }*/
             },
             ignoreFun(index,artId){
 

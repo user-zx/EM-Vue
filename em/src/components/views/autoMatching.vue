@@ -117,7 +117,8 @@
                     </h4>
                     <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>匹配时间:</i>{{artItem.salesLeads.matchingDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
-                    <ul v-if="artItem.salesLeads.matchingResult=='匹配成功'" class="sellClue_list_div_ul">
+                   
+                    <ul v-if="artItem.salesLeads.matchingResult=='匹配成功'" class="sellClue_list_div_ul"> 
                         <li v-bind:class="{active:artItem.addFavoritesStatus}">
                             <a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
                             <a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
@@ -133,9 +134,9 @@
 <!-- <<<<<<< HEAD
                     
                     <button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" >联系人信息</button>
-======= -->   
-                    <button class="btn btn-search" v-if="!artItem.checkStatus && artItem.salesLeads.matchingResult=='匹配成功'">联系人信息</button>
-
+======= -->              
+                    <button class="btn btn-search" v-if="!artItem.checkStatus && artItem.salesLeads.matchingResult=='匹配成功'" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
+                   
                 </div>
 				
 				<menu class="clearfix" v-if="artItem.salesLeads.matchingResult=='匹配成功'">
