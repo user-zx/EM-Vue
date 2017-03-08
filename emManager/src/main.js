@@ -15,6 +15,18 @@ Vue.use(vueResource);
 Vue.use(Vuex);
 const router =new vueRouter(routerConfig);
 const store = new Vuex.Store(vueConfig);
+Vue.http.interceptors.push((request, next) => {
+    request.method = 'POST';
+    next((response) => {
+      if(response.ok){
+        if(response.data.success){
+          return response;
+        }else{
+
+        }
+      }
+    });
+});
 new Vue({
   router,
     store

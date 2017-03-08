@@ -15,6 +15,7 @@ import addPackageSuccess from './views/packgeManage/addPackage/success.vue';
 import saveOperationUserSuccess from './views/om/addUser/success.vue';
 import getMatching from './views/realNameMatching/getMatching.vue';
 import matchingTab from './views/realNameMatching/tab.vue';
+import notFound from './compoents/errorPage/404.vue';
 export default {
     mode: 'history',
     base: __dirname,
@@ -80,7 +81,7 @@ export default {
         },
         {
             path:"*",
-            component:Login
+            component:notFound
         }
     ]
 }

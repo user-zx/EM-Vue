@@ -3,7 +3,7 @@
 */
 <template>
     <div id="studyClue" class="studyClue clearfix">
-        <div class="center-content" v-if="!pageState">
+        <div class="center-content" v-if="!pageState && !studyClueListState">
             <div class="banner">
                 <img src="./images/study.png" />
             </div>
@@ -26,6 +26,7 @@
                 <button type="button" class="btn btn-dark-o">
                     下一条线索
                 </button>
+                <a href="javascript:void(0);" class="pull-right text-dark" @click="getStudyClueList()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
             </div>
             <div class="article-box">
                 <div v-for="item in studyClueList.result.content" class="article-content">
@@ -76,6 +77,73 @@
                 </ul>
             </div>
         </div>
+        <div class="col-md-12" v-if="studyClueListState">
+            <div class="search-box">
+                <div class="row">
+                    <div class="col-md-2">
+                        <select class="form-control selectpicker" title="研判结果">
+                            <option value="">不限</option>
+                            <!--<option v-for="item in userTrade.result" v-bind:value="item.name">as</option>-->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control selectpicker" title="线索来源">
+                            <option value="">不限</option>
+                            <!--<option v-for="item in searchData.userStates" v-bind:value="item">{{item}}</option>-->
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" readonly id="regTime" placeholder="研判时间"/>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索"/>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-em" @click="search()">查询</button>
+                            <button type="button" class="btn btn-dark" @click="goBack()">
+                                返回研判
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive table-box">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="">标题</th>
+                        <th class="">研判时间</th>
+                        <th class="">线索发布者</th>
+                        <th class="">研判结果</th>
+                        <th class="">线索来源</th>
+                        <th class="">研判人员</th>
+                        <th class="">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>名字……</td>
+                        <td>名字……</td>
+                        <td>名字……</td>
+                        <td>名字……</td>
+                        <td>名字……</td>
+                        <td>名字……</td>
+                        <td>
+                            <a href="javascript:void (0);">
+                                <i class="glyphicon glyphicon-pencil"></i> 重新研判
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pageList clearfix">
+                <ul class="clearfix pagination pull-right" id="pagination1">
+
+                </ul>
+            </div>
+        </div>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -99,6 +167,7 @@
             outline: none;
          }
     }
+    .text-dark{color:#333333;font-size: 12px;text-decoration: none;&:hover{color:#273e4c;}}
     .article-box{
         min-height:450px;
         .article-content{
@@ -202,12 +271,18 @@
         data(){
             return{
                 pageState:false,
+                studyClueListState:false,
                 studyClueList:{
                     url:"../apis/judge/findJudgeList",
                     params:{pageNumber:1,pageSize:10},
                     result:{}
                 },
-                msg:"线索研判"
+                msg:"线索研判",
+                getStudiedList:{
+                    url:"",
+                    params:"",
+                    result:{}
+                }
             }
         },
         components:{},
@@ -223,6 +298,23 @@
             },
             /*请求数据*/
             getList(){
+                let vm =this;
+                vm.post(vm.studyClueList.url,vm.studyClueList.params,function (response) {
+                    if(response.success){
+                        let result=response.data;
+                        for (let i in result.content){
+                            result.content[i].publishDate=new Date(result.content[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                        }
+                        vm.studyClueList.result=result;
+                        $("input[type=checkbox]").iCheck({
+                            checkboxClass : 'icheckbox_square-blue',
+                        });
+                    }
+                },function (error) {
+                    console.log(error);
+                });
+            },
+            getStudiedList(){
                 let vm =this;
                 vm.post(vm.studyClueList.url,vm.studyClueList.params,function (response) {
                     if(response.success){
@@ -266,6 +358,23 @@
             getClueList(){
                 this.pageState=true;
                 this.paginator();
+            },
+            /*研判记录*/
+            getStudyClueList(){
+                let vm = this;
+                vm.pageState=false;
+                vm.studyClueListState=true;
+                vm.post();
+                setTimeout(()=>{
+                    $(".selectpicker").selectpicker({
+                        style: 'btn-default',
+                        size: 4
+                    });
+                },200);
+            },
+            goBack(){
+                this.pageState=true;
+                this.studyClueListState=false;
             }
         },
         mounted(){
