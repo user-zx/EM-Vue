@@ -26,7 +26,7 @@
                             </router-link>
                         </div>
                         <div class="lyt-cell">
-                            <router-link to="/home/realNameMatching" class="red">
+                            <router-link to="/home/realNameMatching/getMatching" class="red">
                                 <img src="./images/mainMenu4.png" alt="实名匹配" />
                                 <span>实名匹配</span>
                             </router-link>
@@ -56,7 +56,7 @@
                 a{
                     display: block;
                     height:118px;
-                    line-height: 70px;
+                    line-height: 75px;
                     margin: 0 15px 20px;
                     text-decoration:none;
                     position:relative;

@@ -44,8 +44,18 @@
         data(){
             return{
                 msg:"顶部",
-                userName:sessionStorage.getItem("userAccount")
+                userName:sessionStorage.getItem("userAccount"),
+                userInfo:{
+                    url:"../apis/findUserName",
+                    name:""
+                }
             }
-        }
+        },
+        mounted(){
+            let vm = this;
+            vm.$http.post(vm.userInfo.url).then((response)=>{
+                console.log(response);
+            });
+        },
     }
 </script>

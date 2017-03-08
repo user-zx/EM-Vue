@@ -3,6 +3,21 @@
 */
 <template>
     <div id="studyClue" class="studyClue clearfix">
+        <div class="center-content">
+            <div class="banner">
+                <img src="./images/study.png" />
+            </div>
+            <p class="text-center">研判线索请先领取您的任务，研判时务必做到准确</p>
+            <div class="btn-block-box">
+                <button type="button" @click="" class="btn btn-em-o">
+                    领取任务
+                </button>
+            </div>
+            <div class="line-bottom"></div>
+            <div class="line-bottom"></div>
+            <div class="line-bottom"></div>
+            <div class="line-bottom"></div>
+        </div>
         <div class="col-md-12">
             <div class="search-box">
                 <button type="button" data-toggle="modal" data-target="#addUser" class="btn btn-dark">
@@ -43,6 +58,16 @@
     </div>
 </template>
 <style lang="scss" scoped>
+    .center-content{
+        width:457px;
+        padding:0;
+        .banner{
+            padding: 0;
+            img{
+                margin-top: -32px;
+            }
+        }
+    }
     .article-box{
         min-height:450px;
         .article-content{
