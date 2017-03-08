@@ -92,18 +92,32 @@
         },
         methods:{
             addMatchFun(){
-                let vm=this;
-                
-                
-                vm.$http.post(vm.addMatchingUrl,vm.data).then((result)=>{
-                    if(result.ok){
-                        if (result.data.success){
-                                 
-                            vm.$emit("increment")
-                            $("#addMatching").modal("hide");
-                        }   
-                    }   
-                });
+                let vm=this;  
+                vm.$http.post("../apis/salesLeads/checkDomainNameSource",{url:vm.data.homeLink,source:vm.data.author}).then((res)=>{
+                    console.log(res);
+                    if(res.ok){
+                        if(res.data.data){
+                             vm.$http.post(vm.addMatchingUrl,vm.data).then((result)=>{
+                              if(result.ok){
+                                if (result.data.success){
+                                    vm.$emit("increment")
+                                    $("#addMatching").modal("hide");
+                                 }   
+                              }   
+                          });
+                        }else{
+                            alert("不匹配");
+                             vm.data.source="";
+                             vm.data.homeLink="";
+                             vm.data.author="";
+                            return false;
+                        }  
+                    }
+                },(err)=>{
+                    console.log(err);
+                })
+                  
+               
             }
         },  
        

@@ -72,7 +72,7 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							套餐信息
-							<a href="javascript:void(0);" class="btn btn-search-o">立即充值</a>
+							<a href="javascript:void(0);" class="btn btn-search-o" @click="currTab2()">立即充值</a>
 						</h4>
 					</div>
 					<div class="panel-body">
@@ -124,7 +124,7 @@
 										<h5 class="comboName">{{packageItem.name}} <span class="price">¥{{packageItem.price}}</span></h5>
 										<p>内含<span class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
 									</div>
-									<a href="javascript:void(0);" v-bind:id="packageItem.id" class="btn btn-combo">立即充值</a>
+									<a href="javascript:void(0);" :id="packageItem.id" class="btn btn-combo" @click="topUp(packageItem.id)">立即充值</a>
 								</div>
 							</div>
 						</div> 
@@ -393,6 +393,12 @@
             });
 		},
 		methods:{
+			topUp(id){
+				console.log(id); 
+			},
+			currTab2(){
+				$('#myTab li:eq(1) a').tab('show')
+			},
             getKeywordListFun(){
                 let vm =this;
                 console.log(vm.keyWordSearchCon);     

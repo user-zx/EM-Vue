@@ -113,10 +113,12 @@
                    <span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
                     <span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
                     <span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
-                    <h4 v-if="artItem.salesLeads.title">{{artItem.salesLeads.title}}</h4>
-                    <h4 v-else> 
-                        <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
-                        <img v-else src="../../assets/images/unSucImg.png" />
+                    <h4 v-if="artItem.salesLeads.title"> <a :href="artItem.salesLeads.link" target="_blank">{{artItem.salesLeads.title}}</a></h4>
+                    <h4 v-else>  
+                        <a :href="artItem.salesLeads.link" target="_blank">
+                            <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
+                            <img v-else src="../../assets/images/unSucImg.png" />
+                        </a> 
                     </h4>
                     <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
