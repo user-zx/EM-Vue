@@ -132,9 +132,9 @@
 					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
 				</li> 
 			</ul>      
- 
-			<button class="btn btn-search" v-show="artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
-		</div>
+ 			
+			<button class="btn btn-search" v-show="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
+		</div> 
 		<menu class="clearfix">  
 			<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong >{{artItem.salesLeads.address}}</strong></li> 
 			<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
@@ -268,32 +268,32 @@
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                vm.artList.artContent[index].addFavoritesStatus=false;
-                            }else{
+                                vm.artList.artContent[index].salesLeads.addFavoritesStatus=false;
+                            }else{ 
                             	vm.promptMessage = ""
                             }
                         }
-                    });
-                }else{
+                    }); 
+                }else{     
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                vm.artList.artContent[index].addFavoritesStatus=true;
-                            }
+                            	console.log('test22');
+                                vm.artList.artContent[index].salesLeads.addFavoritesStatus=true;
+                            } 
                         }
                     });
                 }
             },
             ignoreFun(index,artId){
-            	//console.log(index);
-            	//console.log($(event.target).parents(".sellClue_list_div")[0]);
-                  let vm = this;  
-                 // $(event.target).parents(".sellClue_list_div").css("display","none")
-                   if(!vm.artList.artContent[index].ignoreStatus){
+                  let vm = this;        
+                 
+                   if(!vm.artList.artContent[index].salesLeads.ignoreStatus){
                    	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
-                            if(res.data.success){
-                                vm.artList.artContent[index].ignoreStatus=true;
+                            if(res.data.success){  
+                                vm.artList.artContent[index].salesLeads.ignoreStatus=true;
+                                //console.log('test12');
                                 if($(".sellClue_list_div").length==1){
                                 	vm.notResult = true;
                                 }
@@ -419,8 +419,8 @@
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
-                                console.log(vm.artList.artContent);
-							}else{
+                               // console.log(vm.artList.artContent);
+							}else{ 
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
                                 vm.notResult=true;
