@@ -135,7 +135,7 @@
 					<button class="btn btn-search" v-if="!artItem.checkStatus">联系人信息</button>
 				</div>
 				
-
+				
 				<menu class="clearfix">
 					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
 					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
@@ -395,7 +395,10 @@
 			    	 this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
 				        if(res.ok){
 				            if(res.data.success){ 
-                                this.getArtListFun();
+				            	this.artList.artContent[index].addFavoritesStatus = false;
+				            	if($(".sellClue_list_div").length==1){
+				            		vm.notResult=true;
+				            	} 
                             } 
 						} 
                     });

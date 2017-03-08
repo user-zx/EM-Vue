@@ -98,20 +98,27 @@
                   return false;   
             },*/  
             clearValue:function(){
-                $('#keyword').val('');
+                let  patta = new RegExp(".(xls|xlsx)$", "i");
+               
+                if(patta.test(this.textareaVal)){
+                   
+                }else{ 
+                    this.textareaVal = "";
+                }  
+                
             },
             submit(){
                 let post = commont.post;
                 let vm = this;               
                 let url = '../apis/excel/importKeywordList';
                 let params = "";  
-                var patt = new RegExp(".(xls|xlsx)$", "i");
+                let patt = new RegExp(".(xls|xlsx)$", "i");
                 if(patt.test(vm.textareaVal)){
                     params = "";
                 }else{
                     params = vm.textareaVal;
                 }
-                 console.log(params); 
+                 //console.log(params); 
                 post(vm.$http,url,params,(res)=>{
                     console.log(res);
                 },(err)=>{
@@ -124,6 +131,7 @@
             let vm = this;  
             $(document).on("change","#fileName",function(){
                 let fileanme = $("#fileName")[0].files[0].name;
+                //console.log(fileanme);
                  $.ajaxFileUpload({  
                     url: vm.fileUrl,
                     fileElementId:"fileName",

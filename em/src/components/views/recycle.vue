@@ -166,7 +166,7 @@
     export default {
         data(){
             return{
-                notResult:false,
+                notResult:false, 
                 saleLeadsListUrl:'../apis/salesLeads/getSaleLeadsList',
                 searchHead:{},
                 artList:{
@@ -388,7 +388,7 @@
                                 vm.artList.artContent[index].ignoreStatus = false;
                                
                                if($(".sellClue_list_div").length==1){
-                                    vm.notResult = false;
+                                    vm.notResult = true;
                                }
                             }
                         }
@@ -417,36 +417,31 @@
             },
             ignoreFun(index,artId){
 
-                //console.log(this.artList.artContent[index].ignoreStatus);
                 if(this.artList.artContent[index].ignoreStatus){
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].ignoreStatus=false;
-								this.getArtListFun();
-                            }
+                                this.notResult = true;
+								//this.getArtListFun();
+                            }  
                         }
                     })
                 }
             }, 
-            labelFun(index,artId){
-                if(this.artList.artContent[index].labelStatus){
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"未处理"}).then((res)=>{
-                        if(res.ok){
+            labelFun(index,artId){ 
+                let vm = this; 
+                 if(vm.artList.artContent[index].ignoreStatus){
+                     vm.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"已处理"}).then((res)=>{
+                        if(res.ok){ 
                             if(res.data.success){
-                                this.artList.artContent[index].labelStatus=false;
+                                vm.artList.artContent[index].ignoreStatus=false;
+                                vm.notResult = true; 
+                                  
                             }
                         }
                     });
-                }else{
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"已处理"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                this.artList.artContent[index].labelStatus=true;
-                            }
-                        }
-                    });
-                }
+                 }
             },
             getDateStr(AddDayCount) {
                 let dd = new Date();
