@@ -159,7 +159,9 @@
                 });
             },
             search(){
-                this.pagintor();
+                let vm=this;
+                vm.matchingRecordList.params.pageNumber=1;
+                vm.pagintor();
             }
         },
         mounted(){

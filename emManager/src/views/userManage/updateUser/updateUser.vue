@@ -86,8 +86,8 @@
                             <label class="col-md-3 control-label">套餐状态：</label>
                             <div class="col-md-9">
                                 <label>
-                                    <input type="radio" value="" name="packageId" v-if="!addUser.params.packageId" checked/>
-                                    <input type="radio" value="" name="packageId" v-else />
+                                    <input type="radio" value="" name="packageId" v-if="addUser.params.packageId=='' || addUser.params.packageId==null || addUser.params.packageId==undefined" checked/>
+                                    <input type="radio" value="" name="packageId" v-else-if="addUser.params.packageId!='' || addUser.params.packageId!=null || addUser.params.packageId!=undefined" />
                                     未办理套餐
                                 </label>
                                 <label v-for="item in packageList1.result">
@@ -238,6 +238,28 @@
                     if (response.success) {
                         if (response.data.length > 0) {
                             vm.packageList1.result = response.data;
+                            setTimeout(function () {
+                                $(".mbx").iCheck({
+                                    checkboxClass : 'icheckbox_square-blue',
+                                }).on("ifChecked",function(){
+                                    vm.searchCon.sheng1Val="",
+                                        vm.searchCon.shi1Val="",
+                                        vm.searchCon.xian1Val="",
+                                        $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
+                                }).on("ifUnchecked",function () {
+                                    $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
+                                });
+                                $("input[name=userStatus]").iCheck({
+                                    radioClass : 'iradio_square-blue',
+                                }).on("ifChecked",function () {
+                                    vm.addUser.params.userStatus=$(this).val();
+                                });
+                                $("input[name=packageId]").iCheck({
+                                    radioClass : 'iradio_square-blue',
+                                }).on("ifChecked",function () {
+                                    vm.addUser.params.packageId=$(this).val();
+                                });
+                            },300);
                         }
                     }
                 }, function (error) {
@@ -247,6 +269,12 @@
                     if (response.success) {
                         if (response.data.length > 0) {
                             vm.userTrade1.result = response.data;
+                            setTimeout(function () {
+                                $(".shengs").selectpicker('val',vm.addUser.params.province).selectpicker("refresh");
+                                $(".shis").selectpicker('val',vm.addUser.params.city).selectpicker("refresh");
+                                $(".xians").selectpicker('val',vm.addUser.params.county).selectpicker("refresh");
+                                $(".trade").selectpicker('val',vm.addUser.params.trade).selectpicker("refresh");
+                            },300)
                         }
                     }
                 }, function (error) {
@@ -268,36 +296,10 @@
                         }
                     }
                 }
-                setTimeout(function () {
-                    $(".mbx").iCheck({
-                        checkboxClass : 'icheckbox_square-blue',
-                    }).on("ifChecked",function(){
-                        vm.searchCon.sheng1Val="",
-                            vm.searchCon.shi1Val="",
-                            vm.searchCon.xian1Val="",
-                            $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
-                    }).on("ifUnchecked",function () {
-                        $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
-                    });
-                    $("input[name=userStatus]").iCheck({
-                        radioClass : 'iradio_square-blue',
-                    }).on("ifChecked",function () {
-                        vm.addUser.params.userStatus=$(this).val();
-                    });
-                    $("input[name=packageId]").iCheck({
-                        radioClass : 'iradio_square-blue',
-                    }).on("ifChecked",function () {
-                        vm.addUser.params.packageId=$(this).val();
-                    });
-                    $(".trade").selectpicker('val',vm.addUser.params.trade).selectpicker("refresh");
-                    $(".shengs").selectpicker('val',vm.addUser.params.province).selectpicker("refresh");
-                    $(".shis").selectpicker('val',vm.addUser.params.city).selectpicker("refresh");
-                    $(".xians").selectpicker('val',vm.addUser.params.county).selectpicker("refresh");
-                },200);
             }).on("hidden.bs.modal",function () {
                 vm.addUser.params={};
-                vm.packageList1.result=[];
-                vm.userTrade1.result=[];
+                vm.packageList1.result={};
+                vm.userTrade1.result={};
             });
             $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex1=clickedIndex-1;

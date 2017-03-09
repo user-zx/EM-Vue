@@ -170,7 +170,9 @@
                 });
             },
             search(){
-                this.paginator();
+                let vm=this;
+                vm.userList.params.pageNumber=1;
+                vm.paginator();
             },
             showModal(modalName,params){
                 let vm =this;

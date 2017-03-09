@@ -194,6 +194,7 @@
             /*筛选*/
             search(){
                 let vm =this;
+                vm.packageList.params.pageNumber=1;
                 vm.pagintor();
             },
             addPackage(){

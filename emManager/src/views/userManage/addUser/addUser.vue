@@ -255,25 +255,26 @@
             }).on("hide.bs.select",function () {
                 $("#xian1").selectpicker("refresh").selectpicker('val', '');
             });
-            vm.post(vm.packageList.url,"",function (response) {
-                if(response.success){
-                    if(response.data.length>0){
-                        vm.packageList.result=response.data;
+            $("#addUser").on("show.bs.modal",function () {
+                vm.post(vm.packageList.url,"",function (response) {
+                    if(response.success){
+                        if(response.data.length>0){
+                            vm.packageList.result=response.data;
+                        }
                     }
-                }
-            },function (error) {
-                console.log(error);
-            });
-            vm.post(vm.userTrade.url,"",function (response) {
-                if(response.success){
-                    if(response.data.length>0){
-                        vm.userTrade.result=response.data;
+                },function (error) {
+                    console.log(error);
+                });
+                vm.post(vm.userTrade.url,"",function (response) {
+                    if(response.success){
+                        if(response.data.length>0){
+                            vm.userTrade.result=response.data;
+                        }
                     }
-                }
-            },function (error) {
-                console.log(error);
-            });
-            setTimeout(function(){
+                },function (error) {
+                    console.log(error);
+                });
+            }).on("shown.bs.modal",function () {
                 $(".selectpicker").selectpicker("refresh");
                 $("input[name=userStatus]").iCheck({
                     radioClass : 'iradio_square-blue',
@@ -285,7 +286,7 @@
                 }).on("ifChecked",function () {
                     vm.addUser.params.packageId=$(this).val();
                 });
-            },200);
+            });
         }
     }
 </script>
