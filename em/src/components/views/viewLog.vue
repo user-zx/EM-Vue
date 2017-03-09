@@ -109,7 +109,7 @@
 				<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 			</div>
 			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
-				<div>
+				<div> 
 					<span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
 					<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
 					<span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
@@ -134,9 +134,9 @@
 							<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a>
 							<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
 						</li>
-					</ul>  
+					</ul>   
 					<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
-				</div>
+				</div> 
 				
 				<menu class="clearfix">
 					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>

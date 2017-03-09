@@ -132,8 +132,8 @@
 					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
 				</li> 
 			</ul>      
- 			
-			<button class="btn btn-search" v-show="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
+ 			 
+			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
 		</div> 
 		<menu class="clearfix">  
 			<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong >{{artItem.salesLeads.address}}</strong></li> 

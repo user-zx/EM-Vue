@@ -112,7 +112,7 @@
                     <span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
                     <h4>
                         <a :href="artItem.salesLeads.link" target="_blank">
-                             {{artItem.salesLeads.title}}
+                             {{artItem.salesLeads.title}} 
                             <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
                             <img v-else src="../../assets/images/unSucImg.png" />
                         </a>
@@ -133,11 +133,9 @@
                             <a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
                         </li>
                     </ul>
-      
+                
                     <button class="btn btn-search" v-if="!artItem.checkStatus && artItem.salesLeads.matchingResult=='匹配成功'" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
-                    
                 </div>
-				
 				<menu class="clearfix" v-if="artItem.salesLeads.matchingResult=='匹配成功'">
 					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
 					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
@@ -145,12 +143,10 @@
 					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
 					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
 					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
-                    
 				</menu>
 			</div>
 			<div class="pageList clearfix" v-show="!notResult" >
 				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" id="pagination">
-                    
 				</ul>
 			</div>
 		</div>  
@@ -300,6 +296,7 @@
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
+                                console.log(vm.artList.artContent); 
                                 vm.notResult=false;
                                 //console.log(vm.artList.artContent);
                             }else{
@@ -390,8 +387,6 @@
                     }
                 });
               
-               
-               
             },
             singleSearch(keyword){
                 let vm = this;
