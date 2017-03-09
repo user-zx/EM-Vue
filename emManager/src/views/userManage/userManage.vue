@@ -58,7 +58,7 @@
                             <button type="button" class="btn btn-em" @click="search()">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button type="button" data-toggle="modal" data-target="#addUser" @click="showModal(modal.addUser)" class="btn btn-dark">
+                            <button type="button" @click="showModal(modal.addUser)" class="btn btn-dark">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 添加用户
                             </button>
@@ -94,10 +94,10 @@
                             <td v-if="item.restTimes">{{item.restTimes}}</td>
                             <td v-else>0</td>
                             <td>
-                                <a href="#userInfo" :id="item.id" data-toggle="modal" data-target="#userInfo" @click="showModal(modal.userInfo,item.id)">
+                                <a href="javascript:void(0);" :id="item.id" @click="showModal(modal.userInfo,item.id)">
                                     <i class="glyphicon glyphicon-th-list"></i>
                                 </a>
-                                <a href="#updateUser" :id="item.id" data-toggle="modal" data-target="#updateUser" @click="showModal(modal.updateUser,item.id)">
+                                <a href="javascript:void(0);" :id="item.id" @click="showModal(modal.updateUser,item.id)">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </a>
                             </td>
@@ -227,6 +227,7 @@
             },
             search(){
                 let vm =this;
+                vm.userList.params.pageNumber=1;
                 vm.userList.params.province=vm.searchCon.shengVal;
                 vm.userList.params.city=vm.searchCon.shiVal;
                 vm.userList.params.county=vm.searchCon.xianVal;
@@ -234,8 +235,13 @@
             },
             showModal(modalName,params){
                 let vm =this;
+                vm.modal.current=modalName;
+                let ele=modalName;
+                ele="#"+ele;
                 vm.$store.commit(modalName,params);
-                this.modal.current=modalName;
+                setTimeout(function () {
+                    $(ele).modal("show");
+                },300);
             }
         },
         mounted(){

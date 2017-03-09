@@ -148,3 +148,28 @@ textarea{resize: none;}
     }
     .line-bottom{height:2px;margin-bottom:2px;border-bottom:1px solid #e1e1e1;}
 }
+.pagination{
+    li{
+        a,span{
+            color: $temColor;
+        }
+        &.active>a,&.active>span{
+            &,&:hover,&:focus{
+                background-color: $temColor;
+                border-color: $temColor;
+            }
+        }
+    }
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}

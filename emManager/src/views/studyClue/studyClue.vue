@@ -3,7 +3,7 @@
 */
 <template>
     <div id="studyClue" class="studyClue clearfix">
-        <div class="center-content" v-if="!pageState && !studyClueListState">
+        <div class="center-content" v-if="!pageState && !studyClueListState && !reStudyClue">
             <div class="banner">
                 <img src="./images/study.png" />
             </div>
@@ -26,7 +26,7 @@
                 <button type="button" class="btn btn-dark-o">
                     下一条线索
                 </button>
-                <a href="javascript:void(0);" class="pull-right text-dark" @click="getStudyClueList()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
+                <a href="javascript:void(0);" class="pull-right text-dark" @click="paginator2()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
             </div>
             <div class="article-box">
                 <div v-for="item in studyClueList.result.content" class="article-content">
@@ -44,6 +44,10 @@
                             <p class="article">
                                 {{item.content}}
                             </p>
+                        </div>
+                        <div class="btn-box">
+                            <button class="btn btn-dark-o" type="button">非线索</button>
+                            <button class="btn btn-em-o" type="button">确认线索</button>
                         </div>
                     </div>
                     <div class="reply-article">
@@ -81,15 +85,16 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="研判结果">
+                        <select class="form-control selectpicker" title="研判结果" v-model="getStudiedList.params.judgeResult">
                             <option value="">不限</option>
-                            <!--<option v-for="item in userTrade.result" v-bind:value="item.name">as</option>-->
+                            <option value="确认线索">确认线索</option>
+                            <option value="非线索">非线索</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="线索来源">
+                        <select class="form-control selectpicker" title="线索来源" v-model="getStudiedList.params.source">
                             <option value="">不限</option>
-                            <!--<option v-for="item in searchData.userStates" v-bind:value="item">{{item}}</option>-->
+                            <option v-for="item in searchData.salesSource" v-bind:value="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -100,7 +105,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="text-center">
-                            <button type="button" class="btn btn-em" @click="search()">查询</button>
+                            <button type="button" class="btn btn-em" @click="searchStudyClueList()">查询</button>
                             <button type="button" class="btn btn-dark" @click="goBack()">
                                 返回研判
                             </button>
@@ -122,15 +127,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>名字……</td>
-                        <td>名字……</td>
-                        <td>名字……</td>
-                        <td>名字……</td>
-                        <td>名字……</td>
-                        <td>名字……</td>
+                    <tr v-for="item in getStudiedList.result.content">
                         <td>
-                            <a href="javascript:void (0);">
+                            <p class="text-hidden">{{item.title}}</p>
+                        </td>
+                        <td>{{item.judgeDate}}</td>
+                        <td>{{item.author}}</td>
+                        <td>{{item.judgeResult}}</td>
+                        <td>{{item.source}}</td>
+                        <td>{{item.judger}}</td>
+                        <td>
+                            <a href="javascript:void (0);" @click="getSingleInfoFun(item.id)">
                                 <i class="glyphicon glyphicon-pencil"></i> 重新研判
                             </a>
                         </td>
@@ -144,10 +151,37 @@
                 </ul>
             </div>
         </div>
+        <div class="col-md-12" v-if="reStudyClue">
+            <div class="search-box text-right">
+                <a href="javascript:void(0);" class="text-dark" @click="paginator2()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
+            </div>
+            <div class="article-box">
+                <div class="article-content">
+                    <div class="article-item">
+                        <div class="article-right">
+                            <a :href="getSingleInfo.result.link" target="_blank" class="title">{{getSingleInfo.result.title}}</a>
+                            <div class="source">
+                                <label>线索发布者：</label><span>{{getSingleInfo.result.author}}</span>
+                                <label>线索来源：</label><span>{{getSingleInfo.result.source}}</span>
+                                <label>发布时间：</label><span>{{getSingleInfo.result.publishDate}}</span>
+                            </div>
+                            <p class="article">
+                                {{getSingleInfo.result.content}}
+                            </p>
+                        </div>
+                        <div class="btn-box">
+                            <button class="btn btn-dark-o" type="button">非线索</button>
+                            <button class="btn btn-em-o" type="button">确认线索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <style lang="scss" scoped>
     .text-yellow{color:#e29b4b;}
+    .text-hidden{max-width:370px;padding:0 15px;overflow: hidden;text-align:left;text-overflow: ellipsis;white-space: nowrap;}
     .center-content{
         width:457px;
         padding:0;
@@ -177,6 +211,7 @@
             width:100%;
             border:1px solid #ededed;
             .article-item{
+                position: relative;
                 padding:15px;
                 /*display: table-row;*/
                 clear:both;
@@ -188,10 +223,14 @@
                 }
                 .article-right{
                     /*margin-left:30px;*/
+                    width: 85%;
                     .title{
                         margin:0 0 10px;
                         font-size: 16px;
                         color:#333333;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
                     .source{
                         margin-bottom: 10px;
@@ -211,6 +250,19 @@
                         line-height: 1.8;
                         font-size:12px;
                         color:#666666;
+                    }
+                }
+                .btn-box{
+                    position: absolute;
+                    right: 15px;
+                    top: 25px;
+                    .btn-em-o.active{
+                        color:#ffffff;
+                        background-color: #32ccca;
+                    }
+                    .btn-dark-o.active{
+                        color:#ffffff;
+                        background-color: #273e4c;
                     }
                 }
             }
@@ -247,6 +299,14 @@
                         position: absolute;
                         right:0;
                         top:5px;
+                        .btn-em-o.active{
+                            color:#ffffff;
+                            background-color: #32ccca;
+                        }
+                        .btn-dark-o.active{
+                            color:#ffffff;
+                            background-color: #273e4c;
+                        }
                     }
                     &:last-child{
                         padding-bottom: 0;
@@ -271,6 +331,8 @@
     export default{
         data(){
             return{
+                reStudyClue:false,
+                searchData:data,
                 pageState:false,
                 studyClueListState:false,
                 studyClueList:{
@@ -280,8 +342,19 @@
                 },
                 msg:"线索研判",
                 getStudiedList:{
-                    url:"",
-                    params:"",
+                    url:"../apis/judge/findJudgeList",
+                    params:{
+                        pageNumber:1,
+                        pageSize:10,
+                        judgeStartDate:"",
+                        judgeEndDate:"",
+                        judgeResult:"",
+                        source:""
+                    },
+                    result:{}
+                },
+                getSingleInfo:{
+                    url:"../apis/judge/findSalesLeadsDetails",
                     result:{}
                 }
             }
@@ -299,23 +372,6 @@
             },
             /*请求数据*/
             getList(){
-                let vm =this;
-                vm.post(vm.studyClueList.url,vm.studyClueList.params,function (response) {
-                    if(response.success){
-                        let result=response.data;
-                        for (let i in result.content){
-                            result.content[i].publishDate=new Date(result.content[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
-                        }
-                        vm.studyClueList.result=result;
-                        $("input[type=checkbox]").iCheck({
-                            checkboxClass : 'icheckbox_square-blue',
-                        });
-                    }
-                },function (error) {
-                    console.log(error);
-                });
-            },
-            getStudiedList(){
                 let vm =this;
                 vm.post(vm.studyClueList.url,vm.studyClueList.params,function (response) {
                     if(response.success){
@@ -363,19 +419,108 @@
             /*研判记录*/
             getStudyClueList(){
                 let vm = this;
+                vm.post(vm.getStudiedList.url,vm.getStudiedList.params,(response)=>{
+                    if(response.success){
+                        let result=response.data;
+                        for(let i in result.content){
+                            result.content[i].judgeDate=new Date(result.content[i].judgeDate).Format("yyyy-MM-dd hh:mm:ss");
+                        }
+                        vm.getStudiedList.result=result;
+                        setTimeout(()=>{
+                            $(".selectpicker").selectpicker({
+                                style: 'btn-default',
+                                size: 4
+                            });
+                        },200);
+                        $("#regTime").daterangepicker({
+                            autoUpdateInput:false,
+                            maxDate : moment(), //最大时间
+                            showDropdowns : true,
+                            ranges:{
+                                '今日': [moment().startOf('day'), moment()],
+                                '昨日': [moment().subtract(1,'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+                                '最近7日': [moment().subtract(6,'days'), moment()],
+                                '最近30日': [moment().subtract(29,'days'), moment()]
+                            },
+                            opens : 'right',
+                            applyClass : 'btn btn-em',
+                            locale : {
+                                separator:" 到 ",
+                                format: 'YYYY-MM-DD',
+                                applyLabel : '确定',
+                                cancelLabel : '取消',
+                                fromLabel : '起始时间',
+                                toLabel : '结束时间',
+                                customRangeLabel : '自定义',
+                                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+                                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
+                                    '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                                firstDay : 1
+                            }
+                        }, function(start, end, label) {//格式化日期显示框
+                            this.autoUpdateInput=true;
+                            $(this).val(start.format('YYYY-MM-DD') + ' 到 ' + end.format('YYYY-MM-DD'));
+                            vm.getStudiedList.params.judgeStartDate=start.format("YYYY-MM-DD");
+                            vm.getStudiedList.params.judgeEndDate=end.format("YYYY-MM-DD");
+                        });
+                    }
+                },(error)=>{
+                    console.log(error);
+                });
+            },
+            paginator2(){
+                let vm =this;
                 vm.pageState=false;
                 vm.studyClueListState=true;
-                vm.post();
-                setTimeout(()=>{
-                    $(".selectpicker").selectpicker({
-                        style: 'btn-default',
-                        size: 4
-                    });
-                },200);
+                vm.reStudyClue=false;
+                vm.post(vm.getStudiedList.url,vm.getStudiedList.params,function (response) {
+                    if(response.success){
+                        if(response.data.content.length>0&&response.data) {
+                            vm.getStudiedList.result = response.data;
+                            $("#pagination1").jqPaginator({
+                                totalPages: vm.getStudiedList.result.totalPages,
+                                visiblePages: vm.getStudiedList.params.pageSize,
+                                currentPage: vm.getStudiedList.params.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n) {
+                                    vm.getStudiedList.params.pageNumber = n;
+                                    vm.getStudyClueList();
+                                }
+                            });
+                        }else{
+                            alert("没有数据！")
+                        }
+                    }
+                },function (error) {
+                    console.log(error);
+                });
+            },
+            searchStudyClueList(){
+                let vm=this;
+                vm.getStudiedList.params.pageNumber=1;
+                this.paginator2();
             },
             goBack(){
                 this.pageState=true;
                 this.studyClueListState=false;
+                this.reStudyClue=false;
+            },
+            /*重新研判获取信息*/
+            getSingleInfoFun(id){
+                let vm =this;
+                vm.reStudyClue=true;
+                vm.pageState=false;
+                vm.studyClueListState=false;
+                vm.post(vm.getSingleInfo.url+"?id="+id,null,(response)=>{
+                    vm.getSingleInfo.result=response.data;
+                    vm.getSingleInfo.result.publishDate=new Date(response.data.publishDate).Format('yyyy-MM-dd hh:mm:ss');
+                },(error)=>{
+
+                });
             }
         },
         mounted(){
@@ -383,35 +528,10 @@
                 style: 'btn-default',
                 size: 4
             });
-
-            let vm=this;
-            $("#regTime").daterangepicker({
-                maxDate : moment(), //最大时间
-                showDropdowns : true,
-                ranges:{
-                    '今日': [moment().startOf('day'), moment()],
-                    '昨日': [moment().subtract(1,'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-                    '最近7日': [moment().subtract(6,'days'), moment()],
-                    '最近30日': [moment().subtract(29,'days'), moment()]
-                },
-                opens : 'right',
-                applyClass : 'btn btn-em',
-                locale : {
-                    separator:" 到 ",
-                    format: 'YYYY-MM-DD',
-                    applyLabel : '确定',
-                    cancelLabel : '取消',
-                    fromLabel : '起始时间',
-                    toLabel : '结束时间',
-                    customRangeLabel : '自定义',
-                    daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
-                    monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
-                        '七月', '八月', '九月', '十月', '十一月', '十二月' ],
-                    firstDay : 1
-                }
-            }, function(start, end, label) {//格式化日期显示框
-                $(this).val(start.format('YYYY-MM-DD') + ' 到 ' + end.format('YYYY-MM-DD'));
+            $(document).on("click",".btn",function(){
+                $(this).addClass("active").siblings().removeClass("active");
             });
+            let vm=this;
         }
     }
 </script>
