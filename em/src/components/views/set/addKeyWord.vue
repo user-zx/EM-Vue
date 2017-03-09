@@ -7,7 +7,7 @@
                     <h4 class="modal-title" id="addKeyWordLabel"></h4>
                 </div>
                 <div class="modal-body">
-						<textarea class="form-control" id="keyword" name="keyword" style="height: 178px"   placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="textareaVal">
+						<textarea class="form-control" id="keyword" name="keyword" style="height: 178px"   placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="textareaVal" >
 						</textarea>
                     <div class="upload-box">   
                         <a href="javascript:void(0);"  class="btn panel-body-btn a-upload" id="upload-box-a">
@@ -83,42 +83,56 @@
                let param = {}; 
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
-               //console.log(param); 
-              // console.log(post); 
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                    console.log(res);
-                      
-               },(err)=>{
+                    
+                    if(res.ok){
+                        if(res.data.success){
+                            alert("添加关键词成功");
+                            vm.textareaVal = "";
+                        }else{
+                            alert("添加关键词失败");
+                            vm.textareaVal = "";
+                        }
+                    }   
+                    $('#addKeyWord').modal('hide')
+               },(err)=>{ 
                     console.log(err); 
+                    $('#addKeyWord').modal('hide')
+                    vm.textareaVal = "";
                })
-            }  
+            },
+           
         },
         props:['userNumber'],  
         mounted(){    
                 let vm = this;  
                 $(document).on("change","#fileName",function(){
                  var fileanme = $("#fileName")[0].files[0].name;
-                 console.log(vm.userNumber); 
-                 $.ajaxFileUpload({  
+                 $.ajaxFileUpload({   
                     url: vm.fileUrl,
                     fileElementId:"fileName",
                     secureuri: false, 
                     dataType: 'json',
                     type:"post",   
-                    data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},　　　　　　　　　    　　　　　　　　　  
+                    data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
                     success:function(data,status){
                         if(!data.success){
                             alert(data.message)
                              vm.textareaVal = "";
                              alert("添加失败");
-                        }else{
+                        }else{ 
                            vm.textareaVal = fileanme; 
                            alert("添加成功");
+                           //console.log('test'); 
                         } 
+                        setTimeout(function(){
+                            $('#addKeyWord').modal('hide')
+                        },700)
                     },
                     error: function (data, status, e){//服务器响应失败处理函数
                         alert(e);
                          vm.textareaVal = "添加失败";
+                          $('#addKeyWord').modal('hide')
                     }
                  })    
                   return false;    
@@ -126,7 +140,7 @@
           
                 
             $("#addKeyWord").on("hidden.bs.modal",function(){
-              $("#fileName").val("");
+                vm.textareaVal = "";
             });
            
         }

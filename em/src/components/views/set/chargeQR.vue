@@ -32,7 +32,7 @@
 			let vm = this; 
 			 $('#chargeQR').on('shown.bs.modal', function () {
   				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR+""
- 			})   
+ 			})  
 		},
 		props:["chargeQR"]
 	}

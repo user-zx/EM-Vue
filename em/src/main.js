@@ -24,7 +24,7 @@ Vue.http.interceptors.push((request, next) => {
           return response;
         }
       }else{
-        alert("请求错误，请重试！")
+        console.log("请求错误，请重试！")
       }
     });
 });
