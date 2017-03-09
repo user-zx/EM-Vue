@@ -89,6 +89,7 @@
                         if(res.data.success){
                             alert("添加关键词成功");
                             vm.textareaVal = "";
+                            vm.$emit("updateList")
                         }else{
                             alert("添加关键词失败");
                             vm.textareaVal = "";
@@ -122,12 +123,13 @@
                              alert("添加失败");
                         }else{ 
                            vm.textareaVal = fileanme; 
-                           alert("添加成功");
-                           //console.log('test'); 
-                        } 
-                        setTimeout(function(){
+                           console.log("添加成功"); 
+                            //vm.$emit("updateList")
+                            setTimeout(function(){
                             $('#addKeyWord').modal('hide')
-                        },700)
+                            },1500)  
+                        }   
+                      
                     },
                     error: function (data, status, e){//服务器响应失败处理函数
                         alert(e);

@@ -293,7 +293,7 @@
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
                             //console.log(response.data.data); 
-                            if(typeOf!="string") {
+                            if(typeOf!="string") { 
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
                                     newArr[i].salesLeads.createDate = new Date(newArr[i].salesLeads.createDate).Format("yyyy-MM-dd hh:mm:ss");
