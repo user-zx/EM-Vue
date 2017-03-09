@@ -77,7 +77,7 @@
                 current:this.$store.state.matchingManager.current,
             }
         },
-        components:{autoMatching,matching,matched} ,
+        components:{autoMatching,matching,matched},
         methods:{
             currentTab(targetName,event){
                 this.current= targetName;
