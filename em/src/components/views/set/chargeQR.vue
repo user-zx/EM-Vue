@@ -9,7 +9,7 @@
                 <div class="modal-body text-center">
 					<img :src="qrsrc" height="258" width="258">
                 </div>  
-                <div class="modal-footer text-center"> 
+                <div class="modal-footer"> 
                     <button type="button" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
                     <!-- <button type="button" class="btn btn-search" >&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button> --> 
                 </div>
@@ -32,7 +32,6 @@
 			let vm = this; 
 			 $('#chargeQR').on('shown.bs.modal', function () {
   				vm.qrsrc = "/wxpay/generateQRCode?pkgId="+vm.chargeQR+""
-  				
  			})  
 		},
 		props:["chargeQR"]

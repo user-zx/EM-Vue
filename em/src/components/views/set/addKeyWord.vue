@@ -83,8 +83,8 @@
                let param = {}; 
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
-               console.log(param); 
-              // console.log(post);
+               //console.log(param); 
+              // console.log(post); 
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
                     console.log(res);
                       
