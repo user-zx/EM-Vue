@@ -25,44 +25,12 @@
 						<option value="未处理">未处理</option>
 					</select>
 				</div>
-				<div class="col-md-2">
-					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="忽略时间" />
-					<div class="dropdown-menu" role="menu" aria-labelledby="publishTime">
-						<div class="publish-heading search-menu">
-							<div class="clearfix">
-								<div class="navbar-form navbar-left">
-									<div class="input-group">
-										<a href="javascript:void(0);" @click="publishSearch('不限')">不限</a>
-										<a href="javascript:void(0);" @click="publishSearch('今天')">今天</a>
-										<a href="javascript:void(0);" @click="publishSearch('昨天')">昨天</a>
-										<a href="javascript:void(0);" @click="publishSearch('近一周')">近一周</a>
-									</div>
-								</div>
-								<div class="navbar-right">
-									<a href="javascript:void(0);" class="close-modal">×</a>
-								</div>
-							</div>
-							<div class="clearfix date-box">
-								<div class="col-md-5">
-									<div class="form_datetime">
-										<input type="text" class="form-control startDate" readonly placeholder="开始时间">
-									</div>
-								</div>
-								<div class="col-md-5">
-									<div class="form_datetime">
-										<input type="text" class="form-control endDate" readonly placeholder="结束时间">
-									</div>
-								</div>
-								<div class="col-md-2 text-center">
-									<input class="btn btn-search" type="button" @click="publishSearch('自定义')" value="确定" />
-								</div>
-								<!--<div class="col-md-2">-->
-								<!--<input class="btn btn-default" type="button" value="取消" />-->
-								<!--</div>-->
-							</div>
-						</div>
-					</div>
+				<div class="col-md-1">
+					 <my-datepicker-start></my-datepicker-start>
 				</div>
+                 <div class="col-md-1 col-xs-1"> 
+                    <my-datepicker-end></my-datepicker-end>
+                </div>  
 				<div class="col-md-2">
 					<div class="form-group">
 						<input  v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
@@ -167,6 +135,8 @@
     import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
     import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import expense from "../prompt/expense.vue";
+     import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
+    import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
     export default {
         data(){
             return{
@@ -192,7 +162,7 @@
                 modelData:{},
             }
         }, 
-        components:{expense},
+        components:{expense,myDatepickerStart,myDatepickerEnd},
         mounted(){
             let vm=this;
             $(".selectpicker").selectpicker({

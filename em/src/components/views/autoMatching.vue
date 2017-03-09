@@ -5,63 +5,33 @@
         
 		<div class="search-box">
 			<div class="form-horizontal clearfix" role="search">
-				<div class="col-md-2">
+				<div class="col-md-2 col-xs-2">
 					<select v-model="searchCon.matchingResult" class="form-control selectpicker" title="匹配结果">
 						<option value="">不限</option>
 						<option value="匹配成功">匹配成功</option>
 						<option value="暂未匹配">暂未匹配</option>
 					</select>
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-2 col-xs-2">
 					<select v-model="searchCon.labelStatus" class="form-control selectpicker" title="标记状态">
 						<option value="">不限</option>
 						<option value="已处理">已处理</option>
 						<option value="未处理">未处理</option>
 					</select>
 				</div>
-				<div class="col-md-2">
-					<input type="text" readonly id="publishTime" class="form-control dropdown-toggle" data-toggle="dropdown" placeholder="匹配时间"/>  
-					<div class="dropdown-menu" role="menu" aria-labelledby="publishTime">
-						<div class="publish-heading search-menu">
-							<div class="clearfix">
-								<div class="navbar-form navbar-left">
-									<div class="input-group">
-										<a href="javascript:void(0);" @click="publishSearch('不限')">不限</a>
-										<a href="javascript:void(0);" @click="publishSearch('今天')">今天</a>
-										<a href="javascript:void(0);" @click="publishSearch('昨天')">昨天</a>
-										<a href="javascript:void(0);" @click="publishSearch('近一周')">近一周</a>
-									</div>
-								</div>
-								<div class="navbar-right">
-									<a href="javascript:void(0);" class="close-modal">×</a>
-								</div>
-							</div>
-							<div class="clearfix date-box">
-								<div class="col-md-5">
-									<div class="form_datetime">
-										<input type="text" class="form-control startDate" readonly placeholder="开始时间">
-									</div>
-								</div>
-								<div class="col-md-5">
-									<div class="form_datetime">
-										<input type="text" class="form-control endDate" readonly placeholder="结束时间">
-									</div>
-								</div>
-								<div class="col-md-2 text-center">
-									<input class="btn btn-search" type="button" @click="publishSearch('自定义')" value="确定" />
-								</div>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-2">
+				<div class="col-md-1 col-xs-1"> 
+				      <my-datepicker-start></my-datepicker-start>
+				</div>    
+                <div class="col-md-1 col-xs-1"> 
+                    <my-datepicker-end></my-datepicker-end>
+                </div>  
+				<div class="col-md-3 col-xs-3">
 					<div class="form-group">
 						<input  v-model="searchCon.author" type="text" class="form-control" placeholder="请输入昵称进行搜索">
 					</div>
 				</div>
-				<div class="col-md-2">
-					<button type="button" class="btn btn-search" @click="multipleSearch()">筛选</button>
+				<div class="col-md-1 col-xs-1">
+					<button type="button" class="btn btn-search" @click="multipleSearch()">筛选</button> 
 					<div class="dropdown-menu search-menu">
 						<div class="clearfix">
 							<div class="navbar-form navbar-left" role="form">
@@ -92,8 +62,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-                <div class="col-md-2">
+				</div> 
+                <div class="col-md-1">
                     <button type="button" class="btn btn-ory" data-toggle="modal" data-target="#addMatching">
                         <i class="glyphicon glyphicon-plus"></i>
                         新建线索
@@ -155,23 +125,25 @@
 </template>
 <style scoped>
 	@import url("../../assets/style/page.css");
-	@import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css");
-    .sellClue_list_div>ul>li{
-        float: left;
-        margin-right: 8px;
+	/* @import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"); */
+    .sellClue_list_div>ul>li{ 
+        float: left;    
+        margin-right: 8px; 
     }
 </style>
 <script>
-    import 'bootstrap-select';
+    import 'bootstrap-select'; 
     import "../../assets/js/jqPaginator.min.js";
     import "../../assets/js/formatData.js";
     import common from '../../assets/js/common.js';
     import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
     import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import addMatching from './matching/addMatching.vue';
-    import expense from "../prompt/expense.vue";
-    export default {
-        data(){
+    import expense from "../prompt/expense.vue";      
+    import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
+    import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
+    export default { 
+        data(){   
             return{
                 notResult:false,
                 saleLeadsListUrl:'../apis/salesLeads/getMatchingSaleLeadsList',
@@ -198,10 +170,10 @@
                 refresh:{
 
                 },
-            }
-        }, 
-        props:["activeClass"],
-        components:{addMatching,expense},
+            } 
+        },    
+        props:["activeClass","datePicker"], 
+        components:{addMatching,expense,myDatepickerStart,myDatepickerEnd},
         mounted(){
             let vm=this;
             $(".selectpicker").selectpicker({
@@ -209,46 +181,9 @@
                 size: 4
             });
             let _element=$(".search-menu");
-            $(".dropdown-modal").on("click",function () {
-                if($(this).parent().hasClass("open")){
-                    $(this).parent().removeClass("open");
-                }else {
-                    $(this).parent().addClass("open");
-                }
-            });
-            $(document).on('click', function(){
-                _element.parent().removeClass("open");
-            }).on('click', '.search-menu,.dropdown-modal', function(event){
-                event.stopPropagation();
-            });
-            $(".close-modal").on("click",function(){
-                $(this).parents(".open").removeClass("open");
-            });
-            $(".publish-heading .navbar-left a").on("click",function () {
-                $(this).addClass("active").siblings().removeClass("active");
-            });
-            $(".form_datetime .startDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd",
-                autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(-1));
-            });
-            $(".form_datetime .endDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd",
-                autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(0));
-            });
+           
+
+
             vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
                 if(response.ok){  
                     if(response.data.success){
