@@ -210,8 +210,9 @@
 		</div>
 		<add-key-word :userNumber="keyWordSearchCon.userAccount"></add-key-word>
 		<re-password></re-password>
-	</div>
-</template>
+		<charge-q-r :chargeQR="chargeQRId"></charge-q-r>
+	</div> 
+</template> 
 <style scoped>
 	.nav-tabs{padding-left:20px;padding-right:20px;margin-bottom:15px;border:1px solid #dddddd;background-color: #ffffff;}
 	.nav-tabs>li{padding-left:15px;padding-right:15px;}
@@ -252,6 +253,8 @@
 	import '../../assets/js/bootstrap-switch/js/bootstrap-switch.min';
 	import rePassword from './set/repassword.vue';
 	import addKeyWord from './set/addKeyWord.vue';
+	import chargeQR from "./set/chargeQR.vue";
+
 	export default {
 		data(){
 			return{  
@@ -282,21 +285,20 @@
 					pageSize:10,  
 					userAccount:""
 				},
+				chargeQRId:"",
 			}
 		},
-        components:{rePassword,addKeyWord},
+        components:{rePassword,addKeyWord,chargeQR},
         mounted(){
 			let vm =this;
 			/*个人信息*/       
 			let data = sessionStorage.getItem('usernumber');
 			vm.$http.post("../apis/personal/findPersonalInfo","").then(function(res){
- 				console.log(res); 
                 if(res.ok) {
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
                         vm.keyWordSearchCon.userAccount = res.data.data.user.userAccount;
-                       // console.log(vm.keyWordSearchCon.userAccount);
                     }
                 } 
 			});
@@ -306,19 +308,15 @@
                 if(res.ok) {
                     if (res.data.success) {
                         vm.packageListArr=res.data.data;
-                        console.log(vm.packageListArr); 
                     }
                 }
             });
 //            /*关键词列表*/ 
-			//console.log(vm.keyWordSearchCon);  
-			//console.log(vm.keyWordSearchCon); 
+			
             vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-            	//console.log(res); 
 				if(res.ok){
 				    if(res.data.success){
                         let typeOf = typeof res.data.data;
-                        //console.log(res.data.data);
                         if(typeOf!="string") {
                             $("#keyWordSet .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,
@@ -364,9 +362,7 @@
             * createUser
             * */
             /*消费记录 personal/findConsumeList  {pageNumber:1,pageSize:100}*/
-            //console.log(vm.consumeListSearchCon);
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
-            	//console.log(res);
                 if (res.ok) {
                     if (res.data.success) {
                         let typeOf = typeof res.data.data;
@@ -394,14 +390,14 @@
 		},
 		methods:{
 			topUp(id){
-				console.log(id); 
+				this.chargeQRId = id; 
+				$('#chargeQR').modal('show')
 			},
 			currTab2(){
 				$('#myTab li:eq(1) a').tab('show')
 			},
             getKeywordListFun(){
                 let vm =this;
-                console.log(vm.keyWordSearchCon);     
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
                     if(res.ok){
                         if(res.data.success){
@@ -520,13 +516,10 @@
 			combo(){ 
 				let vm = this; 
 				 vm.$http.post("../apis/package/getPackageList").then(function(res){
-				 	console.log(res); 
                 if(res.ok) { 
                     if (res.data.success) {
-                    	console.log('test'); 
                         vm.packageListArr=res.data.data;
-                        //console.log();
-                        console.log( vm.packageListArr);
+                        //console.log( vm.packageListArr);
                     }
                 }
             });
