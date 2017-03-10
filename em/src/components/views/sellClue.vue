@@ -177,6 +177,7 @@
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
+
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
                                 $("#pagination").jqPaginator({
@@ -189,6 +190,7 @@
                                     last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
+                                           console.log(response.data.data); 
                                         vm.searchCon.pageNumber = n;
                                         vm.page();
                                     }
@@ -489,7 +491,7 @@
                                 }
                             }
                             vm.searchHead=conObj; 
-                            console.log(vm.searchHead);
+                            //console.log(vm.searchHead);
 						}
 					}
 				}
@@ -507,6 +509,7 @@
                         last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
                         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                         onPageChange: function (n){
+                            console.log(response.data.data);
                             vm.searchCon.pageNumber = n;
                             vm.page();
                         }

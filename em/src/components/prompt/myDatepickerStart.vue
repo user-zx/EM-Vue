@@ -58,21 +58,43 @@ export default {
       },
       {   
         type: 'fromto',
-        from: '2016-02-01',
-        to: '2016-02-20'
-      }]
+        from: '',
+        to: ''
+      }], 
     }
   },
   components: {
     'date-picker': myDatepicker
-  }
+  },
+  methods:{
+    checkTime(){  
+      let vm = this;        
+      //console.log( vm.$store.state.selectDate.endDate);
+       vm.limit[1].to =  vm.$store.state.selectDate.endDate; 
+       vm.$emit('startTime', vm.startTime.time);
+    },
+    checkTimeStart(){ 
+       let vm = this;   
+      console.log(vm.startTime.time); 
+       vm.$store.commit("changeStartDate",vm.startTime.time);
+    }
+  },
+  mounted(){
+    var myDate = new Date();   
+    let nowDate = myDate.toLocaleDateString();  
+    
+    let newTime = nowDate.replace(/\//g,"-");
+
+    
+    this.limit[1].to = newTime; 
+  }, 
+  props:["startDate","endDate"],
 }
-</script>
-<template>
-  <div class="card"> 
-    <!-- for Vue 2.0 -->
-    <div class="row">    
-      <date-picker :date="startTime" :option="option" ></date-picker>
+</script> 
+<template>  
+  <div class="card" @mousedown="checkTime()" @click="checkTimeStart">  
+    <div class="row">        
+      <date-picker :date="startTime" :option="option" :limit="limit"></date-picker>
     </div> 
   </div>
 </template>
