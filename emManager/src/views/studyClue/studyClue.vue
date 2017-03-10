@@ -405,7 +405,7 @@
                         vm.studyClueList.result.topic=result.topic;
                         vm.studyClueList.result.replyList=result.replyList;
                         vm.replyList.params.recordId=result.topic.recordId;
-                        if(response.data&&response.data.length>0){
+//                        if(response.data.replyList.length>0&&response.data){
                             $("#pagination").jqPaginator({
                                 totalPages:  vm.studyClueList.result.replyList.totalPages,
                                 visiblePages: vm.replyList.params.pageSize,
@@ -426,7 +426,7 @@
                                     });
                                 }
                             });
-                        }
+//                        }
                     }
                 },function (error) {
                     console.log(error);
@@ -609,13 +609,17 @@
             },
             confirmSalesLeadsFun(){
                 let vm =this;
-                vm.post(vm.confirmSalesLeads.url,vm.confirmSalesLeads.params,(response)=>{
-                    if(response.success){
-                        alert(response.data);
-                    }
-                },(error)=>{
-                    console.log(error);
-                });
+                if(vm.confirmSalesLeads.params.length>0) {
+                    vm.post(vm.confirmSalesLeads.url, vm.confirmSalesLeads.params, (response) => {
+                        if (response.success) {
+                            alert(response.data);
+                        }
+                    }, (error) => {
+                        console.log(error);
+                    });
+                }else{
+                    alert("请研判主贴！～")
+                }
             }
         },
         mounted(){
