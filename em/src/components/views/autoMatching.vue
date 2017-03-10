@@ -20,12 +20,12 @@
 					</select>
 				</div>
 				<div class="col-md-1 col-xs-1"> 
-				      <my-datepicker-start></my-datepicker-start>
+				      <my-datepicker-start @startTime="startTime"></my-datepicker-start>
 				</div>    
                 <div class="col-md-1 col-xs-1"> 
-                    <my-datepicker-end></my-datepicker-end>
+                    <my-datepicker-end @endTime="endTime"></my-datepicker-end>
                 </div>  
-				<div class="col-md-3 col-xs-3">
+				<div class="col-md-3 col-xs-3">  
 					<div class="form-group">
 						<input  v-model="searchCon.author" type="text" class="form-control" placeholder="请输入昵称进行搜索">
 					</div>
@@ -125,7 +125,6 @@
 </template>
 <style scoped>
 	@import url("../../assets/style/page.css");
-	/* @import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"); */
     .sellClue_list_div>ul>li{ 
         float: left;    
         margin-right: 8px; 
@@ -136,8 +135,6 @@
     import "../../assets/js/jqPaginator.min.js";
     import "../../assets/js/formatData.js";
     import common from '../../assets/js/common.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import addMatching from './matching/addMatching.vue';
     import expense from "../prompt/expense.vue";      
     import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
@@ -167,9 +164,9 @@
                     keywords:"",
                 },
                 modelData:{},
-                refresh:{
-
-                },
+                refresh:{},
+                startDate:"",
+                endDate:"",
             } 
         },    
         props:["activeClass","datePicker"], 
@@ -217,6 +214,14 @@
             vm.getArtListFun();
         },
         methods:{
+            startTime(date){
+                let vm = this; 
+                vm.startDate= date;
+            },       
+            endTime(date){ 
+                let vm = this;   
+                vm.endDate = date;  
+            }, 
             artListFun(){
                 let vm = this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
@@ -231,10 +236,8 @@
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
-                                console.log(vm.artList.artContent); 
                                 vm.notResult=false;
-                                //console.log(vm.artList.artContent);
-                            }else{
+                            }else{ 
                                 vm.notResult=true;
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -244,9 +247,7 @@
                 });
             },
             getArtListFun(){
-                //console.log('test1122');  
                 let vm=this;
-                //console.log(vm.searchCon);   
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then( (response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -289,7 +290,9 @@
             //筛选
             multipleSearch(){
                 let vm=this;
-                
+                    vm.searchCon.checkStartDate = vm.startDate; 
+                vm.searchCon.checkEndDate = vm.endDate; 
+                //console.log(vm.searchCon);
                      this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){

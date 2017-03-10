@@ -89,7 +89,7 @@ export default {
   props:["startDate","endDate"],
 } 
 </script>  
-<template>  
+<template>   
   <div class="card" @click="checkTime()" @mousedown="checkTimeEnd"> 
     <div class="row">   
       <date-picker :date="endtime" :option="option" :limit="limit"></date-picker>

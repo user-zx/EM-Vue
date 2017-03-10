@@ -14,7 +14,7 @@ export default {
       }, 
       option: {
         type: 'day',
-        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        week: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
          month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'], 
         format: 'YYYY-MM-DD',
         placeholder: '开始时间',
@@ -58,9 +58,9 @@ export default {
       },
       {   
         type: 'fromto',
-        from: '',
-        to: ''
-      }], 
+        from: '',  
+        to: '2017-3-10', 
+      }],   
     }
   },
   components: {
@@ -70,24 +70,31 @@ export default {
     checkTime(){  
       let vm = this;        
       //console.log( vm.$store.state.selectDate.endDate);
-       vm.limit[1].to =  vm.$store.state.selectDate.endDate; 
-       vm.$emit('startTime', vm.startTime.time);
-    },
+      if(vm.$store.state.selectDate.endDate==""){
+        this.updateDate(); 
+      }else{
+        vm.limit[1].to =  vm.$store.state.selectDate.endDate; 
+      }
+    }, 
     checkTimeStart(){ 
        let vm = this;   
-      console.log(vm.startTime.time); 
+        
        vm.$store.commit("changeStartDate",vm.startTime.time);
-    }
+       
+       vm.$emit('startTime', vm.startTime.time);
+    },
+    updateDate(){
+      var myDate = new Date();   
+      let nowDate = myDate.toLocaleDateString();  
+    
+      let newTime = nowDate.replace(/\//g,"-");
+
+     this.limit[1].to = newTime;
+    },
   },
   mounted(){
-    var myDate = new Date();   
-    let nowDate = myDate.toLocaleDateString();  
-    
-    let newTime = nowDate.replace(/\//g,"-");
-
-    
-    this.limit[1].to = newTime; 
-  }, 
+    this.updateDate();
+  },   
   props:["startDate","endDate"],
 }
 </script> 
@@ -99,7 +106,5 @@ export default {
   </div>
 </template>
 <style scoped>
-  .card input{       
-    width: 85px !important;  
-  } 
+  
 </style>

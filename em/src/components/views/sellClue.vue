@@ -26,11 +26,11 @@
 					<option value="未处理">未处理</option>
 				</select>
 			</div>
+			<div class="col-md-1"> 
+				 <my-datepicker-start @startTime="startTime"></my-datepicker-start>
+			</div> 
 			<div class="col-md-1">
-				 <my-datepicker-start></my-datepicker-start>
-			</div>
-			<div class="col-md-1">
-				<my-datepicker-end></my-datepicker-end>
+				<my-datepicker-end @endTime="endTime"></my-datepicker-end>
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
@@ -129,6 +129,7 @@
     import expense from "../prompt/expense.vue";
       import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
     import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
+
 	export default {
 		data(){  
 			return{
@@ -164,16 +165,29 @@
                 },
                 promptMessage:"",
                 modelData:{},
+                startDate:"",
+                endDate:"",
 			}
 		}, 
 		methods:{
+              startTime(date){
+                let vm = this; 
+                vm.startDate= date;
+            },       
+            endTime(date){ 
+                let vm = this;   
+                vm.endDate = date;  
+            },  
             goAnchor(selector) {
                 var anchor = this.$el.querySelector(selector);
                 var parentEle=this.$el.querySelector(".h-box");
                 parentEle.scrollTop = anchor.offsetTop
-            },
+            }, 
             multipleSearch(){
                 let vm=this;
+                vm.searchCon.checkStartDate = vm.startDate; 
+                vm.searchCon.checkEndDate = vm.endDate; 
+                //console.log(vm.searchCon); 
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -509,10 +523,9 @@
                         last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
                         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                         onPageChange: function (n){
-                            console.log(response.data.data);
                             vm.searchCon.pageNumber = n;
                             vm.page();
-                        }
+                        } 
                     });
                 }else{
                     vm.artList.artContent="";
