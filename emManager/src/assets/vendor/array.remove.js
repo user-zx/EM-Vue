@@ -13,3 +13,10 @@ Array.prototype.remove = function(val) {
         this.splice(index, 1);
     }
 };
+Array.prototype.removeIndex = function(index) {
+    // let index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1);
+    }
+};
+

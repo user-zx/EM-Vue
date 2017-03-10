@@ -20,65 +20,64 @@
         </div>
         <div class="col-md-12" v-if="pageState">
             <div class="search-box">
-                <button type="button" class="btn btn-dark-o">
-                    上一条线索
-                </button>
-                <button type="button" class="btn btn-dark-o">
+                <!--<button type="button" class="btn btn-dark-o">-->
+                    <!--上一条线索-->
+                <!--</button>-->
+                <button type="button" class="btn btn-dark-o" @click="getClueList();">
                     下一条线索
                 </button>
                 <a href="javascript:void(0);" class="pull-right text-dark" @click="paginator2()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
             </div>
             <div class="article-box">
-                <div v-for="item in studyClueList.result.content" class="article-content">
+                <div class="article-content">
                     <div class="article-item">
                         <!--<div class="article-left">-->
                             <!--<input type="checkbox" name="checkbox" v-bind:value="item.id" />-->
                         <!--</div>-->
                         <div class="article-right">
-                            <a :href="item.link" target="_blank" class="title">{{item.title}}   <span class="text-yellow">[主贴]</span></a>
+                            <a :href="studyClueList.result.topic.link" target="_blank" class="title">{{studyClueList.result.topic.title}}   <span class="text-yellow">[主贴]</span></a>
                             <div class="source">
-                                <label>线索发布者：</label><span>{{item.author}}</span>
-                                <label>线索来源：</label><span>{{item.source}}</span>
-                                <label>发布时间：</label><span>{{item.publishDate}}</span>
+                                <label>线索发布者：</label><span>{{studyClueList.result.topic.author}}</span>
+                                <label>线索来源：</label><span>{{studyClueList.result.topic.source}}</span>
+                                <label>发布时间：</label><span>{{studyClueList.result.topic.publishDate}}</span>
                             </div>
                             <p class="article">
-                                {{item.content}}
+                                {{studyClueList.result.topic.content}}
                             </p>
                         </div>
                         <div class="btn-box">
-                            <button class="btn btn-dark-o" type="button">非线索</button>
-                            <button class="btn btn-em-o" type="button">确认线索</button>
+                            <button class="btn btn-dark-o" type="button" @click="setConfirmParams(studyClueList.result.topic.id,'非线索')">非线索</button>
+                            <button class="btn btn-em-o" type="button" @click="setConfirmParams(studyClueList.result.topic.id,'确认线索')">确认线索</button>
                         </div>
                     </div>
                     <div class="reply-article">
                         <h5 class="reply-title">回帖</h5>
-                        <div class="reply-content">
-                            <p>更加成熟的@井柏然 选择再次出发背起行囊开启青春冒险之渴望蜕变的他能否带来不一样的《花儿与少年》？</p>
+                        <div class="reply-content" v-for="item in studyClueList.result.replyList.content">
+                            <p>{{item.content}}</p>
                             <div class="source">
-                                <label>发布者：</label><span>蓝色太阳</span>
+                                <label>发布者：</label><span>{{item.author}}</span>
                                 <label>回帖时间：</label><span>{{item.publishDate}}</span>
                             </div>
+                            {{item.id}}
                             <div class="btn-box">
-                                <button type="button" class="btn btn-dark-o">
-                                    非线索
-                                </button>
-                                <button type="button" class="btn btn-em-o">
-                                    确认线索
-                                </button>
+                                <button class="btn btn-dark-o" type="button" @click="setConfirmParams(item.id,'非线索')">非线索</button>
+                                <button class="btn btn-em-o" type="button" @click="setConfirmParams(item.id,'确认线索')">确认线索</button>
                             </div>
+                        </div>
+                        <div class="pageList clearfix">
+                            <ul class="clearfix pagination pull-right" id="pagination">
+
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="pageList clearfix">
                 <div class="search-box pull-left">
-                    <button type="button" class="btn btn-dark btn-dark-o">
+                    <button type="button" class="btn btn-dark btn-dark-o" @click="confirmSalesLeadsFun();">
                         提交研判结果
                     </button>
                 </div>
-                <ul class="clearfix pagination pull-right" id="pagination">
-
-                </ul>
             </div>
         </div>
         <div class="col-md-12" v-if="studyClueListState">
@@ -170,8 +169,8 @@
                             </p>
                         </div>
                         <div class="btn-box">
-                            <button class="btn btn-dark-o" type="button">非线索</button>
-                            <button class="btn btn-em-o" type="button">确认线索</button>
+                            <button class="btn btn-dark-o" type="button" @click="falseSales()">非线索</button>
+                            <button class="btn btn-em-o" type="button" @click="trueSales()">确认线索</button>
                         </div>
                     </div>
                 </div>
@@ -181,7 +180,7 @@
 </template>
 <style lang="scss" scoped>
     .text-yellow{color:#e29b4b;}
-    .text-hidden{max-width:370px;padding:0 15px;overflow: hidden;text-align:left;text-overflow: ellipsis;white-space: nowrap;}
+    .text-hidden{display: block;max-width:370px;padding:0 15px;overflow: hidden;text-align:left;text-overflow: ellipsis;white-space: nowrap;}
     .center-content{
         width:457px;
         padding:0;
@@ -225,6 +224,7 @@
                     /*margin-left:30px;*/
                     width: 85%;
                     .title{
+                        display: block;
                         margin:0 0 10px;
                         font-size: 16px;
                         color:#333333;
@@ -319,6 +319,7 @@
 </style>
 <script>
     import data from '../../assets/data/data.js';
+    import '../../assets/vendor/array.remove';
     import '../../assets/vendor/date.format';
     import "vue-style-loader!css-loader!sass-loader!bootstrap-select/sass/bootstrap-select.scss";
     import 'bootstrap-select';
@@ -336,9 +337,21 @@
                 pageState:false,
                 studyClueListState:false,
                 studyClueList:{
-                    url:"../apis/judge/findJudgeList",
+                    url:"../apis/judge/receiveTask",
                     params:{pageNumber:1,pageSize:10},
-                    result:{}
+                    result:{
+                        topic:{},
+                        replyList:[]
+                    }
+                },
+                replyList:{
+                    url:"../apis/judge/findReplyList",
+                    totalPages:"",
+                    params:{
+                        recordId:"",
+                        pageNumber:1,
+                        pageSize:10
+                    }
                 },
                 msg:"线索研判",
                 getStudiedList:{
@@ -353,8 +366,21 @@
                     },
                     result:{}
                 },
+                confirmSalesLeads:{
+                    url:"../apis/judge/confirmSalesLeads",
+                    params:[],
+                    result:{}
+                },
                 getSingleInfo:{
                     url:"../apis/judge/findSalesLeadsDetails",
+                    result:{}
+                },
+                reSetStudyClue:{
+                    url:"../apis/judge/reJudge",
+                    params:{
+                        salesLeadsId:"",
+                        judgeResult:""
+                    },
                     result:{}
                 }
             }
@@ -376,13 +402,31 @@
                 vm.post(vm.studyClueList.url,vm.studyClueList.params,function (response) {
                     if(response.success){
                         let result=response.data;
-                        for (let i in result.content){
-                            result.content[i].publishDate=new Date(result.content[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                        vm.studyClueList.result.topic=result.topic;
+                        vm.studyClueList.result.replyList=result.replyList;
+                        vm.replyList.params.recordId=result.topic.recordId;
+                        if(response.data&&response.data.length>0){
+                            $("#pagination").jqPaginator({
+                                totalPages:  vm.studyClueList.result.replyList.totalPages,
+                                visiblePages: vm.replyList.params.pageSize,
+                                currentPage: vm.replyList.params.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n){
+                                    vm.replyList.params.pageNumber = n;
+                                    vm.post(vm.replyList.url,vm.replyList.params,(response)=>{
+                                        if(response.success){
+                                            vm.studyClueList.result.replyList=response.data;
+                                        }
+                                    },(error)=>{
+                                        console.log(error);
+                                    });
+                                }
+                            });
                         }
-                        vm.studyClueList.result=result;
-                        $("input[type=checkbox]").iCheck({
-                            checkboxClass : 'icheckbox_square-blue',
-                        });
                     }
                 },function (error) {
                     console.log(error);
@@ -414,7 +458,9 @@
             },
             getClueList(){
                 this.pageState=true;
-                this.paginator();
+                this.studyClueList.result.topic={};
+                this.studyClueList.result.replyList=[];
+                this.getList();
             },
             /*研判记录*/
             getStudyClueList(){
@@ -516,10 +562,59 @@
                 vm.pageState=false;
                 vm.studyClueListState=false;
                 vm.post(vm.getSingleInfo.url+"?id="+id,null,(response)=>{
+                    vm.reSetStudyClue.params.salesLeadsId=id;
                     vm.getSingleInfo.result=response.data;
                     vm.getSingleInfo.result.publishDate=new Date(response.data.publishDate).Format('yyyy-MM-dd hh:mm:ss');
                 },(error)=>{
-
+                    console.log(error);
+                });
+            },
+            trueSales(){
+                let vm =this;
+                vm.reSetStudyClue.params.judgeResult="确认线索";
+                vm.post(vm.reSetStudyClue.url,vm.reSetStudyClue.params,(response)=>{
+                    if(response.success){
+                        vm.paginator2();
+                    }
+                },(error)=>{
+                    console.log(error);
+                });
+            },
+            falseSales(){
+                let vm =this;
+                vm.reSetStudyClue.params.judgeResult="非线索";
+                vm.post(vm.reSetStudyClue.url,vm.reSetStudyClue.params,(response)=>{
+                    if(response.success){
+                        vm.paginator2();
+                    }
+                },(error)=>{
+                    console.log(error);
+                });
+            },
+            setConfirmParams(salesLeadsId,judgeResult){
+                let vm =this;
+                if(vm.confirmSalesLeads.params.length>0){
+                    for(let i=0;i<vm.confirmSalesLeads.params.length;i++){
+                        var item = vm.confirmSalesLeads.params[i];
+                        if(item.salesLeadsId == salesLeadsId){
+                            vm.confirmSalesLeads.params.remove(item);
+                            break;
+                        }
+                    }
+                }
+                let obj=new Object();
+                obj.salesLeadsId=salesLeadsId;
+                obj.judgeResult=judgeResult;
+                vm.confirmSalesLeads.params.push(obj);
+            },
+            confirmSalesLeadsFun(){
+                let vm =this;
+                vm.post(vm.confirmSalesLeads.url,vm.confirmSalesLeads.params,(response)=>{
+                    if(response.success){
+                        alert(response.data);
+                    }
+                },(error)=>{
+                    console.log(error);
                 });
             }
         },

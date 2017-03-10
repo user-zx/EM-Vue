@@ -21,7 +21,7 @@ Vue.http.interceptors.push((request, next) => {
       if(response.ok){
         if(response.data.success){
           return response;
-        }else{
+        }else if(response.data.status=='401'){
             window.location.href="/";
         }
       }
