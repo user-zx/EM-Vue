@@ -22,6 +22,12 @@
                                 </select>
                             </div>
                         </div>
+						<div class="form-group">
+                            <label class="col-md-4 control-label">文章标题：</label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" v-model:value="data.title" placeholder="请您输入目标主页标题" />
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">原文地址：</label>
                             <div class="col-md-5">
@@ -93,7 +99,7 @@
         methods:{
             addMatchFun(){
                 let vm=this;  
-                vm.$http.post("../apis/salesLeads/checkDomainNameSource",{url:vm.data.homeLink,source:vm.data.author}).then((res)=>{
+                vm.$http.post("../apis/salesLeads/checkDomainNameSource",{url:vm.data.homeLink,source:vm.data.source}).then((res)=>{
                     console.log(res);
                     if(res.ok){
                         if(res.data.data){
