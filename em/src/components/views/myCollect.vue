@@ -318,6 +318,7 @@
 				let vm=this;
 				    vm.searchCon.checkStartDate = vm.startDate; 
                 	vm.searchCon.checkEndDate = vm.endDate;  
+                	console.log(vm.searchCon); 
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){

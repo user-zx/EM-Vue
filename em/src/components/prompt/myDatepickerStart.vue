@@ -27,15 +27,15 @@ export default {
           'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
           'border-radius': '2px',
           'color': '#5F5F5F',
-          'width': "80px",
-        },
+          'width': "95px",
+        }, 
         color: {
           header: '#ccc',
           headerText: '#f00'
         },
         buttons: {
-          ok: 'Ok',
-          cancel: 'Cancel'
+          ok: '确定',
+          cancel: '取消' 
         },
         overlayOpacity: 0.5, // 0.5 as default
         dismissible: true // as true as default
