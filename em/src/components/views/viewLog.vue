@@ -25,12 +25,12 @@
 						<option value="未处理">未处理</option>
 					</select>
 				</div>
-				<div class="col-md-1">
-					<my-datepicker-start></my-datepicker-start>
+				<div class="col-md-1">  
+					<my-datepicker-start @startTime="startTime"></my-datepicker-start>
 				</div>
-				<div class="col-md-1"> 
-					<my-datepicker-end></my-datepicker-end>
-				</div>
+				<div class="col-md-1">     
+					<my-datepicker-end @endTime="endTime"></my-datepicker-end>
+				</div> 
 				<div class="col-md-2">
 					<div class="form-group">
 						<input  v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
@@ -198,7 +198,9 @@
 					checkEndDate:""
 				},
 				modelData:{},
-			}
+				startDate:"",
+				endDate:"",
+			} 
 		},
         mounted(){
             let vm=this;
@@ -225,7 +227,8 @@
 		    $(".publish-heading .navbar-left a").on("click",function () {
 				$(this).addClass("active").siblings().removeClass("active");
             });
-            $(".form_datetime .startDate").datetimepicker({
+
+            /*$(".form_datetime .startDate").datetimepicker({
                 language:"zh-CN",
                 format: "yyyy-MM-dd",
 				autoclose:true
@@ -238,7 +241,7 @@
             });
             $(".form_datetime .endDate").datetimepicker({
                 language:"zh-CN",
-                format: "yyyy-MM-dd",
+                format: "yyyy-MM-dd", 
                 autoclose:true
             }).on("click",function (ev) {
                 var endDate=new Date().Format("yyyy-MM-dd");
@@ -246,7 +249,7 @@
                 $(".endDate").datetimepicker("setEndDate",endDate);
             }).on("outOfRange",function (ev) {
                 $(this).val(vm.getDateStr(0));
-            });
+            });*/ 
 			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
 				if(response.ok){
 				    if(response.data.success){
@@ -270,14 +273,23 @@
 						}
 					}
 				}
-			});
+			});  
             vm.getArtListFun();
-        },
+        }, 
 		methods:{
+			startTime(date){
+				let vm = this; 
+				vm.startDate= date;
+				
+			},       
+			endTime(date){ 
+				let vm = this;   
+				vm.endDate = date;  
+				
+			}, 
             artListFun(){
                 let vm=this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
-                	
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
@@ -334,14 +346,16 @@
                 parentEle.scrollTop = anchor.offsetTop
             },
             multipleSearch(){
-				let vm=this;
+				let vm=this; 
+				vm.searchCon.checkStartDate = vm.startDate; 
+				vm.searchCon.checkEndDate = vm.endDate; 
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                 	console.log(vm.searchCon);
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
-                            	console.log(vm.searchCon.pageSize);
+                            	//console.log(vm.searchCon.pageSize);
                                 $("#pagination").jqPaginator({ 
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,

@@ -10,11 +10,11 @@ export default {
         time: ''
       },
       endtime: {
-        time: ''
-      }, 
+        time: '' 
+      },     
       option: {
         type: 'day',
-        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        week: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
          month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'], 
         format: 'YYYY-MM-DD',
         placeholder: '结束时间',
@@ -28,14 +28,14 @@ export default {
           'border-radius': '2px',
           'color': '#5F5F5F',
           'width': "95px"
-        },
-        color: {
+        }, 
+        color: { 
           header: '#ccc',
           headerText: '#f00'
         },
         buttons: {
-          ok: 'Ok',
-          cancel: 'Cancel'
+          ok: '确定',
+          cancel: '取消'
         },
         overlayOpacity: 0.5, // 0.5 as default
         dismissible: true // as true as default
@@ -58,21 +58,41 @@ export default {
       },
       {   
         type: 'fromto',
-        from: '2016-02-01',
-        to: '2016-02-20'
-      }]
-    }
+        from: '',
+        to: ''
+      }] 
+    }   
   },
   components: {
     'date-picker': myDatepicker
-  }
-}
-</script>
-<template>
-  <div class="card"> 
-    <!-- for Vue 2.0 -->
-    <div class="row">  
-      <date-picker :date="startTime" :option="option" ></date-picker>
+  },
+  methods:{
+    checkTime(){
+        let vm = this;  
+        // vm.$store.state.selectDate.endDate = 
+        vm.$store.commit("changeEndDate",vm.endtime.time);
+        vm.$emit('endTime', vm.endtime.time); 
+
+    },
+    checkTimeEnd(){ 
+      let vm = this;    
+        vm.limit[1].from =  vm.$store.state.selectDate.startDate; 
+    } 
+  },
+  mounted(){
+    var myDate = new Date();   
+    let nowDate = myDate.toLocaleDateString();  
+    let newTime = nowDate.replace(/\//g,"-");
+    
+    this.limit[1].to = newTime;
+  }, 
+  props:["startDate","endDate"],
+} 
+</script>  
+<template>   
+  <div class="card" @click="checkTime()" @mousedown="checkTimeEnd"> 
+    <div class="row">   
+      <date-picker :date="endtime" :option="option" :limit="limit"></date-picker>
     </div> 
-  </div>
+  </div> 
 </template>

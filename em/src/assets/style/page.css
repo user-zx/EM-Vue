@@ -15,9 +15,10 @@
 .lyt-box .lyt-item .lyt-rt a:hover,.lyt-box .lyt-item .lyt-rt a:focus{color:#2aabd2;}
 .sellClue_list_div{
 	background-color: #ffffff;
-	margin: 15px;
+	box-shadow:0 0 3px #ededed;
 	position: relative;
 }
+
 .sellClue_list_div>div>h4{
 	padding-top: 30px;
 	padding-left: 20px;
@@ -37,6 +38,7 @@
 .sellClue_list_div_div>span>i{
 	font-style: normal;
 	color: #bfc1c1;
+
 }
 .sellClue_list_div>div>p{
 	font: 12px/22px inherit;
@@ -60,7 +62,7 @@
 }
 .sellClue_list_div>div>ul>li>a{
 	display: block;
-	padding: 3px 20px;
+	padding: 5px 20px;
 	text-decoration: none;
 	border: 1px solid #32ccca;
 	color: #32ccca;
@@ -81,10 +83,11 @@
 }
 .sellClue_list_div>menu{
 	list-style: none;
-	padding: 15px 5px; 
+	padding: 15px 15px; 
 	margin-bottom: 0px;
 	position: relative;
 	background-color: #fafafa;
+	border-top:1px solid #ededed;
 }
 .sellClue_list_div>menu>li{
 	float: left;
@@ -121,10 +124,11 @@
 .sellClue_list_div>div>span.blue{
 	background-color:#6bd1f9;
 }
-.sellClue_list_div_ul>li>i,.sellClue_list_div_ul>li>img{
+.sellClue_list_div_ul>li i,.sellClue_list_div_ul>li img{
 	font-size: 16px;
-	vertical-align: top;
-	margin-right: 10px;
+	vertical-align:top;
+	margin-right: 7px;
+	top:2px;
 }
 .sellClue_list_div>div{
 	position: relative;
@@ -150,3 +154,12 @@
 .pagination>li>a, .pagination>li>span{
 	color:#32ccca;
 }
+
+
+.search-box .form-horizontal>div{padding-left:0;}
+.search-box .form-horizontal .col-md-1 .row{margin:0;}
+.search-box .form-horizontal .form-group{margin-left:0;}
+.search-box .caret{    border-top: 6px dashed;
+    border-top: 6px solid\9;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;}
