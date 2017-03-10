@@ -512,14 +512,14 @@
 	}
 	#register_centre_heading>div>span{
 		display: inline-block;
-		width: 32px;
-		height: 32px;
-		-webkit-border-radius: 16px;
-		        border-radius: 16px;
+		width: 40px;
+		height: 40px;
+		-webkit-border-radius: 50%;
+		        border-radius: 50%;
 		background-color: #ffffff;
 		color: #000;
 		text-align: center;
-		line-height: 32px;
+		line-height: 40px;
 		font-size: 12px;
 	}
 	#register_centre_heading>div>i{
@@ -579,6 +579,9 @@
 }     
 .fileinput-remove-button{
 	display: none !important;
+}
+#login_btn{background:#32ccca;
+   border-color:#32ccca;
 }
 </style>
  
