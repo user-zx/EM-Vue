@@ -25,10 +25,10 @@
 			  			 </div> 
 			  			 <div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
-						    <div class="col-sm-5">
+						    <div class="col-sm-3">
 						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" disabled="true" @input="changeVerification">
 						    </div>
-						    <div class="col-sm-2">
+						    <div class="col-sm-1">
 						    	<button type="button" class="btn btn-info" id="getYzm" @click="getVerification()">获取验证码</button>
 						    </div>
 		  				 </div>
@@ -38,14 +38,14 @@
 						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password">  
 						    </div>
 		  				 </div>
-		  				 <p class="text-center">点击下一步,则表示您接受<router-link to="/personal/userInstructions">《用户须知》</router-link></p>
+		  				 <p class="text-center" id="TY">点击下一步,则表示您接受<router-link to="/personal/userInstructions">《用户须知》</router-link></p>
 		  				<div class="form-group"> 
-		  					<div class="col-sm-offset-3 col-sm-6">
+		  					<div class="col-sm-offset-3 col-sm-5">
 		  						<button type="button" class="btn btn-info btn-block" disabled="true" @click="login($event)" id="login_btn">下一步</button> 
 		  					</div>
 		  				</div>
 		            </div>
-		            <div class="form-horizontal" role="form" v-show="register_message">
+		            <div class="form-horizontal" role="form" v-show="register_message" id="zc-2">
 		            	<div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">姓名:</label>
 						    <div class="col-sm-9">
@@ -83,7 +83,7 @@
 			      			     <input type="text" name="" class="form-control" id="userTrade" v-model="userInputTrade" @input="changeInputTrade">
 			   			    </div> 
 			   			    <div class="col-sm-4">
-			      			     <button type="button" class="btn btn-primary btn-block" @click="industryBtn">{{vocation}}</button>
+			      			     <button type="button" class="btn btn-info btn-block" @click="industryBtn">{{vocation}}</button>
 			   			    </div>
 			  			 </div>
 			  			  <div class="form-group">
@@ -159,6 +159,10 @@
 		color:#ffffff;
 		background-color: #32ccca;
 	}
+	#zc-2 .control-label{padding-right:0;}
+	#zc-2 .btn-info{background-color:#32ccca;border-color:#32ccca;}
+    #zc-2  .checkbox label{padding:0;}
+    #TY{margin-left:-45px;}
 </style>
 <script>	
     	
@@ -580,9 +584,13 @@
 .fileinput-remove-button{
 	display: none !important;
 }
-#login_btn{background:#32ccca;
+#login_btn{background-color:#32ccca;
    border-color:#32ccca;
 }
+#getYzm{background-color:white;border-color:#32ccca;color:#32ccca;
+          padding:5px 6px;
+}
+
 </style>
  
 
