@@ -17,7 +17,7 @@
             </ul>
             <div id="matchingTabContent" class="tab-content">
                 <div class="tab-pane fade in active ">
-                    <components :is="current" keep-alive></components>
+                    <components :is="current" v-on:currentTab2="currentTab2" keep-alive></components>
                 </div>
             </div>
         </div>
@@ -26,37 +26,37 @@
 <style scoped lang="scss">
     .nav-tabs-em{
         border-bottom-color: #273e4c;
-    li{
-    a{
-        margin-right: 0;
-        border-color:#273e4c;
-        border-right:0;
-        border-radius: 0;
-        color:#333333;
-    &:last-child{
-         border-right:1px solid #273e4c;
-     }
-    &:hover,
-    &:focus{
-         color:#ffffff;
-         border-color:#273e4c;
-         background-color: #273e4c;
-     }
-    }
-    &.active{
-    a{
-        border-color:#273e4c;
-        background-color: #273e4c;
-        color:#ffffff;
-    &:hover,
-    &:focus{
-         color:#ffffff;
-         border-color:#273e4c;
-         background-color: #273e4c;
-     }
-    }
-    }
-    }
+            li{
+                a{
+                    margin-right: 0;
+                    border-color:#273e4c;
+                    border-right:0;
+                    border-radius: 0;
+                    color:#333333;
+                &:last-child{
+                     border-right:1px solid #273e4c;
+                 }
+                &:hover,
+                &:focus{
+                     color:#ffffff;
+                     border-color:#273e4c;
+                     background-color: #273e4c;
+                 }
+            }
+            &.active{
+                a{
+                    border-color:#273e4c;
+                    background-color: #273e4c;
+                    color:#ffffff;
+                    &:hover,
+                    &:focus{
+                         color:#ffffff;
+                         border-color:#273e4c;
+                         background-color: #273e4c;
+                     }
+                }
+            }
+        }
     }
 </style>
 <script>
@@ -80,18 +80,29 @@
         components:{autoMatching,matching,matched},
         methods:{
             currentTab(targetName,event){
+                sessionStorage.setItem("salesLeadsId","");
                 this.current= targetName;
                 let _el=event.target;
                 $(_el).parent().addClass("active").siblings().removeClass("active");
+            },
+            currentTab2(){
+                sessionStorage.setItem("salesLeadsId","");
+                this.current= "matched";
+                $(".matched").parent().addClass("active").siblings().removeClass("active");
             }
         },
         mounted(){
             let vm = this;
+            console.log(vm.$store.state.matchingManager.current+"   tab");
             $("."+vm.$store.state.matchingManager.current).parent().addClass("active");
             $(document).on("click",".currentParentTab",function () {
                 let currentTab=$(this).attr('data-target'),ele='.'+$(this).attr('data-target');
+                sessionStorage.setItem("salesLeadsId",$(this).attr('id'));
                 vm.current= currentTab;
                 $(ele).parent().addClass("active").siblings().removeClass("active");
+            });
+            $(document).on("click",".navigation .lyt-cell a",function () {
+                sessionStorage.setItem("salesLeadsId","");
             });
         }
     }
