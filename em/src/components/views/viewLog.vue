@@ -309,8 +309,16 @@
             },
             multipleSearch(){
 				let vm=this; 
-				vm.searchCon.checkStartDate = vm.startDate; 
-				vm.searchCon.checkEndDate = vm.endDate; 
+				if(vm.startDate==""){
+                     vm.searchCon.checkStartDate = "";
+                }else{
+                     vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
+                }
+                if(vm.endDate==""){ 
+                    vm.searchCon.checkEndDate = "";
+                }else{ 
+                    vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                }
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                 	console.log(vm.searchCon);
                     if(response.ok){

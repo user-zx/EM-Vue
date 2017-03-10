@@ -82,11 +82,11 @@
                     <span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
                     <h4>
                         <a :href="artItem.salesLeads.link" target="_blank">
-                             {{artItem.salesLeads.title}} 
-                            <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
-                            <img v-else src="../../assets/images/unSucImg.png" />
-                        </a>
-                    </h4>
+                            {{artItem.salesLeads.title}} 
+                        </a>  
+                        <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png"/>
+                        <img v-else src="../../assets/images/unSucImg.png" />
+                    </h4> 
                     <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>匹配时间:</i>{{artItem.salesLeads.matchingDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
                    
@@ -290,8 +290,16 @@
             //筛选
             multipleSearch(){
                 let vm=this;
-                    vm.searchCon.checkStartDate = vm.startDate; 
-                vm.searchCon.checkEndDate = vm.endDate; 
+                  if(vm.startDate==""){
+                     vm.searchCon.checkStartDate = "";
+                }else{
+                     vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
+                }
+                if(vm.endDate==""){ 
+                    vm.searchCon.checkEndDate = "";
+                }else{ 
+                    vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                }
                 //console.log(vm.searchCon);
                      this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
