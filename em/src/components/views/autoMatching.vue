@@ -113,7 +113,7 @@
 					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
 					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
 					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
-				</menu>
+				</menu> 
 			</div>
 			<div class="pageList clearfix" v-show="!notResult" >
 				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" id="pagination">

@@ -20,14 +20,14 @@ export default {
         placeholder: '开始时间',
         inputStyle: {
           'display': 'inline-block',
-          'padding': '6px',
+          'padding': '6px 2px',  
           'line-height': '17px',
           'font-size': '14px',
           'border': '2px solid #fff',
           'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
-          'border-radius': '2px',
+          'border-radius': '5px',
           'color': '#5F5F5F',
-          'width': "95px",
+          'width': "85px", 
         }, 
         color: {
           header: '#ccc',
