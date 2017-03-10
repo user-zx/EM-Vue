@@ -405,7 +405,7 @@
                         vm.studyClueList.result.topic=result.topic;
                         vm.studyClueList.result.replyList=result.replyList;
                         vm.replyList.params.recordId=result.topic.recordId;
-//                        if(response.data.replyList.length>0&&response.data){
+                        if(response.data.replyList.content.length>0&&response.data){
                             $("#pagination").jqPaginator({
                                 totalPages:  vm.studyClueList.result.replyList.totalPages,
                                 visiblePages: vm.replyList.params.pageSize,
@@ -426,7 +426,7 @@
                                     });
                                 }
                             });
-//                        }
+                        }
                     }
                 },function (error) {
                     console.log(error);
