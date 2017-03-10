@@ -27,9 +27,9 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-horizontal">
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="form-group">
-									<label class="col-md-4 control-label">用户名：</label>
+									<label class="col-md-4 control-label">用户姓名：</label>
 									<div class="col-md-8">
 										<p class="form-control-static">{{personalInfoObj.user.name}}<span class="user-type">（{{personalInfoObj.user.userStatus}}用户）</span></p>
 									</div>
@@ -47,7 +47,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="form-group">
 									<label class="col-md-4 control-label">密码：</label>
 									<div class="col-md-8">
@@ -77,30 +77,30 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-horizontal">
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="form-group">
-									<label class="col-md-4 control-label">套餐信息：</label>
-									<div class="col-md-8">
+									<label class="col-md-5 control-label">套餐信息：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.packageName}}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">已使用查询次数：</label>
-									<div class="col-md-8">
+									<label class="col-md-5 control-label">已使用查询次数：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.usedTimes}}次</p>
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="form-group">
-									<label class="col-md-4 control-label">套餐内查询次数：</label>
-									<div class="col-md-8">
+									<label class="col-md-5 control-label">套餐内查询次数：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.leadsTimes}}次</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">剩余查询次数：</label>
-									<div class="col-md-8">
+									<label class="col-md-5 control-label">剩余查询次数：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.packageInfo.restTimes}}次</p>
 									</div>
 								</div>
@@ -214,7 +214,7 @@
 	</div> 
 </template> 
 <style scoped>
-	.nav-tabs{padding-left:20px;padding-right:20px;margin-bottom:15px;border:1px solid #dddddd;background-color: #ffffff;}
+	.nav-tabs{padding-left:20px;padding-right:20px;margin-bottom:15px;box-shadow:1px 1px 1px #dddddd;background-color: #ffffff;}
 	.nav-tabs>li{padding-left:15px;padding-right:15px;}
 	.nav-tabs>li>a{border-left:0;border-right:0;border-top:0;padding-top:15px;padding-bottom:15px;font-size:16px;color:#333333;border-bottom:2px solid transparent;}
 	.nav-tabs>li>a:hover{background-color: #ffffff;border-bottom-color:rgba(50,204,202,.8); }
@@ -224,10 +224,10 @@
 	{border-left:0;border-right:0;border-top:0;border-bottom: 2px solid #32ccca;}
 	.panel.panel-em>.panel-heading{border-bottom:1px solid #ededed;background-color: #ffffff;}
 	.panel.panel-em{padding:20px;}
-	.panel-em .panel-heading .panel-title{position: relative;color: #333333;font-size: 16px;border-left:2px solid #32ccca;padding:5px 5px;}
+	.panel-em .panel-heading .panel-title{position: relative;color: #333333;font-size: 16px;border-left:4px solid #32ccca;padding:0px 5px;}
 	.panel-em .panel-heading .panel-title .warning-tips{margin-left:15px;color:#999999;font-size:14px;}
 	.panel-em .panel-heading .panel-title .warning-tips .warning-tel{color:#32ccca;font-size:18px;}
-	.panel-em .panel-heading .panel-title .btn-search-o{position: absolute;right: 0;bottom:0;color:#32ccca;}
+	.panel-em .panel-heading .panel-title .btn-search-o{position: absolute;right: 400px;bottom:0;color:#32ccca;}
 	.panel-em .panel-heading .panel-title .btn-search-o:hover,
 	.panel-em .panel-heading .panel-title .btn-search-o:focus{color:#FFFFFF;}
 	.panel-em .panel-body .control-label{color:#999999;font-weight: 400;}
@@ -248,6 +248,9 @@
 		background-color: #32ccca;
 	}
 	.modal{z-index: 9999}
+	#myTabContent .control-label{padding-right:0;}
+	#myTabContent .control-label+div{padding-left:0;}
+
 </style>
 <script>
 	import '../../assets/js/bootstrap-switch/js/bootstrap-switch.min';

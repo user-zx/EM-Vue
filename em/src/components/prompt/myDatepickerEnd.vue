@@ -27,7 +27,7 @@ export default {
           'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
           'border-radius': '2px',
           'color': '#5F5F5F',
-          'width': "95px"
+          'width': "80px"
         },
         color: {
           header: '#ccc',
