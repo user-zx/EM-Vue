@@ -42,11 +42,14 @@ module.exports = {
                     test: /\.(png|jpg|gif|svg)$/,
                     loader: 'file-loader',
                     options: {
-                        name: '[name].[ext]?[hash]'
+                        name: 'images/[name].[ext]?[hash]'
                     }
                 }, { 
                     test: /\.(eot(|\?v=.*)|woff(|\?v=.*)|woff2(|\?v=.*)|ttf(|\?v=.*)|svg(|\?v=.*))$/,
-                    loader: 'file-loader'
+                    loader: 'file-loader',
+                    options:{
+                        name: 'fonts/[name].[ext]?[hash]'
+                    }
                 }
 
         ]
