@@ -20,12 +20,12 @@
 					</select>
 				</div>
 				<div class="col-md-1 col-xs-1"> 
-				      <my-datepicker-start></my-datepicker-start>
+				      <my-datepicker-start @startTime="startTime"></my-datepicker-start>
 				</div>    
                 <div class="col-md-1 col-xs-1"> 
-                    <my-datepicker-end></my-datepicker-end>
+                    <my-datepicker-end @endTime="endTime"></my-datepicker-end>
                 </div>  
-				<div class="col-md-3 col-xs-3">
+				<div class="col-md-3 col-xs-3">  
 					<div class="form-group">
 						<input  v-model="searchCon.author" type="text" class="form-control" placeholder="请输入昵称进行搜索">
 					</div>
@@ -82,11 +82,11 @@
                     <span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
                     <h4>
                         <a :href="artItem.salesLeads.link" target="_blank">
-                             {{artItem.salesLeads.title}} 
-                            <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
-                            <img v-else src="../../assets/images/unSucImg.png" />
-                        </a>
-                    </h4>
+                            {{artItem.salesLeads.title}} 
+                        </a>  
+                        <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png"/>
+                        <img v-else src="../../assets/images/unSucImg.png" />
+                    </h4> 
                     <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>匹配时间:</i>{{artItem.salesLeads.matchingDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
                    
@@ -113,7 +113,7 @@
 					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
 					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
 					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
-				</menu>
+				</menu> 
 			</div>
 			<div class="pageList clearfix" v-show="!notResult" >
 				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" id="pagination">
@@ -125,7 +125,6 @@
 </template>
 <style scoped>
 	@import url("../../assets/style/page.css");
-	/* @import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"); */
     .sellClue_list_div>ul>li{ 
         float: left;    
         margin-right: 8px; 
@@ -136,8 +135,6 @@
     import "../../assets/js/jqPaginator.min.js";
     import "../../assets/js/formatData.js";
     import common from '../../assets/js/common.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import addMatching from './matching/addMatching.vue';
     import expense from "../prompt/expense.vue";      
     import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
@@ -167,9 +164,9 @@
                     keywords:"",
                 },
                 modelData:{},
-                refresh:{
-
-                },
+                refresh:{},
+                startDate:"",
+                endDate:"",
             } 
         },    
         props:["activeClass","datePicker"], 
@@ -217,6 +214,14 @@
             vm.getArtListFun();
         },
         methods:{
+            startTime(date){
+                let vm = this; 
+                vm.startDate= date;
+            },       
+            endTime(date){ 
+                let vm = this;   
+                vm.endDate = date;  
+            }, 
             artListFun(){
                 let vm = this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
@@ -231,10 +236,8 @@
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
-                                console.log(vm.artList.artContent); 
                                 vm.notResult=false;
-                                //console.log(vm.artList.artContent);
-                            }else{
+                            }else{ 
                                 vm.notResult=true;
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -244,9 +247,7 @@
                 });
             },
             getArtListFun(){
-                //console.log('test1122');  
                 let vm=this;
-                //console.log(vm.searchCon);   
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then( (response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -289,7 +290,17 @@
             //筛选
             multipleSearch(){
                 let vm=this;
-                
+                  if(vm.startDate==""){
+                     vm.searchCon.checkStartDate = "";
+                }else{
+                     vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
+                }
+                if(vm.endDate==""){ 
+                    vm.searchCon.checkEndDate = "";
+                }else{ 
+                    vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                }
+                //console.log(vm.searchCon);
                      this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){

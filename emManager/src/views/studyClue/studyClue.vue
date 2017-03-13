@@ -23,13 +23,13 @@
                 <!--<button type="button" class="btn btn-dark-o">-->
                     <!--上一条线索-->
                 <!--</button>-->
-                <button type="button" class="btn btn-dark-o" @click="getClueList();">
+                <button type="button" class="btn btn-dark-o" v-if="studyClueList.result.topic" @click="getClueList();">
                     下一条线索
                 </button>
                 <a href="javascript:void(0);" class="pull-right text-dark" @click="paginator2()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
             </div>
             <div class="article-box">
-                <div class="article-content">
+                <div v-if="studyClueList.result.topic" class="article-content">
                     <div class="article-item">
                         <!--<div class="article-left">-->
                             <!--<input type="checkbox" name="checkbox" v-bind:value="item.id" />-->
@@ -65,19 +65,18 @@
                             </div>
                         </div>
                         <div class="pageList clearfix">
+                            <div class="search-box pull-left">
+                                <button type="button" class="btn btn-dark btn-dark-o" @click="confirmSalesLeadsFun();">
+                                    提交研判结果
+                                </button>
+                            </div>
                             <ul class="clearfix pagination pull-right" id="pagination">
 
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="pageList clearfix">
-                <div class="search-box pull-left">
-                    <button type="button" class="btn btn-dark btn-dark-o" @click="confirmSalesLeadsFun();">
-                        提交研判结果
-                    </button>
-                </div>
+                <h3 v-else class="text-yellow text-center">线索已被领完！</h3>
             </div>
         </div>
         <div class="col-md-12" v-if="studyClueListState">
@@ -404,8 +403,11 @@
                         let result=response.data;
                         vm.studyClueList.result.topic=result.topic;
                         vm.studyClueList.result.replyList=result.replyList;
-                        vm.replyList.params.recordId=result.topic.recordId;
-                        if(response.data.replyList.content.length>0&&response.data){
+                        if(!response.data.topic)return;
+                        vm.studyClueList.result.topic.publishDate=new Date(vm.studyClueList.result.topic.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                        $(".btn-box>.btn").removeClass("active");
+                        if(response.data.replyList.content.length>0&&response.data.replyList){
+                            vm.replyList.params.recordId=result.topic.recordId;
                             $("#pagination").jqPaginator({
                                 totalPages:  vm.studyClueList.result.replyList.totalPages,
                                 visiblePages: vm.replyList.params.pageSize,
@@ -420,6 +422,9 @@
                                     vm.post(vm.replyList.url,vm.replyList.params,(response)=>{
                                         if(response.success){
                                             vm.studyClueList.result.replyList=response.data;
+                                            for(let i in vm.studyClueList.result.replyList.content){
+                                                vm.studyClueList.result.replyList.content[i].publishDate=new Date(vm.studyClueList.result.replyList.content[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                                            }
                                         }
                                     },(error)=>{
                                         console.log(error);
@@ -548,6 +553,10 @@
             searchStudyClueList(){
                 let vm=this;
                 vm.getStudiedList.params.pageNumber=1;
+                let sd=vm.getStudiedList.params.judgeStartDate+" 00:00:00",
+                    ed=vm.getStudiedList.params.judgeEndDate+" 23:59:59";
+                vm.getStudiedList.params.judgeStartDate=new Date(sd);
+                vm.getStudiedList.params.judgeEndDate=new Date(ed);
                 this.paginator2();
             },
             goBack(){
@@ -609,10 +618,13 @@
             },
             confirmSalesLeadsFun(){
                 let vm =this;
+                $(window).scrollTop=0;
                 if(vm.confirmSalesLeads.params.length>0) {
                     vm.post(vm.confirmSalesLeads.url, vm.confirmSalesLeads.params, (response) => {
                         if (response.success) {
+                            vm.confirmSalesLeads.params=[];
                             alert(response.data);
+                            $(window).scrollTop=0;
                         }
                     }, (error) => {
                         console.log(error);

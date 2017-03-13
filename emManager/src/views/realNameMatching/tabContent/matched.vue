@@ -58,7 +58,11 @@
                         <td>{{item.matchingSource}}</td>
                         <td>{{item.matchingUser}}</td>
                         <td>
-                            <a href="javascript:void(0);" :id="item.id" data-target="autoMatching" class="currentParentTab">
+                            <a href="javascript:void(0);" :id="item.id" v-if="item.matchingSource=='自助匹配'" data-target="autoMatching" class="currentParentTab">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                                重新匹配
+                            </a>
+                            <a href="javascript:void(0);" :id="item.id" v-else data-target="matching" class="currentParentTab">
                                 <i class="glyphicon glyphicon-pencil"></i>
                                 重新匹配
                             </a>

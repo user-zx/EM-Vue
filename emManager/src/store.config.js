@@ -42,6 +42,7 @@ export default {
         },
         currentComponent(state,params){
             state.matchingManager.current=params;
+            console.log(state.matchingManager.current+"   store");
         },
         updateOmUser(state,params){
             state.updateOmUser.params=params;
