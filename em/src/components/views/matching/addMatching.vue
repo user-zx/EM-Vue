@@ -69,12 +69,12 @@
                     author:""
                 },
                 errorMsg:"",
-                source:[]
+                source:["微博","百度贴吧"]
             }
         },
         mounted(){
             let vm =this;
-            vm.$http.post(vm.sourceType).then((result)=>{
+          /*  vm.$http.post(vm.sourceType).then((result)=>{
                 if(result.ok){
                     if (result.data.success){
                         vm.source=result.data.data;
@@ -83,7 +83,7 @@
                         },200);
                     }
                 }
-            });
+            });*/  
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4

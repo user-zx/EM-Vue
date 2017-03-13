@@ -152,8 +152,8 @@
 						<img src="../../assets/images/QQ.png" height="24" width="23">
 					</li>
 				</menu> 
-			</div>
-			<div class="pageList clearfix" v-if="!notResult" >
+			</div> 
+			<div class="pageList clearfix" v-show="!notResult" >
 				<ul class="clearfix pagination" id="pagination">
 
 				</ul>

@@ -84,7 +84,7 @@
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                    
+                    //console.log(res);
                     if(res.ok){
                         if(res.data.success){
                             alert("添加关键词成功");
