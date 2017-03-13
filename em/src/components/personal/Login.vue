@@ -75,14 +75,20 @@
 					let account = vm.item.account;
 					let password = vm.item.password;
 					if(account.length==11 && password!=""){
+						vm.hint = false;
 						vm.login();
 						return false;
+					}else if(account=="" || password==""){
+						console.log($(".showError")[0])
+						vm.hint = true;
+                         $(".showError").html("手机号或密码不能为空!");
+                        
 					}else{
 						vm.hint = true;
 						vm.item.account = "";
 						vm.item.password = "";   
-						$(".showError").html("用户名或密码出错!");
-						return false;
+						$(".showError").html("手机号或密码出错!");
+						
 					}
                 });
             },
