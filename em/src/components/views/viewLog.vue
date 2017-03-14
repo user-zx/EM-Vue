@@ -56,7 +56,7 @@
 							</div>
 						</div>
 						<div>
-							<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a>
+							<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a> 
 						</div>
 						<div class="h-box">
 							<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index">
@@ -135,22 +135,22 @@
 					</li>
 				</menu> 
 				<menu v-else class="clearfix">  
-					<li v-if="artItem.salesLeads.address == 'true'">
+					<li v-show="artItem.salesLeads.address">
 						<img src="../../assets/images/location.png" height="25" width="22" alt="">
 					</li> 
-					<li v-if="artItem.salesLeads.phone  == 'true'">
+					<li v-show="artItem.salesLeads.phone">
 						<img src="../../assets/images/phone.png" height="22" width="18">
 					</li>
-					<li v-if="artItem.salesLeads.email  == 'true'">
+					<li v-show="artItem.salesLeads.email">
 						<img src="../../assets/images/email.png" height="21" width="25">
 					</li>
-					<li v-if="artItem.salesLeads.ip  == 'true'">
+					<li v-show="artItem.salesLeads.ip">
 						<img src="../../assets/images/IP.png" height="25" width="25">
 					</li>
-					<li v-if="artItem.salesLeads.wechat  == 'true'">
+					<li v-show="artItem.salesLeads.wechat">
 						<img src="../../assets/images/wechat.png" height="24" width="24">
-					</li>
-					<li v-if="artItem.salesLeads.qq  == 'true'">
+					</li> 
+					<li v-show="artItem.salesLeads.qq">
 						<img src="../../assets/images/QQ.png" height="24" width="23">
 					</li>
 				</menu> 
@@ -381,14 +381,13 @@
                     }
                 });
 			},
-            goAnchor(selector) {
-            	let vm = this;
+              goAnchor(selector) {
+               let vm = this; 
             	setTimeout(function(){
             	let val = selector;
           		vm.inputVal = val;
-            	},100) 
-          		
-            },  
+            	},100)  
+            },
             multipleSearch(){
 				let vm=this; 
 				if(vm.startDate==""){

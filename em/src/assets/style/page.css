@@ -88,6 +88,10 @@
 	position: relative;
 	background-color: #fafafa;
 	border-top:1px solid #ededed;
+	height: 24px;
+	-webkit-box-sizing: content-box;
+	   -moz-box-sizing: content-box;
+	        box-sizing: content-box;
 }
 .sellClue_list_div>menu>li{
 	float: left;
