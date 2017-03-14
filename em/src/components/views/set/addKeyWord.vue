@@ -77,7 +77,8 @@
                 }  
             },
             submit(){
-               
+               var patt = new RegExp(".(xls|xlsx)$", "i");
+               //patt.test("hello.xLs")
                let vm = this;
                let post = commont.post;
                let param = {}; 
@@ -87,9 +88,14 @@
                     //console.log(res);
                     if(res.ok){
                         if(res.data.success){
-                            alert("添加关键词成功");
-                            vm.textareaVal = "";
-                            vm.$emit("updateList")
+                            if(patt.test(param.keywordList)){
+                               alert("添加文件成功");
+                            }else{ 
+                                alert("添加关键词成功");
+                                vm.textareaVal = "";
+                                vm.$emit("updateList") 
+                            } 
+                          
                         }else{
                             alert("添加关键词失败");
                             vm.textareaVal = "";
@@ -123,11 +129,6 @@
                              alert("添加失败");
                         }else{ 
                            vm.textareaVal = fileanme; 
-                           console.log("添加成功"); 
-                            //vm.$emit("updateList")
-                            setTimeout(function(){
-                            $('#addKeyWord').modal('hide')
-                            },1500)  
                         }   
                       
                     },
