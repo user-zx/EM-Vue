@@ -274,7 +274,7 @@
                                 $(".shis").selectpicker('val',vm.addUser.params.city).selectpicker("refresh");
                                 $(".xians").selectpicker('val',vm.addUser.params.county).selectpicker("refresh");
                                 $(".trade").selectpicker('val',vm.addUser.params.trade).selectpicker("refresh");
-                            },300)
+                            },600)
                         }
                     }
                 }, function (error) {
