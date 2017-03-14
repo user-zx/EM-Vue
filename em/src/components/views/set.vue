@@ -6,7 +6,7 @@
 			</li>
 			<li>
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#combo" @click="combo">套餐充值</a>
-			</li>  
+			</li>
 			<li>  
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#keyWordSet">关键词设置</a>
 			</li>

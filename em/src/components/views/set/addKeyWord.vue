@@ -143,7 +143,7 @@
           
                 
             $("#addKeyWord").on("hidden.bs.modal",function(){
-                vm.textareaVal = "";
+               
             });
            
         }
