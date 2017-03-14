@@ -117,6 +117,7 @@
                 },
                 permissionsArr:[],
                 newPermissionsArr:[],
+                activePer:"",
                 permissions:{
                     url:"../apis/permission/findAllPermission",
                     result:[]
@@ -138,6 +139,7 @@
                 vm.addUser.params.createDate=new Date(vm.addUser.params.createDate);
                 vm.addUser.params.updateDate=new Date();
                 vm.addUser.params.updateUser=sessionStorage.getItem("userAccount");
+                vm.addUser.params.permissions=vm.activePer;
                 console.log(vm.addUser.params.permissions)
                 vm.post(vm.addUser.url,vm.addUser.params,function(response){
                     if(response.success){
@@ -198,7 +200,6 @@
                         }
                     }
                 }
-                vm.addUser.params.permissions=arr.toString();
                 $("input[type=checkbox]").iCheck({
                     checkboxClass : 'icheckbox_square-blue',
                 }).on("ifChecked",function () {
