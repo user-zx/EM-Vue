@@ -20,14 +20,15 @@ export default {
         placeholder: '结束时间',
         inputStyle: { 
           'display': 'inline-block',
-          'padding': '6px 1px',
+          'padding': '8px 1px',
           'line-height': '17px',
           'font-size': '14px',
-          'border': '2px solid #fff',
-          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
-          'border-radius': '5px',
+          "border":"1px solid #ccc",
+          "border-left":"none",
+          "border-radius":"0 4px 4px 0",
           'color': '#5F5F5F',
-          'width': "83px"    
+          'width': "83px" ,
+          
         }, 
         color: { 
           header: '#ccc',

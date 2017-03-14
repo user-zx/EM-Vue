@@ -1,7 +1,8 @@
 <template>
 	<div class="login">
 		<div class="login_div">
-			
+			<img src="../../assets/images/login-logo.png" alt="">
+			<img class="pull-right" src="../../assets/images/login-tel.png" alt="">
 		</div>
 		<div class="login_input">
 			<img src="../../assets/images/loginWord.png"  alt="">
@@ -139,13 +140,16 @@
 <style scoped>
 	.login{  
 		width: 100%;  
-		height: 100%;     
+		height: 100%;
+		padding-top:20px;     
 		background: url("../../assets/images/login.jpg");
 		-webkit-background-size: 100% 100%;
 		     -o-background-size: 100% 100%;
 		        background-size: 100% 100%;
 		position: relative;
 	}
+	.login_div{width:70%;margin:0 auto;}
+
 	.login_input{
 		width: 320px;
 		height: 285px;  
@@ -158,21 +162,35 @@
 	.login_input>label{
 		width: 100%;
 		position: relative;
-		margin-bottom: 0;
+		margin-bottom:1px;
 	}
 	  .login_input>label>input{
 	  	padding-left: 30px;
+	  	border:none;
+
 	  }
+	   .login_input label:first-of-type input{
+          border-radius:4px 4px 0 0;
+
+	  }
+	   .login_input label:nth-of-type(2) input{
+          border-radius:0 0 4px 4px ;
+	  }
+
 	.login_input>label>img{
 		position: absolute;
 		left: 7px;
 		top: 5px;
 		width: 17px; 
+
 	}
 	.login_input>img{
 		width: 320px;
+		height:48px;
 		margin: 20px 0;
 	}
+	.login_input p{margin:0;}
+
 	.login_p_one{
 		margin-top: 10px;
 		font: 12px "Microsoft Yahei";
@@ -194,6 +212,7 @@
 		display: block;
 		width: 100%;
 		margin-bottom: 10px;
+		padding:10px 12px;
 	}
 	.login_p_two_a{
 		color: #ee7306;
