@@ -26,19 +26,23 @@
 					<option value="未处理">未处理</option>
 				</select>
 			</div>
-			<div class="col-md-1"> 
+			
+			<div class="col-md-1" id="sjd" > 
 				 <my-datepicker-start @startTime="startTime"></my-datepicker-start>
-			</div> 
-			<div class="col-md-1">
+             </div>
+             <div class="col-md-1 col-xs-1">  
 				<my-datepicker-end @endTime="endTime"></my-datepicker-end>
 			</div>
+			
 			<div class="col-md-2">
-				<div class="form-group">
-					<input  v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
+			    
+				<div class="form-group" style="position:relative;" >
+				    <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
+					<input id="search-k" v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
 				</div>
 			</div>
 			<div class="col-md-2">
-				<button type="button" class="btn btn-search" @click="multipleSearch()">筛选</button>
+				<button type="button" class="btn btn-search" @click="multipleSearch()" style="border-radius: 0 4px 4px 0;" >搜索</button>
 				<a href="javascript:void(0);" class="dropdown-toggle dropdown-modal">关键词筛选<i class="caret"></i></a>
 				<div class="dropdown-menu search-menu">
 					<div class="clearfix">

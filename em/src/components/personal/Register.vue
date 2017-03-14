@@ -5,11 +5,17 @@
 			<div class="panel">
 				<div class="panel-heading" id="register_centre_heading">
 					<div class="register_centre_div">
-						<span class="avtive_span_one">1</span>
+						<span class="avtive_span_one">1
+                            <span class="active_span_text">登录凭证</span>
+						</span>
 					    <i class="active_i_one"><s></s></i>
-					    <span class="avtive_span_two">2</span>
+					    <span class="avtive_span_two">2
+					        <span class="active_span_text">信息填写</span>
+					    </span>
 					    <i class="active_i_two"><s></s></i>
-					    <span class="avtive_span_three">3</span>
+					    <span class="avtive_span_three">3
+                            <span class="active_span_text">开户费支付</span>
+					    </span>
 					</div>
 				 </div>
 				<div class="panel-body">
@@ -38,7 +44,7 @@
 						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password">  
 						    </div>
 		  				 </div>
-		  				 <p class="text-center" id="TY">点击下一步,则表示您接受<router-link to="/personal/userInstructions">《用户须知》</router-link></p>
+		  				 <p class="text-center" id="TY">点击下一步,则表示您接受<router-link to="/personal/userInstructions"> 《用户须知》</router-link></p>
 		  				<div class="form-group"> 
 		  					<div class="col-sm-offset-3 col-sm-5">
 		  						<button type="button" class="btn btn-info btn-block" disabled="true" @click="login($event)" id="login_btn">下一步</button> 
@@ -74,7 +80,7 @@
  						 </div>
  						 <div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">所属行业:</label>
-						    <div class="col-sm-4" v-show="industryHad">
+						    <div class="col-sm-5" v-show="industryHad">
 			      			     <select class="form-control selectpicker" title="选择所属行业" id="industrySelect" >
 									<option v-for="item in industryData">{{item}}</option>
 							     </select>  
@@ -82,14 +88,14 @@
 			   			     <div class="col-sm-4" v-show="industryAdd"> 
 			      			     <input type="text" name="" class="form-control" id="userTrade" v-model="userInputTrade" @input="changeInputTrade">
 			   			    </div> 
-			   			    <div class="col-sm-4">
-			      			     <button type="button" class="btn btn-info btn-block" @click="industryBtn">{{vocation}}</button>
+			   			    <div class="col-sm-4" id="hy-btn">
+			      			     <button  type="button" class="btn btn-info btn-block" @click="industryBtn">{{vocation}}</button>
 			   			    </div>
 			  			 </div>
 			  			  <div class="form-group">
 						    <label class="col-sm-2 control-label" for="phone">关键词:</label>
 						    <div class="col-sm-9">
-			      			   <textarea class="form-control" style="height: 178px;resize:none" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile" v-model="database.keywordList"></textarea>  
+			      			   <textarea class="form-control" style="height: 178px;resize:none;" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile" v-model="database.keywordList"></textarea>  
 			      			   
 			      			    <a  class="a-upload btn col-sm-6 panel-body-btn"> 
 			      			    	 <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
@@ -105,7 +111,7 @@
 		  					</div>
 		  				 </div>
 		            </div>  
-		            <div class="panel panel-default form-horizontal" role="form" v-show="register_pay">
+		            <div class="panel panel-default form-horizontal" role="form" v-show="register_pay" style="border:none;">
 		            	 <div class="panel-body form-horizontal">
     						<p class="text-center">若您想让我们为您提供优质的服务，还请您缴纳一定的注册费用，以便我们为您提供更优质的服务!</p>
 							<div class="register_pay_div form-group">
@@ -126,7 +132,7 @@
 							</div>
 						    <div class="form-group">
 			  					<div class="col-md-4 col-md-offset-4">
-			  						<button  class="btn btn-info btn-block" @click="submit()">跳过</button> 
+			  						<button  class="btn btn-info btn-block tg" @click="submit()">跳过</button> 
 			  					</div> 
 		  				    </div>
                          </div>
@@ -137,6 +143,7 @@
 	</div>
 </template>
 <style scoped>
+
 	.tab-box{
 		width:100%;
 		list-style: none;
@@ -159,10 +166,23 @@
 		color:#ffffff;
 		background-color: #32ccca;
 	}
+	
 	#zc-2 .control-label{padding-right:0;}
-	#zc-2 .btn-info{background-color:#32ccca;border-color:#32ccca;}
+	 .btn-info{background-color:#32ccca;border-color:#32ccca;}
+	 .btn-info:hover{background-color:#32ccca;}
+	 .btn-info:focus{background-color:#32ccca;}
     #zc-2  .checkbox label{padding:0;}
+    #zc-2 textarea{font-size:12px;border-radius:4px 4px 0 0;}
+    #zc-2 .a-upload{border-radius:0 0 0 4px;border-top:none;border-right:none;}
+    #zc-2 .a-upload+a{border-radius:0 0 4px 0;border-top:none;}
+   
     #TY{margin-left:-45px;}
+     #TY a{color:#32ccca;}
+   
+   .btn-default:hover{background-color:#ffffff;}
+   .btn-default:focus{background-color:#ffffff;}
+   .btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default{background-color:#ffffff;}
+   label{font-weight:500;}
 </style>
 <script>	
     	
@@ -189,7 +209,7 @@
 	  			industryAdd:false, 
 	  			database:{trade:"",province:"",city:"",county:"",name:"",phone:"",password:"",company:"",keywordList:""}, 
 	  			industryData:[],
-	  			vocation:"没有我的行业,点击添加",
+	  			vocation:"创建新行业",
 	  			uploadWord:"点击这里上传文件",
 	  			isFile:false, 
 	  			fileUrl:"../apis/excel/importKeywordList"
@@ -347,7 +367,7 @@
 	  				vm.industryHad = false;
 	  				vm.industryAdd = true;
 	  			}else if(vm.industryAdd){  
-	  				vm.vocation = "没有我的行业,点击添加";
+	  				vm.vocation = "创建新行业";
 	  				vm.industryHad = true;
 	  				vm.industryAdd = false;
 	  			}
@@ -449,6 +469,9 @@
 	  		},(err)=>{
 	  			console.log(err);
 	  		}) 
+	  		$(".btn-default").hover(function(){
+	  			$(this).css("backgroundColor","white")
+	  		})
 
 	  		$(document).on("change","#fileName",function(){
 	  			_that.database.keywordList = $("#fileName")[0].files[0].name;
@@ -481,7 +504,7 @@
 	  		heads
 	  	}
 	  }
-
+ 
 </script>
 
 <style scoped>   
@@ -507,12 +530,12 @@
 	.panel{ 
 		border: 1px solid #e5e5e5;
 	}
-	.panel-body{
-		padding: 50px 15px; 
+	#zc-2 {
+		padding: 50px 110px; 
 	} 
 	#register_centre_heading{
 		font-size: 0;
-		padding: 30px 30px 30px 90px;
+		padding: 30px 30px 40px 90px;
 	}
 	#register_centre_heading>div>span{
 		display: inline-block;
@@ -524,7 +547,7 @@
 		color: #000;
 		text-align: center;
 		line-height: 40px;
-		font-size: 12px;
+		font-size: 18px;
 	}
 	#register_centre_heading>div>i{
 		display: inline-block;
@@ -576,7 +599,9 @@
 	background-color: #32ccca;
 	color: #fff;
 }
-
+.register_centre_div>span{position:relative;}
+.register_centre_div .active_span_text{color:#333333;width:57px;font-size:14px; position:absolute;bottom:-34px;left:-6px;}
+.register_centre_div .active_span_text:last-of-type{width:72px;bottom:-34px;left:-15px;}
 #province>select{margin-left:10px; width:100px} 
 .kv-file-content{
 	display: none !important;
@@ -590,6 +615,7 @@
 #getYzm{background-color:white;border-color:#32ccca;color:#32ccca;
           padding:5px 6px;
 }
+
 
 </style>
  
