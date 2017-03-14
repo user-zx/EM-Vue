@@ -49,9 +49,9 @@ ss<template>
 						<div class="navbar-form navbar-left" role="form">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="输入关键词进行搜索" v-model="inputVal" />
-							    <span class="input-group-btn">
-									<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
-								</span>
+						    <span class="input-group-btn">
+						   				<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
+						   		</span>
 							</div>
 						</div>
 						<div class="navbar-right">
@@ -61,8 +61,8 @@ ss<template>
 					<div>
 						<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0"  href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
 					</div>
-					<div class="h-box">
-						<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index">
+					<div class="h-box"> 
+						<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index"> 
 							<div class="lyt-box"> 
 								<div class="lyt-item">
 									<div class="lyt-lt">{{index}}</div>
@@ -220,22 +220,27 @@ ss<template>
 				let vm = this;
 				let obj_arr = {};
 				 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
-				//console.log(vm.searchHead);
 				let search_Head = vm.searchHead;
+
 				let input_Arr = vm.inputArr
 				for (let j in input_Arr) { 
 					var arrObj = search_Head[input_Arr[j]];
-					if(inputVal){ 
+ 					for (let i = 0; i < arrObj.length; i++) {
+ 						arrObj[i].sing = input_Arr[j];
+ 					} 
+					//console.log(arrObj);  
+					if(inputVal){  
 					    arrObj = arrObj.filter(function(row) {
                         return Object.keys(row).some(function(key) {
                             return String(row[key]).toLowerCase().indexOf(inputVal) > -1
                         }) 
-                     })  
+                     })
+
 					}  
 					
 					obj_arr[input_Arr[j]] = arrObj
 				} 
-				console.log(obj_arr);
+				//console.log(obj_arr);
 				return obj_arr;
 			}
 		},
@@ -249,6 +254,7 @@ ss<template>
                 vm.endDate = date;  
             },  
             goAnchor(selector) {
+            	console.log(selector);
                 var anchor = this.$el.querySelector(selector);
                 var parentEle=this.$el.querySelector(".h-box");
                 parentEle.scrollTop = anchor.offsetTop
@@ -569,7 +575,6 @@ ss<template>
 				        let typeOf=typeof response.data.data;
 				        if(typeOf!='string'){
                             let arr=response.data.data.content,
-
                                 conObj={
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };

@@ -45,7 +45,7 @@
 						<div class="clearfix">
 							<div class="navbar-form navbar-left" role="form">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="输入关键词进行搜索" />
+									<input type="text" class="form-control" placeholder="输入关键词进行搜索" v-model="inputVal" />
 									<span class="input-group-btn">
 										<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
 									</span>
@@ -56,10 +56,10 @@
 							</div>
 						</div>
 						<div>
-							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
+							<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
 						</div>
 						<div class="h-box">
-							<div v-for="(hItem,index) in searchHead" v-if="hItem.length>0" v-bind:id="index">
+							<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index">
 								<div class="lyt-box">
 									<div class="lyt-item">
 										<div class="lyt-lt">{{index}}</div>
@@ -203,8 +203,40 @@
 				modelData:{},
 				 startDate:"",
                 endDate:"",
+                inputVal:"",
+                inputArr:[],
+                inputObj:"",
 			}
 		}, 
+		computed:{ 
+			filteredData(){ 
+				let vm = this;
+				let obj_arr = {};
+				 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
+				let search_Head = vm.searchHead;
+
+				let input_Arr = vm.inputArr
+				for (let j in input_Arr) { 
+					var arrObj = search_Head[input_Arr[j]];
+ 					for (let i = 0; i < arrObj.length; i++) {
+ 						arrObj[i].sing = input_Arr[j];
+ 					} 
+					//console.log(arrObj);  
+					if(inputVal){  
+					    arrObj = arrObj.filter(function(row) {
+                        return Object.keys(row).some(function(key) {
+                            return String(row[key]).toLowerCase().indexOf(inputVal) > -1
+                        }) 
+                     })
+
+					}  
+					
+					obj_arr[input_Arr[j]] = arrObj
+				} 
+				//console.log(obj_arr);
+				return obj_arr;
+			}
+		},
 		components:{expense,myDatepickerStart,myDatepickerEnd},
         mounted(){
             let vm=this; 
@@ -262,8 +294,10 @@
                                 conObj={
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
+                                 let temporaryArr = [];    
                             for (let i in arr){
                                 for (let j in conObj){
+                                	temporaryArr.push(j)
                                     if(j==arr[i].keywordInitial){
                                         const obj=new Object();
                                         obj.id=arr[i].id;
@@ -273,6 +307,12 @@
                                 }
                             }
                             vm.searchHead=conObj;
+ 							
+                               let n_arr = [];   
+                               for (var i = 0; i < temporaryArr.length; i++) {
+                            	  	 if (n_arr.indexOf(temporaryArr[i]) == -1) n_arr.push(temporaryArr[i]);
+                            	  }
+                           		vm.inputArr = n_arr;	
 						}
 					}
 				}
