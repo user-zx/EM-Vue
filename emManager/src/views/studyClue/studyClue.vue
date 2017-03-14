@@ -283,6 +283,7 @@
                         width:85%;
                         font-size:13px;
                         line-height: 1.8;
+                         color:#333333;
                     }
                     .source{
                         label{
@@ -291,7 +292,6 @@
                         }
                         span{
                             margin-right: 10px;
-                            color:#333333;
                         }
                     }
                     .btn-box{
