@@ -121,7 +121,7 @@
 							<div v-else class="col-md-3 panel-body-div" v-for="packageItem in packageListArr" >
 								<div class="combo-box" >
 									<div class="combo-body">
-										<h5 class="comboName">{{packageItem.name}} <span class="price">¥{{packageItem.price}}</span></h5>
+										<h5 class="comboName" :title="packageItem.name"> <span>{{packageItem.name}}</span>  <span class="price">¥{{packageItem.price}}</span></h5>
 										<p>内含<span class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
 									</div>
 									<a href="javascript:void(0);" :id="packageItem.id" class="btn btn-combo" @click="topUp(packageItem.id)">立即充值</a>
@@ -235,14 +235,17 @@
 	.panel-em .panel-body .form-control-static .update-password{color:#32ccca;margin-left: 5px;}
 	.panel-body-div{margin-bottom: 15px;} 
 	.panel-em .panel-body .text-em{color: #32ccca;margin: 0 3px;}
-	.panel-em>.panel-body{width:75%;}
+	
 	.combo-box{background-color: #f2f2f2;border-radius:5px 5px 0 0;}
 	.combo-box .combo-body{padding:15px 20px;}
-	.combo-box .comboName{font-size:18px;color:#333333;}
+
+	.comboName>span:first-child{display: block;width:175px; white-space:nowrap; word-break:keep-all; overflow:hidden; text-overflow:ellipsis;} 
+	.combo-box .comboName{font-size:16px;color:#333333;position: relative;}
+	.comboName>span:nth-child(2){position: absolute;top: 0;right: 0;} 
 	.combo-box .comboName .price{float: right;color:#32ccca;}
 	.table>thead>tr.active>th{background-color: #fafafa;}
 	.del-icons{color:#a1a1a1;}
-	.text-em{color:#32ccca;}
+	.text-em{color:#32ccca;} 
 	@import "../../assets/js/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css";
 	.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary,
 	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{

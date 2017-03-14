@@ -133,7 +133,6 @@ ss<template>
 				<strong>{{artItem.salesLeads.qq}}</strong>
 			</li>  
 		</menu>   
-	
 	</div>  
 	<div class="pageList clearfix" v-show="!notResult" >
 		<ul class="clearfix pagination" id="pagination">

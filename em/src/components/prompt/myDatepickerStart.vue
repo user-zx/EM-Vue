@@ -25,11 +25,9 @@ export default {
           'line-height': '17px',
           'font-size': '14px',
           "border":"none",
-
           'color': '#5F5F5F',
           'width': "85px"
-
-        }, 
+        },  
         color: {
           header: '#ccc',
           headerText: '#f00'
@@ -55,7 +53,7 @@ export default {
       },
       limit: [{
         type: 'weekday',
-        available: [1, 2, 3, 4, 5]
+        available: [1, 2, 3, 4, 5, 6, 0]
       },
       {   
         type: 'fromto',
@@ -82,7 +80,14 @@ export default {
         
        vm.$store.commit("changeStartDate",vm.startTime.time);
        
-       vm.$emit('startTime', vm.startTime.time);
+      vm.$emit('startTime', vm.startTime.time);
+
+      $(document).on("click",".button-box>span",function(){
+      if($(this).text()=="取消"){
+        vm.startTime.time = "";
+      }
+    })   
+       
     },
     updateDate(){
       var myDate = new Date();   
@@ -93,8 +98,8 @@ export default {
      this.limit[1].to = newTime;
     },
   },
-  mounted(){
-    this.updateDate();
+  mounted(){ 
+    this.updateDate();  
   },   
   props:["startDate","endDate"],
 }

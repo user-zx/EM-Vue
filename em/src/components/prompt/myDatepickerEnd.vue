@@ -55,7 +55,7 @@ export default {
       },
       limit: [{
         type: 'weekday',
-        available: [1, 2, 3, 4, 5]
+        available: [1, 2, 3, 4, 5, 6, 0]
       },
       {   
         type: 'fromto',
@@ -73,18 +73,21 @@ export default {
         // vm.$store.state.selectDate.endDate = 
         vm.$store.commit("changeEndDate",vm.endtime.time);
         vm.$emit('endTime', vm.endtime.time); 
-
     },
     checkTimeEnd(){ 
       let vm = this;    
         vm.limit[1].from =  vm.$store.state.selectDate.startDate; 
+         $(document).on("click",".button-box>span",function(){
+      if($(this).text()=="取消"){
+        vm.endtime.time = "";
+        }
+     })   
     } 
   },
   mounted(){
     var myDate = new Date();   
     let nowDate = myDate.toLocaleDateString();  
     let newTime = nowDate.replace(/\//g,"-");
-    
     this.limit[1].to = newTime;
   }, 
   props:["startDate","endDate"],
