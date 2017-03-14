@@ -26,13 +26,13 @@ export default {
           "border":"1px solid #ccc",
           "border-left":"none",
           "border-radius":"0 4px 4px 0",
-          'color': '#5F5F5F',
+          'color': '#32ccca',
           'width': "83px" ,
           
         }, 
-        color: { 
-          header: '#ccc',
-          headerText: '#f00'
+        color: {   
+          header: '#32ccca',
+          headerText: '#fff'
         },
         buttons: {
           ok: '确定',

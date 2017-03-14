@@ -25,12 +25,12 @@ export default {
           'line-height': '17px',
           'font-size': '14px',
           "border":"none",
-          'color': '#5F5F5F',
+          'color': '#32ccca',   
           'width': "85px"
         },  
-        color: {
-          header: '#ccc',
-          headerText: '#f00'
+        color: { 
+          header: '#32ccca',
+          headerText: '#fff'
         },
         buttons: {
           ok: '确定',
