@@ -56,6 +56,9 @@
     .modal-header .modal-title{text-align: center;color:#666666;font-size:16px;}
     .modal-body textarea{height:150px;border-radius: 5px 5px 0 0;resize: none;}
     .modal-footer{border-top:none;text-align: center;}
+    #addMatching label{font-weight:normal;}
+    #addMatching  .modal-footer{padding-top:0;}
+    #addMatching   .modal-dialog{margin-top:110px;}
 </style>
 <script>
     export default {

@@ -4,8 +4,8 @@
         <div class="leftTag" id="leftTag">
             <ul class="nav nav-pills nav-stacked">
                 <li v-for="(item,index) in leftTag" v-bind:class="item.liClass">
-                    <router-link :to="item.module">
-                        <i v-bind:class="item.icons"></i>
+                    <router-link :to="item.module" >
+                        <i v-bind:class="item.icons" ></i>
                         {{item.text}}
                     </router-link>  
                 </li>
@@ -104,6 +104,10 @@
            /* currentFun:function(item,index,el){  
                $(".router-link-active").parent("li").addClass('active').siblings('li').removeClass('active')
             }*/
+            // fc:function(item,index,el){
+            //     console.log(item);
+            //     console.log(el)
+            // }
         },
 
     }

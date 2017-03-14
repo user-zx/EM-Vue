@@ -49,7 +49,7 @@
 							</div>
 						</div>
 						<div>
-							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" href="javascript:void(0);" class="search-h">{{index}}</a>
+							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
 						</div>
 						<div class="h-box">
 							<div v-for="(hItem,index) in searchHead" v-if="hItem.length>0" v-bind:id="index">
@@ -109,12 +109,12 @@
                     <button class="btn btn-search" v-if="!artItem.checkStatus && artItem.salesLeads.matchingResult=='匹配成功'" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
                 </div>
 				<menu class="clearfix" v-if="artItem.salesLeads.matchingResult=='匹配成功'">
-					<li v-show="artItem.salesLeads.address"><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
-					<li v-show="artItem.salesLeads.phone"><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
-					<li v-show="artItem.salesLeads.email"><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.salesLeads.email}}</strong></li>
-					<li v-show="artItem.salesLeads.ip"><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
-					<li v-show="artItem.salesLeads.wechat"><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
-					<li v-show="artItem.salesLeads.qq"><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
+					<li><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
+					<li><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
+					<li><img src="../../assets/images/email.png" height="21" width="25"><strong>{{artItem.salesLeads.email}}</strong></li>
+					<li><img src="../../assets/images/IP.png" height="25" width="25"><strong>{{artItem.salesLeads.ip}}</strong></li>
+					<li><img src="../../assets/images/wechat.png" height="24" width="24"><strong>{{artItem.salesLeads.wechat}}</strong></li>
+					<li><img src="../../assets/images/QQ.png" height="24" width="23"><strong>{{artItem.salesLeads.qq}}</strong></li>
 				</menu> 
 			</div>
 			<div class="pageList clearfix" v-show="!notResult" >
@@ -284,12 +284,10 @@
                     console.log(err);
                 });
             },
-             goAnchor(selector) {
-               let vm = this;
-                setTimeout(function(){
-                let val = selector;
-                vm.inputVal = val;
-                },100) 
+            goAnchor(selector) {
+                var anchor = this.$el.querySelector(selector);
+                var parentEle=this.$el.querySelector(".h-box");
+                parentEle.scrollTop = anchor.offsetTop
             },
             //筛选
             multipleSearch(){

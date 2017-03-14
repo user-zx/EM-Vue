@@ -4,8 +4,8 @@
             <a class="navbar-brand" href="#"><img src="../../assets/images/logo.png" alt="logo"></a>
         </div> 
         <ul class="nav navbar-nav navbar-right" v-if="topMessage">
-            <li><router-link to="/home/set"><span class="glyphicon glyphicon-user"></span> {{username}}</router-link></li>  
-            <li @click="quit()" ><a href="javascript:void(0);"><span class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
+            <li><router-link to="/home/set"><img src="../../assets/images/user.png" alt=""> {{username}}</router-link></li>  
+            <li @click="quit()" ><a href="javascript:void(0);"><img src="../../assets/images/tc.png" alt=""> 退出登录</a></li>
         </ul>
     </div> 
 </template>
@@ -14,6 +14,7 @@
         box-shadow:0 0 3px #999;}
     .heads .navbar-brand{height:auto;}     
     .heads .navbar-nav>li>a{padding-top:0;padding-bottom: 0;height:65px;line-height:65px;color:#ffffff;font-size:16px;}
+    #heads .navbar-right img{margin-top:-3px;}
 </style>
 <script>
 export default{
