@@ -56,7 +56,7 @@
 							</div>
 						</div>
 						<div>
-							<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
+							<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a>
 						</div>
 						<div class="h-box">
 							<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index"> 
@@ -379,9 +379,11 @@
                 });
             },
             goAnchor(selector) {
-                var anchor = this.$el.querySelector(selector);
-                var parentEle=this.$el.querySelector(".h-box");
-                parentEle.scrollTop = anchor.offsetTop
+               let vm = this;
+                setTimeout(function(){
+                let val = selector;
+                vm.inputVal = val;
+                },100) 
             },
             multipleSearch(){
                 let vm=this; 

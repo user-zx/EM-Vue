@@ -49,7 +49,7 @@
 							</div>
 						</div>
 						<div>
-							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
+							<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0" href="javascript:void(0);" class="search-h">{{index}}</a>
 						</div>
 						<div class="h-box">
 							<div v-for="(hItem,index) in searchHead" v-if="hItem.length>0" v-bind:id="index">
@@ -284,11 +284,7 @@
                     console.log(err);
                 });
             },
-            goAnchor(selector) {
-                var anchor = this.$el.querySelector(selector);
-                var parentEle=this.$el.querySelector(".h-box");
-                parentEle.scrollTop = anchor.offsetTop
-            },
+           
             //筛选
             multipleSearch(){
                 let vm=this;
