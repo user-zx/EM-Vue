@@ -71,17 +71,21 @@ export default {
     checkTime(){
         let vm = this;  
         // vm.$store.state.selectDate.endDate = 
-        vm.$store.commit("changeEndDate",vm.endtime.time);
-        vm.$emit('endTime', vm.endtime.time); 
-    },
-    checkTimeEnd(){ 
-      let vm = this;    
-        vm.limit[1].from =  vm.$store.state.selectDate.startDate; 
-         $(document).on("click",".button-box>span",function(){
+     
+
+      $(document).on("click",".button-box>span",function(){
       if($(this).text()=="取消"){
         vm.endtime.time = "";
+         vm.$store.commit("changeEndDate",vm.endtime.time)
         }
-     })   
+     }) 
+        vm.$store.commit("changeEndDate",vm.endtime.time);
+        vm.$emit('endTime', vm.endtime.time);  
+    },
+    checkTimeEnd(){ 
+      let vm = this;
+          
+      vm.limit[1].from =  vm.$store.state.selectDate.startDate;
     } 
   },
   mounted(){

@@ -77,16 +77,15 @@ export default {
     }, 
     checkTimeStart(){ 
        let vm = this;   
-        
-       vm.$store.commit("changeStartDate",vm.startTime.time);
-       
-      vm.$emit('startTime', vm.startTime.time);
-
-      $(document).on("click",".button-box>span",function(){
+        $(document).on("click",".button-box>span",function(){
       if($(this).text()=="取消"){
         vm.startTime.time = "";
+         vm.$store.commit("changeStartDate",vm.startTime.time);
       }
-    })   
+    })  
+      vm.$emit('startTime', vm.startTime.time);
+      vm.$store.commit("changeStartDate",vm.startTime.time);
+
        
     },
     updateDate(){
