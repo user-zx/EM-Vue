@@ -302,8 +302,7 @@
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-                //console.log(vm.searchCon);
-                     this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
+                    this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;

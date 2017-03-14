@@ -155,7 +155,7 @@
                     </li>
                 </menu>  -->
 			</div> 
-			<div class="pageList clearfix" v-if="!notResult">
+			<div class="pageList clearfix" v-show="!notResult">
 				<ul class="clearfix pagination" id="pagination">
 
 				</ul>
@@ -454,16 +454,22 @@
                 }*/
             },
             ignoreFun(index,artId){
-
+                
                 if(this.artList.artContent[index].ignoreStatus){
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].ignoreStatus=false;
-                                this.notResult = true;
-								//this.getArtListFun();
+                                if($(".sellClue_list_div").length==1){
+                                    this.notResult = true;
+                                }
+                            }else{
+                                
                             }  
                         }
+                    },(err)=>{
+                        console.log(err);
+                        return false;
                     })
                 }
             }, 
@@ -474,7 +480,9 @@
                         if(res.ok){ 
                             if(res.data.success){
                                 vm.artList.artContent[index].ignoreStatus=false;
-                                vm.notResult = true; 
+                                if($(".sellClue_list_div").length==1){
+                                    this.notResult = true;
+                                }
                                   
                             }
                         }
