@@ -99,7 +99,7 @@
                         <input type="text" class="form-control" readonly id="regTime" placeholder="研判时间"/>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索"/>
+                        <input type="text" class="form-control" v-model="getStudiedList.params.keyword" placeholder="请输入关键字进行搜索"/>
                     </div>
                     <div class="col-md-12">
                         <div class="text-center">
@@ -361,7 +361,8 @@
                         judgeStartDate:"",
                         judgeEndDate:"",
                         judgeResult:"",
-                        source:""
+                        source:"",
+                        keyword:""
                     },
                     result:{}
                 },

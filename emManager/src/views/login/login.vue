@@ -184,7 +184,7 @@
                 vm.params.password=encrypedPwd;
                 vm.post(vm.loginUrl, vm.params,function(result){
                     if(result.success){
-                        vm.$router.push({path:"home/userManage"});
+                        vm.$router.push({path:"/home/welcome"});
                     }
                 },function (error) {
                     console.log(error);
