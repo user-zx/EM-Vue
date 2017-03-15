@@ -225,77 +225,71 @@
             }
         },
         mounted(){
-            let vm=this,shiIndex1,xianIndex1;
+            let vm=this,shiIndex1,xianIndex1,trade,province='北京',city='北京',county='东城区';
             $("#updateUser").on("show.bs.modal",function () {
                 vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
                     if (response.success) {
                         vm.addUser.params = response.data;
-                    }
-                }, function (error) {
-                    console.log(error);
-                });
-                vm.post(vm.packageList1.url, "", function (response) {
-                    if (response.success) {
-                        if (response.data.length > 0) {
-                            vm.packageList1.result = response.data;
-                            setTimeout(function () {
-                                $(".mbx").iCheck({
-                                    checkboxClass : 'icheckbox_square-blue',
-                                }).on("ifChecked",function(){
-                                    vm.searchCon.sheng1Val="",
-                                        vm.searchCon.shi1Val="",
-                                        vm.searchCon.xian1Val="",
-                                        $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
-                                }).on("ifUnchecked",function () {
-                                    $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
-                                });
-                                $("input[name=userStatus]").iCheck({
-                                    radioClass : 'iradio_square-blue',
-                                }).on("ifChecked",function () {
-                                    vm.addUser.params.userStatus=$(this).val();
-                                });
-                                $("input[name=packageId]").iCheck({
-                                    radioClass : 'iradio_square-blue',
-                                }).on("ifChecked",function () {
-                                    vm.addUser.params.packageId=$(this).val();
-                                });
-                            },300);
-                        }
-                    }
-                }, function (error) {
-                    console.log(error);
-                });
-                vm.post(vm.userTrade1.url, "", function (response) {
-                    if (response.success) {
-                        if (response.data.length > 0) {
-                            vm.userTrade1.result = response.data;
-                            setTimeout(function () {
-                                $(".shengs").selectpicker('val',vm.addUser.params.province).selectpicker("refresh");
-                                $(".shis").selectpicker('val',vm.addUser.params.city).selectpicker("refresh");
-                                $(".xians").selectpicker('val',vm.addUser.params.county).selectpicker("refresh");
-                                $(".trade").selectpicker('val',vm.addUser.params.trade).selectpicker("refresh");
-                            },600)
-                        }
+                        trade=response.data.trade;
+                        province=vm.addUser.params.province;
+                        city=vm.addUser.params.city;
+                        county=vm.addUser.params.county;
+                        vm.post(vm.packageList1.url, "", function (response) {
+                            if (response.success) {
+                                if (response.data.length > 0) {
+                                    vm.packageList1.result = response.data;
+                                    setTimeout(function () {
+                                        $(".mbx").iCheck({
+                                            checkboxClass : 'icheckbox_square-blue',
+                                        }).on("ifChecked",function(){
+                                            vm.searchCon.sheng1Val="",
+                                                vm.searchCon.shi1Val="",
+                                                vm.searchCon.xian1Val="",
+                                                $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
+                                        }).on("ifUnchecked",function () {
+                                            $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
+                                        });
+                                        $("input[name=userStatus]").iCheck({
+                                            radioClass : 'iradio_square-blue',
+                                        }).on("ifChecked",function () {
+                                            vm.addUser.params.userStatus=$(this).val();
+                                        });
+                                        $("input[name=packageId]").iCheck({
+                                            radioClass : 'iradio_square-blue',
+                                        }).on("ifChecked",function () {
+                                            vm.addUser.params.packageId=$(this).val();
+                                        });
+                                    },300);
+                                }
+                            }
+                        }, function (error) {
+                            console.log(error);
+                        });
                     }
                 }, function (error) {
                     console.log(error);
                 });
             }).on("shown.bs.modal",function () {
-                for(let i in vm.sheng1){
-                    if(vm.addUser.params.province==vm.sheng1[i]){
-                        for(let j in data.citySearch.GT[i]){
-                            if(vm.addUser.params.city==data.citySearch.GT[i][j]){
-                                shiIndex1=i+1;
-                                xianIndex1=j+1;
-                                vm.shi1=data.citySearch.GT[i];
-                                vm.xian1=data.citySearch.GC[i][j];
-                                vm.searchCon.sheng1Val=vm.addUser.params.province;
-                                vm.searchCon.shi1Val=vm.addUser.params.city;
-                                vm.searchCon.xian1Val=vm.addUser.params.county;
-                            }
+                shiIndex1=vm.searchData.citySearch.GP.indexOf(province);
+                vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
+                xianIndex1=vm.searchData.citySearch.GT[shiIndex1].indexOf(city);
+                vm.xian1=vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
+                vm.post(vm.userTrade1.url, "", function (response) {
+                    if (response.success) {
+                        if (response.data.length > 0) {
+                            vm.userTrade1.result = response.data;
+                            $(".shengs").selectpicker('val',province).selectpicker("refresh");
+                            $(".shis").selectpicker('val',city).selectpicker("refresh");
+                            $(".xians").selectpicker('val',county).selectpicker("refresh");
+                            setTimeout(()=>{
+                                vm.addUser.params.trade=trade;
+                                $(".trade").selectpicker("refresh").selectpicker('val',trade);
+                            },200);
                         }
                     }
-                }
+                }, function (error) {
+                    console.log(error);
+                });
             }).on("hidden.bs.modal",function () {
                 vm.addUser.params={};
                 vm.packageList1.result={};
