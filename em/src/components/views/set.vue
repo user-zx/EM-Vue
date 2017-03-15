@@ -161,7 +161,7 @@
 									<td class="text-center">{{keyword.keyword}}</td>
 									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
-										<div class="bootstrap-switch bootstrap-switch-small" @click="">
+										<div class="bootstrap-switch bootstrap-switch-small" @click="changeCheck($event)">
 											<input type="checkbox" v-bind:id="keyword.id" v-if="keyword.status=='启用'" checked />
 											<input type="checkbox" v-bind:id="keyword.id" v-else-if="keyword.status!='启用'" />
 										</div> 
@@ -320,7 +320,7 @@
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
-                        console.log(vm.personalInfoObj.user.phone);
+                        //console.log(vm.personalInfoObj.user.phone);
                      vm.personalInfoObj.user.userAccount=vm.personalInfoObj.user.userAccount.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
                         vm.keyWordSearchCon.userAccount = vm.personalInfoObj.user.phone;
                     }
@@ -402,19 +402,22 @@
                             }else{
                                 data.status="禁用";
                             } 
-                            console.log(data);
+                                  
                             vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
                                 if(res.ok){
                                     if(res.data.success){
                                         console.log(res);
-									}
+									}  
 								}
 							});
                         }
                     });
-                },1000);
+                },1000);   
 		},
 		methods:{
+			changeCheck(el){
+				console.log(el);
+			},
 			topUp(id){
 				this.chargeQRId = id; 
 				$('#chargeQR').modal('show')
