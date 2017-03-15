@@ -164,7 +164,7 @@
 										<div class="bootstrap-switch bootstrap-switch-small">
 											<input type="checkbox" v-bind:id="keyword.id" v-if="keyword.status=='启用'" checked />
 											<input type="checkbox" v-bind:id="keyword.id" v-else-if="keyword.status!='启用'" />
-										</div>
+										</div> 
 										<a class="del-icons" href="javascript:void(0);" @click="delKeyWordFun(index,keyword.id)"> <i class="glyphicon glyphicon-trash"></i></a>
 									</td>
 								</tr>
