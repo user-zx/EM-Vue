@@ -3,7 +3,7 @@
     <div class="wrapper">
         <div class="leftTag" id="leftTag">
             <ul class="nav nav-pills nav-stacked">
-                <li v-for="(item,index) in leftTag" v-bind:class="item.liClass">
+                <li v-for="(item,index) in leftTag" v-bind:class="item.liClass" @click="aClick(item,index)">
                     <router-link :to="item.module" >
                         <i v-bind:class="item.icons" ></i>
                         {{item.text}}
@@ -35,7 +35,7 @@
     .icons-6{background-position: -42px -503px;}
        
     /* .leftTag>ul>li>a:hover,.leftTag>ul>li>a:focus,.leftTag>ul>li.active>a,.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active> a:hover{border-left-color:#32ccca;border-radius:0;background-color: #0b1c26;} */
-    .nav>li>a:focus, .nav>li>a:hover{
+    .leftTag>ul>li.active>a,.nav>li>a:focus, .nav>li>a:hover{
         background-color: #192d39;
         border-left: 3px solid #32ccca;
     }  
@@ -108,6 +108,9 @@
             //     console.log(item);
             //     console.log(el)
             // }
+            aClick:function(item,index){
+               $("#leftTag li").eq(index).addClass('active').siblings('li').removeClass('active');
+            }
         },
 
     }

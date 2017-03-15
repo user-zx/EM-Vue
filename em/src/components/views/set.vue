@@ -172,14 +172,15 @@
 						</table>
 						<div v-if="!notResult" class="pageList clearfix" >
 							
-							<ul class="pull-right tz-pagination" >
+
+							<ul class="clearfix pagination pull-left" >
+
+							</ul>
+							<ul class="pull-left tz-pagination" >
 								<li>跳转到第</li>
 								<li ><input type="text" id="go-input" ></li>
 								<li>页</li>
 								<li><button class="btn btn-sm" @click="go">GO</button></li>
-							</ul>
-							<ul class="clearfix pagination pull-right" >
-
 							</ul>
 						</div>
 					</div>
@@ -207,14 +208,15 @@
 							</tbody>
 						</table>
 						<div class="pageList clearfix" >
-						  <ul class="pull-right tz-pagination" >
+						 
+							<ul class="clearfix pagination pull-left">
+
+							</ul>
+							 <ul class="pull-left tz-pagination" >
 								<li>跳转到第</li>
 								<li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
 								<li>页</li>
 								<li><button class="btn btn-sm" @click="goConsume">GO</button></li>
-							</ul>
-							<ul class="clearfix pagination">
-
 							</ul>
 						</div>
 					</div>
@@ -295,13 +297,13 @@
                 packageListArr:{},
 				keyWordSearchCon:{
 				    pageNumber:1,
-					pageSize:10,
+					pageSize:6,
 					userAccount:"",
 					keyword:""
 				},
 				consumeListSearchCon:{
 				    pageNumber:1,
-					pageSize:10,  
+					pageSize:6,  
 					userAccount:""
 				},
 				chargeQRId:"",
@@ -342,7 +344,7 @@
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.keyWordSearchCon.pageSize,
                                 currentPage: vm.keyWordSearchCon.pageNumber,
-                                
+                               
                                 prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                 next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',                            
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
@@ -391,7 +393,7 @@
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.consumeListSearchCon.pageSize,
                                 currentPage: vm.consumeListSearchCon.pageNumber,
-                               
+                              
                                 prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                 next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
                                 
