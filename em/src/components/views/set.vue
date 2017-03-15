@@ -7,7 +7,7 @@
 			<li>
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#combo" @click="combo">套餐充值</a>
 			</li>
-			<li>  
+			<li>
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#keyWordSet">关键词设置</a>
 			</li>
 			<li>
@@ -121,7 +121,7 @@
 							<div v-else class="col-md-3 panel-body-div" v-for="packageItem in packageListArr" >
 								<div class="combo-box" >
 									<div class="combo-body">
-										<h5 class="comboName" :title="packageItem.name"> <span>{{packageItem.name}}</span>  <span class="price">¥{{packageItem.price}}</span></h5>
+										<h5 class="comboName">{{packageItem.name}} <span class="price">¥{{packageItem.price}}</span></h5>
 										<p>内含<span class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
 									</div>
 									<a href="javascript:void(0);" :id="packageItem.id" class="btn btn-combo" @click="topUp(packageItem.id)">立即充值</a>
@@ -171,7 +171,14 @@
 							</tbody>
 						</table>
 						<div v-if="!notResult" class="pageList clearfix" >
-							<ul class="clearfix pagination">
+							
+							<ul class="pull-right tz-pagination" >
+								<li>跳转到第</li>
+								<li ><input type="text" id="go-input" ></li>
+								<li>页</li>
+								<li><button class="btn btn-sm" @click="go">GO</button></li>
+							</ul>
+							<ul class="clearfix pagination pull-right" >
 
 							</ul>
 						</div>
@@ -200,6 +207,12 @@
 							</tbody>
 						</table>
 						<div class="pageList clearfix" >
+						  <ul class="pull-right tz-pagination" >
+								<li>跳转到第</li>
+								<li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
+								<li>页</li>
+								<li><button class="btn btn-sm" @click="goConsume">GO</button></li>
+							</ul>
 							<ul class="clearfix pagination">
 
 							</ul>
@@ -235,17 +248,14 @@
 	.panel-em .panel-body .form-control-static .update-password{color:#32ccca;margin-left: 5px;}
 	.panel-body-div{margin-bottom: 15px;} 
 	.panel-em .panel-body .text-em{color: #32ccca;margin: 0 3px;}
-	
+	.panel-em>.panel-body{width:75%;}
 	.combo-box{background-color: #f2f2f2;border-radius:5px 5px 0 0;}
 	.combo-box .combo-body{padding:15px 20px;}
-
-	.comboName>span:first-child{display: block;width:175px; white-space:nowrap; word-break:keep-all; overflow:hidden; text-overflow:ellipsis;} 
-	.combo-box .comboName{font-size:16px;color:#333333;position: relative;}
-	.comboName>span:nth-child(2){position: absolute;top: 0;right: 0;} 
+	.combo-box .comboName{font-size:18px;color:#333333;}
 	.combo-box .comboName .price{float: right;color:#32ccca;}
 	.table>thead>tr.active>th{background-color: #fafafa;}
 	.del-icons{color:#a1a1a1;}
-	.text-em{color:#32ccca;} 
+	.text-em{color:#32ccca;}
 	@import "../../assets/js/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css";
 	.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary,
 	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
@@ -305,6 +315,7 @@
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
+                     vm.personalInfoObj.user.userAccount=vm.personalInfoObj.user.userAccount.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
                         vm.keyWordSearchCon.userAccount = res.data.data.user.userAccount;
                     }
                 } 
@@ -329,10 +340,9 @@
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.keyWordSearchCon.pageSize,
                                 currentPage: vm.keyWordSearchCon.pageNumber,
-                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                
                                 prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',                            
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n) {
                                     vm.keyWordSearchCon.pageNumber = n;
@@ -372,16 +382,17 @@
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
                 if (res.ok) {
                     if (res.data.success) {
+                    	console.log(res.data.data.totalPages)
                         let typeOf = typeof res.data.data;
                         if(typeOf!="string") {
                             $("#expenseCalendar .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.consumeListSearchCon.pageSize,
                                 currentPage: vm.consumeListSearchCon.pageNumber,
-                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                               
                                 prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                 next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n) {
                                     vm.consumeListSearchCon.pageNumber = n;
@@ -403,9 +414,29 @@
 			currTab2(){
 				$('#myTab li:eq(1) a').tab('show')
 			},
+			go(){
+				let vm =this;
+				vm.keyWordSearchCon.pageNumber=$("#keyWordSet #go-input").val();
+				let index=$("#keyWordSet #go-input").val()-0;
+				$("#keyWordSet .pagination").jqPaginator('option',{
+					currentPage:index,
+				});
+				vm.getKeywordListFun();
+			},
+			goConsume(){
+                let vm =this;
+				vm.consumeListSearchCon.pageNumber=$("#expenseCalendar #go-input").val();
+				let index=$("#expenseCalendar #go-input").val()-0;
+
+				$("#expenseCalendar .pagination").jqPaginator('option',{
+					currentPage:index,
+				});
+				vm.getConsumeList();
+			},
             getKeywordListFun(){
                 let vm =this;
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+                	
                     if(res.ok){
                         if(res.data.success){
                             let typeOf = typeof res.data.data;
@@ -451,6 +482,7 @@
 			getConsumeList(){
                 let vm = this;
                 vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res){
+                
                     if(res.ok) {
                         if (res.data.success) {
                             let typeOf = typeof res.data.data;
@@ -481,10 +513,10 @@
 										totalPages: res.data.data.totalPages,
 										visiblePages: vm.keyWordSearchCon.pageSize,
 										currentPage: vm.keyWordSearchCon.pageNumber,
-										first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+							
 										prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 										next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-										last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+									
 										page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 										onPageChange: function (n) {
 											vm.keyWordSearchCon.pageNumber = n;

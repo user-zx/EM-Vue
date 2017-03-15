@@ -18,6 +18,7 @@ export default {
          month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'], 
         format: 'YYYY-MM-DD',
         placeholder: '结束时间',
+        title:'',
         inputStyle: { 
           'display': 'inline-block',
           'padding': '8px 1px',
@@ -26,12 +27,13 @@ export default {
           "border":"1px solid #ccc",
           "border-left":"none",
           "border-radius":"0 4px 4px 0",
-          'color': '#5d5d5d',
-          'width': "83px" , 
+          'color': '#5F5F5F',
+          'width': "83px" ,
+         
         }, 
-        color: {   
-          header: '#32ccca',
-          headerText: '#fff'
+        color: { 
+          header: '#ccc',
+          headerText: '#f00'
         },
         buttons: {
           ok: '确定',
@@ -54,7 +56,7 @@ export default {
       },
       limit: [{
         type: 'weekday',
-        available: [1, 2, 3, 4, 5, 6, 0]
+        available: [1, 2, 3, 4, 5]
       },
       {   
         type: 'fromto',
@@ -70,28 +72,22 @@ export default {
     checkTime(){
         let vm = this;  
         // vm.$store.state.selectDate.endDate = 
-     
-
-      $(document).on("click",".button-box>span",function(){
-      if($(this).text()=="取消"){
-        vm.endtime.time = "";
-         vm.$store.commit("changeEndDate",vm.endtime.time)
-        }
-     }) 
         vm.$store.commit("changeEndDate",vm.endtime.time);
-        vm.$emit('endTime', vm.endtime.time);  
+        vm.$emit('endTime', vm.endtime.time); 
+
     },
     checkTimeEnd(){ 
-      let vm = this;
-          
-      vm.limit[1].from =  vm.$store.state.selectDate.startDate;
+      let vm = this;    
+        vm.limit[1].from =  vm.$store.state.selectDate.startDate; 
     } 
   },
   mounted(){
     var myDate = new Date();   
     let nowDate = myDate.toLocaleDateString();  
     let newTime = nowDate.replace(/\//g,"-");
+    
     this.limit[1].to = newTime;
+    $("input").attr("title","");
   }, 
   props:["startDate","endDate"],
 } 

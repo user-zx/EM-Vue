@@ -71,7 +71,7 @@ $.fn.ProvinceCity = function(){
 	var index2 = "" ;
 	$sel2.change(function(){
 		$sel3[0].options.length=0;
-		index2 = this.selectedIndex;
+		index2 = this.selectedIndex-1;
 		$.each( GC[index1-1][index2] , function(index,data){
 			$sel3.append("<option value='"+data+"'>"+data+"</option>");
 		})
