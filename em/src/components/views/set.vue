@@ -58,7 +58,7 @@
 									<label class="col-md-6 control-label">绑定手机号：</label>
 									<div class="col-md-6">
 										<p class="form-control-static">{{personalInfoObj.user.userAccount}}</p>
-									</div>
+									</div> 
 								</div>
 								<div class="form-group">
 									<label class="col-md-6 control-label">所在地区：</label>
@@ -135,8 +135,8 @@
 				<div class="panel panel-em">
 					<div class="panel-body" >
 						<div class="search-box clearfix">
-							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button>
-							<div class="navbar-form navbar-right" role="search">
+							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button> 
+							<div class="navbar-form navbar-right" role="search" style="margin-top: 0">
 								<div class="input-group">
 									<input type="text" class="form-control input-search" v-model:value="keyWordSearchCon.keyword" placeholder="输入关键词进行查询">
 									<span class="input-group-btn">
@@ -161,7 +161,7 @@
 									<td class="text-center">{{keyword.keyword}}</td>
 									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
-										<div class="bootstrap-switch bootstrap-switch-small">
+										<div class="bootstrap-switch bootstrap-switch-small" @click="">
 											<input type="checkbox" v-bind:id="keyword.id" v-if="keyword.status=='启用'" checked />
 											<input type="checkbox" v-bind:id="keyword.id" v-else-if="keyword.status!='启用'" />
 										</div> 
@@ -310,6 +310,7 @@
 					userAccount:""
 				},
 				chargeQRId:"",
+				
 			}
 		},
         components:{rePassword,addKeyWord,chargeQR},
@@ -322,8 +323,9 @@
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
+                        console.log(vm.personalInfoObj.user.phone);
                      vm.personalInfoObj.user.userAccount=vm.personalInfoObj.user.userAccount.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-                        vm.keyWordSearchCon.userAccount = res.data.data.user.userAccount;
+                        vm.keyWordSearchCon.userAccount = vm.personalInfoObj.user.phone;
                     }
                 } 
 			});
@@ -336,35 +338,11 @@
                     }
                 }
             });
-//            /*关键词列表*/ 
-			
-            vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-				if(res.ok){
-				    if(res.data.success){
-				    	vm.keyWordTotalpages=res.data.data.totalPages;
-                        let typeOf = typeof res.data.data;
-                        if(typeOf!="string") {
-                     
-                            $("#keyWordSet .pagination").jqPaginator({
-                                totalPages: res.data.data.totalPages,
-                                visiblePages: vm.keyWordSearchCon.pageSize,
-                                currentPage: vm.keyWordSearchCon.pageNumber,
-                               
-                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',                            
-                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                                onPageChange: function (n) {
-                                    vm.keyWordSearchCon.pageNumber = n;
-                                    vm.getKeywordListFun();
+            /*关键词列表*/ 
 
-                                }
-                            });
-                        }else{
-                            alert(res.data.data);
-                        }
-                    }
-				}
-            });
+			vm.updateClue();
+          
+
             /**批量添加关键词   import/importKeywordList
 			 * fileName：       文件名称
 			 * keywordOwner：       关键词拥有者*/
@@ -419,9 +397,8 @@
                     $(".bootstrap-switch input[type=checkbox]").bootstrapSwitch({
                         onText:"启用",
                         offText:"禁用",
-                        size:"small",
+                        size:"small", 
                         onSwitchChange:function(event,state){
-                        	
                             let data={
                                 id:$(event.target).attr("id"),
                                 status:""
@@ -521,7 +498,7 @@
 			    let vm =this;
 				vm.notResult = false;
 			    vm.keyWordSearchCon.pageNumber=1;
-			    vm.keyWordSearchCon.pageSize=10;
+			    vm.keyWordSearchCon.pageSize=6;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
 			        if(res.ok){
 			            if(res.data.success){
@@ -583,20 +560,22 @@
             });
 			},
 			updateClue(){
-				let vm = this; 
-			  vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+				let vm = this;
+				
+			   vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+			  
 				if(res.ok){
 				    if(res.data.success){
                         let typeOf = typeof res.data.data;
+                        vm.keyWordTotalpages=res.data.data.totalPages;
                         if(typeOf!="string") {
                             $("#keyWordSet .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.keyWordSearchCon.pageSize,
                                 currentPage: vm.keyWordSearchCon.pageNumber,
-                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                               
                                 prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',                            
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n) {
                                     vm.keyWordSearchCon.pageNumber = n;
@@ -608,9 +587,9 @@
                             alert(res.data.data);
                         }
                     }
-				  }
-               });
-			}
+				}
+            });
+		  }
 		}
 	}
 </script>

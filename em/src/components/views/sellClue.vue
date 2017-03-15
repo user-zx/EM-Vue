@@ -59,7 +59,7 @@ ss<template>
 						</div>
 					</div>
 					<div>
-						<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0"  href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
+						<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0"  href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a>
 					</div>
 					<div class="h-box"> 
 						<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index"> 
@@ -108,52 +108,37 @@ ss<template>
 			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
 		</div> 
 		<menu class="clearfix">   
-			<li>
+			<li v-show="artItem.salesLeads.address">
 				<img src="../../assets/images/location.png" height="25" width="22" alt="">
-				<strong  v-if="artItem.salesLeads.address">{{artItem.salesLeads.address}}</strong>
+				<strong  >{{artItem.salesLeads.address}}</strong>
 			</li> 
-			<li >
+			<li v-show="artItem.salesLeads.phone">
 				<img src="../../assets/images/phone.png" height="22" width="18">
-				<strong v-if="artItem.salesLeads.phone">{{artItem.salesLeads.phone}}</strong>
+				<strong >{{artItem.salesLeads.phone}}</strong>
 			</li>
-			<li >
+			<li v-show="artItem.salesLeads.email">
 				<img src="../../assets/images/email.png" height="21" width="25">
-				<strong v-if="artItem.salesLeads.email">{{artItem.salesLeads.email}}</strong>
+				<strong>{{artItem.salesLeads.email}}</strong>
 			</li>
-			<li >
+			<li v-show="artItem.salesLeads.ip">
 				<img src="../../assets/images/IP.png" height="25" width="25">
-				<strong v-if="artItem.salesLeads.ip">{{artItem.salesLeads.ip}}</strong>
+				<strong >{{artItem.salesLeads.ip}}</strong>
 			</li>
-			<li >
+			<li v-show="artItem.salesLeads.wechat">
 				<img src="../../assets/images/wechat.png" height="24" width="24">
-				<strong v-if="artItem.salesLeads.wechat">{{artItem.salesLeads.wechat}}</strong>
+				<strong>{{artItem.salesLeads.wechat}}</strong>
 			</li>
-			<li > 
+			<li v-show="artItem.salesLeads.qq"> 
 				<img src="../../assets/images/QQ.png" height="24" width="23">
-				<strong v-if="artItem.salesLeads.qq">{{artItem.salesLeads.qq}}</strong>
+				<strong>{{artItem.salesLeads.qq}}</strong>
+			</li>    
+			<li v-show="artItem.salesLeads.otherInfoContent"> 
+				<img src="../../assets/images/qt.png" height="22" width="22">
+				<strong>{{artItem.salesLeads.otherInfoName}} : </strong>
+				<strong>{{artItem.salesLeads.otherInfoContent}}</strong>
 			</li>  
 		</menu>   
-	<!-- 	<menu v-else class="clearfix">  
-		<li v-if="artItem.salesLeads.address == 'true'">
-			<img src="../../assets/images/location.png" height="25" width="22" alt="">
-			<strong></strong>
-		</li> 
-		<li v-if="artItem.salesLeads.phone  == 'true'">
-			<img src="../../assets/images/phone.png" height="22" width="18">
-		</li>
-		<li v-if="artItem.salesLeads.email  == 'true'">
-			<img src="../../assets/images/email.png" height="21" width="25">
-		</li>
-		<li v-if="artItem.salesLeads.ip  == 'true'">
-			<img src="../../assets/images/IP.png" height="25" width="25">
-		</li>
-		<li v-if="artItem.salesLeads.wechat  == 'true'">
-			<img src="../../assets/images/wechat.png" height="24" width="24">
-		</li>
-		<li v-if="artItem.salesLeads.qq  == 'true'">
-			<img src="../../assets/images/QQ.png" height="24" width="23">
-		</li>
-	</menu>  -->
+	
 	</div>  
 	<div class="pageList clearfix" v-show="!notResult" >
 		<ul class="clearfix pagination" id="pagination">
@@ -254,11 +239,12 @@ ss<template>
                 vm.endDate = date;  
             },  
             goAnchor(selector) {
-            	console.log(selector);
-                var anchor = this.$el.querySelector(selector);
-                var parentEle=this.$el.querySelector(".h-box");
-                parentEle.scrollTop = anchor.offsetTop
-            }, 
+               let vm = this; 
+            	setTimeout(function(){
+            	let val = selector;
+          		vm.inputVal = val;
+            	},100)   
+            },  
             multipleSearch(){
                 let vm=this;
                 if(vm.startDate==""){
@@ -288,7 +274,7 @@ ss<template>
                                     last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
-                                           console.log(response.data.data); 
+                                          //console.log(response.data.data); 
                                         vm.searchCon.pageNumber = n;
                                         vm.page();
                                     }
@@ -489,12 +475,12 @@ ss<template>
                                 let newArr=response.data.data.list;
                                 
                                 for(var i in newArr){
-                                    newArr[i].salesLeads.publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                                    newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
                                 }
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
-                               // console.log(vm.artList.artContent);
+                               console.log(vm.artList.artContent);
 							}else{ 
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -523,7 +509,6 @@ ss<template>
 		mounted:function(){
 			//console.log('test');      
             let vm=this;
-             
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4

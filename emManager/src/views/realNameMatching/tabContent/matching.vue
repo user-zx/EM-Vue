@@ -247,11 +247,13 @@
                 });
             },
             saveMathcingFun(){
+               // console.log('test');
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
                 vm.saveMatching.params.matchingResult = "匹配成功";
+               // console.log(vm.saveMatching.params);  
                 vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
                     if(response.success){
                         vm.getList();

@@ -370,7 +370,7 @@
 				$(" .pagination").jqPaginator('option',{
 					currentPage:index,
 				});
-				vm.artListFun();;
+				vm.artListFun();
 			},
 			getArtListFun(){
                 let vm=this;

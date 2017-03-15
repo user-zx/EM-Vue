@@ -94,7 +94,8 @@
                             }else{ 
                                 alert("添加关键词成功");
                                 vm.textareaVal = "";
-                                vm.$emit("updateList") 
+                               
+                                vm.$emit("updateList",param.keywordList) 
                             } 
                           
                         }else{

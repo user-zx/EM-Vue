@@ -93,7 +93,6 @@
         },
         mounted(){
             let vm = this;
-            console.log(vm.$store.state.matchingManager.current+"   tab");
             $("."+vm.$store.state.matchingManager.current).parent().addClass("active");
             $(document).on("click",".currentParentTab",function () {
                 let currentTab=$(this).attr('data-target'),ele='.'+$(this).attr('data-target');
