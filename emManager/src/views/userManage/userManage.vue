@@ -309,6 +309,9 @@
                 if(response.success){
                     if(response.data.length>0){
                         vm.packageList.result=response.data;
+                        setTimeout(function(){
+                            $(".selectpicker").selectpicker("refresh");
+                        },300);
                     }
                 }
             },function (error) {
@@ -318,14 +321,15 @@
                 if(response.success){
                     if(response.data.length>0){
                         vm.userTrade.result=response.data;
+                        setTimeout(function(){
+                            $(".selectpicker").selectpicker("refresh");
+                        },300);
                     }
                 }
             },function (error) {
                 console.log(error);
             });
-            setTimeout(function(){
-                $(".selectpicker").selectpicker("refresh");
-            },100);
+
         }
     }
 </script>

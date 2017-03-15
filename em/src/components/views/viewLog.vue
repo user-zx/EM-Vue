@@ -45,7 +45,7 @@
 						<div class="clearfix">
 							<div class="navbar-form navbar-left" role="form">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="输入关键词进行搜索" v-model="inputVal" id="input_Val"/>
+									<input type="text" class="form-control" placeholder="输入关键词进行搜索" v-model="inputVal"/>
 									<span class="input-group-btn">
 										<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
 									</span>
@@ -56,7 +56,7 @@
 							</div>
 						</div>
 						<div>
-							<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a> 
+							<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0" href="javascript:void(0);" @click="goAnchor('#'+index)" class="search-h">{{index}}</a>
 						</div>
 						<div class="h-box">
 							<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index">
@@ -135,35 +135,37 @@
 					</li>
 				</menu> 
 				<menu v-else class="clearfix">  
-					<li v-show="artItem.salesLeads.address">
+					<li v-if="artItem.salesLeads.address == 'true'">
 						<img src="../../assets/images/location.png" height="25" width="22" alt="">
 					</li> 
-					<li v-show="artItem.salesLeads.phone">
+					<li v-if="artItem.salesLeads.phone  == 'true'">
 						<img src="../../assets/images/phone.png" height="22" width="18">
 					</li>
-					<li v-show="artItem.salesLeads.email">
+					<li v-if="artItem.salesLeads.email  == 'true'">
 						<img src="../../assets/images/email.png" height="21" width="25">
 					</li>
-					<li v-show="artItem.salesLeads.ip">
+					<li v-if="artItem.salesLeads.ip  == 'true'">
 						<img src="../../assets/images/IP.png" height="25" width="25">
 					</li>
-					<li v-show="artItem.salesLeads.wechat">
+					<li v-if="artItem.salesLeads.wechat  == 'true'">
 						<img src="../../assets/images/wechat.png" height="24" width="24">
-					</li>  
-					<li v-show="artItem.salesLeads.qq">
+					</li>
+					<li v-if="artItem.salesLeads.qq  == 'true'">
 						<img src="../../assets/images/QQ.png" height="24" width="23">
 					</li>
-					 <li v-show="artItem.salesLeads.otherInfoContent"> 
-                        <img src="../../assets/images/qt.png" height="22" width="22">
-                        <strong>{{artItem.salesLeads.otherInfoName}} : </strong>
-                        <strong>{{artItem.salesLeads.otherInfoContent}}</strong>
-                     </li>  
 				</menu> 
 			</div> 
 			<div class="pageList clearfix" v-show="!notResult" >
-				<ul class="clearfix pagination" id="pagination">
+			<ul class="tz-pagination pull-right" >
+								<li>跳转到第</li>
+								<li ><input type="text" id="go-input" ></li>
+								<li>页</li>
+								<li><button class="btn btn-sm" @click="go">GO</button></li>
+			</ul>
+			<ul class="clearfix pagination pull-right" id="pagination">
 
-				</ul>
+			</ul>
+
 			</div>
 		</div>
 	</div>
@@ -185,6 +187,7 @@
 	export default {
 		data(){
 			return{
+				viewLogTotalpages:0,
                 notResult:false,
                 saleLeadsListUrl:'../apis/salesLeads/getSaleLeadsList',
                 messageList:"../apis/userSalesLeads/saveCheckUserSaleLeads",
@@ -194,7 +197,7 @@
 					totalPages:''
                 },
 				searchCon:{  
-                    pageSize:10,
+                    pageSize:6,
                     pageNumber:1,
                     checkStatus:"是",
 					labelStatus:"",
@@ -356,21 +359,36 @@
                     }
                 });
 			},
+			go(){
+				let vm =this;
+				
+				let index=$(" #go-input").val()-0;
+                 if(index>vm.viewLogTotalpages){  
+
+                 	alert("超过总页数");
+                 }
+				$(" .pagination").jqPaginator('option',{
+					currentPage:index,
+				});
+				vm.artListFun();
+			},
 			getArtListFun(){
                 let vm=this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
                     if(response.ok){
                         if(response.data.success){
+                        	 vm.viewLogTotalpages=response.data.data.totalPages;
+
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
                                 $("#pagination").jqPaginator({
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                    
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
@@ -386,12 +404,10 @@
                     }
                 });
 			},
-              goAnchor(selector) {
-               let vm = this; 
-            	setTimeout(function(){
-            	let val = selector;
-          		vm.inputVal = val;
-            	},100)  
+            goAnchor(selector) {
+                var anchor = this.$el.querySelector(selector);
+                var parentEle=this.$el.querySelector(".h-box");
+                parentEle.scrollTop = anchor.offsetTop
             },
             multipleSearch(){
 				let vm=this; 

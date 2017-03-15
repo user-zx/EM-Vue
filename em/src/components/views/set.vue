@@ -279,6 +279,8 @@
 	export default {
 		data(){
 			return{  
+				keyWordTotalpages:0,
+				expenseTotalpages:0,
 				notResult:false,			
 				userInfoUrl:"../apis/personal/findPersonalInfo",
 				packageListUrl:"../apis/package/getPackageList",
@@ -299,7 +301,8 @@
 				    pageNumber:1,
 					pageSize:6,
 					userAccount:"",
-					keyword:""
+					keyword:"",
+					
 				},
 				consumeListSearchCon:{
 				    pageNumber:1,
@@ -335,9 +338,11 @@
                     }
                 }
             });
-//            /*关键词列表*/ 
+            /*关键词列表*/ 
+
 			vm.updateClue();
           
+
             /**批量添加关键词   import/importKeywordList
 			 * fileName：       文件名称
 			 * keywordOwner：       关键词拥有者*/
@@ -365,6 +370,7 @@
                 if (res.ok) {
                     if (res.data.success) {
                     	//console.log(res.data.data.totalPages)
+                    	vm.expenseTotalpages=res.data.data.totalPages;
                         let typeOf = typeof res.data.data;
                         if(typeOf!="string") {
                             $("#expenseCalendar .pagination").jqPaginator({
@@ -427,8 +433,12 @@
 			},
 			go(){
 				let vm =this;
-				vm.keyWordSearchCon.pageNumber=$("#keyWordSet #go-input").val();
+				
 				let index=$("#keyWordSet #go-input").val()-0;
+                 if(index>vm.keyWordTotalpages){  
+
+                 	alert("超过总页数");
+                 }
 				$("#keyWordSet .pagination").jqPaginator('option',{
 					currentPage:index,
 				});
@@ -436,8 +446,12 @@
 			},
 			goConsume(){
                 let vm =this;
-				vm.consumeListSearchCon.pageNumber=$("#expenseCalendar #go-input").val();
+				
 				let index=$("#expenseCalendar #go-input").val()-0;
+				 if(index>vm.expenseTotalpages){  
+
+                 	alert("超过总页数");
+                 }
 				$("#expenseCalendar .pagination").jqPaginator('option',{
 					currentPage:index,
 				});
@@ -556,6 +570,7 @@
 				if(res.ok){
 				    if(res.data.success){
                         let typeOf = typeof res.data.data;
+                        vm.keyWordTotalpages=res.data.data.totalPages;
                         if(typeOf!="string") {
                             $("#keyWordSet .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,

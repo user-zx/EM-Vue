@@ -43,10 +43,12 @@
     </div>
 </template> 
 <style scoped>
+    #rePassword .modal-dialog{margin-top:140px;}
+    #rePassword label{font-weight:normal;padding-right:0;}
     .modal .modal-content{border-radius: 0;}
     .modal-header .modal-title{text-align: center;color:#666666;font-size:16px;}
     .modal-body textarea{height:150px;border-radius: 5px 5px 0 0;resize: none;}
-    .modal-footer{border-top:none;text-align: center;}
+    .modal-footer{border-top:none;text-align: center;padding-top:0;}
 </style>
 <script>
     export default{
