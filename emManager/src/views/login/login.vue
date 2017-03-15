@@ -185,8 +185,12 @@
                 vm.post(vm.loginUrl, vm.params,function(result){
                     if(result.success){
                         vm.$router.push({path:"/home/welcome"});
+                    }else{
+                        vm.errorText="用户名或密码错误!";
+                        $("#errorAlert").show();
+                         return false;
                     }
-                },function (error) {
+                },function (error) {                 
                     console.log(error);
                 });
             },
