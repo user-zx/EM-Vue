@@ -108,7 +108,6 @@
                     vm.textareaVal = "";
                })
             },
-           
         },
         props:['userNumber'],  
         mounted(){    

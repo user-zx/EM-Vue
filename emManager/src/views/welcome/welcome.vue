@@ -1,12 +1,15 @@
 /**
-* Created by zhangxin on 2017/3/8.
+* Created by zhangxin on 2017/3/15.
 */
 <template>
-    <div id="studyClueList">
-
+    <div class="welcome">
+        <h2 class="text-em text-center">欢迎使用慧数医美运维管理平台</h2>
     </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
+    .welcome{
+        min-height: 450px;
+    }
 </style>
 <script>
      /*

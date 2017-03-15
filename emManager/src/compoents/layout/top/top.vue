@@ -3,9 +3,9 @@
         <nav class="navbar nav-em" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="javascript:void(0)">
+                    <router-link class="navbar-brand" to="/home/welcome">
                         <img src="./images/clogo.png" alt="logo" />
-                    </a>
+                    </router-link>
                 </div>
                 <div class="navbar navbar-right">
                     <router-link to="/home/personalInfo">

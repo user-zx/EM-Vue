@@ -409,6 +409,33 @@
                     }
                 }
             });
+              setTimeout(function () {
+                    $(".bootstrap-switch input[type=checkbox]").bootstrapSwitch({
+                        onText:"启用",
+                        offText:"禁用",
+                        size:"small",
+                        onSwitchChange:function(event,state){
+                        	
+                            let data={
+                                id:$(event.target).attr("id"),
+                                status:""
+                            };
+                            if(state==true){
+                                data.status="启用";
+                            }else{
+                                data.status="禁用";
+                            } 
+                            console.log(data);
+                            vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
+                                if(res.ok){
+                                    if(res.data.success){
+                                        console.log(res);
+									}
+								}
+							});
+                        }
+                    });
+                },1000);
 		},
 		methods:{
 			topUp(id){
@@ -431,7 +458,6 @@
                 let vm =this;
 				vm.consumeListSearchCon.pageNumber=$("#expenseCalendar #go-input").val();
 				let index=$("#expenseCalendar #go-input").val()-0;
-
 				$("#expenseCalendar .pagination").jqPaginator('option',{
 					currentPage:index,
 				});
@@ -440,7 +466,6 @@
             getKeywordListFun(){
                 let vm =this;
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-                	
                     if(res.ok){
                         if(res.data.success){
                             let typeOf = typeof res.data.data;
@@ -451,31 +476,7 @@
                                     newArr[i].isShow=true;
                                 }
                                 vm.keyWordListObj=newArr;
-                                setTimeout(function () {
-                                    $(".bootstrap-switch input[type=checkbox]").bootstrapSwitch({
-                                        onText:"启用",
-                                        offText:"禁用",
-                                        size:"small",
-                                        onSwitchChange:function(event,state){
-                                            let data={
-                                                id:$(event.target).attr("id"),
-                                                status:""
-                                            };
-                                            if(state==true){
-                                                data.status="启用";
-                                            }else{
-                                                data.status="禁用";
-                                            }
-                                            vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
-                                                if(res.ok){
-                                                    if(res.data.success){
-                                                        console.log(res);
-													}
-												}
-											});
-                                        }
-                                    });
-                                },1000);
+
                             }else{
                                 alert(res.data.data);
                             }
