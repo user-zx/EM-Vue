@@ -28,6 +28,7 @@
     </div>
 </template>
 <style scoped>
+    .modal-dialog{margin-top:140px;}
     .modal .modal-content{border-radius: 0;}
     .modal-header{border-bottom:none;}
     .modal-body textarea{height:150px;border-radius: 5px 5px 0 0;resize: none;}

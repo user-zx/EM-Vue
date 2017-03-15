@@ -93,6 +93,7 @@ export default {
     let nowDate = myDate.toLocaleDateString();  
     let newTime = nowDate.replace(/\//g,"-");
     this.limit[1].to = newTime;
+    $(".cov-datepicker").attr("title","");
   }, 
   props:["startDate","endDate"],
 } 

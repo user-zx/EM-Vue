@@ -11,9 +11,11 @@
 	float: left;
 	text-align: center;
 	margin-right: 10px;
-	background-color: #FFF;
+	
 	font: 12px/23px "Microsoft Yahei";
 	cursor: pointer;
+	height:30px;
+	line-height:30px;
 } 
 .pagination>li>a, .pagination>li>span{
 	padding: 2px 8px;

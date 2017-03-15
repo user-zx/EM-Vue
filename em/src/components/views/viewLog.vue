@@ -156,9 +156,16 @@
 				</menu> 
 			</div> 
 			<div class="pageList clearfix" v-show="!notResult" >
-				<ul class="clearfix pagination" id="pagination">
+			<ul class="tz-pagination pull-right" >
+								<li>跳转到第</li>
+								<li ><input type="text" id="go-input" ></li>
+								<li>页</li>
+								<li><button class="btn btn-sm" @click="go">GO</button></li>
+			</ul>
+			<ul class="clearfix pagination pull-right" id="pagination">
 
-				</ul>
+			</ul>
+
 			</div>
 		</div>
 	</div>
@@ -180,6 +187,7 @@
 	export default {
 		data(){
 			return{
+				viewLogTotalpages:0,
                 notResult:false,
                 saleLeadsListUrl:'../apis/salesLeads/getSaleLeadsList',
                 messageList:"../apis/userSalesLeads/saveCheckUserSaleLeads",
@@ -189,7 +197,7 @@
 					totalPages:''
                 },
 				searchCon:{  
-                    pageSize:10,
+                    pageSize:6,
                     pageNumber:1,
                     checkStatus:"是",
 					labelStatus:"",
@@ -351,21 +359,36 @@
                     }
                 });
 			},
+			go(){
+				let vm =this;
+				
+				let index=$(" #go-input").val()-0;
+                 if(index>vm.viewLogTotalpages){  
+
+                 	alert("超过总页数");
+                 }
+				$(" .pagination").jqPaginator('option',{
+					currentPage:index,
+				});
+				vm.artListFun();;
+			},
 			getArtListFun(){
                 let vm=this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
                     if(response.ok){
                         if(response.data.success){
+                        	 vm.viewLogTotalpages=response.data.data.totalPages;
+
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
                                 $("#pagination").jqPaginator({
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                    
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
