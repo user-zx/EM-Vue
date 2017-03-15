@@ -1,11 +1,20 @@
 <template>
     <div id="heads" class="heads navbar navbar-default">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><img src="../../assets/images/logo.png" alt="logo"></a>
+            <a class="navbar-brand" href="/home">
+              <img src="../../assets/images/logo.png" alt="logo"/>
+            </a>
         </div> 
         <ul class="nav navbar-nav navbar-right" v-if="topMessage">
-            <li><router-link to="/home/set"><img src="../../assets/images/user.png" alt=""> {{username}}</router-link></li>  
-            <li @click="quit()" ><a href="javascript:void(0);"><img src="../../assets/images/tc.png" alt=""> 退出登录</a></li>
+            <li>
+              <router-link to="/home/set">
+                    <img src="../../assets/images/user.png" alt=""/> {{username}}
+              </router-link>
+            </li>    
+            <li @click="quit()" >
+                    <a href="javascript:void(0);"> 
+                    <img src="../../assets/images/tc.png" alt=""/> 退出登录</a>
+            </li>
         </ul>
     </div> 
 </template>
@@ -51,8 +60,6 @@ export default{
             if(res.ok){
                 if(res.data.success){ 
                     vm.username = res.data.data;
-                    //console.log(res.data.data.substr(0, 1));
-                    //vm.username = res.data.data.substr(0, 1)+""
                 }else{
                     vm.username = "";
                 }

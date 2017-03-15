@@ -77,19 +77,25 @@
                 }  
             },
             submit(){
-               
+               var patt = new RegExp(".(xls|xlsx)$", "i");
+               //patt.test("hello.xLs")
                let vm = this;
                let post = commont.post;
                let param = {}; 
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                    //console.log(res);
+                    //console.log(res);  
                     if(res.ok){
                         if(res.data.success){
-                            alert("添加关键词成功");
-                            vm.textareaVal = "";
-                            vm.$emit("updateList")
+                            if(patt.test(param.keywordList)){
+                               alert("添加文件成功");
+                            }else{ 
+                                alert("添加关键词成功");
+                                vm.textareaVal = "";
+                                vm.$emit("updateList") 
+                            } 
+                          
                         }else{
                             alert("添加关键词失败");
                             vm.textareaVal = "";
@@ -108,7 +114,8 @@
         mounted(){    
                 let vm = this;  
                 $(document).on("change","#fileName",function(){
-                 var fileanme = $("#fileName")[0].files[0].name;
+                    if($("#fileName")[0].files[0]){
+                        var fileanme = $("#fileName")[0].files[0].name;
                  $.ajaxFileUpload({   
                     url: vm.fileUrl,
                     fileElementId:"fileName",
@@ -123,11 +130,6 @@
                              alert("添加失败");
                         }else{ 
                            vm.textareaVal = fileanme; 
-                           console.log("添加成功"); 
-                            //vm.$emit("updateList")
-                            setTimeout(function(){
-                            $('#addKeyWord').modal('hide')
-                            },1500)  
                         }   
                       
                     },
@@ -136,13 +138,16 @@
                          vm.textareaVal = "添加失败";
                           $('#addKeyWord').modal('hide')
                     }
-                 })    
-                  return false;    
-                }) 
+                 })     
+              }else{
+                alert("添加失败")
+                return false;    
+              }
+          }) 
           
                 
             $("#addKeyWord").on("hidden.bs.modal",function(){
-                vm.textareaVal = "";
+               
             });
            
         }

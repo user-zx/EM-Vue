@@ -121,7 +121,7 @@
 							<div v-else class="col-md-3 panel-body-div" v-for="packageItem in packageListArr" >
 								<div class="combo-box" >
 									<div class="combo-body">
-										<h5 class="comboName">{{packageItem.name}} <span class="price">¥{{packageItem.price}}</span></h5>
+										<h5 class="comboName"> <span>{{packageItem.name}}</span> <span class="price">¥{{packageItem.price}}</span></h5>
 										<p>内含<span class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
 									</div>
 									<a href="javascript:void(0);" :id="packageItem.id" class="btn btn-combo" @click="topUp(packageItem.id)">立即充值</a>
@@ -251,7 +251,9 @@
 	.panel-em>.panel-body{width:75%;}
 	.combo-box{background-color: #f2f2f2;border-radius:5px 5px 0 0;}
 	.combo-box .combo-body{padding:15px 20px;}
-	.combo-box .comboName{font-size:18px;color:#333333;}
+	.combo-box .comboName{font-size:16px;color:#333333;position: relative;}
+	.comboName>span:first-child{display: block;width:106px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
+	.comboName>span:nth-child(2){position: absolute;right: -10px;top: 0;}
 	.combo-box .comboName .price{float: right;color:#32ccca;}
 	.table>thead>tr.active>th{background-color: #fafafa;}
 	.del-icons{color:#a1a1a1;}
@@ -382,7 +384,7 @@
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
                 if (res.ok) {
                     if (res.data.success) {
-                    	console.log(res.data.data.totalPages)
+                    	//console.log(res.data.data.totalPages)
                         let typeOf = typeof res.data.data;
                         if(typeOf!="string") {
                             $("#expenseCalendar .pagination").jqPaginator({
