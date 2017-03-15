@@ -29,30 +29,6 @@
                                 <span>运维管理</span>
                             </router-link>
                         </div>
-                        <!--<div class="lyt-cell">
-                            <router-link to="/home/packageManage" class="green">
-                                <img src="./images/mainMenu2.png" alt="套餐管理" />
-                                <span>套餐管理</span>
-                            </router-link>
-                        </div>
-                        <div class="lyt-cell">
-                            <router-link to="/home/studyClue" class="blue">
-                                <img src="./images/mainMenu3.png" alt="线索研判" />
-                                <span>线索研判</span>
-                            </router-link>
-                        </div>
-                        <div class="lyt-cell">
-                            <router-link to="/home/realNameMatching/getMatching" class="red">
-                                <img src="./images/mainMenu4.png" alt="实名匹配" />
-                                <span>实名匹配</span>
-                            </router-link>
-                        </div>
-                        <div class="lyt-cell">
-                            <router-link to="/home/om" class="darkblue">
-                                <img src="./images/mainMenu5.png" alt="运维管理" />
-                                <span>运维管理</span>
-                            </router-link>
-                        </div>-->
                     </div>
                 </div>
             </div>
@@ -178,6 +154,7 @@
 
 </style>
 <script>
+    import welcome from '../../views/welcome/welcome.vue';
     export default{
         name:"mainMenu",
         data(){
@@ -185,6 +162,10 @@
                 msg:"菜单",
                 permissions:this.$store.state.userInfo.permissions
             }
+        },
+        components:{welcome},
+        methods:{
+
         },
         mounted(){
             let vm =this;

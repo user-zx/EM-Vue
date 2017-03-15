@@ -3,7 +3,7 @@
         <nav class="navbar nav-em" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <router-link class="navbar-brand" to="/home/welcome">
+                    <router-link class="navbar-brand" to="/home">
                         <img src="./images/clogo.png" alt="logo" />
                     </router-link>
                 </div>
@@ -63,7 +63,7 @@
                         vm.userName=response.data.data.userName;
                         vm.$store.commit("setUserInfo",response.data.data.permissions);
                     }else{
-                        vm.$router.push({path:"/"})
+                        vm.$router.push({path:"/login"})
                     }
                 }
             });

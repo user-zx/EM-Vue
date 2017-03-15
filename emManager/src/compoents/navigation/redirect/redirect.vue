@@ -1,12 +1,12 @@
 /**
-* Created by zhangxin on 2017/2/23.
+* Created by zhangxin on 2017/3/15.
 */
 <template>
     <div>
 
     </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 </style>
 <script>
      /*
@@ -25,16 +25,7 @@
             
         },
         mounted(){
-            let vm =this;
-            vm.$http.post("apis/admin/logout.do").then((response)=>{
-                if(response.ok) {
-                    sessionStorage.clear();
-                    vm.$router.push({path: '/login'});
-                }else if(response.status=='404'){
-                    sessionStorage.clear();
-                    vm.$router.push({path: '/login'});
-                }
-            });
+            this.$router.push({path:"/home"});
         }
     }
 </script>
