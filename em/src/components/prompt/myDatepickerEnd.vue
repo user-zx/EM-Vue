@@ -26,7 +26,7 @@ export default {
           "border":"1px solid #ccc",
           "border-left":"none",
           "border-radius":"0 4px 4px 0",
-          'color': '#32ccca',
+          'color': '#5d5d5d', 
           'width': "83px" ,
           
         }, 

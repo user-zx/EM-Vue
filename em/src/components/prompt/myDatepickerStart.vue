@@ -25,7 +25,7 @@ export default {
           'line-height': '17px',
           'font-size': '14px',
           "border":"none",
-          'color': '#32ccca',   
+          'color': '#5d5d5d',   
           'width': "85px"
         },  
         color: { 
