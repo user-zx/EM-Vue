@@ -58,7 +58,7 @@
 									<label class="col-md-6 control-label">绑定手机号：</label>
 									<div class="col-md-6">
 										<p class="form-control-static">{{personalInfoObj.user.userAccount}}</p>
-									</div>
+									</div> 
 								</div>
 								<div class="form-group">
 									<label class="col-md-6 control-label">所在地区：</label>
@@ -307,6 +307,7 @@
 					userAccount:""
 				},
 				chargeQRId:"",
+				
 			}
 		},
         components:{rePassword,addKeyWord,chargeQR},
@@ -319,8 +320,9 @@
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
+                        console.log(vm.personalInfoObj.user.phone);
                      vm.personalInfoObj.user.userAccount=vm.personalInfoObj.user.userAccount.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-                        vm.keyWordSearchCon.userAccount = res.data.data.user.userAccount;
+                        vm.keyWordSearchCon.userAccount = vm.personalInfoObj.user.phone;
                     }
                 } 
 			});
@@ -334,32 +336,8 @@
                 }
             });
 //            /*关键词列表*/ 
-			
-            vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-				if(res.ok){
-				    if(res.data.success){
-                        let typeOf = typeof res.data.data;
-                        if(typeOf!="string") {
-                            $("#keyWordSet .pagination").jqPaginator({
-                                totalPages: res.data.data.totalPages,
-                                visiblePages: vm.keyWordSearchCon.pageSize,
-                                currentPage: vm.keyWordSearchCon.pageNumber,
-                               
-                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',                            
-                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                                onPageChange: function (n) {
-                                    vm.keyWordSearchCon.pageNumber = n;
-                                    vm.getKeywordListFun();
-
-                                }
-                            });
-                        }else{
-                            alert(res.data.data);
-                        }
-                    }
-				}
-            });
+			vm.updateClue();
+          
             /**批量添加关键词   import/importKeywordList
 			 * fileName：       文件名称
 			 * keywordOwner：       关键词拥有者*/
@@ -506,7 +484,7 @@
 			    let vm =this;
 				vm.notResult = false;
 			    vm.keyWordSearchCon.pageNumber=1;
-			    vm.keyWordSearchCon.pageSize=10;
+			    vm.keyWordSearchCon.pageSize=6;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
 			        if(res.ok){
 			            if(res.data.success){
@@ -568,8 +546,10 @@
             });
 			},
 			updateClue(){
-				let vm = this; 
-			  vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+				let vm = this;
+				
+			   vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+			  
 				if(res.ok){
 				    if(res.data.success){
                         let typeOf = typeof res.data.data;
@@ -578,10 +558,9 @@
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.keyWordSearchCon.pageSize,
                                 currentPage: vm.keyWordSearchCon.pageNumber,
-                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                               
                                 prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',                            
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n) {
                                     vm.keyWordSearchCon.pageNumber = n;
@@ -593,9 +572,9 @@
                             alert(res.data.data);
                         }
                     }
-				  }
-               });
-			}
+				}
+            });
+		  }
 		}
 	}
 </script>

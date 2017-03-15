@@ -224,6 +224,7 @@
             startTime(date){
                 let vm = this; 
                 vm.startDate= date;
+                
             },       
             endTime(date){ 
                 let vm = this;   
