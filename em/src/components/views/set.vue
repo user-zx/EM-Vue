@@ -135,8 +135,8 @@
 				<div class="panel panel-em">
 					<div class="panel-body" >
 						<div class="search-box clearfix">
-							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button>
-							<div class="navbar-form navbar-right" role="search">
+							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button> 
+							<div class="navbar-form navbar-right" role="search" style="margin-top: 0">
 								<div class="input-group">
 									<input type="text" class="form-control input-search" v-model:value="keyWordSearchCon.keyword" placeholder="输入关键词进行查询">
 									<span class="input-group-btn">
@@ -161,7 +161,7 @@
 									<td class="text-center">{{keyword.keyword}}</td>
 									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
-										<div class="bootstrap-switch bootstrap-switch-small">
+										<div class="bootstrap-switch bootstrap-switch-small" @click="">
 											<input type="checkbox" v-bind:id="keyword.id" v-if="keyword.status=='启用'" checked />
 											<input type="checkbox" v-bind:id="keyword.id" v-else-if="keyword.status!='启用'" />
 										</div> 
@@ -411,9 +411,8 @@
                     $(".bootstrap-switch input[type=checkbox]").bootstrapSwitch({
                         onText:"启用",
                         offText:"禁用",
-                        size:"small",
+                        size:"small", 
                         onSwitchChange:function(event,state){
-                        	
                             let data={
                                 id:$(event.target).attr("id"),
                                 status:""
