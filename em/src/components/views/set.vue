@@ -157,22 +157,19 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(keyword,index) in keyWordListObj" v-show="keyword.isShow">
+								<tr v-for="(keyword,index) in keyWordListObj">
 									<td class="text-center">{{keyword.keyword}}</td>
 									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
-										<div class="bootstrap-switch bootstrap-switch-small" @click="changeCheck($event)" >
-											<input type="checkbox" v-bind:id="keyword.id" v-if="keyword.status=='启用'" checked />
-											<input type="checkbox" v-bind:id="keyword.id" v-else-if="keyword.status!='启用'" />
-										</div> 
+										<input type="checkbox" data-on="success" :id="keyword.id" v-if="keyword.status=='启用'" :value="keyword.status" checked class="switch" :data-id="index"/>
+										<input v-else-if="keyword.status=='禁用'" type="checkbox" data-on="success" :id="keyword.id" class="switch" :value="keyword.status" :data-id="index"/>
+										{{keyword.status}}
 										<a class="del-icons" href="javascript:void(0);" @click="delKeyWordFun(index,keyword.id)"> <i class="glyphicon glyphicon-trash"></i></a>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<div v-if="!notResult" class="pageList clearfix" >
-							
-
 							<ul class="clearfix pagination pull-left" >
 
 							</ul>
@@ -402,36 +399,41 @@
 		methods:{
 			bootstrap_Switch(){
 					let vm = this; 
-                    $(".bootstrap-switch input[type=checkbox]").bootstrapSwitch({
+                    $(".switch").bootstrapSwitch({
                         onText:"启用",
                         offText:"禁用",
-                        size:"small", 
-                        onSwitchChange:function(event,state){
-
-                        	
-                            let data={
+                        size:"small",
+                         animate:true,  
+                    }).on("switchChange.bootstrapSwitch",function(event,state){
+                    		let index = $(this).attr('data-id');
+                    	    let data={ 
                                 id:$(event.target).attr("id"),
                                 status:""
-                            };
-                            if(state==true){
+                            };  
+                            //console.log(vm.keyWordListObj);  
+                            if(state==true){ 
                                 data.status="启用";
-                            }else{
-                                data.status="禁用";
+                                vm.keyWordListObj[index].status = "启用";
+                            }else{ 
+                                data.status="禁用"; 
+                                vm.keyWordListObj[index].status = "禁用";
                             } 
-                            console.log(data);       
+                            console.log(data);
                             vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
-                                if(res.ok){
+                                if(res.ok){ 
                                     if(res.data.success){
-                                        console.log(res);
+                                        if(res.ok){
+                                        	if(res.data.success){
+                                        		console.log("操作成功");
+                                        	}
+                                        }
 									}  
 								}
 							});
-                        }
-                    });
+                    })
+                   
             	},
-			changeCheck(el){
-				console.log(el); 
-			},
+			
 			topUp(id){
 				this.chargeQRId = id; 
 				$('#chargeQR').modal('show')
@@ -479,13 +481,19 @@
 				vm.getConsumeList();
 			},
             getKeywordListFun(){
+<<<<<<< HEAD
             	$(".bootstrap-switch input[type=checkbox]").bootstrapSwitch('destroy');
                 let vm =this;
 
+=======
+            	let vm =this;
+            	 vm.keyWordListObj = []; 
+            	$(".switch").bootstrapSwitch('destroy');
+>>>>>>> bab0ef55c771128d0412622ec73f28ba49591b81
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
                     if(res.ok){
                         if(res.data.success){
-                        	//console.log(res);  
+
                             let typeOf = typeof res.data.data;
                             if(typeOf!="string") {
                                 let newArr=res.data.data.content;
@@ -494,10 +502,44 @@
                                     newArr[i].isShow=true;
                                 }
                                 vm.keyWordListObj=newArr;
-                               // console.log( vm.keyWordListObj);
-                                 setTimeout(function () {
-              						vm.bootstrap_Switch();
-               					 },1000);  
+                              	//console.log(vm.keyWordListObj);   
+                             	setTimeout(function () {
+          						  	$(".switch").bootstrapSwitch({
+				                        onText:"启用",
+				                        offText:"禁用",
+				                        size:"small",
+	                     				animate:true,  
+	              						}).on("switchChange.bootstrapSwitch",function(event,state){
+			                    		let index = $(this).attr('data-id');
+			                    	    let data={ 
+			                                id:$(event.target).attr("id"),
+			                                status:""
+			                            };  
+			                            if(state==true){ 
+			                                data.status="启用";
+			                                $(this).val("启用");
+			                                vm.keyWordListObj[index].status = "启用";
+			                            }else{ 
+			                                data.status="禁用";
+			                                $(this).val("禁用"); 
+			                                vm.keyWordListObj[index].status = "禁用";
+			                            } 
+			                            vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
+			                                if(res.ok){ 
+			                                    if(res.data.success){
+			                                        if(res.ok){
+			                                        	if(res.data.success){
+			                                        		console.log("操作成功");
+			                                        		
+			                                        		newArr=[];
+			                                        		//vm.getKeywordListFun();
+			                                        	}
+			                                        }
+												}  
+											}
+										});
+                      				})
+           					 	},200);  
                             }else{
                                 alert(res.data.data);
                                 vm.notResult=true;
@@ -533,7 +575,6 @@
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
 			        if(res.ok){
 			            if(res.data.success){
-			            	
                             let typeOf = typeof res.data.data;
 							if(res.data.data.totalPages>0){
 								if(typeOf!="string") {
@@ -549,6 +590,7 @@
 										onPageChange: function (n) {
 											vm.keyWordSearchCon.pageNumber = n;
 											vm.getKeywordListFun();
+
 										}
 									});
 								}else{
