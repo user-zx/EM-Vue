@@ -138,7 +138,8 @@
 				<img src="../../assets/images/qt.png" height="22" width="22">
 				<strong>{{artItem.salesLeads.otherInfoName}} : </strong>
 				<strong>{{artItem.salesLeads.otherInfoContent}}</strong>
-			</li>  
+			</li>
+			<button class="btn btn-ms btn-em pull-right">联系人信息</button>  
 		  </menu>    
 	
 		</div>
@@ -159,6 +160,7 @@
 <style scoped>
 	@import url("../../assets/style/page.css");
 	@import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css");
+	.search-box .navbar-right>a{margin-right:20px;}
 </style>
 <script>
 	import 'bootstrap-select';
@@ -387,13 +389,17 @@
 				let vm =this;
 				
 				let index=$("#go-input").val()-0;
-                 if(index>vm.collectTotalpages){  
+				if(isNaN(index)){
+				   alert("请输入数字");
+				   return;
+				}else if(index>vm.collectTotalpages){  
 
                  	alert("超过总页数");
                  }
 				$(" .pagination").jqPaginator('option',{
 					currentPage:index,
 				});
+				vm.searchCon.pageNumber=index;
 				vm.artListFun();
 			},
             goAnchor(selector) {

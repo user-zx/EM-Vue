@@ -4,7 +4,9 @@
 		<div class="findPassword_body">
 				<h2>找回密码</h2>
 				<div class="form-horizontal" role="form">
+				<div style="width:70%;margin:0 auto;">
 					    <div class="form-group">
+					    
 						    <label class="col-sm-3 control-label" for="phone">手机号:</label>
 						    <div class="col-sm-7">
 			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required  v-model="alterData.phone">
@@ -12,35 +14,36 @@
 			  			</div>
 			  			<div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
-						    <div class="col-sm-5">
+						    <div class="col-sm-4">
 						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification" @input="detection">
 						    </div> 
-						    <div class="col-sm-2">
-						    	<button type="button" class="btn btn-info" @click="getVerification()">获取验证码</button>
+						    <div class="col-sm-3">
+						    	<button type="button" class="btn  verification-code" @click="getVerification()">获取验证码</button>
 						    </div>
 		  				 </div>
 		  				 <div class="form-group">
-						       <label for="password" class="col-sm-3 control-label">密码:</label>
+						       <label for="password" class="col-sm-3 control-label">新密码:</label>
 							    <div class="col-sm-7"> 
 							        <input type="password" class="form-control" id="password" placeholder="请输入密码"   v-model="alterData.newPass">  
 						        </div>
 		  				 </div>
 		  				 <div class="form-group">
 		  					<div class="col-sm-offset-3 col-sm-7">
-		  						<button type="button" class="btn btn-info btn-block"  @click="submit($event)" id="login_btn">提交</button> 
+		  						<button type="button" class="btn btn-em btn-block"  @click="submit($event)" id="login_btn ">提交</button> 
 		  					</div>
 		  				 </div> 
 		  				 <div class="form-group"> 
 		  					<div class="col-sm-12"> 
-		  						<p class="text-center"><router-link to="/"> >>返回登录 </router-link></p>
+		  						<p class="text-center return"><router-link to="/"> >>返回登录 </router-link></p>
 		  					</div> 
 		  				 </div>
 		  				 <div class="form-group">
 		  					<div class="col-sm-12">
-		  						<p class="text-center">{{hint}}</p>
+		  						<p class="text-center text-danger">{{hint}}</p>
 		  					</div> 
 		  				 </div>
 				</div>
+			</div>
 		</div>
 	</div>  
 </template>
@@ -129,10 +132,18 @@
 		height: 100%; 
 		background-color: #f2f2f2;
 	}  
+	.findPassword label{font-weight:normal;padding-right:0;}
+	.findPassword .verification-code{padding:6px 13px;background-color:
+		#ffffff;border:1px solid #32ccca;color:#32ccca;
+	}
+	.findPassword .verification-code:active:focus,.findPassword .verification-code:focus{outline:none;}
+
+    .return a{color:#333333;}
+
 	.findPassword_body{
-		width: 750px;
+		width: 700px;
 		height: 390px; 
-		margin: 50px auto;
+		margin: 120px auto;
 		border: 1px solid #e5e5e5;
 		padding-top: 110px;
 		position: relative;

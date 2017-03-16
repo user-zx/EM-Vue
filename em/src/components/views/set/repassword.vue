@@ -73,6 +73,7 @@
             },
             submit(){
                 let vm=this;
+                let patrn=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
                 if(this._isNull(vm.data.oldPassword)){
                     vm._alert("请输入旧密码");
                     return;
@@ -88,7 +89,12 @@
                 }else if(vm.data.newPassword.length<6||vm.data.newPassword.length>16||vm.rePwd.length<6||vm.rePwd.length>16){
                      vm._alert("密码长度有误");
                      return; 
-                }else{
+                }else if(!patrn.exec(vm.data.newPassword)){
+                      vm._alert("密码需要是字母和数字组合");
+                  
+                   return;
+                }
+                else{
                     vm.$http.post(vm.rePasswordUrl,vm.data).then((res)=>{
                         if(res.ok){
                             if(res.data.success){

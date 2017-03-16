@@ -183,7 +183,7 @@ ss<template>
                 },
                 searchCon:{
                     pageNumber:1,
-                    pageSize:10,
+                    pageSize:6,
                     labelStatus:"",
                     keywords:"",
                     source:"",
@@ -268,10 +268,10 @@ ss<template>
                                     totalPages:  response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                   
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
                                           //console.log(response.data.data); 
@@ -291,7 +291,7 @@ ss<template>
             singleSearch(keyword){
                 let vm = this;
 
-                this.$http.post(vm.bodyDataUrl,{"pageSize":10,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
+                this.$http.post(vm.bodyDataUrl,{"pageSize":6,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
 
                     if(response.ok){
                         if(response.data.success){
@@ -475,7 +475,7 @@ ss<template>
                                 let newArr=response.data.data.list;
                                 
                                 for(var i in newArr){
-                                    newArr[i].publishDate=new Date(newArr[i].publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                                    newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
                                 }
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
