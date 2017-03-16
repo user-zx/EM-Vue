@@ -8,12 +8,12 @@
         <ul class="nav navbar-nav navbar-right" v-if="topMessage">
             <li>
               <router-link to="/home/set">
-                    <img src="../../assets/images/user.png" alt=""/> {{username}}
+                    <img src="../../assets/images/user.png" alt="" height="22" width="22"/> {{username}}
               </router-link>
             </li>    
             <li @click="quit()" >
                     <a href="javascript:void(0);"> 
-                    <img src="../../assets/images/tc.png" alt=""/> 退出登录</a>
+                    <img src="../../assets/images/tc.png" alt="" height="22" width="22"/> 退出登录</a>
             </li>
         </ul>
     </div> 
