@@ -145,7 +145,7 @@ ss<template>
 			<li>跳转到第</li>
 			<li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
 			<li>页</li>
-			<li><button class="btn btn-sm" @click="goConsume">GO</button></li>
+			<li><button class="btn btn-sm" @click="go">GO</button></li>
 		</ul>
 		<ul class="clearfix pagination pull-right" id="pagination">
 			
@@ -167,6 +167,7 @@ ss<template>
 	export default {
 		data(){  
 			return{
+				sellClueTotalPages:0,
                 notResult:false,
 				sourceList:["线索来源","不限","微博","百度贴吧"],
 				typeList:["线索类型","不限","原创","转发","评论"],
@@ -243,7 +244,25 @@ ss<template>
             endTime(date){ 
                 let vm = this;   
                 vm.endDate = date;  
-            },  
+            },
+            go(){
+				let vm =this;
+				
+				let index=Math.round($("#go-input").val()-0);
+				if(isNaN(index)||index<0.5){
+				   alert("请输入数字并且不小于1");
+				   return;
+				}else if(index>vm.sellClueTotalPages){  
+
+                 	alert("超过总页数");
+                 }else{
+				$(".pagination").jqPaginator('option',{
+					currentPage:index,
+				});
+				vm.searchCon.pageNumber=index;
+				vm.artListFun();
+			}
+			},  
             goAnchor(selector) {
                let vm = this; 
             	setTimeout(function(){
@@ -267,7 +286,7 @@ ss<template>
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
-                              
+                              vm.sellClueTotalPages=response.data.data.totalPages;
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
                                 $("#pagination").jqPaginator({

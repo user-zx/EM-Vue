@@ -318,6 +318,24 @@
                 vm.endDate = date;  
                 
             }, 
+             go(){
+                let vm =this;
+                
+                let index=Math.round($("#go-input").val()-0);
+                if(isNaN(index)||index<0.5){
+                   alert("请输入数字并且不小于1");
+                   
+                }else if(index>vm.recycleTotalpages){  
+
+                  alert("超过总页数");
+                 }else{
+                    $(" .pagination").jqPaginator('option',{
+                    currentPage:index,
+                   });
+                vm.searchCon.pageNumber=index;
+                vm.artListFun();
+            }
+            },
             artListFun(){
                 let vm=this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
@@ -382,12 +400,13 @@
                 }else if(index>vm.recycleTotalpages){  
 
                     alert("超过总页数");
-                 }
-                $(" .pagination").jqPaginator('option',{
+                 }else{
+                $(".pagination").jqPaginator('option',{
                     currentPage:index,
                 });
-                vm.searchCon.pageNumber=index;
+               
                 vm.artListFun();
+            }
             },
             goAnchor(selector) {
                let vm = this;

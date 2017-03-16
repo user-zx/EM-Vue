@@ -12,9 +12,9 @@ $.fn.ProvinceCity = function(){
 	_self.data("city1",["请选择", "请选择"]);
 	_self.data("city2",["请选择", "请选择"]);*/
 	//插入3个空的下拉框    
-	_self.append("<div class='col-sm-3'><select class='form-control selectpicker' title='省' v-model='province' id='provinceSelect'></select></div>");
-	_self.append("<div class='col-sm-3'><select class='form-control selectpicker' title='市' v-model='city'  id='citySelect'></select></div>");   
-	_self.append("<div class='col-sm-3'><select class='form-control selectpicker' title='县/区' v-model='county'  id='countySelect'></select></div>"); 
+	_self.append("<div class='col-sm-3' ><select class='form-control selectpicker' title='省' v-model='province' id='provinceSelect'></select></div>");
+	_self.append("<div class='col-sm-3' ><select class='form-control selectpicker' title='市' v-model='city'  id='citySelect'></select></div>");   
+	_self.append("<div class='col-sm-3' ><select class='form-control selectpicker' title='县/区' v-model='county'  id='countySelect'></select></div>"); 
 	/*_self.append("<select></select>");
 	_self.append("<select></select>"); 
 	_self.append("<select></select>");*/
@@ -22,7 +22,7 @@ $.fn.ProvinceCity = function(){
 	var $sel1 = _self.find("select").eq(0);
 	var $sel2 = _self.find("select").eq(1);
 	var $sel3 = _self.find("select").eq(2);
-	 
+	  
 	//默认省级下拉
 	if(_self.data("province")){
 		$sel1.append("<option value='"+_self.data("province")[1]+"'>"+_self.data("province")[0]+"</option>");

@@ -23,7 +23,7 @@
 				 </label>        
 				<router-link to="/personal/forgetPassword">忘记密码</router-link>
 			</p> 
-			<button type="button" class="btn btn-info" @click="generateKey()" >立即登录</button>      
+			<button type="button" class="btn  btn-em" @click="generateKey()" >立即登录</button>      
 			<p>还没有慧数医美?<router-link to="/personal/register" class="login_p_two_a">立即注册</router-link></p>
 		</div> 
 		
@@ -144,7 +144,7 @@
 	.login{  
 		width: 100%;  
 		height: 100%;
-		padding-top:20px;     
+		padding-top:25px;     
 		background: url("../../assets/images/login.jpg");
 		-webkit-background-size: 100% 100%;
 		     -o-background-size: 100% 100%;

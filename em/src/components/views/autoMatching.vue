@@ -127,7 +127,7 @@
                                 <li>跳转到第</li>
                                 <li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
                                 <li>页</li>
-                                <li><button class="btn btn-sm" @click="goConsume">GO</button></li>
+                                <li><button class="btn btn-sm" @click="go">GO</button></li>
                             </ul>
 				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" class="pull-right" id="pagination">
 				</ul>
@@ -156,6 +156,7 @@
     export default { 
         data(){   
             return{
+                matchingTotalpages:0,
                 notResult:false,
                 saleLeadsListUrl:'../apis/salesLeads/getMatchingSaleLeadsList',
                 searchHead:{},   
@@ -266,6 +267,7 @@
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then( (response)=>{
                     if(response.ok){
                         if(response.data.success){
+                            vm.matchingTotalpages=response.data.data.totalPages;
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
                                 $("#pagination").jqPaginator({
@@ -296,6 +298,24 @@
                 },(err)=>{
                     console.log(err);
                 });
+            },
+             go(){
+                let vm =this;
+                
+                let index=Math.round($("#go-input").val()-0);
+                if(isNaN(index)||index<0.5){
+                   alert("请输入数字并且不小于1");
+                   return;
+                }else if(index>vm.matchingTotalpages){  
+
+                    alert("超过总页数");
+                 }else{
+                $(".pagination").jqPaginator('option',{
+                    currentPage:index,
+                });
+                vm.searchCon.pageNumber=index;
+                vm.artListFun();
+            }
             },
              goAnchor(selector) {
                let vm = this;

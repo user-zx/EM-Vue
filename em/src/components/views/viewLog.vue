@@ -362,19 +362,20 @@
 			go(){
 				let vm =this;
 				
-				let index=$(" #go-input").val()-0;
-				if(isNaN(index)){
-				   alert("请输入数字");
+				let index=Math.round($("#go-input").val()-0);
+				if(isNaN(index)||index<0.5){
+				   alert("请输入数字并且不小于1");
 				   return;
 				}else if(index>vm.viewLogTotalpages){  
 
                  	alert("超过总页数");
-                 }
-				$(" .pagination").jqPaginator('option',{
+                 }else{
+				$(".pagination").jqPaginator('option',{
 					currentPage:index,
 				});
 				vm.searchCon.pageNumber=index;
 				vm.artListFun();
+			}
 			},
 			getArtListFun(){
                 let vm=this;
