@@ -163,7 +163,7 @@
 									<td class="text-center">
 										<input type="checkbox" data-on="success" :id="keyword.id" v-if="keyword.status=='启用'" :value="keyword.status" checked class="switch" :data-id="index"/>
 										<input v-else-if="keyword.status=='禁用'" type="checkbox" data-on="success" :id="keyword.id" class="switch" :value="keyword.status" :data-id="index"/>
-										{{keyword.status}}
+										
 										<a class="del-icons" href="javascript:void(0);" @click="delKeyWordFun(index,keyword.id)"> <i class="glyphicon glyphicon-trash"></i></a>
 									</td>
 								</tr>
@@ -399,39 +399,39 @@
 		methods:{
 			bootstrap_Switch(){
 					let vm = this; 
-                    $(".switch").bootstrapSwitch({
+                   	$(".switch").bootstrapSwitch({
                         onText:"启用",
                         offText:"禁用",
                         size:"small",
-                         animate:true,  
-                    }).on("switchChange.bootstrapSwitch",function(event,state){
-                    		let index = $(this).attr('data-id');
-                    	    let data={ 
-                                id:$(event.target).attr("id"),
-                                status:""
-                            };  
-                            //console.log(vm.keyWordListObj);  
-                            if(state==true){ 
-                                data.status="启用";
-                                vm.keyWordListObj[index].status = "启用";
-                            }else{ 
-                                data.status="禁用"; 
-                                vm.keyWordListObj[index].status = "禁用";
-                            } 
-                            console.log(data);
-                            vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
-                                if(res.ok){ 
-                                    if(res.data.success){
-                                        if(res.ok){
-                                        	if(res.data.success){
-                                        		console.log("操作成功");
-                                        	}
-                                        }
-									}  
-								}
-							});
+         				animate:true,  
+  						}).on("switchChange.bootstrapSwitch",function(event,state){
+                		let index = $(this).attr('data-id');
+                	    let data={ 
+                            id:$(event.target).attr("id"),
+                            status:""
+                        };  
+                        if(state==true){ 
+                            data.status="启用";
+                         
+                            vm.keyWordListObj[index].status = "启用";
+                        }else{ 
+                            data.status="禁用";
+                          
+                            vm.keyWordListObj[index].status = "禁用";
+                        } 
+                        vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
+                            if(res.ok){ 
+                                if(res.data.success){
+                                    if(res.ok){
+                                    	if(res.data.success){
+                                    		console.log("操作成功");
+                                    		
+                                    	}
+                                    }
+								}  
+							}
+						});
                     })
-                   
             	},
 			
 			topUp(id){
@@ -487,7 +487,7 @@
             	$(".switch").bootstrapSwitch('destroy');
 
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-                    if(res.ok){
+                    if(res.ok){ 
                         if(res.data.success){
 
                             let typeOf = typeof res.data.data;
@@ -498,44 +498,10 @@
                                     newArr[i].isShow=true;
                                 }
                                 vm.keyWordListObj=newArr;
-                              	//console.log(vm.keyWordListObj);   
                              	setTimeout(function () {
-          						  	$(".switch").bootstrapSwitch({
-				                        onText:"启用",
-				                        offText:"禁用",
-				                        size:"small",
-	                     				animate:true,  
-	              						}).on("switchChange.bootstrapSwitch",function(event,state){
-			                    		let index = $(this).attr('data-id');
-			                    	    let data={ 
-			                                id:$(event.target).attr("id"),
-			                                status:""
-			                            };  
-			                            if(state==true){ 
-			                                data.status="启用";
-			                                $(this).val("启用");
-			                                vm.keyWordListObj[index].status = "启用";
-			                            }else{ 
-			                                data.status="禁用";
-			                                $(this).val("禁用"); 
-			                                vm.keyWordListObj[index].status = "禁用";
-			                            } 
-			                            vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
-			                                if(res.ok){ 
-			                                    if(res.data.success){
-			                                        if(res.ok){
-			                                        	if(res.data.success){
-			                                        		console.log("操作成功");
-			                                        		
-			                                        		newArr=[];
-			                                        		//vm.getKeywordListFun();
-			                                        	}
-			                                        }
-												}  
-											}
-										});
-                      				})
-           					 	},200);  
+          						  vm.bootstrap_Switch();
+          						  newArr = [];
+           					 	},200);   
                             }else{
                                 alert(res.data.data);
                                 vm.notResult=true;
