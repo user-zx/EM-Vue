@@ -425,7 +425,7 @@
                                     if(res.ok){
                                     	if(res.data.success){
                                     		console.log("操作成功");
-                                    		newArr=[];
+                                    		
                                     	}
                                     }
 								}  
@@ -481,17 +481,11 @@
 				vm.getConsumeList();
 			},
             getKeywordListFun(){
-<<<<<<< HEAD
-            	$(".bootstrap-switch input[type=checkbox]").bootstrapSwitch('destroy');
-                let vm =this;
-
-=======
             	let vm =this;
             	 vm.keyWordListObj = []; 
             	$(".switch").bootstrapSwitch('destroy');
->>>>>>> bab0ef55c771128d0412622ec73f28ba49591b81
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-                    if(res.ok){
+                    if(res.ok){ 
                         if(res.data.success){
 
                             let typeOf = typeof res.data.data;
@@ -502,10 +496,10 @@
                                     newArr[i].isShow=true;
                                 }
                                 vm.keyWordListObj=newArr;
-                              	//console.log(vm.keyWordListObj);   
                              	setTimeout(function () {
           						  vm.bootstrap_Switch();
-           					 	},200);  
+          						  newArr = [];
+           					 	},200);   
                             }else{
                                 alert(res.data.data);
                                 vm.notResult=true;
