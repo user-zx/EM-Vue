@@ -67,6 +67,7 @@
                 </div>
             </div>
             <div class="table-responsive table-box">
+                 <p class="text-center noData">亲，抱歉，暂时没查询到相关数据。</p>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -115,6 +116,10 @@
     </div>
 </template>
 <style lang="scss" scoped>
+       .noData{
+            margin-top: 100px;
+            display: none;
+       }
 </style>
 <script>
     import data from '../../assets/data/data.js';
@@ -201,6 +206,8 @@
                 let vm =this;
                 vm.post(vm.userList.url,vm.userList.params,function (response) {
                     if(response.success){
+                        $(".noData").hide();
+                        $(".table").show();
                         if(response.data.content.length>0&&response.data){
                             vm.userList.result=response.data;
                             $("#pagination").jqPaginator({
@@ -218,7 +225,9 @@
                                 }
                             });
                         }else{
-                            alert("没有数据！");
+                           /* alert("没有数据！");*/
+                           $(".noData").show();
+                           $(".table").hide();
                         }
                     }
                 },function (error) {
