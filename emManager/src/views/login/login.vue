@@ -184,9 +184,9 @@
                 vm.params.password=encrypedPwd;
                 vm.post(vm.loginUrl, vm.params,function(result){
                     if(result.success){
-                        vm.$router.push({path:"/home/welcome"});
+                        vm.$router.push({path:"/home"});
                     }else{
-                        vm.errorText="用户名或密码错误!";
+                        vm.errorText=result.message;
                         $("#errorAlert").show();
                          return false;
                     }

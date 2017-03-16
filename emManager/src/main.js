@@ -22,7 +22,7 @@ Vue.http.interceptors.push((request, next) => {
         if(response.data.success){
           return response;
         }else if(response.data.status=='401'){
-            window.location.href="/";
+            window.location.href="/login";
         }
       }
     });

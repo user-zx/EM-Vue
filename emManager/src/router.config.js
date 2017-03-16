@@ -17,18 +17,19 @@ import getMatching from './views/realNameMatching/getMatching.vue';
 import matchingTab from './views/realNameMatching/tab.vue';
 import notFound from './compoents/errorPage/404.vue';
 import welcomeTo from './views/welcome/welcome.vue';
+import redirect from './compoents/navigation/redirect/redirect.vue';
 export default {
     mode: 'history',
     base: __dirname,
     routes:[
-        {path:"",component:Login},
+        {path:"",component:redirect},
         {path:"/login",component:Login},
         {
             path:"/home",
             component:Home,
             children:[
                 {
-                    path:'welcome',
+                    path:'',
                     component:welcomeTo
                 },
                 {

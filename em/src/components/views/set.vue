@@ -161,7 +161,7 @@
 									<td class="text-center">{{keyword.keyword}}</td>
 									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
-										<div class="bootstrap-switch bootstrap-switch-small" @click="">
+										<div class="bootstrap-switch bootstrap-switch-small" @click="changeCheck($event)" >
 											<input type="checkbox" v-bind:id="keyword.id" v-if="keyword.status=='启用'" checked />
 											<input type="checkbox" v-bind:id="keyword.id" v-else-if="keyword.status!='启用'" />
 										</div> 
@@ -324,7 +324,7 @@
                     if (res.data.success) {
                         vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
                         vm.personalInfoObj.user = res.data.data.user;
-                        console.log(vm.personalInfoObj.user.phone);
+                        //console.log(vm.personalInfoObj.user.phone);
                      vm.personalInfoObj.user.userAccount=vm.personalInfoObj.user.userAccount.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
                         vm.keyWordSearchCon.userAccount = vm.personalInfoObj.user.phone;
                     }
@@ -394,12 +394,18 @@
                     }
                 }
             });
-              setTimeout(function () {
+
+		}, 
+		methods:{
+			bootstrap_Switch(){
+					let vm = this; 
                     $(".bootstrap-switch input[type=checkbox]").bootstrapSwitch({
                         onText:"启用",
                         offText:"禁用",
                         size:"small", 
                         onSwitchChange:function(event,state){
+
+                        	
                             let data={
                                 id:$(event.target).attr("id"),
                                 status:""
@@ -409,19 +415,20 @@
                             }else{
                                 data.status="禁用";
                             } 
-                            console.log(data);
+                            console.log(data);       
                             vm.$http.post(vm.saveKeyWordUrl,data).then((res)=>{
                                 if(res.ok){
                                     if(res.data.success){
                                         console.log(res);
-									}
+									}  
 								}
 							});
                         }
                     });
-                },1000);
-		},
-		methods:{
+            	},
+			changeCheck(el){
+				console.log(el); 
+			},
 			topUp(id){
 				this.chargeQRId = id; 
 				$('#chargeQR').modal('show')
@@ -469,10 +476,12 @@
 				vm.getConsumeList();
 			},
             getKeywordListFun(){
+            	$(".bootstrap-switch input[type=checkbox]").bootstrapSwitch('destroy');
                 let vm =this;
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
                     if(res.ok){
                         if(res.data.success){
+                        	//console.log(res);  
                             let typeOf = typeof res.data.data;
                             if(typeOf!="string") {
                                 let newArr=res.data.data.content;
@@ -481,7 +490,10 @@
                                     newArr[i].isShow=true;
                                 }
                                 vm.keyWordListObj=newArr;
-
+                               // console.log( vm.keyWordListObj);
+                                 setTimeout(function () {
+              						vm.bootstrap_Switch();
+               					 },1000);  
                             }else{
                                 alert(res.data.data);
                             }
@@ -516,6 +528,7 @@
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
 			        if(res.ok){
 			            if(res.data.success){
+			            	
                             let typeOf = typeof res.data.data;
 							if(res.data.data.totalPages>0){
 								if(typeOf!="string") {
@@ -547,8 +560,8 @@
 			delKeyWordFun(index,id){
 			    if(window.confirm('确定删除该关键词吗？')){
                     let vm = this;
-                    console.log(vm.keyWordListObj[index]);
-                    console.log(id);
+                    //console.log(vm.keyWordListObj[index]);
+                   // console.log(id); 
                     vm.keyWordListObj[index].isShow=false;
                     console.log(vm.keyWordListObj[index].isShow);
                     vm.$http.post(vm.delKeyWordUrl,id).then((res)=>{

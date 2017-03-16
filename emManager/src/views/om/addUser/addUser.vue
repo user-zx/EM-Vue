@@ -26,12 +26,12 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">确认密码：</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" placeholder="请再次输入密码" />
+                                <input type="password" class="form-control surePwd" placeholder="请再次输入密码" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">用户权限：</label>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="qx">
                                 <label v-for="item in permissions.result">
                                     <input type="checkbox" name="userStatus" :value="item.id"/>
                                     {{item.name}}
@@ -131,19 +131,41 @@
                 });
             },
             addUsers(){
-                let vm =this;
+                let vm =this,
+                     surePwd=$(".surePwd").val(),
+                     qx=$("#qx").find("input[type='checkbox']").is(':checked');
                 vm.addUser.params.createDate=new Date();
                 vm.addUser.params.createUser=sessionStorage.getItem("userAccount");
-                vm.post(vm.addUser.url,vm.addUser.params,function(response){
-                    if(response.success){
-                        $("#addUser").modal("hide");
-                        vm.$router.push({path:"/home/saveOperationUserSuccess"});
-                    }else{
-                        alert(response.message);
-                    }
-                },function (error) {
-                    console.log(error)
-                });
+               
+               /*if(vm.addUser.params.userAccount=""){
+                      alert("用户名不能为空");
+               }else if(vm.addUser.params.password=""){
+                      alert("密码不能为空");
+               }else if(surePwd=""){
+                       alert("确认密码不能为空");    
+               }else if(surePwd!==vm.addUser.params.password){
+                       alert("密码不一致");    
+               }else if($("#qx").find("input[type='checkbox']").is(':checked')){
+                       alert("至少选一个权限");   
+               }else{
+               }*/
+
+                if(vm.addUser.params.userAccount!=""&&vm.addUser.params.password!=""&&surePwd!=""&&qx){
+                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                        if(response.success){
+                            $("#addUser").modal("hide");
+                            vm.$router.push({path:"/home/saveOperationUserSuccess"});
+                        }else{
+                            alert(response.message);
+                        }
+                    },function (error) {
+                        console.log(error)
+                    });
+                }else{
+                    alert("请完善信息，再提交！");
+                }
+
+                
             }
         },
         mounted(){

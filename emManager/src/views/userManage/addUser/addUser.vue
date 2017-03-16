@@ -218,16 +218,23 @@
                 vm.addUser.params.city=vm.searchCon.shi1Val;
                 vm.addUser.params.county=vm.searchCon.xian1Val;
                 vm.addUser.params.registerDate=new Date();
-                vm.post(vm.addUser.url,vm.addUser.params,function(response){
-                    if(response.success){
-                        $("#addUser").modal("hide");
-                        vm.$router.push({path:"/home/success"});
-                    }else{
-                        alert(response.message);
-                    }
-                },function (error) {
-                    console.log(error)
-                });
+                
+                if(vm.addUser.params.name!=""&&vm.addUser.params.phone!=""&&vm.addUser.params.province!=""&&vm.addUser.params.city!=""&&vm.addUser.params.county!=""&&vm.addUser.params.trade!=""&&vm.addUser.params.company!=""){
+                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                        if(response.success){
+                            $("#addUser").modal("hide");
+                            vm.$router.push({path:"/home/success"});
+                        }else{
+                            alert(response.message);
+                        }
+                    },function (error) {
+                        console.log(error)
+                    });
+                }else{
+                    alert("除关键词外不能为空或不选！")
+                }
+                
+                
             }
         },
         mounted(){
