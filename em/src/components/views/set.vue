@@ -121,8 +121,8 @@
 							<div v-else class="col-md-3 panel-body-div" v-for="packageItem in packageListArr" >
 								<div class="combo-box" >
 									<div class="combo-body">
-										<h5 class="comboName"> <span>{{packageItem.name}}</span> <span class="price">¥{{packageItem.price}}</span></h5>
-										<p>内含<span class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
+										<h5 class="comboName"> <span :title="packageItem.name">{{packageItem.name}}</span> <span class="price">¥{{packageItem.price}}</span></h5>
+										<p>内含<span :title="packageItem.leadsTimes" class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
 									</div>
 									<a href="javascript:void(0);" :id="packageItem.id" class="btn btn-combo" @click="topUp(packageItem.id)">立即充值</a>
 								</div>
@@ -207,7 +207,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="pageList clearfix" >
+						<div class="pageList clearfix" v-show="!notResult">
 						 
 							<ul class="clearfix pagination pull-left">
 
@@ -255,6 +255,7 @@
 	.combo-box .combo-body{padding:15px 20px;}
 	.combo-box .comboName{font-size:16px;color:#333333;position: relative;}
 	.comboName>span:first-child{display: block;width:106px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
+	.comboName+p>span{display:inline-block;vertical-align:bottom;max-width:54px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
 	.comboName>span:nth-child(2){position: absolute;right: -10px;top: 0;}
 	.combo-box .comboName .price{float: right;color:#32ccca;}
 	.table>thead>tr.active>th{background-color: #fafafa;}
@@ -371,6 +372,7 @@
                 if (res.ok) {
                     if (res.data.success) {
                     	//console.log(res.data.data.totalPages)
+                    	
                     	vm.expenseTotalpages=res.data.data.totalPages;
                         let typeOf = typeof res.data.data;
                         if(typeOf!="string") {
@@ -390,6 +392,7 @@
                             });
                         }else{
                             alert(res.data.data);
+                        
 						}
                     }
                 }
@@ -439,10 +442,10 @@
 			go(){
 				let vm =this;
 				
-				let index=$("#keyWordSet #go-input").val()-0;
+				let index=Math.round($("#keyWordSet #go-input").val()-0);
 				
-				if(isNaN(index)){
-				   alert("请输入数字");
+				if(isNaN(index)||index<0.5){
+				   alert("请输入数字并且不小于1");
 				   return;
 				}else if(index>vm.keyWordTotalpages){  
 
@@ -462,8 +465,8 @@
                 let vm =this;
 				
 				let index=$("#expenseCalendar #go-input").val()-0;
-				if(isNaN(index)){
-				   alert("请输入数字");
+				if(isNaN(index)||index<0.5){
+				   alert("请输入数字并且不小于1");
 				   return;
 				}else if(index>vm.expenseTotalpages){  
 
@@ -478,6 +481,7 @@
             getKeywordListFun(){
             	$(".bootstrap-switch input[type=checkbox]").bootstrapSwitch('destroy');
                 let vm =this;
+
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
                     if(res.ok){
                         if(res.data.success){
@@ -496,6 +500,7 @@
                					 },1000);  
                             }else{
                                 alert(res.data.data);
+                                vm.notResult=true;
                             }
                         }
                     }
@@ -522,7 +527,7 @@
 			},
 			searchKeyWordFun(){
 			    let vm =this;
-				vm.notResult = false;
+				
 			    vm.keyWordSearchCon.pageNumber=1;
 			    vm.keyWordSearchCon.pageSize=6;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
@@ -548,11 +553,11 @@
 									});
 								}else{
 									alert(res.data.data);
+									vm.notResult=true;
 								}
 							}else{
 								vm.keyWordListObj="";
-								this.notResult = true;
-							}
+								 }
 						}
 					}
 				});

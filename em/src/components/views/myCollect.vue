@@ -139,7 +139,7 @@
 				<strong>{{artItem.salesLeads.otherInfoName}} : </strong>
 				<strong>{{artItem.salesLeads.otherInfoContent}}</strong>
 			</li>
-			<button class="btn btn-ms btn-em pull-right">联系人信息</button>  
+			 
 		  </menu>    
 	
 		</div>
