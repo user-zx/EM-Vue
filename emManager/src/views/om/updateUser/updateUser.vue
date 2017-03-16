@@ -20,13 +20,13 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">密码：</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" placeholder="请输入密码" v-model="addUser.params.password" />
+                                <input type="password" class="form-control" placeholder="******" v-model="addUser.params.password" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">确认密码：</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" placeholder="请再次输入密码" />
+                                <input type="password" class="form-control" placeholder="******" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -140,17 +140,21 @@
                 vm.addUser.params.updateDate=new Date();
                 vm.addUser.params.updateUser=sessionStorage.getItem("userAccount");
                 vm.addUser.params.permissions=vm.activePer;
-                console.log(vm.addUser.params.permissions)
-                vm.post(vm.addUser.url,vm.addUser.params,function(response){
-                    if(response.success){
-                        $("#updateUser").modal("hide");
-                        vm.$router.push({path:"/home/saveOperationUserSuccess"});
-                    }else{
-                        alert(response.message);
-                    }
-                },function (error) {
-                    console.log(error)
-                });
+                console.log(vm.addUser.params.permissions);
+                if(vm.addUser.params.permissions){
+                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                        if(response.success){
+                            $("#updateUser").modal("hide");
+                            vm.$router.push({path:"/home/saveOperationUserSuccess"});
+                        }else{
+                            alert(response.message);
+                        }
+                    },function (error) {
+                        console.log(error)
+                    });
+                }else{
+                    alert("提示语")
+                }
             },
             isArri(arr,str){
                 for (let i in arr){
@@ -164,7 +168,7 @@
         mounted(){
             let vm=this,arr=[];
             $("#updateUser").on("show.bs.modal",function () {
-                let arrs=[],ass="";
+                let arrs=[],ass=[],arr3=[];
                 arrs=vm.$store.state.updateOmUser.params.permissions.split('，');
                 vm.permissionsArr=arrs;
                 vm.addUser.params=vm.$store.state.updateOmUser.params;
@@ -185,8 +189,10 @@
                                 obj.id=vm.permissions.result[i].id;
                                 obj.name=vm.permissions.result[i].name;
                                 vm.newPermissionsArr.push(obj);
+                                arr3.push(obj.id);
                             }
                         }
+                        vm.activePer=arr3.toString();
                     }
                 },function(error){
                     console.log(error);
