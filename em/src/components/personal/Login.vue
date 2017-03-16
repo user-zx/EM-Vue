@@ -52,18 +52,21 @@
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
 	         //console.log(this.$el);
+	      
 	        }); 
-	           
+	        
+	          
 	  		$("#remember").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function () {
                 vm.rememberMe=true;
-
+              
             }).on("ifUnchecked",function () {
                 vm.rememberMe=false;
             });
  
-       },      
+       },
+
 	  	methods:{
 	  		//写ajax请求
             generateKey() {
