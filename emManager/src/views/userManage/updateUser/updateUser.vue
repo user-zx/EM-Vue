@@ -179,7 +179,7 @@
                     params:{}
                 },
                 packageList1:{
-                    url:"../apis/package/getPackageList",
+                    url:"../apis/package/findOnShelvesList",
                     result:{}
                 },
                 userTrade1:{

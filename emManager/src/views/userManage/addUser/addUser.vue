@@ -184,7 +184,7 @@
                     }
                 },
                 packageList:{
-                    url:"../apis/package/getPackageList",
+                    url:"../apis/package/findOnShelvesList",
                     result:{}
                 },
                 userTrade:{
