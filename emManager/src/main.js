@@ -12,7 +12,7 @@ import "vue-style-loader!css-loader!sass-loader!./assets/css/style.scss";
 Vue.config.debug=true;
 Vue.use(vueRouter);
 Vue.use(vueResource);
-Vue.use(Vuex);
+Vue.use(Vuex);  
 const router =new vueRouter(routerConfig);
 const store = new Vuex.Store(vueConfig);
 Vue.http.interceptors.push((request, next) => {
