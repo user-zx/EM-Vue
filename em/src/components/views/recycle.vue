@@ -376,13 +376,17 @@
                 let vm =this;
                 
                 let index=$(" #go-input").val()-0;
-                 if(index>vm.recycleTotalpages){  
+                if(isNaN(index)){
+                   alert("请输入数字");
+                   return;
+                }else if(index>vm.recycleTotalpages){  
 
                     alert("超过总页数");
                  }
                 $(" .pagination").jqPaginator('option',{
                     currentPage:index,
                 });
+                vm.searchCon.pageNumber=index;
                 vm.artListFun();
             },
             goAnchor(selector) {

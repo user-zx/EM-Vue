@@ -363,13 +363,17 @@
 				let vm =this;
 				
 				let index=$(" #go-input").val()-0;
-                 if(index>vm.viewLogTotalpages){  
+				if(isNaN(index)){
+				   alert("请输入数字");
+				   return;
+				}else if(index>vm.viewLogTotalpages){  
 
                  	alert("超过总页数");
                  }
 				$(" .pagination").jqPaginator('option',{
 					currentPage:index,
 				});
+				vm.searchCon.pageNumber=index;
 				vm.artListFun();
 			},
 			getArtListFun(){

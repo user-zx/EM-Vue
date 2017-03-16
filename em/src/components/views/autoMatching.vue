@@ -123,8 +123,15 @@
 				</menu> 
 			</div>
 			<div class="pageList clearfix" v-show="!notResult" >
-				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" id="pagination">
+            <ul class="pull-right tz-pagination" >
+                                <li>跳转到第</li>
+                                <li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
+                                <li>页</li>
+                                <li><button class="btn btn-sm" @click="goConsume">GO</button></li>
+                            </ul>
+				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" class="pull-right" id="pagination">
 				</ul>
+                 
 			</div>
 		</div>  
         <add-matching @increment="getArtListFun"></add-matching>
@@ -265,10 +272,10 @@
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                   
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
@@ -319,10 +326,10 @@
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,  
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                   
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
@@ -355,10 +362,10 @@
                                     totalPages:  response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                  
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
                                         vm.searchCon.pageNumber = n;

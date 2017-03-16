@@ -29,40 +29,40 @@
 						<div class="form-horizontal">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label class="col-md-6 control-label">用户姓名：</label>
-									<div class="col-md-6">
+									<label class="col-md-5 control-label">用户姓名：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.user.name}}<span class="user-type">（{{personalInfoObj.user.userStatus}}用户）</span></p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-6 control-label">公司名称：</label>
-									<div class="col-md-6">
+									<label class="col-md-5 control-label">公司名称：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.user.company}}</p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-6 control-label">所属行业：</label>
-									<div class="col-md-6">
+									<label class="col-md-5 control-label">所属行业：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.user.trade}}</p>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label class="col-md-6 control-label">密码：</label>
-									<div class="col-md-6">
+									<label class="col-md-5 control-label">密码：</label>
+									<div class="col-md-7">
 										<p class="form-control-static"><a href="#rePassword" class="update-password" data-toggle="modal" data-target="#rePassword">修改密码</a></p>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-6 control-label">绑定手机号：</label>
-									<div class="col-md-6">
+									<label class="col-md-5 control-label">绑定手机号：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.user.userAccount}}</p>
 									</div> 
 								</div>
 								<div class="form-group">
-									<label class="col-md-6 control-label">所在地区：</label>
-									<div class="col-md-6">
+									<label class="col-md-5 control-label">所在地区：</label>
+									<div class="col-md-7">
 										<p class="form-control-static">{{personalInfoObj.user.province}}-{{personalInfoObj.user.city}}-{{personalInfoObj.user.county}}</p>
 									</div>
 								</div>
@@ -268,7 +268,8 @@
 	.modal{z-index: 9999}
 	#myTabContent .control-label{padding-right:0;}
 	#myTabContent .control-label+div{padding-left:0;}
-
+    
+    #keyWordSet th,#keyWordSet td{padding:0;line-height:40px;}
 </style>
 <script>
 	import '../../assets/js/bootstrap-switch/js/bootstrap-switch.min';
@@ -432,26 +433,39 @@
 				let vm =this;
 				
 				let index=$("#keyWordSet #go-input").val()-0;
-                 if(index>vm.keyWordTotalpages){  
+				
+				if(isNaN(index)){
+				   alert("请输入数字");
+				   return;
+				}else if(index>vm.keyWordTotalpages){  
 
                  	alert("超过总页数");
-                 }
+                 }else{
 				$("#keyWordSet .pagination").jqPaginator('option',{
 					currentPage:index,
+  
 				});
+
+				vm.keyWordSearchCon.pageNumber=index;
+
 				vm.getKeywordListFun();
+			}
 			},
 			goConsume(){
                 let vm =this;
 				
 				let index=$("#expenseCalendar #go-input").val()-0;
-				 if(index>vm.expenseTotalpages){  
+				if(isNaN(index)){
+				   alert("请输入数字");
+				   return;
+				}else if(index>vm.expenseTotalpages){  
 
                  	alert("超过总页数");
                  }
 				$("#expenseCalendar .pagination").jqPaginator('option',{
 					currentPage:index,
 				});
+				vm.consumeListSearchCon.pageNumber=index;
 				vm.getConsumeList();
 			},
             getKeywordListFun(){

@@ -83,7 +83,7 @@
 }
 .sellClue_list_div>menu{
 	list-style: none;
-	padding: 15px 15px; 
+	padding: 15px 20px 15px 30px; 
 	margin-bottom: 0px;
 	position: relative;
 	background-color: #fafafa;
@@ -151,12 +151,13 @@
 	z-index: 99;
 } 
 /*分页样式*/
-.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+.pageList .pagination>.active>a,.pageList .pagination>.active>a:focus,.pageList .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
 	background-color: #32ccca;
 	border-color: #32ccca;
+	color:#ffffff;
 }
-.pagination>li>a, .pagination>li>span{
-	color:#32ccca;
+.pageList .pagination>li>a,.pageList .pagination>li>span{
+	color:#333333;
 }
 
 .pageList .pagination{margin-right:10px;}
@@ -164,6 +165,12 @@
 .pageList .tz-pagination button{width:60px;border-radius:5px;background-color:#32ccca;color:#fff;}
 .pageList .tz-pagination button:focus{outline:none;}
 #go-input{width:33px;height:31px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;}
+
+/*分页样式*/
+.btn.btn-em{background-color:#32ccca;color:#ffffff;}
+.btn.btn-em:hover,.btn.btn-em:focus,.btn.btn-em:active:focus{outline:none;
+	color:#ffffff;
+}
 
 
 .search-box .form-horizontal>div{padding-left:0;}
