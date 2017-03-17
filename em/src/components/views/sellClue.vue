@@ -28,7 +28,7 @@ ss<template>
 			</div>
 			
 			
-             <div class="col-md-2 col-xs-1">  
+             <div class="col-md-2 col-xs-2">  
                 <myVueCalendar @endTime="endTime"></myVueCalendar>
             </div> 
 			
@@ -280,7 +280,7 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-                //console.log(vm.searchCon);  
+                console.log(vm.searchCon);  
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -291,13 +291,10 @@ ss<template>
                                     totalPages:  response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,
-                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                   
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
-                                          //console.log(response.data.data); 
                                         vm.searchCon.pageNumber = n;
                                         vm.page();
                                     }

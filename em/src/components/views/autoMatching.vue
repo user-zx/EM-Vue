@@ -19,10 +19,10 @@
 						<option value="未处理">未处理</option>
 					</select>
 				</div>
-         
-             <div class="col-md-2 col-xs-1">  
-                <myVueCalendar @endTime="endTime"></myVueCalendar>
-            </div> 
+              
+                 <div class="col-md-2 col-xs-2">  
+                    <myVueCalendar ></myVueCalendar>
+                </div> 
 				<div class="col-md-3 col-xs-3">  
 					<div class="form-group" style="position:relative;">
                      <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
