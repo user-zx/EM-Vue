@@ -171,8 +171,20 @@
                 let arrs=[],ass=[],arr3=[];
                 arrs=vm.$store.state.updateOmUser.params.permissions.split('，');
                 vm.permissionsArr=arrs;
-                vm.addUser.params=vm.$store.state.updateOmUser.params;
+                vm.addUser.params.confirmPassword="";
+                vm.addUser.params.createDate=vm.$store.state.updateOmUser.params.createDate;
+                vm.addUser.params.createUser=vm.$store.state.updateOmUser.params.createUser;
+                vm.addUser.params.id=vm.$store.state.updateOmUser.params.id;
+                vm.addUser.params.keyword=vm.$store.state.updateOmUser.params.keyword;
+                vm.addUser.params.pageNumber=vm.$store.state.updateOmUser.params.pageNumber;
+                vm.addUser.params.pageSize=vm.$store.state.updateOmUser.params.pageSize;
                 vm.addUser.params.password="";
+                vm.addUser.params.permissions=vm.$store.state.updateOmUser.params.permissions;
+                vm.addUser.params.salt=vm.$store.state.updateOmUser.params.salt;
+                vm.addUser.params.updateDate=vm.$store.state.updateOmUser.params.updateDate;
+                vm.addUser.params.updateUser=vm.$store.state.updateOmUser.params.updateUser;
+                vm.addUser.params.userAccount=vm.$store.state.updateOmUser.params.userAccount;
+                vm.addUser.params.userStatus=vm.$store.state.updateOmUser.params.userStatus;
                 vm.post(vm.permissions.url,"",function(response){
                     if(response.success){
                         vm.permissions.result=response.data;
