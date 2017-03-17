@@ -89,18 +89,23 @@
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                    //console.log(res);  
+                   
                     if(res.ok){
                         if(res.data.success){
+                            console.log(res.data);
+                            if(res.data.data=="添加的关键词已经存在"){
+                                alert("该关键词已存在")
+                            }else{
                             if(patt.test(param.keywordList)){
                                alert("添加文件成功");
                             }else{ 
                                 alert("添加关键词成功");
                                 vm.textareaVal = "";
                                
-                                vm.$emit("updateList",param.keywordList) 
+                                vm.$emit("updateList",param.keywordList);
+                                vm.$emit("gofirst"); 
                             } 
-                          
+                          }
                         }else{
                             alert("添加关键词失败");
                             vm.textareaVal = "";

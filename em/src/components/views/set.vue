@@ -137,8 +137,9 @@
 						<div class="search-box clearfix">
 							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button> 
 							<div class="navbar-form navbar-right" role="search" style="margin-top: 0">
-								<div class="input-group">
-									<input type="text" class="form-control input-search" v-model:value="keyWordSearchCon.keyword" placeholder="输入关键词进行查询">
+								<div class="input-group" style="position:relative;" >
+								    <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
+									<input type="text" class="form-control input-search" v-model:value="keyWordSearchCon.keyword" id="search-k-key" placeholder="输入关键词进行查询">
 									<span class="input-group-btn">
 										<button class="btn btn-search" @click="searchKeyWordFun()" type="button">搜索</button>
 									</span>
@@ -220,7 +221,7 @@
 				</div>
 			</div> 
 		</div>
-		<add-key-word :userNumber="keyWordSearchCon.userAccount" @updateList="updateClue"></add-key-word> 
+		<add-key-word :userNumber="keyWordSearchCon.userAccount" @updateList="updateClue" @gofirst="jumpFirstPage"></add-key-word> 
 		<re-password></re-password>
 		<charge-q-r :chargeQR="chargeQRId"></charge-q-r>
 	</div> 
@@ -368,7 +369,9 @@
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
                 if (res.ok) {
                     if (res.data.success) {
-                    	//console.log(res.data.data.totalPages)
+                    	if(res.data.data==""){
+                    		vm.notResult=true;
+                    	}else{vm.notResult=false;}
                     	
                     	vm.expenseTotalpages=res.data.data.totalPages;
                         let typeOf = typeof res.data.data;
@@ -440,6 +443,18 @@
 			},
 			currTab2(){
 				$('#myTab li:eq(1) a').tab('show')
+			},
+			jumpFirstPage(){
+				let vm =this;
+				
+				$("#keyWordSet .pagination").jqPaginator('option',{
+					currentPage:1,
+  
+				});
+
+				vm.keyWordSearchCon.pageNumber=1;
+
+				vm.getKeywordListFun();
 			},
 			go(){
 				let vm =this;
@@ -578,6 +593,7 @@
                             if (res.data.success) {
                                 console.log(res.data);
                                 alert('关键词删除成功');
+                                vm.updateClue();
                             }
                         }
                     });
@@ -602,6 +618,11 @@
 			  
 				if(res.ok){
 				    if(res.data.success){
+				    
+                    	if(res.data.data==""){
+                    		vm.notResult=true;
+                    	}else{vm.notResult=false;}
+
                         let typeOf = typeof res.data.data;
                         vm.keyWordTotalpages=res.data.data.totalPages;
                         if(typeOf!="string") {

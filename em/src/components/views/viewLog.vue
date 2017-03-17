@@ -98,11 +98,11 @@
 							<a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)" v-else><img src="../../assets/images/collect.png" height="15" width="17">收藏线索</a>
 						</li>
 						<li>
-							<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="15" width="17">忽略线索</a>
+							<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
 						</li>
 						<li v-bind:class="{active:artItem.labelStatus}">
-							<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="15" width="17">已处理</a>
-							<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="15" width="17">标记处理</a>
+							<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</a>
+							<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="17" width="14">标记处理</a>
 						</li>
 					</ul>   
 					<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
@@ -273,6 +273,7 @@
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
                                 let temporaryArr = [];
+                                console.log(arr);
                             for (let i in arr){
                                 for (let j in conObj){
                                 	temporaryArr.push(j);
@@ -321,7 +322,7 @@
 					
 					obj_arr[input_Arr[j]] = arrObj
 				} 
-				//console.log(obj_arr);
+				console.log(obj_arr);
 				return obj_arr;
 			}
 		},

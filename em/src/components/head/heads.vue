@@ -13,7 +13,7 @@
             </li>    
             <li @click="quit()" >
                     <a href="javascript:void(0);"> 
-                    <img src="../../assets/images/tc.png" alt="" height="22" width="22"/> 退出登录</a>
+                    <img src="../../assets/images/tc.png" alt="" height="20" width="20"/> 退出登录</a>
             </li>
         </ul>
     </div> 

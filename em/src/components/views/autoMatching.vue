@@ -98,11 +98,11 @@
                             <a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)" v-else><img src="../../assets/images/collect.png" height="15" width="17">收藏线索</a>
                         </li>
                         <li>
-                            <a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="15" width="17">忽略线索</a>
+                            <a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
                         </li>
                         <li v-bind:class="{active:artItem.labelStatus}">
-                            <a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="15" width="17">已处理</a>
-                            <a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="15" width="17"></i>标记处理</a>
+                            <a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</a>
+                            <a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="17" width="14"></i>标记处理</a>
                         </li>
                     </ul>
                 
