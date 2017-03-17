@@ -579,7 +579,7 @@ ss<template>
             }).on("outOfRange",function (ev) {
                 $(this).val(vm.getDateStr(0));
             });
-			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
+			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
 				if(response.ok){
 						//console.log(response.data.data.content);
 				    if(response.data.success){

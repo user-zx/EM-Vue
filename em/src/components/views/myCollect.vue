@@ -280,7 +280,7 @@
             }).on("outOfRange",function (ev) {
                 $(this).val(vm.getDateStr(0));
             }); 
-			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10,"pageNumber":1}).then(function(response){
+			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
 				if(response.ok){
 				    if(response.data.success){
                         let typeOf=response.data.data;
