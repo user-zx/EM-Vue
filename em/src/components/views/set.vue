@@ -283,7 +283,7 @@
 				expenseTotalpages:0,
 				notResult:false,			
 				userInfoUrl:"../apis/personal/findPersonalInfo",
-				packageListUrl:"../apis/package/getPackageList",
+				packageListUrl:"../apis/package/findOnShelvesList",
 				keyWordListUrl:"../apis/personal/findKeywordList",
 				importKeywordUrl:"../apis/import/importKeywordList",
 				delKeyWordUrl:"../apis/personal/deleteKeyword",
@@ -330,7 +330,7 @@
                 } 
 			});
 			/*套餐信息*/
-            vm.$http.post("../apis/package/getPackageList").then(function(res){
+            vm.$http.post("../apis/package/findOnShelvesList").then(function(res){
 
                 if(res.ok) {
                     if (res.data.success) {
@@ -602,7 +602,7 @@
 			},
 			combo(){ 
 				let vm = this; 
-				 vm.$http.post("../apis/package/getPackageList").then(function(res){
+				 vm.$http.post("../apis/package/findOnShelvesList").then(function(res){
                 if(res.ok) { 
                     if (res.data.success) {
                         vm.packageListArr=res.data.data;
@@ -649,4 +649,5 @@
 		  }
 		}
 	}
+
 </script>
