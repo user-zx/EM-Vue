@@ -476,7 +476,7 @@
 				vm.keyWordSearchCon.pageNumber=index;
 
 				vm.getKeywordListFun();
-			}
+				}
 			},
 			goConsume(){
                 let vm =this;
