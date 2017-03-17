@@ -25,11 +25,9 @@
 						<option value="未处理">未处理</option>
 					</select>
 				</div>
-			<div class="col-md-1" id="sjd" > 
-				 <my-datepicker-start @startTime="startTime"></my-datepicker-start>
-             </div>
-             <div class="col-md-1 col-xs-1">  
-				<my-datepicker-end @endTime="endTime"></my-datepicker-end>
+			
+             <div class="col-md-2 col-xs-1">  
+				<myVueCalendar @endTime="endTime"></myVueCalendar>
 			</div>
 			<div class="col-md-2">
 			    
@@ -156,16 +154,15 @@
 				</menu> 
 			</div> 
 			<div class="pageList clearfix" v-show="!notResult" >
-			<ul class="tz-pagination pull-right" >
-								<li>跳转到第</li>
-								<li ><input type="text" id="go-input" ></li>
-								<li>页</li>
-								<li><button class="btn btn-sm" @click="go">GO</button></li>
-			</ul>
-			<ul class="clearfix pagination pull-right" id="pagination">
+				<ul class="tz-pagination pull-right" >
+									<li>跳转到第</li>
+									<li ><input type="text" id="go-input" ></li>
+									<li>页</li>
+									<li><button class="btn btn-sm" @click="go">GO</button></li>
+				</ul>
+				<ul class="clearfix pagination pull-right" id="pagination">
 
-			</ul>
-
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -182,8 +179,8 @@
     import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
     import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import expense from "../prompt/expense.vue"; 
-    import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
-    import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
+    import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
+   
 	export default {
 		data(){
 			return{
@@ -241,28 +238,7 @@
 				$(this).addClass("active").siblings().removeClass("active");
             });
 
-            /*$(".form_datetime .startDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd",
-				autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(-1));
-            });
-            $(".form_datetime .endDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd", 
-                autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(0));
-            });*/ 
+           
 			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
 				if(response.ok){
 				    if(response.data.success){
@@ -398,7 +374,12 @@
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
-                                        vm.artListFun();
+                                      
+                                        if(response.data.data.totalPages==1){
+                                        	vm.notResult = true;
+                                        }else{
+                                        	vm.artListFun();
+                                        }
                                     }
                                 });
                             }else{
@@ -433,7 +414,7 @@
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
-                            	//console.log(vm.searchCon.pageSize);
+                            	
                                 $("#pagination").jqPaginator({ 
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
@@ -445,6 +426,7 @@
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
                                         vm.searchCon.pageNumber = n;
+
                                         vm.artListFun();
                                     }
                                 });
@@ -509,23 +491,18 @@
 				}
 			},
     		ignoreFun(index,artId){
-                if(this.artList.artContent[index].ignoreStatus){
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                this.getArtListFun();
-                            }
-                        }
-                    });
-                }else{
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
+               		if(!this.artList.artContent[index].ignoreStatus){
+               			this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].ignoreStatus=true;
+                                if($(".sellClue_list_div").length==1){
+                                	this.notResult = true;
+                                }
                             }
                         }
                     });
-                }
+               	}
 			},
     		labelFun(index,artId){ 
                 if(this.artList.artContent[index].labelStatus){
@@ -631,6 +608,6 @@
                 })
            }
 		},  
-		components:{expense,myDatepickerStart,myDatepickerEnd},
+		components:{expense,myVueCalendar},
 	}
 </script>

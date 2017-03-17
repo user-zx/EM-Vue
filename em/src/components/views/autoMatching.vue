@@ -19,12 +19,10 @@
 						<option value="未处理">未处理</option>
 					</select>
 				</div>
-            <div class="col-md-1" id="sjd" > 
-                 <my-datepicker-start @startTime="startTime"></my-datepicker-start>
-             </div>
-             <div class="col-md-1 col-xs-1">  
-                <my-datepicker-end @endTime="endTime"></my-datepicker-end>
-            </div>
+              
+                 <div class="col-md-2 col-xs-2">  
+                    <myVueCalendar ></myVueCalendar>
+                </div> 
 				<div class="col-md-3 col-xs-3">  
 					<div class="form-group" style="position:relative;">
                      <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
@@ -151,8 +149,8 @@
     import common from '../../assets/js/common.js';
     import addMatching from './matching/addMatching.vue';
     import expense from "../prompt/expense.vue";      
-    import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
-    import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
+    import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
+   
     export default { 
         data(){   
             return{
@@ -185,7 +183,7 @@
             } 
         },    
         props:["activeClass","datePicker"], 
-        components:{addMatching,expense,myDatepickerStart,myDatepickerEnd},
+        components:{addMatching,expense,myVueCalendar},
         mounted(){
             let vm=this;
             $(".selectpicker").selectpicker({
@@ -230,14 +228,13 @@
         },
         methods:{
             startTime(date){
-                let vm = this; 
-                vm.startDate= date;
-                
+               
             },       
             endTime(date){ 
-                let vm = this;   
-                vm.endDate = date;  
-            }, 
+              
+                 
+            },
+         
             artListFun(){
                 let vm = this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
@@ -516,9 +513,6 @@
             },
             getLinkStatus(index,artItemId){
                 let vm = this;
-              
-                
-                 
                 vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
                     //console.log(result);
                     if(result.ok){  
@@ -527,7 +521,6 @@
                             vm.modelData.url = vm.messageList;
                              vm.modelData.index = artItemId; 
                              vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
-                             // console.log( vm.artList.artContent[index].salesLeads); 
                              vm.$store.commit("setExpenseModelStatus",true)
                              $("#expense").modal("show");   
                         }else{

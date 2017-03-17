@@ -27,12 +27,10 @@ ss<template>
 				</select>
 			</div>
 			
-			<div class="col-md-1" id="sjd" > 
-				 <my-datepicker-start @startTime="startTime"></my-datepicker-start>
-             </div>
-             <div class="col-md-1 col-xs-1">  
-				<my-datepicker-end @endTime="endTime"></my-datepicker-end>
-			</div>
+			
+             <div class="col-md-2 col-xs-2">  
+                <myVueCalendar @endTime="endTime"></myVueCalendar>
+            </div> 
 			
 			<div class="col-md-2">
 			    
@@ -145,6 +143,7 @@ ss<template>
 			<li>跳转到第</li>
 			<li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
 			<li>页</li>
+
 			<li><button class="btn btn-sm" @click="go">GO</button></li>
 		</ul>
 		<ul class="clearfix pagination pull-right" id="pagination">
@@ -161,8 +160,7 @@ ss<template>
     import common from "../../assets/js/common.js";
     import newData from "../head/newData.vue";
     import expense from "../prompt/expense.vue";
-      import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
-    import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
+    import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
 
 	export default {
 		data(){  
@@ -282,7 +280,7 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-                //console.log(vm.searchCon);  
+                console.log(vm.searchCon);  
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -293,13 +291,10 @@ ss<template>
                                     totalPages:  response.data.data.totalPages,
                                     visiblePages: vm.searchCon.pageSize,
                                     currentPage: vm.searchCon.pageNumber,
-                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                   
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
-                                          //console.log(response.data.data); 
                                         vm.searchCon.pageNumber = n;
                                         vm.page();
                                     }
@@ -341,8 +336,8 @@ ss<template>
                                 vm.artList.totalPages="";
                                 vm.notResult=true;
 							}
-                        }
-                    }
+                        }  
+                    }  
                 });
             },
             favoritesFun(index,artId){
@@ -647,8 +642,7 @@ ss<template>
 		components:{
 			newData,
 			expense,
-			myDatepickerStart,
-			myDatepickerEnd
+			myVueCalendar
 		}
 		
 	}    
