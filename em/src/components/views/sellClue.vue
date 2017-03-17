@@ -27,12 +27,10 @@ ss<template>
 				</select>
 			</div>
 			
-			<div class="col-md-1" id="sjd" > 
-				 <my-datepicker-start @startTime="startTime"></my-datepicker-start>
-             </div>
-             <div class="col-md-1 col-xs-1">  
-				<my-datepicker-end @endTime="endTime"></my-datepicker-end>
-			</div>
+			
+             <div class="col-md-2 col-xs-1">  
+                <myVueCalendar @endTime="endTime"></myVueCalendar>
+            </div> 
 			
 			<div class="col-md-2">
 			    
@@ -145,7 +143,7 @@ ss<template>
 			<li>跳转到第</li>
 			<li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
 			<li>页</li>
-			<li><button class="btn btn-sm" @click="goConsume">GO</button></li>
+			<li><button class="btn btn-sm" >GO</button></li>
 		</ul>
 		<ul class="clearfix pagination pull-right" id="pagination">
 			
@@ -161,8 +159,7 @@ ss<template>
     import common from "../../assets/js/common.js";
     import newData from "../head/newData.vue";
     import expense from "../prompt/expense.vue";
-      import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
-    import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
+    import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
 
 	export default {
 		data(){  
@@ -627,8 +624,7 @@ ss<template>
 		components:{
 			newData,
 			expense,
-			myDatepickerStart,
-			myDatepickerEnd
+			myVueCalendar
 		}
 		
 	}    

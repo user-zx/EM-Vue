@@ -25,11 +25,9 @@
 						<option value="未处理">未处理</option>
 					</select>
 				</div>
-			<div class="col-md-1" id="sjd" > 
-				 <my-datepicker-start @startTime="startTime"></my-datepicker-start>
-             </div>
-             <div class="col-md-1 col-xs-1">  
-				<my-datepicker-end @endTime="endTime"></my-datepicker-end>
+			 
+             <div class="col-md-2 col-xs-1">  
+				<myVueCalendar @endTime="endTime"></myVueCalendar>
 			</div>
 			<div class="col-md-2">
 			    
@@ -170,8 +168,8 @@
     import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
     import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import expense from "../prompt/expense.vue";
-     import myDatepickerStart from "../../components/prompt/myDatepickerStart.vue";
-    import myDatepickerEnd from "../../components/prompt/myDatepickerEnd.vue";
+     import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
+  
 	export default {
 		data(){
 			return{
@@ -232,7 +230,7 @@
 				return obj_arr;
 			}
 		},
-		components:{expense,myDatepickerStart,myDatepickerEnd},
+		components:{expense,myVueCalendar},
         mounted(){
             let vm=this; 
 		    $(".selectpicker").selectpicker({

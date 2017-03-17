@@ -327,9 +327,9 @@
                         vm.keyWordSearchCon.userAccount = vm.personalInfoObj.user.phone;
                     }
                 } 
-			});
-			/*套餐信息*/
-            vm.$http.post("../apis/package/getPackageList").then(function(res){
+			}); 
+			/*套餐充值*/
+            vm.$http.post("../apis/package/findOnShelvesList").then(function(res){
 
                 if(res.ok) {
                     if (res.data.success) {

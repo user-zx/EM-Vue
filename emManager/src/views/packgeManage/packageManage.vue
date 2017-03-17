@@ -44,7 +44,7 @@
                         <td>{{item.updateUser}}</td>
                         <td>{{item.updateDate}}</td>
                         <td>
-                            <input type="checkbox" data-on="success" v-if="item.status=='上架'" :id="index" checked class="switch" />
+                            <input type="checkbox" data-on="success" v-if="item.status=='上架'" :id="index" checked class="switch" /> 
                             <input type="checkbox" data-on="success" v-else class="switch" :id="index" />
                             <a href="#updatePackage" :id="item.id" data-toggle="modal" data-target="#updatePackage" @click="updatePge('updatePackage',item)">
                                 <i class="glyphicon glyphicon-pencil"></i>
@@ -56,7 +56,7 @@
             </div>
             <div class="pageList clearfix">
                 <ul class="clearfix pagination pull-right" id="pagination">
-
+                    
                 </ul>
             </div>
         </div>
@@ -133,13 +133,14 @@
                                 offText:'下架',
                             }).on('switchChange.bootstrapSwitch',function (event,state) {
                                 let index=$(this).attr("id"),params={};
+                               
                                 if(state==true){
                                     $(this).val("上架");
                                     vm.packageList.result.content[index].status="上架";
                                 }else{
                                     $(this).val("下架");
                                     vm.packageList.result.content[index].status="下架";
-                                }
+                                } 
                                 params.id=vm.packageList.result.content[index].id;
                                 params.createUser=vm.packageList.result.content[index].createUser;
                                 params.leadsTimes=vm.packageList.result.content[index].leadsTimes;
