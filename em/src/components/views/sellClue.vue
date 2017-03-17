@@ -336,7 +336,7 @@ ss<template>
                                 vm.artList.totalPages="";
                                 vm.notResult=true;
 							}
-                        }
+                        }  
                     }  
                 });
             },
