@@ -27,6 +27,10 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.sellClue_list_div>div>h4>a{
+   color:#333333;
+   font-size:16px;
+}
 .sellClue_list_div_div{
 	margin: 15px 20px;
 }
@@ -45,6 +49,9 @@
 	width: 85%;
 	padding-left: 20px;
 	min-height: 60px;
+	line-height:30px;
+	font-size:12px;
+	color:#666666;
 } 
 .sellClue_list_div>div>ul{
 	position: absolute;
@@ -73,14 +80,14 @@
 .sellClue_list_div>div>ul>li>a.btn:focus{
 	color: #32ccca;
 }
-.sellClue_list_div>div>ul>li.active>a.btn{
+/*.sellClue_list_div>div>ul>li.active>a.btn{
 	border-color: #ff8c26;
 	color:#ff8c26;
-}
-.sellClue_list_div>div>ul>li.active>a.btn:hover,.sellClue_list_div>div>ul>li.active>a.btn:focus{
+}*/
+/*.sellClue_list_div>div>ul>li.active>a.btn:hover,.sellClue_list_div>div>ul>li.active>a.btn:focus{
 	border-color: #ff8c26;
 	color:#ff8c26;
-}
+}*/
 .sellClue_list_div>menu{
 	list-style: none;
 	padding: 15px 20px 15px 30px; 
@@ -119,7 +126,7 @@
 	left: 0;
 	top: 0;
 	background-color: #32ccca;
-	padding: 2px 5px;
+	padding: 1px 2px;
 	color: #fff;
 }
 .sellClue_list_div>div>span.origin{
@@ -132,7 +139,7 @@
 	font-size: 16px;
 	vertical-align:top;
 	margin-right: 7px;
-	top:2px;
+	margin-top:2px;
 }
 .sellClue_list_div>div{
 	position: relative;

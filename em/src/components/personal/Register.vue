@@ -144,6 +144,7 @@
 </template>
 <style scoped>
 
+
 	.tab-box{
 		width:100%;
 		list-style: none;
@@ -166,6 +167,7 @@
 		color:#ffffff;
 		background-color: #32ccca;
 	}
+
 	
 	#zc-2 .control-label{padding-right:0;}
 	 .btn-info{background-color:#32ccca;border-color:#32ccca;}
@@ -414,7 +416,7 @@
 	  		window.GC = provincesData.GC;
 	  		
             $("#province").ProvinceCity();
-            
+           
 	  		$("#one").iCheck({
 	  			checkboxClass: 'icheckbox_square-blue',
 	  			labelHover: true, 
@@ -531,7 +533,7 @@
 		border: 1px solid #e5e5e5;
 	}
 	#zc-2 {
-		padding: 50px 110px; 
+		padding: 50px 98px; 
 	} 
 	#register_centre_heading{
 		font-size: 0;

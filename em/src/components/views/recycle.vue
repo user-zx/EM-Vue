@@ -93,14 +93,14 @@
                     <ul  class="sellClue_list_div_ul">
                         <li v-bind:class="{active:artItem.addFavoritesStatus}">
                            <!--  <a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a> -->  
-                            <a  href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a>
+                            <a  href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)"><img src="../../assets/images/collect.png" height="15" width="17">收藏线索</a>
                         </li>
                         <li>
-                            <a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">取消忽略</a>
+                            <a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="15" width="17">取消忽略</a>
                         </li> 
                         <li v-bind:class="{active:artItem.labelStatus}">
-                           <!--  <a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>取消标记</a> --> 
-                            <a  href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>标记处理</a>
+                           <!--  <a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-flag"></i>已处理</a> --> 
+                            <a  href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="15" width="17">标记处理</a>
                         </li> 
                      </ul>  
                      <button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
@@ -316,6 +316,24 @@
                 vm.endDate = date;  
                 
             }, 
+             go(){
+                let vm =this;
+                
+                let index=Math.round($("#go-input").val()-0);
+                if(isNaN(index)||index<0.5){
+                   alert("请输入数字并且不小于1");
+                   
+                }else if(index>vm.recycleTotalpages){  
+
+                  alert("超过总页数");
+                 }else{
+                    $(" .pagination").jqPaginator('option',{
+                    currentPage:index,
+                   });
+                vm.searchCon.pageNumber=index;
+                vm.artListFun();
+            }
+            },
             artListFun(){
                 let vm=this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
@@ -380,12 +398,13 @@
                 }else if(index>vm.recycleTotalpages){  
 
                     alert("超过总页数");
-                 }
-                $(" .pagination").jqPaginator('option',{
+                 }else{
+                $(".pagination").jqPaginator('option',{
                     currentPage:index,
                 });
-                vm.searchCon.pageNumber=index;
+               
                 vm.artListFun();
+            }
             },
             goAnchor(selector) {
                let vm = this;

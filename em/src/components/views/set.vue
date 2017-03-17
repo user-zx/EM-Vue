@@ -251,8 +251,8 @@
 	.combo-box{background-color: #f2f2f2;border-radius:5px 5px 0 0;}
 	.combo-box .combo-body{padding:15px 20px;}
 	.combo-box .comboName{font-size:16px;color:#333333;position: relative;}
-	.comboName>span:first-child{display: block;width:106px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
-	.comboName+p>span{display:inline-block;vertical-align:bottom;max-width:54px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
+	.comboName>span:first-child{display: block;max-width:70px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
+	.comboName+p>span{display:inline-block;vertical-align:bottom;max-width:38px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
 	.comboName>span:nth-child(2){position: absolute;right: -10px;top: 0;}
 	.combo-box .comboName .price{float: right;color:#32ccca;}
 	.table>thead>tr.active>th{background-color: #fafafa;}
@@ -466,7 +466,7 @@
 			goConsume(){
                 let vm =this;
 				
-				let index=$("#expenseCalendar #go-input").val()-0;
+				let index=Math.round($("#expenseCalendar #go-input").val()-0);
 				if(isNaN(index)||index<0.5){
 				   alert("请输入数字并且不小于1");
 				   return;
@@ -481,9 +481,11 @@
 				vm.getConsumeList();
 			},
             getKeywordListFun(){
+
             	let vm =this;
             	 vm.keyWordListObj = []; 
             	$(".switch").bootstrapSwitch('destroy');
+
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
                     if(res.ok){ 
                         if(res.data.success){

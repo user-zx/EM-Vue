@@ -81,8 +81,11 @@
                var patt = new RegExp(".(xls|xlsx)$", "i");
                //patt.test("hello.xLs")
                let vm = this;
+                if(vm.textareaVal==""){alert("关键词不能为空")}else{
+               
                let post = commont.post;
-               let param = {}; 
+               let param = {};
+
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
@@ -109,7 +112,9 @@
                     $('#addKeyWord').modal('hide')
                     vm.textareaVal = "";
                })
-            },
+            }
+        }
+
         },
         props:['userNumber'],  
         mounted(){    
