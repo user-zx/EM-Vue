@@ -46,9 +46,19 @@
                                     <option v-for="item in xian1">{{item}}</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-group" v-if="addUser.params.province">
                             <div class="col-md-offset-3 col-md-3">
                                 <label class="checkbox">
                                     <input type="checkbox" class="mbx" />
+                                    不限地区
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" v-if="!addUser.params.province">
+                            <div class="col-md-offset-3 col-md-3">
+                                <label class="checkbox">
+                                    <input type="checkbox" checked="checked" class="mbx" />
                                     不限地区
                                 </label>
                             </div>
@@ -62,23 +72,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" v-if="addUser.params.userStatus">
                             <label class="col-md-3 control-label">用户状态：</label>
                             <div class="col-md-6">
-                                <label>
-                                    <input type="radio" name="userStatus" value="试用" v-if="addUser.params.userStatus=='试用'" checked />
-                                    <input type="radio" name="userStatus" value="试用" v-else />
-                                    试用
-                                </label>
-                                <label>
-                                    <input type="radio" name="userStatus" value="正式" v-if="addUser.params.userStatus=='正式'" checked />
-                                    <input type="radio" name="userStatus" value="正式" v-else />
-                                    正式
-                                </label>
-                                <label>
-                                    <input type="radio" name="userStatus" value="冻结" v-if="addUser.params.userStatus=='冻结'" checked />
-                                    <input type="radio" name="userStatus" value="冻结" v-else />
-                                    冻结
+                                <label v-for="item in searchData.userStates">
+                                    <input type="radio" name="userStatus" :value="item" v-if="item==addUser.params.userStatus" checked />
+                                    <input type="radio" name="userStatus" :value="item" v-else />
+                                    {{item}}
                                 </label>
                             </div>
                         </div>
@@ -187,6 +187,7 @@
                     result:{}
                 },
                 searchData:data,
+                userStates:[],
                 sheng1:data.citySearch.GP,
                 shi1:data.citySearch.GT[0],
                 xian1:data.citySearch.GC[0][0],
@@ -227,6 +228,10 @@
         mounted(){
             let vm=this,shiIndex1,xianIndex1,trade,province='北京',city='北京',county='东城区';
             $("#updateUser").on("show.bs.modal",function () {
+                vm.addUser.params={};
+                vm.addUser.params.userStatus='';
+                vm.userStates=vm.searchData.userStates;
+                $("input[type=radio]").iCheck('destroy'); 
                 vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
                     if (response.success) {
                         vm.addUser.params = response.data;
@@ -270,10 +275,12 @@
                     console.log(error);
                 });
             }).on("shown.bs.modal",function () {
-                shiIndex1=vm.searchData.citySearch.GP.indexOf(province);
-                vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
-                xianIndex1=vm.searchData.citySearch.GT[shiIndex1].indexOf(city);
-                vm.xian1=vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
+                if(vm.addUser.params.province){
+                    shiIndex1=vm.searchData.citySearch.GP.indexOf(province);
+                    vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
+                    xianIndex1=vm.searchData.citySearch.GT[shiIndex1].indexOf(city);
+                    vm.xian1=vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
+                }
                 vm.post(vm.userTrade1.url, "", function (response) {
                     if (response.success) {
                         if (response.data.length > 0) {
@@ -294,6 +301,9 @@
                 vm.addUser.params={};
                 vm.packageList1.result={};
                 vm.userTrade1.result={};
+                vm.userStates=[];
+                vm.addUser.params.userStatus='';
+                $("input[type=radio]").iCheck('destroy'); 
             });
             $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex1=clickedIndex-1;
