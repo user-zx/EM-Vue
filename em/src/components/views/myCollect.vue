@@ -27,7 +27,7 @@
 				</div>
 			 
              <div class="col-md-2 col-xs-1">  
-				<myVueCalendar @endTime="endTime"></myVueCalendar>
+				<myVueCalendar ></myVueCalendar>
 			</div>
 			<div class="col-md-2">
 			    
@@ -233,6 +233,12 @@
 		components:{expense,myVueCalendar},
         mounted(){
             let vm=this; 
+            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>span",function(){
+            	vm.startDate = $(this).attr("data-date");
+            }) 
+             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
+            	vm.endDate = $(this).attr("data-date");  
+            }) 
 		    $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -314,14 +320,7 @@
 
         },
 		methods:{
-			 startTime(date){
-                let vm = this; 
-                vm.startDate= date;
-            },       
-            endTime(date){ 
-                let vm = this;   
-                vm.endDate = date;  
-            }, 
+			
             artListFun(){
                 let vm=this;
                  let autoHeight = "";

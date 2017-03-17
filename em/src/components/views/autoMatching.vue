@@ -186,6 +186,12 @@
         components:{addMatching,expense,myVueCalendar},
         mounted(){
             let vm=this;
+            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>span",function(){
+                vm.startDate = $(this).attr("data-date");
+            }) 
+             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
+                vm.endDate = $(this).attr("data-date");  
+            }) 
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -227,13 +233,7 @@
             vm.getArtListFun();
         },
         methods:{
-            startTime(date){
-               
-            },       
-            endTime(date){ 
-              
-                 
-            },
+           
          
             artListFun(){
                 let vm = this;
