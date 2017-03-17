@@ -88,7 +88,7 @@
                             <img v-else src="../../assets/images/unSucImg.png" />
                         </a> 
                     </h4>
-                    <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+                    <div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span><a :href="artItem.salesLeads.link" target="_blank" title="点击跳转到原文">原文链接</a></div>
                     <p>{{artItem.salesLeads.content}}</p>
                     <ul  class="sellClue_list_div_ul">
                         <li v-bind:class="{active:artItem.addFavoritesStatus}">

@@ -318,14 +318,21 @@
 								$("#lastname").attr({
 	  					         'disabled':false,
 	  				            });
+	  				            $("#getYzm").attr({
+	  					         'disabled':true,
+	  				            });
+	  				            clearInterval(timer);
 								let t=60,timer=null;
                                 timer=setInterval(()=>{
                                     t--;
-                                    $("#getYzm").text(t+"秒后重试").attr("disable","disable");
+                                    $("#getYzm").text(t+"秒后重试");
 								},1000);
                                 setTimeout(()=>{
 									clearInterval(timer);
                                     $("#getYzm").text("获取验证码").removeAttr("disable");
+                                    $("#getYzm").attr({
+	  					         'disabled':false,
+	  				            });
 								},60000)
 							}else{
 							    alert(res.data.message)

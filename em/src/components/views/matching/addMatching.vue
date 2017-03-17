@@ -13,6 +13,7 @@
                             <div class="col-md-5">
                                 <input class="form-control" type="text" v-model:value="data.author" placeholder="请您输入目标昵称" />
                             </div>
+                            <div class="col-md-3 text-danger" v-if='data.author==""' style="padding-top:7px;">昵称不能为空</div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">目标来源：</label>
@@ -21,18 +22,21 @@
                                     <option v-for="item in source" v-bind:value="item">{{item}}</option>
                                 </select>
                             </div>
+                           
                         </div>
 						<div class="form-group">
                             <label class="col-md-4 control-label">文章标题：</label>
                             <div class="col-md-5">
                                 <input class="form-control" type="text" v-model:value="data.title" placeholder="请您输入目标主页标题" />
                             </div>
+                            <div class="col-md-3 text-danger" v-if='data.title==""' style="padding-top:7px;">标题不能为空</div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">原文地址：</label>
                             <div class="col-md-5">
                                 <input class="form-control" type="text" v-model:value="data.homeLink" placeholder="请您输入目标主页链接" />
                             </div>
+                            <div class="col-md-3 text-danger" v-if='data.homeLink==""' style="padding-top:7px;">链接不能为空</div>
                         </div>
                         <div class="form-group" v-if="errorMsg.length>0">
                             <div class="col-md-12">
@@ -116,7 +120,7 @@
                               }   
                           });
                         }else{
-                            alert("不匹配");
+                            alert("目标来源与原文地址不匹配");
                              vm.data.source="";
                              vm.data.homeLink="";
                              vm.data.author="";

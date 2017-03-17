@@ -87,7 +87,8 @@ ss<template>
 			<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
 			<span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
 			 <h4> <a :href="artItem.salesLeads.link" target="_blank">{{artItem.salesLeads.title}}</a> </h4>
-			<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+			<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span>
+			<a :href="artItem.salesLeads.link" target="_blank" title="点击跳转到原文">原文链接</a></div>
 			<p>{{artItem.salesLeads.content}}</p>
 			<ul class="sellClue_list_div_ul">
 				<li v-bind:class="{active:artItem.addFavoritesStatus}">
@@ -230,7 +231,7 @@ ss<template>
 					
 					obj_arr[input_Arr[j]] = arrObj
 				} 
-				console.log(obj_arr);
+				// console.log(obj_arr);
 				return obj_arr;
 			}
 		},
@@ -280,10 +281,11 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-                console.log(vm.searchCon);  
+                 
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
+                        	console.log(response.data.data);
                               vm.sellClueTotalPages=response.data.data.totalPages;
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
@@ -346,7 +348,7 @@ ss<template>
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                            	console.log('test');
+                            	
                                 vm.artList.artContent[index].addFavoritesStatus=false;
                             }else{ 
                             	vm.promptMessage = ""
@@ -464,7 +466,7 @@ ss<template>
                 }
             },
             getLinkStatus(index,salesLeadsId){
-            	console.log(index);  
+            	// console.log(index);  
 				let vm=this;
 				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
 					 if(result.ok){  
@@ -478,7 +480,7 @@ ss<template>
                         } 
                     }
 				}, (err)=>{
-					 console.log(err); 
+					 // console.log(err); 
                      vm.$store.commit("setExpenseModelStatus",false) 
                      alert(err);  
                      return false;
@@ -500,7 +502,7 @@ ss<template>
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
-                               console.log(vm.artList.artContent);
+                               // console.log(vm.artList.artContent);
 							}else{ 
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -518,10 +520,10 @@ ss<template>
 				let vm = this;
 				let dataId = el.currentTarget.getAttribute("data-id");
 				vm.$http.post(vm.messageList,dataId).then((response)=>{
-    			 		console.log(response);
+    			 		// console.log(response);
 				},(response)=>{
 					if(response.data.status==500)
-					console.log(response.data.message);
+					// console.log(response.data.message);
 					return false;
 			   });
 			}
@@ -585,7 +587,7 @@ ss<template>
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
                             let temporaryArr = [];
-                            console.log(arr);    
+                            // console.log(arr);    
                             for (let i in arr){
                                 for (let j in conObj){
 
@@ -613,6 +615,7 @@ ss<template>
 			});
 			vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                 let typeOf = typeof response.data.data;
+                vm.sellClueTotalPages=response.data.data.totalPages;
                 if(typeOf!="string"){
                     $("#pagination").jqPaginator({
                         totalPages:  response.data.data.totalPages,

@@ -39,6 +39,11 @@
 	margin-right: 15px;
 	font-size: 12px;
 }
+.sellClue_list_div_div>a{
+	display: inline-block;
+	
+	font-size: 12px;
+}
 .sellClue_list_div_div>span>i{
 	font-style: normal;
 	color: #bfc1c1;
