@@ -121,7 +121,19 @@
                 vm.updatePackage.params.status=$(this).val();
             });
             $("#updatePackage").on("show.bs.modal",function () {
-                vm.updatePackage.params=vm.$store.state.packageManager.params;
+                let dataSource=new Object();
+                dataSource.createDate=vm.$store.state.packageManager.params.createDate;
+                dataSource.createUser=vm.$store.state.packageManager.params.createUser;
+                dataSource.id=vm.$store.state.packageManager.params.id;
+                dataSource.leadsTimes=vm.$store.state.packageManager.params.leadsTimes;
+                dataSource.name=vm.$store.state.packageManager.params.name;
+                dataSource.pageNumber=vm.$store.state.packageManager.params.pageNumber;
+                dataSource.pageSize=vm.$store.state.packageManager.params.pageSize;
+                dataSource.price=vm.$store.state.packageManager.params.price;
+                dataSource.status=vm.$store.state.packageManager.params.status;
+                dataSource.updateDate=vm.$store.state.packageManager.params.updateDate;
+                dataSource.updateUser=vm.$store.state.packageManager.params.updateUser;
+                vm.updatePackage.params=dataSource;
             }).on("shown.bs.modal",function(){
                 $("input[type=radio]").iCheck({
                     radioClass : 'iradio_square-blue'
