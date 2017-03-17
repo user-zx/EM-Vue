@@ -337,7 +337,7 @@ ss<template>
                                 vm.notResult=true;
 							}
                         }
-                    }
+                    }  
                 });
             },
             favoritesFun(index,artId){

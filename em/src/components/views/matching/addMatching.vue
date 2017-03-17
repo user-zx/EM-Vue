@@ -95,6 +95,7 @@
                 vm.data.source="";
                 vm.data.homeLink="";
                 vm.data.author="";
+                vm.data.title = "";
             }).on("hidden.bs.modal",function () {
                 $(".selectpicker").selectpicker("refresh");
             });

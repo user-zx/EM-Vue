@@ -23,7 +23,7 @@
 						<div class="form-group">
 						    <label class="col-sm-3 control-label" for="phone">手机号:</label>
 						    <div class="col-sm-5">
-			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required @input="loginPhone()" v-model="cellPhone">
+			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required @input="loginPhone()" v-model="cellPhone" @blur="remember">
 			   			    </div>
 			   			    <div  class="col-sm-3">
 			   			    	<p  style="margin:0;padding-top: 8px">{{phoneText}}</p>
@@ -32,7 +32,7 @@
 			  			 <div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
 						    <div class="col-sm-3">
-						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" disabled="true" @input="changeVerification">
+						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" disabled="true" @input="changeVerification" v-model="testCode"@blur="remember">
 						    </div>
 						    <div class="col-sm-1">
 						    	<button type="button" class="btn btn-info" id="getYzm" @click="getVerification()">获取验证码</button>
@@ -41,7 +41,7 @@
 		  				 <div class="form-group">
 						    <label for="password" class="col-sm-3 control-label">密码:</label>
 						    <div class="col-sm-5"> 
-						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password">  
+						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password" @blur="remember">  
 						    </div>
 		  				 </div>
 		  				 <p class="text-center" id="TY">点击下一步,则表示您接受<router-link to="/personal/userInstructions"> 《用户须知》</router-link></p>
@@ -204,6 +204,7 @@
 	  			phoneText:"",
 	  			verification:"",  
 	  			cellPhone:"",
+	  			testCode:"",
 	  			authCode:"", 
 	  			password:"",
 	  			userInputTrade:"",
@@ -214,7 +215,8 @@
 	  			vocation:"创建新行业",
 	  			uploadWord:"点击这里上传文件",
 	  			isFile:false, 
-	  			fileUrl:"../apis/excel/importKeywordList"
+	  			fileUrl:"../apis/excel/importKeywordList",
+	  			
 	  		}
 	  	}, 
 	  	methods:{
@@ -232,6 +234,13 @@
 	  					color:"#fff"
 	  				}) 
 	  			});
+	  		},
+	  		remember(){
+	  			let vm = this;
+	  			
+	  			sessionStorage.setItem("phone",vm.cellPhone);
+	  			sessionStorage.setItem("testCode",vm.testCode);
+	  			sessionStorage.setItem("password",vm.password);
 	  		},
 	  		message(){
 	  			this.register_message = false;
@@ -414,7 +423,17 @@
 	  		window.GT = provincesData.GT;
 	  		window.GP = provincesData.GP;
 	  		window.GC = provincesData.GC;
-	  		
+
+	  		let cellPhone=sessionStorage.getItem("phone");
+	  		let  testCode=sessionStorage.getItem("testCode");
+	  		let  password=sessionStorage.getItem("password");
+            _that.cellPhone=cellPhone;
+            _that.testCode=testCode;
+            _that.password=password;
+         if(testCode!=""){
+         	$("#lastname").attr({'disabled':false,});
+         	$("#password").attr({'disabled':false,});	
+         };
             $("#province").ProvinceCity();
            
 	  		$("#one").iCheck({
