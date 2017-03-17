@@ -146,10 +146,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="notResult" v-if="notResult">
+						<div class="notResult" v-if="keynotResult">
 							<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 						</div>
-						<table v-if="!notResult" class="table table-hover">
+						<table v-if="!keynotResult" class="table table-hover">
 							<thead>
 								<tr class="active">
 									<th class="text-center">关键词</th>
@@ -170,7 +170,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div v-if="!notResult" class="pageList clearfix" >
+						<div v-if="!keynotResult" class="pageList clearfix" >
 							<ul class="clearfix pagination pull-left" >
 
 							</ul>
@@ -187,7 +187,10 @@
 			<div id="expenseCalendar" class="tab-pane fade">
 				<div class="panel panel-em">
 					<div class="panel-body">
-						<table class="table table-hover">
+					<div class="notResult" v-if="notResult">
+							<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
+						</div>
+						<table class="table table-hover" v-if="!notResult">
 							<thead>
 								<tr class="active">
 									<th>时间</th>
@@ -281,7 +284,8 @@
 			return{  
 				keyWordTotalpages:0,
 				expenseTotalpages:0,
-				notResult:false,			
+				notResult:false,
+				keynotResult:false,			
 				userInfoUrl:"../apis/personal/findPersonalInfo",
 				packageListUrl:"../apis/package/findOnShelvesList",
 				keyWordListUrl:"../apis/personal/findKeywordList",
@@ -369,12 +373,13 @@
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
                 if (res.ok) {
                     if (res.data.success) {
-                    	if(res.data.data==""){
-                    		vm.notResult=true;
-                    	}else{vm.notResult=false;}
-                    	
+                           if(res.data.data.totalPages==0){
+                                vm.notResult=true; 
+                           }else{ vm.notResult=false; }
+                        
                     	vm.expenseTotalpages=res.data.data.totalPages;
-                        let typeOf = typeof res.data.data;
+                      let typeOf = typeof res.data.data;  
+
                         if(typeOf!="string") {
                             $("#expenseCalendar .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,
@@ -619,9 +624,11 @@
 				if(res.ok){
 				    if(res.data.success){
 				    
-                    	if(res.data.data==""){
-                    		vm.notResult=true;
-                    	}else{vm.notResult=false;}
+				              if(res.data.data.totalPages==0){
+                                vm.keynotResult=true; 
+                           }else{ vm.keynotResult=false; };
+
+                           
 
                         let typeOf = typeof res.data.data;
                         vm.keyWordTotalpages=res.data.data.totalPages;
