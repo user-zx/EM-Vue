@@ -29,7 +29,7 @@ ss<template>
 			
 			
              <div class="col-md-2 col-xs-2">  
-                <myVueCalendar @endTime="endTime"></myVueCalendar>
+                <myVueCalendar></myVueCalendar>
             </div> 
 			
 			<div class="col-md-2">
@@ -231,19 +231,16 @@ ss<template>
 					
 					obj_arr[input_Arr[j]] = arrObj
 				} 
+<<<<<<< HEAD
 				// console.log(obj_arr);
+=======
+				//console.log(obj_arr);
+>>>>>>> b849ab6ab3be639e8a6bfa6fe25c857d7df7b562
 				return obj_arr;
 			}
 		},
 		methods:{
-              startTime(date){
-                let vm = this; 
-                vm.startDate= date;
-            },       
-            endTime(date){ 
-                let vm = this;   
-                vm.endDate = date;  
-            },
+            
             go(){
 				let vm =this;
 				
@@ -281,7 +278,7 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-                 
+
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -502,7 +499,11 @@ ss<template>
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
+<<<<<<< HEAD
                                // console.log(vm.artList.artContent);
+=======
+                               //console.log(vm.artList.artContent);
+>>>>>>> b849ab6ab3be639e8a6bfa6fe25c857d7df7b562
 							}else{ 
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -529,8 +530,14 @@ ss<template>
 			}
 		},   
 		mounted:function(){
-			//console.log('test');      
-            let vm=this;
+			
+            let vm=this;    
+            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>span",function(){
+            	vm.startDate = $(this).attr("data-date");
+            }) 
+             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
+            	vm.endDate = $(this).attr("data-date");  
+            })  
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
