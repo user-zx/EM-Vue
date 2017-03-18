@@ -100,17 +100,22 @@
             },
             addPack(){
                 let vm = this;
-                vm.addPackage.params.createDate=new Date();
-                vm.post(vm.addPackage.url,vm.addPackage.params,function (response) {
-                    if(response.success){
-                        $("#addPackage").modal("hide");
-                        vm.$router.push({path:"/home/addPackageSuccess"});
-                    }else{
-                        alert(response.message);
-                    }
-                },function (error) {
-                    console.log(error);
-                });
+                if(vm.addPackage.params.name.length<10&&vm.addPackage.params.price.length<10&&vm.addPackage.params.leadsTimes.length<10){                
+                    vm.addPackage.params.createDate=new Date();
+                    vm.post(vm.addPackage.url,vm.addPackage.params,function (response) {
+                        if(response.success){
+                            $("#addPackage").modal("hide");
+                            vm.$router.push({path:"/home/addPackageSuccess"});
+                        }else{
+                            alert(response.message);
+                        }
+                    },function (error) {
+                        console.log(error);
+                    });
+                }else{
+                    alert("长度不能超过十位哟！")
+                }
+              
             }
         },
         mounted(){
