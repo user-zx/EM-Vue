@@ -74,18 +74,25 @@
         methods:{
             update(){
                 let vm= this;
-                vm.$http.post(vm.updateUrl,vm.params).then((response)=>{
-                    if(response.ok){
-                        if(response.data.success){
-                            console.log(response.data);
-                            vm.successAlert("密码修改成功！");
-                        }else{
-                            vm.errorAlert(response.data.message);
-                        }
-                    }
-                }).then((error)=>{
-                   console.log(error);
-                });
+                if(vm.doublePassword==""){
+                     vm.errorAlert("确认密码不能为空！");
+                 }else if (vm.params.newPassword==vm.doublePassword) {
+                      vm.$http.post(vm.updateUrl,vm.params).then((response)=>{
+                            if(response.ok){
+                                if(response.data.success){
+                                    console.log(response.data);
+                                    vm.successAlert("密码修改成功！");
+                                }else{                                 
+                                         vm.errorAlert(response.data.message);                                 
+                                }
+                            }
+                        }).then((error)=>{
+                           console.log(error);
+                        });
+                 }else{
+                     vm.errorAlert("确认密码与新密码不一致！");
+                }
+                
             },
             errorAlert(errorContent){
                 $("#errorAlert").find(".content").text(errorContent).parent().show();
