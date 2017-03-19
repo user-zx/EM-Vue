@@ -1,20 +1,21 @@
 <template>
     <div class="row">
-      <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="1" id="dataPlug-in-one"></calendar>
-       <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="2" id="dataPlug-in-two"></calendar>
+      <calendar :value="value1" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="1" id="dataPlug-in-one" ></calendar>
+       <calendar :value="value2" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="2" id="dataPlug-in-two" :onDayClick = onDayClick1></calendar>
     </div>
 </template>
 <script> 
    import Vue from 'vue'
    import Calendar from './utils/Calendar.vue'
-   
+    
 export default {
   name: 'docs',
   data () {
     return {
       msg: 'Component Demo',
       disabled: [],
-      value: '',
+      value1: '',
+      value2:'',
       date1: '',
       date2: '',
       date3: '',
@@ -69,24 +70,7 @@ export default {
     getBus () {
       return this.bus
     },
-    getDateInfo (v) {
-      var iDiff = -1
-      var sNowDate = this.stringify(new Date())
-      var sDateName = ['今天', '明天', '后天']
-      switch (true) {
-        case v === sNowDate:
-          iDiff = 0
-          break
-        case v === this.siblings(sNowDate, 1):
-          iDiff = 1
-          break
-        case v === this.siblings(sNowDate, 2):
-          iDiff = 2
-          break
-      }
-      !this._dateMap && this.isHoliday && (this._dateMap = this._createDateMap())
-      return this._dateMap && this._dateMap[v] || sDateName[iDiff]
-    },
+    
     _createDateMap () {
       var oTmp = {}
       for (var propety in this.HOLIDAYS) {
@@ -118,6 +102,7 @@ export default {
       return String(v).replace(/^(\d)$/, '0$1')
     },
     onDayClick1 (date, str) {
+      console.log('test');
       this.date1 = str
     },
     onDayClick2 (date, str) {
@@ -229,14 +214,21 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" >
     .datepicker>input{
         width: 100px !important;
-    }
+    } 
     input.datepicker-input.with-reset-button{
         padding: 5px !important; 
-    }
+    } 
     .datepicker > button.close{
         width: 15px !important; 
     }
+    #dataPlug-in-one>button>span,#dataPlug-in-two>button>span{
+      display: none; 
+    }       
+    .datepicker-item-gray{  
+      pointer-events: none !important;
+    }
+    
 </style> 

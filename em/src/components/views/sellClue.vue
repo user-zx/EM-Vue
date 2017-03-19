@@ -231,11 +231,7 @@ ss<template>
 					
 					obj_arr[input_Arr[j]] = arrObj
 				} 
-<<<<<<< HEAD
-				// console.log(obj_arr);
-=======
-				//console.log(obj_arr);
->>>>>>> b849ab6ab3be639e8a6bfa6fe25c857d7df7b562
+
 				return obj_arr;
 			}
 		},
@@ -278,7 +274,7 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-
+                console.log(vm.searchCon); 
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -309,9 +305,7 @@ ss<template>
             },
             singleSearch(keyword){
                 let vm = this;
-
                 this.$http.post(vm.bodyDataUrl,{"pageSize":6,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
-
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
@@ -354,10 +348,8 @@ ss<template>
                     }); 
                 }else{     
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
-                    	//console.log(artId); 
                         if(res.ok){ 
                             if(res.data.success){    
-                            	//console.log('test22');      
                                 vm.artList.artContent[index].addFavoritesStatus=true;
                             } 
                         }
@@ -463,7 +455,6 @@ ss<template>
                 }
             },
             getLinkStatus(index,salesLeadsId){
-            	// console.log(index);  
 				let vm=this;
 				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
 					 if(result.ok){  
@@ -499,11 +490,7 @@ ss<template>
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
-<<<<<<< HEAD
-                               // console.log(vm.artList.artContent);
-=======
-                               //console.log(vm.artList.artContent);
->>>>>>> b849ab6ab3be639e8a6bfa6fe25c857d7df7b562
+
 							}else{ 
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -533,11 +520,25 @@ ss<template>
 			
             let vm=this;    
             $(document).on("click","#dataPlug-in-one .datepicker-dateRange>span",function(){
-            	vm.startDate = $(this).attr("data-date");
-            }) 
-             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
+            	vm.startDate = $(this).attr("data-date"); 
+            	vm.endDate  = $(this).attr("data-date");
+            	$("#dataPlug-in-one>button>span").css("display","inline-block")
+            	$("#dataPlug-in-two>button>span").css("display","inline-block")
+            })
+            $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
+            	vm.startDate  = "";
+            	$(this).css("display","none");
+            });
+            $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
             	vm.endDate = $(this).attr("data-date");  
-            })  
+            	$("#dataPlug-in-two>button>span").css("display","inline-block")
+            })   
+            $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
+            	vm.endDate  = "";
+            	$(this).css("display","none");
+            });
+              
+            
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -584,7 +585,7 @@ ss<template>
                 $(this).val(vm.getDateStr(0));
             });
 			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
-				if(response.ok){
+				if(response.ok){  
 						//console.log(response.data.data.content);
 				    if(response.data.success){
 				        let typeOf=typeof response.data.data;

@@ -51,11 +51,7 @@
 	  		let vm = this;
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
-	         //console.log(this.$el);
-	      
 	        }); 
-	        
-	          
 	  		$("#remember").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function () {
@@ -64,9 +60,7 @@
             }).on("ifUnchecked",function () {
                 vm.rememberMe=false;
             });
- 
        },
-
 	  	methods:{
 	  		//写ajax请求
             generateKey() {
@@ -83,16 +77,14 @@
 						vm.login();
 						return false;
 					}else if(account=="" || password==""){
-						console.log($(".showError")[0])
+						//console.log($(".showError")[0])
 						vm.hint = true;
                          $(".showError").html("手机号或密码不能为空!");
-                        
 					}else{
 						vm.hint = true;
 						vm.item.account = "";
 						vm.item.password = "";   
 						$(".showError").html("手机号或密码出错!");
-						
 					}
                 });
             },
@@ -113,7 +105,6 @@
                 params.password=vm.item.password;
                 params.rememberMe = vm.rememberMe;
                 vm.$http.post(vm.apiUrl, params).then(function(result){
-                	//console.log(result);
                     if(result.ok){  
                         if(result.data.success){
 							vm.hint = false;             
@@ -124,12 +115,12 @@
 							vm.hint = true;  
 							vm.item.account = "";
 						    vm.item.password = "";   
+						    vm.rememberMe = false;
 							$(".showError").html(result.data.message);
 						}
 					}
                 });
 			},
-			
 			changeVal(){
 				if(this.hint){
 					this.hint  = false;
