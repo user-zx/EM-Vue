@@ -84,6 +84,7 @@
 	text-decoration: none;
 	border: 1px solid #32ccca;
 	color: #32ccca;
+	width:102px;
 	
 }
 .sellClue_list_div>div>ul>li>button[disabled]{opacity:1;}

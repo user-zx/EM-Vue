@@ -96,10 +96,11 @@ ss<template>
 					<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
 				</li> 
 				<li v-bind:class="{active:artItem.labelStatus}">
-					<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</a>
-					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="17" width="14" :disabled="artItem.checkStatus">标记处理</a>
-				</li> 
-			</ul>      
+					<button v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</button>
+					<button  v-else  class="btn" @click="labelFun(index,artItem.salesLeads.id)"
+					:disabled="!artItem.checkStatus">
+					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
+				</li>			</ul>      
  			 
 			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
 		</div> 
@@ -292,11 +293,9 @@ ss<template>
                 	return false; 
                 }
                  vm.initsearchCon=vm.searchCon;
-                  /* $(".pagination").jqPaginator('option',{
-                    currentPage:1,
-                }); */ 
+
+    
                 vm.initsearchCon.pageNumber=1;
-                //console.log(vm.initsearchCon);
                 this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
