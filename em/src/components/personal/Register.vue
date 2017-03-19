@@ -1,6 +1,13 @@
 <template>
 	<div id="register">
-	     <heads></heads>
+	     <div id="heads" class="heads navbar navbar-default">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/home">
+              <img src="../../assets/images/logo.png" alt="logo"/>
+            </a>
+        </div> 
+      
+       </div> 
 		<div class="register_centre container">
 			<div class="panel">
 				<div class="panel-heading" id="register_centre_heading">
@@ -185,10 +192,13 @@
    .btn-default:focus{background-color:#ffffff;}
    .btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default{background-color:#ffffff;}
    label{font-weight:500;}
+    .heads{position:fixed;top:0;width:100%;height:65px;padding-left:30px;padding-right:30px;border-radius: 0;border:none;background-color: #32ccca;margin-bottom:0;z-index: 8888;
+        box-shadow:0 0 3px #999;}
+    .heads .navbar-brand{height:auto;}
 </style>
 <script>	
     	
-	  import heads from "../head/heads.vue";
+	  
 	  import "../../assets/js/iCkeck-v1.0.2/js/icheck.js";
 	  import common from "../../assets/js/common.js";
 	  import provincesData from "../../assets/js/area/provincesData.js";
@@ -532,7 +542,7 @@
 	  		console.log('test'); 
 	  	},
 	  	components:{
-	  		heads
+	  		//heads 
 	  	}
 	  }
  

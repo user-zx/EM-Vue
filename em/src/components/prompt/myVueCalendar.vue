@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div >
      <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" id="dataPlug-in-one"></calendar>
        <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" id="dataPlug-in-two"></calendar>
     </div> 

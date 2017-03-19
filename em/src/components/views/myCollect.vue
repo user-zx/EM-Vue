@@ -184,7 +184,7 @@
                 },
 				searchCon:{
                     pageSize:6,
-                    pageNumber:1,
+                    pageNumber:1, 
 //                    checkStatus:"是", 
 					labelStatus:"",
 					keywords:"",
@@ -454,10 +454,13 @@
                     return false; 
                 }
                  vm.initsearchCon=vm.searchCon;
-                   $(".pagination").jqPaginator('option',{
-					currentPage:1,
-				});
+                 
+                /* $(".pagination").jqPaginator('option',{
+                    currentPage:1,
+                 });*/ 
+                  
 				vm.initsearchCon.pageNumber=1;
+				console.log(vm.initsearchCon);
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
