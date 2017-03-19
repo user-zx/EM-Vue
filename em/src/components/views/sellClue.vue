@@ -294,9 +294,13 @@ ss<template>
                 	alert("开始时间不能大于结束时间!")
                 	return false; 
                 }
-                
-                console.log(vm.searchCon);
-                this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
+                 vm.initsearchCon=vm.searchCon;
+                   $(".pagination").jqPaginator('option',{
+                    currentPage:1,
+                });
+                vm.initsearchCon.pageNumber=1;
+                console.log(vm.initsearchCon);
+                this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
                         	console.log(response.data.data);
@@ -305,13 +309,13 @@ ss<template>
                             if(typeOf!="string"){
                                 $("#pagination").jqPaginator({
                                     totalPages:  response.data.data.totalPages,
-                                    visiblePages: vm.searchCon.pageSize,
-                                    currentPage: vm.searchCon.pageNumber,
+                                    visiblePages: vm.initsearchCon.pageSize,
+                                    currentPage: vm.initsearchCon.pageNumber,
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
-                                        vm.searchCon.pageNumber = n;
+                                        vm.initsearchCon.pageNumber = n;
                                         vm.page();
                                     }
                                 });
@@ -333,15 +337,15 @@ ss<template>
                             if(typeOf!="string"){
 								$("#pagination").jqPaginator({
 									totalPages:  response.data.data.totalPages,
-									visiblePages: vm.searchCon.pageSize,
-									currentPage: vm.searchCon.pageNumber,
+									visiblePages: vm.initsearchCon.pageSize,
+									currentPage: vm.initsearchCon.pageNumber,
 									
 									prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 									next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
 									
 									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 									onPageChange: function (n){
-										vm.searchCon.pageNumber = n;
+										vm.initsearchCon.pageNumber = n;
 										vm.page();
 									}
 								});
@@ -642,15 +646,15 @@ ss<template>
                 if(typeOf!="string"){
                     $("#pagination").jqPaginator({
                         totalPages:  response.data.data.totalPages,
-                        visiblePages: vm.searchCon.pageSize,
-                        currentPage: vm.searchCon.pageNumber,
+                        visiblePages: vm.initsearchCon.pageSize,
+                        currentPage: vm.initsearchCon.pageNumber,
                         
                         prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                         next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
                       
                         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                         onPageChange: function (n){
-                            vm.searchCon.pageNumber = n;
+                            vm.initsearchCon.pageNumber = n;
 
                             vm.page();
                         } 
