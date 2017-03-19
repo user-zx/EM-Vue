@@ -5,7 +5,7 @@
           :style="{width:width}"
           @click="inputClick"
           v-model="inputValue"/>
-      <button v-if="clearButton && value" type="button" class="close" @click="inputValue = ''">
+      <button  type="button" class="close" @click="inputValue = ''">
         <span>&times;</span>
       </button>
     </template>
@@ -338,6 +338,7 @@ export default {
     },
     daySelect (date, event) {
       let el = event.target
+      
       if (el.classList[0] === 'datepicker-item-disable') {
         return false
       } else {

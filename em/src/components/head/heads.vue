@@ -41,8 +41,6 @@ export default{
             this.$http.get("../apis/logout.do").then((response)=>{
                if(response.ok){
                    if(response.status){
-                        
-                       //sessionStorage.clear();
                        this.username = "";
                        window.location.href = "/"
                    } 
@@ -59,6 +57,7 @@ export default{
             //console.log(res);
             if(res.ok){
                 if(res.data.success){ 
+                    //console.log(res);
                     vm.username = res.data.data;
                 }else{
                     vm.username = "";

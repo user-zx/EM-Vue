@@ -17,12 +17,14 @@ Vue.use(VueRouter);
 Vue.use(vueResource); 
 Vue.use(Vuex);
 Vue.http.interceptors.push((request, next) => {
-    //console.log(request);    
+   
     request.method = 'POST';
     next((response) => {
       if(response.ok){
         if(response.data.success){
           return response;
+        }else if(response.data.status=='401'){
+            window.location.href="/"; 
         }
       }else{
         console.log("请求错误，请重试！")
@@ -45,13 +47,3 @@ const app =  new Vue({
 }).$mount("#app");
    
 
-
-
-/*const app = new Vue({
-	el:"#app",
-	data:{
-		//aa:'bab'  
-	},     
-	template:"<app>",
-	components:{App}
-})*/

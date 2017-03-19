@@ -228,12 +228,25 @@
         components:{expense,myVueCalendar},
         mounted(){
             let vm=this;
-            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>span",function(){
-                vm.startDate = $(this).attr("data-date");
-            }) 
-             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
+            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.day-cell",function(){ 
+                vm.startDate = $(this).attr("data-date");   
+                $("#dataPlug-in-one>button>span").css("display","inline-block")
+            })  
+            $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
+                vm.startDate  = "";
+                $(this).css("display","none");
+            }); 
+            $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
                 vm.endDate = $(this).attr("data-date");  
-            }) 
+                $("#dataPlug-in-two>button>span").css("display","inline-block")
+            })      
+            $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
+                vm.endDate  = "";   
+                $(this).css("display","none");
+            });  
+           
+          
+            
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -423,7 +436,7 @@
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-               // console.log(vm.searchCon);
+                console.log(vm.searchCon);
                 this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){

@@ -282,11 +282,12 @@
                 }else{
                      vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
                 }
-                if(vm.endDate==""){ 
+                if(vm.endDate==""){   
                     vm.searchCon.checkEndDate = "";
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
+
                    vm.initsearchCon=vm.searchCon;
                    $(".pagination").jqPaginator('option',{
 					currentPage:1,
@@ -294,6 +295,7 @@
 				vm.initsearchCon.pageNumber=1;
                 this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
+
                         if(response.data.success){
                         	console.log(response.data.data);
                               vm.sellClueTotalPages=response.data.data.totalPages;
@@ -322,11 +324,8 @@
             },
             singleSearch(keyword){
                 let vm = this;
-                   
 
-                 
                 this.$http.post(vm.bodyDataUrl,{"pageSize":6,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
-
                     if(response.ok){
                         if(response.data.success){
                      $(".pagination").jqPaginator('option',{
@@ -372,10 +371,8 @@
                     }); 
                 }else{     
                     vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
-                    	//console.log(artId); 
                         if(res.ok){ 
                             if(res.data.success){    
-                            	//console.log('test22');      
                                 vm.artList.artContent[index].addFavoritesStatus=true;
                             } 
                         }
@@ -481,7 +478,6 @@
                 }
             },
             getLinkStatus(index,salesLeadsId){
-            	// console.log(index);  
 				let vm=this;
                  
 				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
@@ -537,23 +533,32 @@
 				let vm = this;
 				let dataId = el.currentTarget.getAttribute("data-id");
 				vm.$http.post(vm.messageList,dataId).then((response)=>{
-    			 		// console.log(response);
 				},(response)=>{
 					if(response.data.status==500)
-					// console.log(response.data.message);
 					return false;
 			   });
 			}
 		},   
 		mounted:function(){
-			
             let vm=this;    
-            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>span",function(){
-            	vm.startDate = $(this).attr("data-date");
+            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.day-cell",function(){ 
+                vm.startDate = $(this).attr("data-date");   
+                $("#dataPlug-in-one>button>span").css("display","inline-block")
             }) 
-             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
-            	vm.endDate = $(this).attr("data-date");  
-            })  
+            $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
+                vm.startDate  = "";
+                $(this).css("display","none");
+            }); 
+            $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
+                vm.endDate = $(this).attr("data-date");  
+                $("#dataPlug-in-two>button>span").css("display","inline-block")
+            })      
+            $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
+                vm.endDate  = "";   
+                $(this).css("display","none");
+            });  
+              
+            
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
@@ -600,7 +605,7 @@
                 $(this).val(vm.getDateStr(0));
             });
 			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
-				if(response.ok){
+				if(response.ok){  
 						//console.log(response.data.data.content);
 				    if(response.data.success){
 				        let typeOf=typeof response.data.data;
@@ -631,7 +636,6 @@
                             	  	 if (n_arr.indexOf(temporaryArr[i]) == -1) n_arr.push(temporaryArr[i]);
                             	  }
                            		vm.inputArr = n_arr;	  
-                             
 						}
 					} 
 				}
