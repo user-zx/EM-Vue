@@ -284,9 +284,8 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-
+                
                 console.log(vm.searchCon); 
-                 // vm.initsearchCon=vm.searchCon; 
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
@@ -520,35 +519,30 @@ ss<template>
 				let vm = this;
 				let dataId = el.currentTarget.getAttribute("data-id");
 				vm.$http.post(vm.messageList,dataId).then((response)=>{
-    			 		// console.log(response);
 				},(response)=>{
 					if(response.data.status==500)
-					// console.log(response.data.message);
 					return false;
 			   });
 			}
 		},   
 		mounted:function(){
-			
             let vm=this;    
-            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>span",function(){
-            	vm.startDate = $(this).attr("data-date"); 
-            	vm.endDate  = $(this).attr("data-date");
-            	$("#dataPlug-in-one>button>span").css("display","inline-block")
-            	$("#dataPlug-in-two>button>span").css("display","inline-block")
-            })
+            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.day-cell",function(){ 
+                vm.startDate = $(this).attr("data-date");   
+                $("#dataPlug-in-one>button>span").css("display","inline-block")
+            }) 
             $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
-            	vm.startDate  = "";
-            	$(this).css("display","none");
-            });
-            $(document).on("click","#dataPlug-in-two .datepicker-dateRange>span",function(){
-            	vm.endDate = $(this).attr("data-date");  
-            	$("#dataPlug-in-two>button>span").css("display","inline-block")
-            })   
+                vm.startDate  = "";
+                $(this).css("display","none");
+            }); 
+            $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
+                vm.endDate = $(this).attr("data-date");  
+                $("#dataPlug-in-two>button>span").css("display","inline-block")
+            })      
             $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
-            	vm.endDate  = "";
-            	$(this).css("display","none");
-            });
+                vm.endDate  = "";   
+                $(this).css("display","none");
+            });  
               
             
             $(".selectpicker").selectpicker({
@@ -628,7 +622,6 @@ ss<template>
                             	  	 if (n_arr.indexOf(temporaryArr[i]) == -1) n_arr.push(temporaryArr[i]);
                             	  }
                            		vm.inputArr = n_arr;	  
-                             
 						}
 					} 
 				}

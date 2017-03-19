@@ -1,8 +1,8 @@
 <template>
     <div class="row">
-      <calendar :value="value1" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="1" id="dataPlug-in-one" ></calendar>
-       <calendar :value="value2" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="2" id="dataPlug-in-two" :onDayClick = onDayClick1></calendar>
-    </div>
+     <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" id="dataPlug-in-one"></calendar>
+       <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" id="dataPlug-in-two"></calendar>
+    </div> 
 </template>
 <script> 
    import Vue from 'vue'
@@ -14,8 +14,7 @@ export default {
     return {
       msg: 'Component Demo',
       disabled: [],
-      value1: '',
-      value2:'',
+      value: '',
       date1: '',
       date2: '',
       date3: '',

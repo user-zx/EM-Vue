@@ -228,29 +228,24 @@
         components:{expense,myVueCalendar},
         mounted(){
             let vm=this;
-            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.datepicker-dateRange-item-active",function(){
-                vm.startDate = $(this).attr("data-date"); 
-                vm.endDate  = $(this).attr("data-date");
+            $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.day-cell",function(){ 
+                vm.startDate = $(this).attr("data-date");   
                 $("#dataPlug-in-one>button>span").css("display","inline-block")
-                $("#dataPlug-in-two>button>span").css("display","inline-block")
-            })
+            })  
             $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
                 vm.startDate  = "";
                 $(this).css("display","none");
             }); 
-            $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.datepicker-dateRange-item-active",function(){
-                //console.log($(this)[0]);  
+            $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
                 vm.endDate = $(this).attr("data-date");  
                 $("#dataPlug-in-two>button>span").css("display","inline-block")
-            })   
+            })      
             $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
-                vm.endDate  = "";
+                vm.endDate  = "";   
                 $(this).css("display","none");
             });  
-            $(".datepicker-item-gray").attr("disabled", "disabled"); 
-           /* $(document).on('click', '.datepicker-item-gray', function(event) {
-                
-            });*/ 
+           
+          
             
             $(".selectpicker").selectpicker({
                 style: 'btn-default',

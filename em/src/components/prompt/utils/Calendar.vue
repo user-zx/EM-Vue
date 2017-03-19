@@ -338,8 +338,7 @@ export default {
     },
     daySelect (date, event) {
       let el = event.target
-      console.log(el);
-      console.log(date);
+      
       if (el.classList[0] === 'datepicker-item-disable') {
         return false
       } else {
