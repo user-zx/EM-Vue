@@ -9,7 +9,6 @@ import vueConfig from './store.config';
 import 'bootstrap';
 import "vue-style-loader!css-loader!sass-loader!bootstrap/dist/css/bootstrap.min.css";
 import "vue-style-loader!css-loader!sass-loader!./assets/css/style.scss";
-Vue.config.debug=true;
 Vue.use(vueRouter);
 Vue.use(vueResource);
 Vue.use(Vuex);
