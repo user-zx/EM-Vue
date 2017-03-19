@@ -197,6 +197,16 @@ ss<template>
                     checkStartDate:"",
                     checkEndDate:""
                 },
+                initsearchCon:{
+                    pageNumber:1,
+                    pageSize:6,
+                    labelStatus:"",
+                    keywords:"",
+                    source:"",
+                    type:"",
+                    checkStartDate:"",
+                    checkEndDate:""
+                },
                 promptMessage:"",
                 modelData:{},
                 startDate:"",
@@ -252,7 +262,7 @@ ss<template>
 					currentPage:index,
 				});
 				vm.searchCon.pageNumber=index;
-				vm.artListFun();
+				vm.page();
 			}
 			},  
             goAnchor(selector) {
@@ -274,9 +284,11 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
+
                 console.log(vm.searchCon); 
+                 // vm.initsearchCon=vm.searchCon; 
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
-                    if(response.ok){
+                    if(response.ok){ 
                         if(response.data.success){
                         	console.log(response.data.data);
                               vm.sellClueTotalPages=response.data.data.totalPages;
@@ -477,7 +489,7 @@ ss<template>
 			},
 			page:function(){
 				let vm  = this;
-				vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
+				vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf=typeof response.data.data;
@@ -621,7 +633,7 @@ ss<template>
 					} 
 				}
 			});
-			vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
+			vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                 let typeOf = typeof response.data.data;
                 vm.sellClueTotalPages=response.data.data.totalPages;
                 if(typeOf!="string"){
@@ -636,6 +648,7 @@ ss<template>
                         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                         onPageChange: function (n){
                             vm.searchCon.pageNumber = n;
+
                             vm.page();
                         } 
                     });
