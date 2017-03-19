@@ -282,10 +282,21 @@ ss<template>
                 if(vm.endDate==""){   
                     vm.searchCon.checkEndDate = "";
                 }else{ 
-                    vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                	vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                }
+               
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<=vm.searchCon.checkStartDate){
+                	vm.searchCon.checkEndDate  = "";
+                	vm.searchCon.checkStartDate = "";
+                	$("#dataPlug-in-one>input").val("")
+                	$("#dataPlug-in-two>input").val("")
+                	$("#dataPlug-in-one>button>span").css("display","none");
+                	$("#dataPlug-in-two>button>span").css("display","none");
+                	alert("开始时间不能大于结束时间!")
+                	return false; 
                 }
 
-                console.log(vm.searchCon); 
+                console.log(vm.searchCon);
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
