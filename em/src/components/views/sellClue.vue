@@ -26,12 +26,9 @@ ss<template>
 					<option value="未处理">未处理</option>
 				</select>
 			</div>
-			
-			
-             <div class="col-md-2 col-xs-2">  
+             <div class="col-md-2 col-xs-2" id="myVueCalendar">  
                 <myVueCalendar></myVueCalendar>
             </div> 
-			
 			<div class="col-md-2">
 			    
 				<div class="form-group" style="position:relative;" >

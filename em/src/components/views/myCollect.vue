@@ -26,7 +26,7 @@
 					</select>
 				</div>
 			 
-             <div class="col-md-2 col-xs-1">  
+             <div class="col-md-2 col-xs-1" id="myVueCalendar">  
 				<myVueCalendar ></myVueCalendar>
 			</div>
 			<div class="col-md-2">

@@ -20,7 +20,7 @@
 					</select>
 				</div>
               
-                 <div class="col-md-2 col-xs-2">  
+                 <div class="col-md-2 col-xs-2" id="myVueCalendar">  
                     <myVueCalendar ></myVueCalendar>
                 </div> 
 				<div class="col-md-3 col-xs-3">  
