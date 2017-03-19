@@ -229,7 +229,6 @@ ss<template>
  					for (let i = 0; i < arrObj.length; i++) {
  						arrObj[i].sing = input_Arr[j];
  					} 
-					//console.log(arrObj);  
 					if(inputVal){  
 					    arrObj = arrObj.filter(function(row) {
                         return Object.keys(row).some(function(key) {

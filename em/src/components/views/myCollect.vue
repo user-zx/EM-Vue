@@ -437,10 +437,21 @@
                 }else{
                      vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
                 }
-                if(vm.endDate==""){ 
+                if(vm.endDate==""){   
                     vm.searchCon.checkEndDate = "";
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                }
+               
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<=vm.searchCon.checkStartDate){
+                    vm.searchCon.checkEndDate  = "";
+                    vm.searchCon.checkStartDate = "";
+                    $("#dataPlug-in-one>input").val("")
+                    $("#dataPlug-in-two>input").val("")
+                    $("#dataPlug-in-one>button>span").css("display","none");
+                    $("#dataPlug-in-two>button>span").css("display","none");
+                    alert("开始时间不能大于结束时间!")
+                    return false; 
                 }
                  vm.initsearchCon=vm.searchCon;
                    $(".pagination").jqPaginator('option',{
