@@ -279,12 +279,12 @@ ss<template>
                 }else{
                      vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
                 }
-                if(vm.endDate==""){ 
+                if(vm.endDate==""){   
                     vm.searchCon.checkEndDate = "";
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-                
+
                 console.log(vm.searchCon); 
                 this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){ 
