@@ -197,6 +197,16 @@ ss<template>
                     checkStartDate:"",
                     checkEndDate:""
                 },
+                initsearchCon:{
+                    pageNumber:1,
+                    pageSize:6,
+                    labelStatus:"",
+                    keywords:"",
+                    source:"",
+                    type:"",
+                    checkStartDate:"",
+                    checkEndDate:""
+                },
                 promptMessage:"",
                 modelData:{},
                 startDate:"",
@@ -231,11 +241,7 @@ ss<template>
 					
 					obj_arr[input_Arr[j]] = arrObj
 				} 
-<<<<<<< HEAD
-				// console.log(obj_arr);
-=======
-				//console.log(obj_arr);
->>>>>>> b849ab6ab3be639e8a6bfa6fe25c857d7df7b562
+
 				return obj_arr;
 			}
 		},
@@ -256,7 +262,7 @@ ss<template>
 					currentPage:index,
 				});
 				vm.searchCon.pageNumber=index;
-				vm.artListFun();
+				vm.page();
 			}
 			},  
             goAnchor(selector) {
@@ -278,8 +284,8 @@ ss<template>
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-
-                this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
+                   vm.initsearchCon=vm.searchCon;
+                this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                         	console.log(response.data.data);
@@ -486,7 +492,7 @@ ss<template>
 			},
 			page:function(){
 				let vm  = this;
-				vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
+				vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf=typeof response.data.data;
@@ -499,11 +505,7 @@ ss<template>
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
-<<<<<<< HEAD
-                               // console.log(vm.artList.artContent);
-=======
-                               //console.log(vm.artList.artContent);
->>>>>>> b849ab6ab3be639e8a6bfa6fe25c857d7df7b562
+
 							}else{ 
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -620,7 +622,7 @@ ss<template>
 					} 
 				}
 			});
-			vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
+			vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                 let typeOf = typeof response.data.data;
                 vm.sellClueTotalPages=response.data.data.totalPages;
                 if(typeOf!="string"){
@@ -635,6 +637,7 @@ ss<template>
                         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                         onPageChange: function (n){
                             vm.searchCon.pageNumber = n;
+
                             vm.page();
                         } 
                     });
