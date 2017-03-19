@@ -102,7 +102,7 @@ ss<template>
 					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
 				</li>			</ul>      
  			 
-			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
+			<button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
 		</div> 
 		<menu class="clearfix">   
 			<li v-show="artItem.salesLeads.address">
@@ -299,7 +299,6 @@ ss<template>
                 this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
-                        	//console.log(response.data.data);
                               vm.sellClueTotalPages=response.data.data.totalPages;
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
@@ -489,7 +488,7 @@ ss<template>
                         } 
                     }
 				}, (err)=>{
-					 // console.log(err); 
+					
                      vm.$store.commit("setExpenseModelStatus",false) 
                      alert(err);  
                      return false;
@@ -498,6 +497,7 @@ ss<template>
 			},
 			page:function(){
 				let vm  = this;
+				console.log(vm.initsearchCon);
 				vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -651,7 +651,7 @@ ss<template>
                         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                         onPageChange: function (n){
                             vm.initsearchCon.pageNumber = n;
-
+                            
                             vm.page();
                         } 
                     });

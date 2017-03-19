@@ -105,7 +105,7 @@
 					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
 						</li>
 					</ul>   
-					<button class="btn btn-search" v-if="!artItem.checkStatus"  @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
+					<button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus"  @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
 				</div>
 				
 				<!-- v-if="artItem.checkStatus" -->
@@ -347,6 +347,7 @@
             artListFun(){
                 let vm=this;
                  let autoHeight = "";
+                 console.log(vm.initsearchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
@@ -358,7 +359,8 @@
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
-                                  vm.notResult=false;
+                                  vm.notResult=false; 
+                               	console.log(vm.artList);
                                   autoHeight = common.autoHeight;
                                   autoHeight(".viewLog"); 
                             }else{ 
@@ -376,7 +378,9 @@
 			},
 			getArtListFun(){
                 let vm=this;
+                console.log(vm.initsearchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
+                	console.log(response);
                     if(response.ok){
                         if(response.data.success){
                         	vm.collectTotalPages=response.data.data.totalPages;

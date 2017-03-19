@@ -209,7 +209,7 @@
 	  	data(){ 
 	  		return{
 	  			register_login:  true,
-	  			register_message:  false,
+	  			register_message: false ,
 	  			register_pay: false,    
 	  			phoneText:"",
 	  			verification:"",  
@@ -226,7 +226,6 @@
 	  			uploadWord:"点击这里上传文件",
 	  			isFile:false, 
 	  			fileUrl:"../apis/excel/importKeywordList",
-	  			
 	  		}
 	  	}, 
 	  	methods:{
@@ -262,9 +261,10 @@
                 if(patt.test(vm.database.keywordList)){
                     vm.database.keywordList = "";
                 }
-                //console.log(vm.database);
+                console.log(vm.database); 
                 let post = common.post;
                 post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
+                	console.log(res);
 					if(res.ok){
 					    if(res.data.success){
                             $(".active_i_two>s").animate({width: "100%"}, 600,function(){

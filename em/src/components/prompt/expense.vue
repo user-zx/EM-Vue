@@ -36,11 +36,11 @@
 			continueToAdd(){
 				
 				let vm = this;  
-				//console.log(vm.indexData.itemData.address);   
-				
+								
 				vm.$http.post(vm.indexData.url,vm.indexData.index).then((result)=>{
+						//console.log(result);
 						
-				   if(result.ok){ 
+				   if(result.ok){   
 				   	 if(result.data.success){  
 				   	 	vm.indexData.itemData.address = result.data.data.address;
 				   	 	vm.indexData.itemData.phone = result.data.data.phone;
@@ -48,6 +48,7 @@
 				   	 	vm.indexData.itemData.ip = result.data.data.ip;
 				   	 	vm.indexData.itemData.wechat = result.data.data.wechat;
 				   	 	vm.indexData.itemData.qq = result.data.data.qq;  
+				   	 	vm.indexData.itemData.checkStatus = true; 
 				   	 	$("#expense").modal("hide"); 
 				   	 	
 				   	 }else{ 
@@ -72,7 +73,7 @@
 		}, 
 		mounted(){   
 			let vm =this;  
-			//console.log(vm.status);  
+			
 
 			$("#expense").on("show.bs.modal",function() {
 				//console.log(vm.$store.state.expenseModel.status);			

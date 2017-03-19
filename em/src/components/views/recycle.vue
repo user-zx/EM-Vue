@@ -77,7 +77,7 @@
 				<img src="../../assets/images/notResult.jpg" alt="暂无数据"/>
 			</div>
 			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="artItem.ignoreStatus">
-                <div>
+                <div> 
                    <span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
                     <span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
                     <span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
@@ -92,7 +92,7 @@
                     <p>{{artItem.salesLeads.content}}</p>
                     <ul  class="sellClue_list_div_ul">
                         <li v-bind:class="{active:artItem.addFavoritesStatus}">
-                           <!--  <a href="javascript:void(0);" class="btn" v-if="artItem.addFavoritesStatus" @click="favoritesFun(index,artItem.salesLeads.id)"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a> -->  
+                            
                             <a  href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)"><img src="../../assets/images/collect.png" height="15" width="17">收藏线索</a>
                         </li>
                         <li>
@@ -104,8 +104,8 @@
                     :disabled="artItem.checkStatus">
                     <img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
                         </li> 
-                     </ul>  
-                     <button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
+                     </ul>   
+                     <button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
                 </div>
 				  
 				<menu  class="clearfix">     
@@ -548,6 +548,7 @@
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
+                                this.getArtListFun();
                                 this.artList.artContent[index].ignoreStatus=false;
                                 if($(".sellClue_list_div").length==1){
                                     this.notResult = true;

@@ -81,7 +81,7 @@
 					<span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
 					<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
 					<span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
-					<h4 v-if="artItem.salesLeads.title"> <a :href="artItem.salesLeads.link" target="_blank"></a> {{artItem.salesLeads.title}}</h4>
+					<h4 v-if="artItem.salesLeads.title"> <a :href="artItem.salesLeads.link" target="_blank"></a> {{artItem.salesLeads.title}}</h4>   
 					<h4 v-else>	   
 						<a :href="artItem.salesLeads.link" target="_blank">
 							<img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
@@ -105,10 +105,10 @@
 					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
 						</li>
 					</ul>   
-					<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
+					<button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
 				</div> 
 				
-				<menu v-if="artItem.checkStatus" class="clearfix">  
+				<menu class="clearfix">  
 					<li v-if="artItem.salesLeads.address">
 						<img src="../../assets/images/location.png" height="25" width="22" alt="">
 						<strong >{{artItem.salesLeads.address}}</strong>
@@ -124,7 +124,7 @@
 					<li v-if="artItem.salesLeads.ip">
 						<img src="../../assets/images/IP.png" height="25" width="25">
 						<strong>{{artItem.salesLeads.ip}}</strong>
-					</li>
+					</li> 
 					<li v-if="artItem.salesLeads.wechat">
 						<img src="../../assets/images/wechat.png" height="24" width="24">
 						<strong>{{artItem.salesLeads.wechat}}</strong>
@@ -134,26 +134,7 @@
 						<strong>{{artItem.salesLeads.qq}}</strong>
 					</li>
 				</menu> 
-				<menu v-else class="clearfix">  
-					<li v-if="artItem.salesLeads.address == 'true'">
-						<img src="../../assets/images/location.png" height="25" width="22" alt="">
-					</li> 
-					<li v-if="artItem.salesLeads.phone  == 'true'">
-						<img src="../../assets/images/phone.png" height="22" width="18">
-					</li>
-					<li v-if="artItem.salesLeads.email  == 'true'">
-						<img src="../../assets/images/email.png" height="21" width="25">
-					</li>
-					<li v-if="artItem.salesLeads.ip  == 'true'">
-						<img src="../../assets/images/IP.png" height="25" width="25">
-					</li>
-					<li v-if="artItem.salesLeads.wechat  == 'true'">
-						<img src="../../assets/images/wechat.png" height="24" width="24">
-					</li>
-					<li v-if="artItem.salesLeads.qq  == 'true'">
-						<img src="../../assets/images/QQ.png" height="24" width="23">
-					</li>
-				</menu> 
+				
 			</div> 
 			<div class="pageList clearfix" v-show="!notResult" >
 				<ul class="tz-pagination pull-right" >
@@ -280,7 +261,7 @@
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
                                 let temporaryArr = [];
-                                console.log(arr);
+                               // console.log(arr);
                             for (let i in arr){
                                 for (let j in conObj){
                                 	temporaryArr.push(j);
@@ -329,7 +310,6 @@
 					
 					obj_arr[input_Arr[j]] = arrObj
 				} 
-				console.log(obj_arr);
 				return obj_arr;
 			}
 		},
@@ -337,6 +317,7 @@
 			
             artListFun(){
                 let vm=this;
+                //console.log(vm.initsearchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
@@ -378,6 +359,8 @@
 			},
 			getArtListFun(){
                 let vm=this;
+                 vm.initsearchCon=vm.searchCon;
+                // console.log(vm.initsearchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                     if(response.ok){
                         if(response.data.success){
@@ -629,7 +612,7 @@
                              vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
                              vm.$store.commit("setExpenseModelStatus",true)
                              $("#expense").modal("show"); 
-                             console.log(vm.modelData.url);
+                           	
                              console.log( vm.modelData.itemData );  
                         }else{
                              vm.$store.commit("setExpenseModelStatus",false) 
