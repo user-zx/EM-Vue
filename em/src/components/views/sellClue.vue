@@ -1,5 +1,7 @@
-ss<template>
+<template>
+
 <div class="sellClue publicClass">
+    <div id="prompt" v-if="promptstate" style="background-color:#ffffff;padding:17px 15px;color:#273e4c;position:absolute;top:0px;left:31%;z-index:10000;"> <img src="../../assets/images/loadslow.png"/> 亲,暂时加载缓慢,请耐心等待哦</div>
 	<expense :indexData="modelData"></expense>
 	
 	<div class="search-box">
@@ -100,7 +102,7 @@ ss<template>
 				</li> 
 				<li v-bind:class="{active:artItem.labelStatus}">
 					<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</a>
-					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="17" width="14">标记处理</a>
+					<button id="handle" v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)" ><img src="../../assets/images/handle.png" height="17" width="14">标记处理</button>
 				</li> 
 			</ul>      
  			 
@@ -166,6 +168,7 @@ ss<template>
 	export default {
 		data(){  
 			return{
+				promptstate:false,
 				sellClueTotalPages:0,
                 notResult:false,
 				sourceList:["线索来源","不限","微博","百度贴吧"],
@@ -261,7 +264,7 @@ ss<template>
 				$(".pagination").jqPaginator('option',{
 					currentPage:index,
 				});
-				vm.searchCon.pageNumber=index;
+				vm.initsearchCon.pageNumber=index;
 				vm.page();
 			}
 			},  
@@ -285,6 +288,10 @@ ss<template>
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
                    vm.initsearchCon=vm.searchCon;
+                   $(".pagination").jqPaginator('option',{
+					currentPage:1,
+				});
+				vm.initsearchCon.pageNumber=1;
                 this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -294,13 +301,13 @@ ss<template>
                             if(typeOf!="string"){
                                 $("#pagination").jqPaginator({
                                     totalPages:  response.data.data.totalPages,
-                                    visiblePages: vm.searchCon.pageSize,
-                                    currentPage: vm.searchCon.pageNumber,
+                                    visiblePages: vm.initsearchCon.pageSize,
+                                    currentPage: vm.initsearchCon.pageNumber,
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n){
-                                        vm.searchCon.pageNumber = n;
+                                        vm.initsearchCon.pageNumber = n;
                                         vm.page();
                                     }
                                 });
@@ -315,24 +322,29 @@ ss<template>
             },
             singleSearch(keyword){
                 let vm = this;
+                   
 
+                 
                 this.$http.post(vm.bodyDataUrl,{"pageSize":6,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
 
                     if(response.ok){
                         if(response.data.success){
+                     $(".pagination").jqPaginator('option',{
+					currentPage:1,
+				      });
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
 								$("#pagination").jqPaginator({
 									totalPages:  response.data.data.totalPages,
-									visiblePages: vm.searchCon.pageSize,
-									currentPage: vm.searchCon.pageNumber,
+									visiblePages: vm.initsearchCon.pageSize,
+									currentPage: vm.initsearchCon.pageNumber,
 									
 									prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 									next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
 									
 									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 									onPageChange: function (n){
-										vm.searchCon.pageNumber = n;
+										vm.initsearchCon.pageNumber = n;
 										vm.page();
 									}
 								});
@@ -471,9 +483,11 @@ ss<template>
             getLinkStatus(index,salesLeadsId){
             	// console.log(index);  
 				let vm=this;
+                 
 				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
 					 if(result.ok){  
                         if(result.data.success){
+
                         	vm.modelData.url = vm.messageList;
 							vm.modelData.index = salesLeadsId; 
 							vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
@@ -628,15 +642,16 @@ ss<template>
                 if(typeOf!="string"){
                     $("#pagination").jqPaginator({
                         totalPages:  response.data.data.totalPages,
-                        visiblePages: vm.searchCon.pageSize,
-                        currentPage: vm.searchCon.pageNumber,
+                        visiblePages: vm.initsearchCon.pageSize,
+                        currentPage: vm.initsearchCon.pageNumber,
                         
                         prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                         next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
                       
                         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                         onPageChange: function (n){
-                            vm.searchCon.pageNumber = n;
+                            vm.initsearchCon.pageNumber = n;
+                            console.log(n);
 
                             vm.page();
                         } 

@@ -79,6 +79,15 @@
 	border: 1px solid #32ccca;
 	color: #32ccca;
 }
+.sellClue_list_div>div>ul>li>button{background-color:transparent;
+	border: 1px solid #32ccca;padding: 5px 11px;
+	text-decoration: none;
+	border: 1px solid #32ccca;
+	color: #32ccca;
+	
+}
+.sellClue_list_div>div>ul>li>button[disabled]{opacity:1;}
+.sellClue_list_div>div>ul>li>button:hover,.sellClue_list_div>div>ul>li>button:focus{color:#32ccca;}
 .sellClue_list_div>div>ul>li>a:hover {
 	color: #32ccca;
 }
@@ -153,10 +162,10 @@
 	border:0; 
 	background-color: #32ccca;
 	color: #fff;
-	padding: 3px 10px;
+	padding: 4px 10px;
 	-webkit-border-radius: 5px;
 			border-radius: 5px;
-	width: 115px;
+	width: 102px;
 	position: absolute;
 	right: 20px;
 	bottom: -55px;
