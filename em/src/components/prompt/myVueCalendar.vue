@@ -1,7 +1,7 @@
 <template>
     <div class="row">
-      <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="1" ></calendar>
-       <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="2"></calendar>
+      <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="1" id="dataPlug-in-one"></calendar>
+       <calendar :value="value" :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :range-bus="getBus" :range-status="2" id="dataPlug-in-two"></calendar>
     </div>
 </template>
 <script> 
@@ -57,7 +57,7 @@ export default {
     this.bus = new Vue()
   },
   mounted () {
-
+    
   },
   computed: {
     _dateMap () {
@@ -65,6 +65,7 @@ export default {
     }
   },
   methods: {
+
     getBus () {
       return this.bus
     },
@@ -127,7 +128,7 @@ export default {
     },
     changePane (year, month, pane) {
       // ajax data or ...
-      
+      console.log('test'); 
       setTimeout(() => {
         this.events = this.getEventContent(year, month, pane)
         console.log(year);

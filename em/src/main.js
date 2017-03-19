@@ -8,7 +8,8 @@ import "vue-style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css";
 import "vue-style-loader!css-loader!./assets/style/main.css"; 
 import Vuex from "vuex";
 import storeConfig from "./store.config.js";
-import "babel-polyfill";                
+import "babel-polyfill";  
+              
    
 Vue.config.debug = true;  
 //调用   
