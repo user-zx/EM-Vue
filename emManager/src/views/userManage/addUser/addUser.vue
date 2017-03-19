@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-offset-3 col-md-3">
                                 <label class="checkbox">
-                                    <input type="checkbox" class="mbx" />
+                                    <input type="checkbox" class="mbx" v-model="searchCity" />
                                     不限地区
                                 </label>
                             </div>
@@ -166,6 +166,7 @@
         data(){
             return{
                 "msg":"添加用户",
+                searchCity:false,
                 addUser:{
                     url:"../apis/user/saveUser",
                     params:{
@@ -248,12 +249,16 @@
             $(".mbx").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function(){
-                    vm.searchCon.sheng1Val="",
-                    vm.searchCon.shi1Val="",
-                    vm.searchCon.xian1Val="",
-                    $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
+                vm.searchCon.sheng1Val="",
+                vm.searchCon.shi1Val="",
+                vm.searchCon.xian1Val="",
+                vm.searchCity=true,
+                $('.mcity').prop('disabled', true);
+                $(".mcity").selectpicker('val','').selectpicker('refresh');
             }).on("ifUnchecked",function () {
-                $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
+                vm.searchCity=false;
+                $('.mcity').prop('disabled', false);
+                $(".mcity").selectpicker('val','').selectpicker('refresh');
             });
             let vm=this,shiIndex1,xianIndex1;
             $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {

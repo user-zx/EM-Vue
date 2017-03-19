@@ -137,6 +137,7 @@
     export default{
         data(){
             return{
+                searchCity:true,
                 userList:{
                     url:"../apis/user/findUserList",
                     params:{
@@ -237,9 +238,15 @@
             search(){
                 let vm =this;
                 vm.userList.params.pageNumber=1;
-                vm.userList.params.province=vm.searchCon.shengVal;
-                vm.userList.params.city=vm.searchCon.shiVal;
-                vm.userList.params.county=vm.searchCon.xianVal;
+                if(vm.searchCity){
+                    vm.userList.params.province=vm.searchCon.shengVal;
+                    vm.userList.params.city=vm.searchCon.shiVal;
+                    vm.userList.params.county=vm.searchCon.xianVal;
+                }else{
+                    vm.userList.params.province="null";
+                    vm.userList.params.city="null";
+                    vm.userList.params.county="null";
+                }
                 vm.paginator();
             },
             showModal(modalName,params){
@@ -265,9 +272,13 @@
                 vm.searchCon.shengVal="",
                 vm.searchCon.shiVal="",
                 vm.searchCon.xianVal="",
-                $(".city").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
+                vm.searchCity=false;
+                $('.city').prop('disabled', true);
+                $(".city").selectpicker('val','').selectpicker('refresh');
             }).on("ifUnchecked",function () {
-                $(".city").selectpicker('show').selectpicker('val','').selectpicker('refresh');
+                vm.searchCity=true;
+                $('.city').prop('disabled', false);
+                $(".city").selectpicker('val','').selectpicker('refresh');
             });
             $("#sheng").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex=clickedIndex-1;

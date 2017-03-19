@@ -47,18 +47,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" v-if="addUser.params.province">
+                        <div class="form-group">
                             <div class="col-md-offset-3 col-md-3">
                                 <label class="checkbox">
-                                    <input type="checkbox" class="mbx" />
-                                    不限地区
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group" v-if="!addUser.params.province">
-                            <div class="col-md-offset-3 col-md-3">
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" class="mbx" />
+                                    <input type="checkbox" class="mbx" v-model="searchCity" />
                                     不限地区
                                 </label>
                             </div>
@@ -171,6 +163,7 @@
         data(){
             return{
                 "msg":"添加用户",
+                searchCity:false,
                 getUser:{
                     url:"../apis/user/findUserById",
                 },
@@ -256,11 +249,15 @@
                                             checkboxClass : 'icheckbox_square-blue',
                                         }).on("ifChecked",function(){
                                             vm.searchCon.sheng1Val="",
-                                                vm.searchCon.shi1Val="",
-                                                vm.searchCon.xian1Val="",
-                                                $(".mcity").selectpicker('hide').selectpicker('val','').selectpicker('refresh');
+                                            vm.searchCon.shi1Val="",
+                                            vm.searchCon.xian1Val="",
+                                            vm.searchCity=true,
+                                            $('.mcity').prop('disabled', true);
+                                            $(".mcity").selectpicker('val','').selectpicker('refresh');
                                         }).on("ifUnchecked",function () {
-                                            $(".mcity").selectpicker('show').selectpicker('val','').selectpicker('refresh');
+                                            vm.searchCity=false,
+                                            $('.mcity').prop('disabled', false);
+                                            $(".mcity").selectpicker('val','').selectpicker('refresh');
                                         });
                                         $("input[name=userStatus]").iCheck({
                                             radioClass : 'iradio_square-blue',
