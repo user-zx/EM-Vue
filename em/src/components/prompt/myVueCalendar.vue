@@ -14,7 +14,7 @@ export default {
     return {
       msg: 'Component Demo',
       disabled: [],
-      value: '2016-10-24',
+      value: '',
       date1: '',
       date2: '',
       date3: '',
