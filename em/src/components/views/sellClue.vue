@@ -100,7 +100,7 @@ ss<template>
 				</li> 
 				<li v-bind:class="{active:artItem.labelStatus}">
 					<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</a>
-					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="17" width="14">标记处理</a>
+					<a v-else href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handle.png" height="17" width="14" :disabled="artItem.checkStatus">标记处理</a>
 				</li> 
 			</ul>      
  			 
@@ -261,7 +261,7 @@ ss<template>
 				$(".pagination").jqPaginator('option',{
 					currentPage:index,
 				});
-				vm.searchCon.pageNumber=index;
+				vm.initsearchCon.pageNumber=index;
 				vm.page();
 			}
 			},  
