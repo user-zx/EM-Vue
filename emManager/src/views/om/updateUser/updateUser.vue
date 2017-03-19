@@ -14,7 +14,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">用户名：</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="请输入用户名" v-model="addUser.params.userAccount" />
+                                <input type="text" class="form-control" readonly placeholder="请输入用户名" v-model="addUser.params.userAccount" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -26,12 +26,12 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">确认密码：</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" placeholder="******" />
+                                <input type="password" class="form-control surePwd" placeholder="******" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">用户权限：</label>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="qx">
                                 <label v-for="(j,index) in newPermissionsArr">
                                    <input type="checkbox" v-if="j.type" checked :value="j.id" />
                                     <input type="checkbox" v-else  :value="j.id" />
@@ -135,12 +135,31 @@
                 });
             },
             addUsers(){
-                let vm =this;
+                let vm =this,
+                surePwd=$(".surePwd").val(),
+                    qx=$("#qx").find("input[type='checkbox']").is(':checked');
                 vm.addUser.params.createDate=new Date(vm.addUser.params.createDate);
                 vm.addUser.params.updateDate=new Date();
                 vm.addUser.params.updateUser=sessionStorage.getItem("userAccount");
                 vm.addUser.params.permissions=vm.activePer;
-                console.log(vm.addUser.params.permissions);
+                if(vm.addUser.params.password.length>0){
+                    if(vm.addUser.params.password.length<6 || vm.addUser.params.password.length>16){
+                        alert("密码长度必须在6-16位之间");
+                        return;
+                    }
+                    if(surePwd.length<6 || surePwd.length>16){
+                        alert("确认密码长度必须在6-16位之间");
+                        return;
+                    }
+                    if(surePwd!==vm.addUser.params.password){
+                        alert("两次输入密码不一致");
+                        return;
+                    }
+                }
+                if(!qx){
+                    alert("至少选一个权限");
+                    return;
+                }
                 if(vm.addUser.params.permissions){
                     vm.post(vm.addUser.url,vm.addUser.params,function(response){
                         if(response.success){

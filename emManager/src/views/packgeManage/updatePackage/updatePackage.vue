@@ -33,13 +33,11 @@
                             <label class="control-label col-md-3">套餐状态：</label>
                             <div class="col-md-6">
                                 <label class="checkbox-inline">
-                                    <input type="radio" name="packageStatus" value="上架" v-if="updatePackage.params.status=='上架'" checked />
-                                    <input type="radio" name="packageStatus" value="上架" v-else />
+                                    <input type="radio" name="packageStatus" value="上架" v-model="updatePackage.params.status" />
                                     上架
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="radio" name="packageStatus" value="下架" v-if="updatePackage.params.status=='下架'" checked />
-                                    <input type="radio" name="packageStatus" value="下架" v-else />
+                                    <input type="radio" name="packageStatus" value="下架" v-model="updatePackage.params.status" />
                                     下架
                                 </label>
                             </div>
@@ -115,11 +113,6 @@
         },
         mounted(){
             let vm = this;
-            $("input[type=radio]").iCheck({
-                radioClass : 'iradio_square-blue'
-            }).on("ifChecked",function () {
-                vm.updatePackage.params.status=$(this).val();
-            });
             $("#updatePackage").on("show.bs.modal",function () {
                 let dataSource=new Object();
                 dataSource.createDate=vm.$store.state.packageManager.params.createDate;
@@ -141,8 +134,10 @@
                     vm.updatePackage.params.status=$(this).val();
                 });
             }).on("hidden.bs.modal",function () {
-                vm.updatePackage.params={};
-            })
+                let dataSource=new Object();
+                vm.updatePackage.params=dataSource;
+                $("input[type=radio]").iCheck("destroy");
+            });
         }
     }
 </script>

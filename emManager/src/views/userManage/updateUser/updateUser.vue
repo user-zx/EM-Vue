@@ -213,6 +213,14 @@
                 vm.addUser.params.province=vm.searchCon.sheng1Val;
                 vm.addUser.params.city=vm.searchCon.shi1Val;
                 vm.addUser.params.county=vm.searchCon.xian1Val;
+                if(vm.addUser.params.userStatus=='试用'&&vm.addUser.params.packageId!=''){
+                    alert("试用用户，只能选择未办理套餐");
+                    return
+                }
+                if(vm.addUser.params.userStatus=='正式'&&vm.addUser.params.packageId==''){
+                    alert("正式用户，不能选择未办理套餐");
+                    return
+                }
                 vm.post(vm.addUser.url,vm.addUser.params,function(response){
                     if(response.success){
                         $("#updateUser").modal("hide");

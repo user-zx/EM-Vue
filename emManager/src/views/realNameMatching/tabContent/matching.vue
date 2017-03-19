@@ -19,9 +19,12 @@
             </p>
             <p class="text-center">
                 <a :href="receiveMatchingTask.result.link" target="_blank" class="btn btn-default">原文链接</a>
-                <a href="javascript:void(0);" class="btn btn-default">复制原文链接</a>
+                <a href="javascript:void(0);" class="btn btn-default" @click="copyHref()">复制原文链接</a>
                 <a :href="receiveMatchingTask.result.homeLink" target="_blank" class="btn btn-default">发布者主页</a>
             </p>
+            <div class="fade">
+                <input type="text" class="fade" id="homeLink" readonly v-model="receiveMatchingTask.result.link" />
+            </div>
             <div class="form-box">
                 <div class="form-horizontal">
                     <div class="form-group">
@@ -111,6 +114,7 @@
                 </div>
             </div>
         </div>
+        <div class="copySuccess text-center">复制成功</div>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -133,6 +137,16 @@
             margin-bottom: 25px;
             .btn{margin-right: 15px;}
         }
+    }
+    .copySuccess{
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        padding: 20px 30px;
+        color: #ffffff;
+        background: rgba(0,0,0,.8);
+        border-radius: 15px;
     }
     p.text-right{margin-top: 25px;}
 </style>
@@ -249,6 +263,36 @@
             saveMathcingFun(){
                // console.log('test');
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
+                if(vm.searchCon.shengVal.length<1){
+                    alert("请选择省份");
+                    return;
+                }
+                if(vm.searchCon.shiVal.length<1){
+                    alert("请选择市");
+                    return;
+                }
+                if(vm.searchCon.xianVal.length<1){
+                    alert("请选择县区");
+                    return;
+                }
+                if(vm.saveMatching.params.phone.length>0){
+                    if(vm.saveMatching.params.phone.length>11){
+                        alert("请输入正确的手机号！");
+                        return;
+                    }
+                    let exp=/^1[3|4|5|8|7]{1}[0-9]{9}$/;
+                    if(!exp.test(vm.saveMatching.params.phone)){
+                        alert("请输入正确的手机号！");
+                        return;
+                    }
+                }
+                if(vm.saveMatching.params.email.length>0){
+                    let reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+                    if(!reg.test(vm.saveMatching.params.email)){
+                        alert("请输入正确的邮箱格式！");
+                        return;
+                    }
+                }
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
@@ -264,6 +308,18 @@
             },
             saveMathcingFalseFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
+                if(vm.searchCon.shengVal.length<1){
+                    alert("请选择省份");
+                    return;
+                }
+                if(vm.searchCon.shiVal.length<1){
+                    alert("请选择市");
+                    return;
+                }
+                if(vm.searchCon.xianVal.length<1){
+                    alert("请选择县区");
+                    return;
+                }
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
@@ -278,6 +334,18 @@
             },
             reSaveMathcingFalseFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
+                if(vm.searchCon.shengVal.length<1){
+                    alert("请选择省份");
+                    return;
+                }
+                if(vm.searchCon.shiVal.length<1){
+                    alert("请选择市");
+                    return;
+                }
+                if(vm.searchCon.xianVal.length<1){
+                    alert("请选择县区");
+                    return;
+                }
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
@@ -292,6 +360,36 @@
             },
             reSaveMathcingFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
+                if(vm.searchCon.shengVal.length<1){
+                    alert("请选择省份");
+                    return;
+                }
+                if(vm.searchCon.shiVal.length<1){
+                    alert("请选择市");
+                    return;
+                }
+                if(vm.searchCon.xianVal.length<1){
+                    alert("请选择县区");
+                    return;
+                }
+                if(vm.saveMatching.params.phone.length>0){
+                    if(vm.saveMatching.params.phone.length>11){
+                        alert("请输入正确的手机号！");
+                        return;
+                    }
+                    let exp=/^1[3|4|5|8|7]{1}[0-9]{9}$/;
+                    if(!exp.test(vm.saveMatching.params.phone)){
+                        alert("请输入正确的手机号！");
+                        return;
+                    }
+                }
+                if(vm.saveMatching.params.email.length>0){
+                    let reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+                    if(!reg.test(vm.saveMatching.params.email)){
+                        alert("请输入正确的邮箱格式！");
+                        return;
+                    }
+                }
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
@@ -381,6 +479,12 @@
                 },function (error) {
                     console.log(error);
                 });
+            },
+            copyHref(){
+                $("#homeLink").select(); // 选择对象
+                document.execCommand("Copy"); // 执行浏览器复制命令
+                $(".copySuccess").show();
+                setTimeout(function(){$(".copySuccess").hide();},1500);
             }
         },
         mounted(){

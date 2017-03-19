@@ -50,7 +50,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">套餐信息：</label>
                             <div class="col-md-9">
-                                <p class="form-control-static">{{userInfo.result.packageName}}</p>
+                                <p class="form-control-static" v-if="userInfo.result.packageName">{{userInfo.result.packageName}}（已使用：{{userPackage.result.usedTimes}}条，余量：{{userPackage.result.restTimes}}条，套餐共计线索次数：{{userPackage.result.leadsTimes}}条）</p>
+                                <p class="form-control-static" v-else>未办理套餐</p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -77,13 +78,17 @@
         data(){
             return {
                 userInfo:{
-                    url:"../apis/user/findUserById",
+                    params:"",
+                    result:{}
+                },
+                userPackage:{
+                    url:"../apis/user/findUserDetailsById",
                     params:"",
                     result:{}
                 }
             }
         },
-        components:{} ,
+        components:{},
         methods:{
             post(urls, params, successFun, errorFun){
                 this.$http.post(urls, params).then((response) => {
@@ -98,17 +103,18 @@
         mounted(){
             let vm = this;
             $("#userInfo").on("shown.bs.modal",function () {
-                vm.userInfo.params=vm.$store.state.userManager.userId;
-                vm.post(vm.userInfo.url,vm.userInfo.params,function (response) {
+                vm.userPackage.params=vm.$store.state.userManager.userId;
+                vm.post(vm.userPackage.url,vm.userPackage.params,function (response) {
                     if(response.success){
                         let obj =response.data;
-                        obj.registerDate=new Date(response.data.registerDate).Format("yyyy-MM-dd hh:mm:ss");
-                        vm.userInfo.result=obj;
+                        obj.user.registerDate=new Date(response.data.user.registerDate).Format("yyyy-MM-dd hh:mm:ss");
+                        vm.userPackage.result=obj.packageInfo;
+                        vm.userInfo.result=obj.user;
                     }
                 },function (error) {
 
                 });
-            })
+            });
         }
     }
 </script>

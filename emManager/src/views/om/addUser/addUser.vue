@@ -136,36 +136,36 @@
                      qx=$("#qx").find("input[type='checkbox']").is(':checked');
                 vm.addUser.params.createDate=new Date();
                 vm.addUser.params.createUser=sessionStorage.getItem("userAccount");
-               
-               /*if(vm.addUser.params.userAccount=""){
-                      alert("用户名不能为空");
-               }else if(vm.addUser.params.password=""){
-                      alert("密码不能为空");
-               }else if(surePwd=""){
-                       alert("确认密码不能为空");    
-               }else if(surePwd!==vm.addUser.params.password){
-                       alert("密码不一致");    
-               }else if($("#qx").find("input[type='checkbox']").is(':checked')){
-                       alert("至少选一个权限");   
-               }else{
-               }*/
-
-                if(vm.addUser.params.userAccount!=""&&vm.addUser.params.password!=""&&surePwd!=""&&qx){
-                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
-                        if(response.success){
-                            $("#addUser").modal("hide");
-                            vm.$router.push({path:"/home/saveOperationUserSuccess"});
-                        }else{
-                            alert(response.message);
-                        }
-                    },function (error) {
-                        console.log(error)
-                    });
-                }else{
-                    alert("请完善信息，再提交！");
+                if(vm.addUser.params.userAccount.length<6 || vm.addUser.params.userAccount.length>16){
+                      alert("用户名长度必须在6-16位之间");
+                      return;
                 }
-
-                
+                if(vm.addUser.params.password.length<6 || vm.addUser.params.password.length>16){
+                      alert("密码长度必须在6-16位之间");
+                      return;
+                }
+                if(surePwd.length<6 || surePwd.length>16){
+                    alert("确认密码长度必须在6-16位之间");
+                   return;
+                }
+                if(surePwd!==vm.addUser.params.password){
+                   alert("两次输入密码不一致");
+                   return;
+                }
+                if(!qx){
+                   alert("至少选一个权限");
+                   return;
+                }
+                vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                    if(response.success){
+                        $("#addUser").modal("hide");
+                        vm.$router.push({path:"/home/saveOperationUserSuccess"});
+                    }else{
+                        alert(response.message);
+                    }
+                },function (error) {
+                    console.log(error)
+                });
             }
         },
         mounted(){
@@ -188,6 +188,19 @@
                     arr.remove($(this).val());
                     vm.addUser.params.permissions=arr.toString();
                 });
+            }).on("hidden.bs.modal",function () {
+                let params={
+                    id:"",
+                    userAccount:"",
+                    password:"",
+                    userStatus:"正常",
+                    createDate:"",
+                    createUser:"",
+                    updateDate:"",
+                    updateUser:"",
+                    permissions:"",
+                };
+                vm.addUser.params=params;
             });
         }
     }

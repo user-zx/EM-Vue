@@ -120,10 +120,26 @@
         },
         mounted(){
             let vm = this;
-            $("input[type=radio]").iCheck({
-                radioClass : 'iradio_square-blue'
-            }).on("ifChecked",function () {
-                vm.addPackage.params.status=$(this).val();
+            $("#addPackage").on("show.bs.modal",function () {
+                $("input[type=radio]").iCheck({
+                    radioClass : 'iradio_square-blue'
+                }).on("ifChecked",function () {
+                    vm.addPackage.params.status=$(this).val();
+                });
+            }).on("hidden.bs.modal",function () {
+                let params={
+                    id:"",
+                    name:"",
+                    price:"",
+                    leadsTimes:"",
+                    status:"上架",
+                    createDate:"",
+                    createUser:"",
+                    updateDate:"",
+                    updateUser:""
+                };
+                vm.addPackage.params=params;
+                $("input[type=radio]").iCheck("destroy");
             });
         }
     }
