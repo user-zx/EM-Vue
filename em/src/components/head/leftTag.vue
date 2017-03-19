@@ -27,12 +27,12 @@
     .leftTag>ul>li.last{position: fixed;left:0;bottom: 25px;width:135px;}
     .leftTag>ul>li>a{text-align: center;color:#eeffff;border-left:3px solid transparent;}
     .leftTag>ul>li>a>.icons{display: block;width:35px;height:35px;margin:0 auto;background-image: url("../../assets/images/left_top_icon.png");background-repeat: no-repeat;}
-    .icons-1{background-position: -42px -34px;}
-    .icons-2{background-position: -42px -127px;}
-    .icons-3{background-position: -42px -226px;}
-    .icons-4{background-position: -42px -324px;}
-    .icons-5{background-position: -42px -421px;}
-    .icons-6{background-position: -42px -503px;}
+    .icons-1{background-position: 3px 8px;}
+    .icons-2{background-position: 3px -55px;}
+    .icons-3{background-position: 3px -127px;}
+    .icons-4{background-position: 3px -195px;}
+    .icons-5{background-position: 3px -263px;}
+    .icons-6{background-position: 3px -330px;}
        
     /* .leftTag>ul>li>a:hover,.leftTag>ul>li>a:focus,.leftTag>ul>li.active>a,.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active> a:hover{border-left-color:#32ccca;border-radius:0;background-color: #0b1c26;} */
     .leftTag>ul>li.active>a,.nav>li>a:focus, .nav>li>a:hover{
@@ -43,12 +43,12 @@
         background-color: #192d39;
         border-left: 3px solid #32ccca;
      } 
-    .leftTag>ul>li>a:hover>.icons-1,.leftTag>ul>li>a:focus>.icons-1,.leftTag>ul>li.active>a>.icons-1{background-position: 0 -34px;}
-    .leftTag>ul>li>a:hover>.icons-2,.leftTag>ul>li>a:focus>.icons-2,.leftTag>ul>li.active>a>.icons-2{background-position: 0 -127px;}
-    .leftTag>ul>li>a:hover>.icons-3,.leftTag>ul>li>a:focus>.icons-3,.leftTag>ul>li.active>a>.icons-3{background-position: 0 -226px;}
-    .leftTag>ul>li>a:hover>.icons-4,.leftTag>ul>li>a:focus>.icons-4,.leftTag>ul>li.active>a>.icons-4{background-position: 0 -324px;}
-    .leftTag>ul>li>a:hover>.icons-5,.leftTag>ul>li>a:focus>.icons-5,.leftTag>ul>li.active>a>.icons-5{background-position: 0 -421px;}
-    .leftTag>ul>li>a:hover>.icons-6,.leftTag>ul>li>a:focus>.icons-6,.leftTag>ul>li.active>a>.icons-6{background-position: 0 -503px;}
+    .leftTag>ul>li>a:hover>.icons-1,.leftTag>ul>li>a:focus>.icons-1,.leftTag>ul>li.active>a>.icons-1{background-position: -42px 8px;}
+    .leftTag>ul>li>a:hover>.icons-2,.leftTag>ul>li>a:focus>.icons-2,.leftTag>ul>li.active>a>.icons-2{background-position: -42px -55px;}
+    .leftTag>ul>li>a:hover>.icons-3,.leftTag>ul>li>a:focus>.icons-3,.leftTag>ul>li.active>a>.icons-3{background-position: -42px -127px;}
+    .leftTag>ul>li>a:hover>.icons-4,.leftTag>ul>li>a:focus>.icons-4,.leftTag>ul>li.active>a>.icons-4{background-position: -42px -195px;}
+    .leftTag>ul>li>a:hover>.icons-5,.leftTag>ul>li>a:focus>.icons-5,.leftTag>ul>li.active>a>.icons-5{background-position: -42px -263px;}
+    .leftTag>ul>li>a:hover>.icons-6,.leftTag>ul>li>a:focus>.icons-6,.leftTag>ul>li.active>a>.icons-6{background-position: -42px -330px;}
 </style>
 <script>
    

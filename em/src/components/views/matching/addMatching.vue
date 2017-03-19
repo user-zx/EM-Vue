@@ -73,7 +73,8 @@
                 data:{
                     source:"",
                     homeLink:"",
-                    author:""
+                    author:"",
+                    title:""
                 },
                 errorMsg:"",
                 source:["微博","百度贴吧"]

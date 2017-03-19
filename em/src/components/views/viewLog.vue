@@ -204,6 +204,17 @@
 					checkStartDate:"",
 					checkEndDate:""
 				},
+				initsearchCon:{  
+                    pageSize:6,
+                    pageNumber:1,
+                    checkStatus:"是",
+					labelStatus:"",
+					keywords:"",
+					source:"",
+					type:"",
+					checkStartDate:"",
+					checkEndDate:""
+				},
 				modelData:{},
 				startDate:"",
 				endDate:"",
@@ -324,7 +335,7 @@
 			
             artListFun(){
                 let vm=this;
-                vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
+                vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
@@ -359,13 +370,13 @@
 				$(".pagination").jqPaginator('option',{
 					currentPage:index,
 				});
-				vm.searchCon.pageNumber=index;
+				vm.initsearchCon.pageNumber=index;
 				vm.artListFun();
 			}
 			},
 			getArtListFun(){
                 let vm=this;
-                vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then(function (response) {
+                vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                     if(response.ok){
                         if(response.data.success){
                         	 vm.viewLogTotalpages=response.data.data.totalPages;
@@ -374,15 +385,15 @@
                             if(typeOf!="string") {
                                 $("#pagination").jqPaginator({
                                     totalPages: response.data.data.totalPages,
-                                    visiblePages: vm.searchCon.pageSize,
-                                    currentPage: vm.searchCon.pageNumber,
+                                    visiblePages: vm.initsearchCon.pageSize,
+                                    currentPage: vm.initsearchCon.pageNumber,
                                    
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
                                     
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
-                                        vm.searchCon.pageNumber = n;
+                                        vm.initsearchCon.pageNumber = n;
                                       
                                         if(response.data.data.totalPages==1){
                                         	vm.notResult = true;
@@ -417,8 +428,13 @@
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
-                this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
-                	console.log(vm.searchCon);
+                 vm.initsearchCon=vm.searchCon;
+                   $(".pagination").jqPaginator('option',{
+					currentPage:1,
+				});
+				vm.initsearchCon.pageNumber=1;
+                this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
+                	console.log(vm.initsearchCon);
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
@@ -426,15 +442,15 @@
                             	
                                 $("#pagination").jqPaginator({ 
                                     totalPages: response.data.data.totalPages,
-                                    visiblePages: vm.searchCon.pageSize,
-                                    currentPage: vm.searchCon.pageNumber,
+                                    visiblePages: vm.initsearchCon.pageSize,
+                                    currentPage: vm.initsearchCon.pageNumber,
                                     first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
                                     last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
-                                        vm.searchCon.pageNumber = n;
+                                        vm.initsearchCon.pageNumber = n;
 
                                         vm.artListFun();
                                     }
@@ -450,23 +466,23 @@
 			},
 			singleSearch(keyword){
 				let vm = this;
-                vm.searchCon.keywords=keyword;
-				this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
+                vm.initsearchCon.keywords=keyword;
+				this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
 								$("#pagination").jqPaginator({
 									totalPages:  response.data.data.totalPages,
-									visiblePages: vm.searchCon.pageSize,
-									currentPage: vm.searchCon.pageNumber,
-									first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+									visiblePages: vm.initsearchCon.pageSize,
+									currentPage: vm.initsearchCon.pageNumber,
+									
 									prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 									next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-									last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+									
 									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 									onPageChange: function (n){
-										vm.searchCon.pageNumber = n;
+										vm.initsearchCon.pageNumber = n;
 										vm.artListFun();
 									}
 								});

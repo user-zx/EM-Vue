@@ -430,17 +430,20 @@
 	  		window.GT = provincesData.GT;
 	  		window.GP = provincesData.GP;
 	  		window.GC = provincesData.GC;
-
+          if(sessionStorage.getItem("phone")){
+          	
 	  		let cellPhone=sessionStorage.getItem("phone");
 	  		let  testCode=sessionStorage.getItem("testCode");
 	  		let  password=sessionStorage.getItem("password");
             _that.cellPhone=cellPhone;
             _that.testCode=testCode;
             _that.password=password;
-         if(testCode!=""){
-         	$("#lastname").attr({'disabled':false,});
-         	$("#password").attr({'disabled':false,});	
-         };
+            $("#lastname").attr({'disabled':false,});
+         	$("#password").attr({'disabled':false,});
+          }
+         
+
+
             $("#province").ProvinceCity();
            
 	  		$("#one").iCheck({
