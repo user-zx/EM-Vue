@@ -152,15 +152,13 @@
 </template>
 <style scoped>
 	@import url("../../assets/style/page.css");
-	@import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css");
+	
 </style>
 <script>
 	import 'bootstrap-select';
     import "../../assets/js/jqPaginator.min.js";
     import "../../assets/js/formatData.js";
     import common from '../../assets/js/common.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import expense from "../prompt/expense.vue"; 
     import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
    

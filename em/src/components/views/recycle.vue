@@ -157,15 +157,13 @@
 </template>
 <style scoped>
 	@import url("../../assets/style/page.css");
-	@import url("../../assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css");
+	
 </style>
 <script>
     import 'bootstrap-select';
     import "../../assets/js/jqPaginator.min.js";
     import "../../assets/js/formatData.js";
     import common from '../../assets/js/common.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js';
-    import '../../assets/js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js';
     import expense from "../prompt/expense.vue";
      import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
    
@@ -283,28 +281,7 @@
             $(".publish-heading .navbar-left a").on("click",function () {
                 $(this).addClass("active").siblings().removeClass("active");
             });
-            $(".form_datetime .startDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd",
-                autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(-1));
-            });
-            $(".form_datetime .endDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd",
-                autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(0));
-            }); 
+           
             vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
                 if(response.ok){
                     if(response.data.success){

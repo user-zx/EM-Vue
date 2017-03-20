@@ -21,7 +21,7 @@
 						<h4 class="panel-title">账号信息
 							<span class="warning-tips">
 								<img src="../../assets/images/warning_icons.png"/>
-								若您有修改个人信息的需求，请致电客服：<span class="warning-tel">4008-823-823</span>
+								若您有修改个人信息的需求，请致电客服：<span class="warning-tel">18611924575</span>
 							</span>
 						</h4>
 					</div>
@@ -274,7 +274,7 @@
     #keyWordSet th,#keyWordSet td{padding:0;line-height:40px;}
 </style>
 <script>
-	import '../../assets/js/bootstrap-switch/js/bootstrap-switch.min';
+	
 	import rePassword from './set/repassword.vue';
 	import addKeyWord from './set/addKeyWord.vue';
 	import chargeQR from "./set/chargeQR.vue";

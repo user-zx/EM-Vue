@@ -127,14 +127,17 @@
                 $(document).on("change","#fileName",function(){
                     if($("#fileName")[0].files[0]){
                         var fileanme = $("#fileName")[0].files[0].name;
+                        
                  $.ajaxFileUpload({   
                     url: vm.fileUrl,
                     fileElementId:"fileName",
                     secureuri: false, 
-                    dataType: 'json',
-                    type:"post",   
+                    dataType: 'json', 
+                    type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
                     success:function(data,status){
+                    
+                        console.log(data); 
                         if(!data.success){
                             alert(data.message)
                              vm.textareaVal = "";

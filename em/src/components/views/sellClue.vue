@@ -159,6 +159,7 @@ ss<template>
     import common from "../../assets/js/common.js";
     import newData from "../head/newData.vue";
     import expense from "../prompt/expense.vue";
+    import '../../assets/js/bootstrap-switch/js/bootstrap-switch.min'; 
     import myVueCalendar from "../../components/prompt/myVueCalendar.vue";
 
 	export default {
@@ -610,31 +611,11 @@ ss<template>
             $(".publish-heading .navbar-left a").on("click",function () {
                 $(this).addClass("active").siblings().removeClass("active");
             });
-            $(".form_datetime .startDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd",
-                autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(-1));
-            });
-            $(".form_datetime .endDate").datetimepicker({
-                language:"zh-CN",
-                format: "yyyy-MM-dd",
-                autoclose:true
-            }).on("click",function (ev) {
-                var endDate=new Date().Format("yyyy-MM-dd");
-                $(".startDate").datetimepicker("setEndDate",endDate);
-                $(".endDate").datetimepicker("setEndDate",endDate);
-            }).on("outOfRange",function (ev) {
-                $(this).val(vm.getDateStr(0));
-            });
+
+            
+           
 			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
 				if(response.ok){  
-						//console.log(response.data.data.content);
 				    if(response.data.success){
 				        let typeOf=typeof response.data.data;
 				        if(typeOf!='string'){
