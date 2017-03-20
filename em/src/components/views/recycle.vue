@@ -76,7 +76,7 @@
 			<div class="notResult" v-if="notResult">
 				<img src="../../assets/images/notResult.jpg" alt="暂无数据"/>
 			</div>
-			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="artItem.ignoreStatus">
+			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="artItem.isShow">
                 <div> 
                    <span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
                     <span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
@@ -368,6 +368,7 @@
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
                                     newArr[i].salesLeads.publishDate = new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                                     newArr[i].isShow = true;
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
@@ -508,48 +509,25 @@
             },
             favoritesFun(index,artId){
                 let vm = this; 
-                if(vm.artList.artContent[index].ignoreStatus){
+              
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                vm.artList.artContent[index].ignoreStatus = false;
-                               
+                                vm.artList.artContent[index].isShow = false;
+                                this.getArtListFun();
                                if($(".sellClue_list_div").length==1){
                                     vm.notResult = true;
                                }
                             }
                         }
                     });
-                }
-                /*if(this.artList.artContent[index].addFavoritesStatus){
-
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                 console.log('test');
-                                vm.artList.artContent[index].addFavoritesStatus=false;
-                            }
-                        }
-                    });
-                }else{
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"是"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                console.log('test111');
-                                vm.artList.artContent[index].addFavoritesStatus=true;
-                            }
-                        }
-                    });
-                }*/
             },
             ignoreFun(index,artId){
-                
-                if(this.artList.artContent[index].ignoreStatus){
                     this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
                                 this.getArtListFun();
-                                this.artList.artContent[index].ignoreStatus=false;
+                                this.artList.artContent[index].isShow=false;
                                 if($(".sellClue_list_div").length==1){
                                     this.notResult = true;
                                 }
@@ -561,7 +539,7 @@
                         console.log(err);
                         return false;
                     })
-                }
+                
             }, 
             labelFun(index,artId){ 
                 let vm = this; 

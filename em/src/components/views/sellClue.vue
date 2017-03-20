@@ -78,7 +78,7 @@ ss<template>
 	<div class="notResult" v-if="notResult">
 		<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 	</div>
-	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
+	<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="artItem.isShow">
 		<div> 
 			<span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span> 
 			<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
@@ -378,12 +378,12 @@ ss<template>
             },
             ignoreFun(index,artId){
                   let vm = this;        
-                   if(!vm.artList.artContent[index].ignoreStatus){
+                  
                    	  vm.$http.post(vm.addTypeUrl,{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){    
-                            	
-                                vm.artList.artContent[index].ignoreStatus=true;
+                            	 this.getArtListFun(); 
+                                vm.artList.artContent[index].isShow=true;
                                  
                                 if($(".sellClue_list_div").length==1){
                                 	vm.notResult = true;
@@ -391,7 +391,7 @@ ss<template>
                             }
                         }  
                     }); 
-  				  }    
+  				 
             },
             labelFun(index,artId){
                 let vm = this; 
@@ -497,7 +497,6 @@ ss<template>
 			},
 			page:function(){
 				let vm  = this;
-				console.log(vm.initsearchCon);
 				vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -507,6 +506,7 @@ ss<template>
                                 
                                 for(var i in newArr){
                                     newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                                     newArr[i].isShow = true;
                                 }
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
@@ -533,6 +533,38 @@ ss<template>
 					if(response.data.status==500)
 					return false;
 			   });
+			},
+			getArtListFun(){
+				let vm = this;
+				vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
+                let typeOf = typeof response.data.data;
+                vm.sellClueTotalPages=response.data.data.totalPages;
+                if(typeOf!="string"){
+                    $("#pagination").jqPaginator({
+                        totalPages:  response.data.data.totalPages,
+                        visiblePages: vm.initsearchCon.pageSize,
+                        currentPage: vm.initsearchCon.pageNumber,
+                        
+                        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                      
+                        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                        onPageChange: function (n){
+                            vm.initsearchCon.pageNumber = n;
+                            
+                            vm.page();
+                        } 
+                    });
+                }else{
+                    vm.artList.artContent="";
+                    vm.artList.totalPages="";
+                    vm.notResult=true;
+                }
+			},(response)=>{
+				if(!response.ok){
+					return false;
+				}
+			});
 			}
 		},   
 		mounted:function(){
@@ -636,35 +668,7 @@ ss<template>
 					} 
 				}
 			});
-			vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
-                let typeOf = typeof response.data.data;
-                vm.sellClueTotalPages=response.data.data.totalPages;
-                if(typeOf!="string"){
-                    $("#pagination").jqPaginator({
-                        totalPages:  response.data.data.totalPages,
-                        visiblePages: vm.initsearchCon.pageSize,
-                        currentPage: vm.initsearchCon.pageNumber,
-                        
-                        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-                        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                      
-                        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-                        onPageChange: function (n){
-                            vm.initsearchCon.pageNumber = n;
-                            
-                            vm.page();
-                        } 
-                    });
-                }else{
-                    vm.artList.artContent="";
-                    vm.artList.totalPages="";
-                    vm.notResult=true;
-                }
-			},(response)=>{
-				if(!response.ok){
-					return false;
-				}
-			});
+			vm.getArtListFun();
 		},
 		components:{
 			newData,

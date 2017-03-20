@@ -76,7 +76,7 @@
 			<div class="notResult" v-if="notResult">
 				<img src="../../assets/images/notResult.jpg" alt="暂无数据"/>
 			</div> 
-			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus && artItem.addFavoritesStatus" >  
+			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="artItem.isShow" >  
 				<div>
 					<span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
 					<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
@@ -93,7 +93,6 @@
 					<ul class="sellClue_list_div_ul">
 						<li v-bind:class="{active:artItem.addFavoritesStatus}">
 							<a href="javascript:void(0);" class="btn"  @click="favoritesFun(index,artItem.salesLeads.id)"><img src="../../assets/images/collected.png" height="15" width="17">取消收藏</a>
-							<!-- <a href="javascript:void(0);" class="btn" @click="favoritesFun(index,artItem.salesLeads.id)" v-else><i class="glyphicon glyphicon-heart-empty"></i>收藏线索</a> -->
 						</li>
 						<li>
 							<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
@@ -356,11 +355,12 @@
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
                                     newArr[i].salesLeads.publishDate = new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
-                                }
+                                     newArr[i].isShow = true;
+                                } 
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
                                   vm.notResult=false; 
-                               	console.log(vm.artList);
+                               //	console.log(vm.artList);
                                   autoHeight = common.autoHeight;
                                   autoHeight(".viewLog"); 
                             }else{ 
@@ -526,53 +526,35 @@
 			},
             favoritesFun(index,artId){
 			    let vm = this;  
-			    if(this.artList.artContent[index].addFavoritesStatus){
+			   
 			    	 this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,addFavorites:"否"}).then((res)=>{
 				        if(res.ok){
 				            if(res.data.success){ 
-				            	this.artList.artContent[index].addFavoritesStatus = false;
+				            	 this.getArtListFun();
+				            	this.artList.artContent[index].isShow = false;
 				            	if($(".sellClue_list_div").length==1){
 				            		vm.notResult=true;
 				            	} 
                             } 
 						} 
                     });
-			    }
+			    
 			},
     		ignoreFun(index,artId){
-    			if(!this.artList.artContent[index].ignoreStatus){ 
+    			
     				this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){  
-                                this.artList.artContent[index].ignoreStatus=true;
+                            	 this.getArtListFun();
+                                this.artList.artContent[index].isShow=true;
                                 if($(".sellClue_list_div").length==1){
                                 	this.notResult = true; 
                                 }
-                            }  
+                            }    
                         } 
                     },(err)=>{
                     	console.log(err);
                     });
-    			}
-
-                /*if(this.artList.artContent[index].ignoreStatus){
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"否"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                            	console.log('test');
-                                this.artList.artContent[index].ignoreStatus=false;
-                            }
-                        }
-                    });
-                }else{
-                    this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
-                        if(res.ok){
-                            if(res.data.success){
-                                this.artList.artContent[index].ignoreStatus=true;
-                            }
-                        }
-                    });
-                }*/
 			},
     		labelFun(index,artId){
                 if(this.artList.artContent[index].labelStatus){

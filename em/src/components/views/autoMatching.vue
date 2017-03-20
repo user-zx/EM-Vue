@@ -75,7 +75,7 @@
 			<div class="notResult" v-if="notResult">
 				<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
 			</div>
-			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="!artItem.ignoreStatus">
+			<div class="sellClue_list_div" v-for="(artItem,index) in artList.artContent" v-if="artItem.isShow">
                 <div>
                     <span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
                     <span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span> 
@@ -224,7 +224,6 @@
             vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
                 if(response.ok){  
                     if(response.data.success){
-                        //console.log(response);
                         let typeOf=typeof response.data.data;
                         if(typeOf!="string"){
 							let arr=response.data.data.content,
@@ -254,19 +253,17 @@
             vm.getArtListFun();
         },
         methods:{
-           
-         
             artListFun(){
                 let vm = this;
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
-                            //console.log(response.data.data); 
                             if(typeOf!="string") { 
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
                                     newArr[i].salesLeads.createDate = new Date(newArr[i].salesLeads.createDate).Format("yyyy-MM-dd hh:mm:ss");
+                                    newArr[i].isShow = true;
                                 }
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
@@ -456,16 +453,20 @@
             },
             ignoreFun(index,artId){
 
-               if(!this.artList.artContent[index].ignoreStatus){
+              
                  this.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,ignoreSalesLeads:"是"}).then((res)=>{
                         if(res.ok){
                             if(res.data.success){
-                                this.getArtListFun();
-
+                                
+                                 this.getArtListFun();
+                                this.artList.artContent[index].isShow=false;
+                                if($(".sellClue_list_div").length==1){
+                                    this.notResult = true;
+                                }
                             }
                         }
                     });
-               }
+               
                
             },
             labelFun(index,artId){
