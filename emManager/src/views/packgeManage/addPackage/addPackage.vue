@@ -100,7 +100,7 @@
             },
             addPack(){
                 let vm = this;
-                if(vm.addPackage.params.name.length<10&&vm.addPackage.params.price.length<10&&vm.addPackage.params.leadsTimes.length<10){                
+                if(vm.addPackage.params.name.length<11&&vm.addPackage.params.price.length<11&&vm.addPackage.params.leadsTimes.length<11){                
                     vm.addPackage.params.createDate=new Date();
                     vm.post(vm.addPackage.url,vm.addPackage.params,function (response) {
                         if(response.success){
