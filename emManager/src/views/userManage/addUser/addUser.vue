@@ -46,18 +46,18 @@
                                     <option v-for="item in xian1">{{item}}</option>
                                 </select>
                             </div>
-                            <div class="col-md-offset-3 col-md-3">
-                                <label class="checkbox">
-                                    <input type="checkbox" class="mbx" v-model="searchCity" />
-                                    不限地区
-                                </label>
-                            </div>
+                         <!--    <div class="col-md-offset-3 col-md-3">
+                             <label class="checkbox">
+                                 <input type="checkbox" class="mbx" v-model="searchCity" />
+                                 不限地区
+                             </label>
+                         </div> -->
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">所属行业：</label>
                             <div class="col-md-6">
-                                <select class="form-control selectpicker" title="请选择所属行业" v-model="addUser.params.trade">
-                                    <option value="">不限</option>
+                                <select class="form-control selectpicker" title="请选择所属行业" v-model="addUser.params.trade" id="newtrade">
+                                <!--     <option value="">不限</option> -->
                                     <option v-for="item in userTrade.result" v-bind:value="item.name">{{item.name}}</option>
                                 </select>
                             </div>
@@ -219,16 +219,42 @@
                 vm.addUser.params.city=vm.searchCon.shi1Val;
                 vm.addUser.params.county=vm.searchCon.xian1Val;
                 vm.addUser.params.registerDate=new Date();
-                if(vm.addUser.params.userStatus=='试用'&&vm.addUser.params.packageId!=''){
+                if(vm.addUser.params.name.length>17){
+                     alert("姓名不能长于16个字符");
+                     return
+                }
+                if(vm.addUser.params.phone.length>0){
+                    if(vm.addUser.params.phone.length>11){
+                        alert("请输入正确的手机号！");
+                        return;
+                    }
+                    let exp=/^1[3|4|5|8|7]{1}[0-9]{9}$/;
+                    if(!exp.test(vm.addUser.params.phone)){
+                        alert("请输入正确的手机号！");
+                        return;
+                    }
+                }
+                if(vm.addUser.params.company.length>25){
+                     alert("公司名称不能长于25个字符");
+                     return
+                }
+                if(vm.addUser.params.province.length<1&&vm.addUser.params.city.length<1){
+                     alert("所在地区不能为空");
+                     return
+                }
+                if(vm.addUser.params.trade==""){
+                     alert("所属行业不能为空");
+                     return
+                } 
+                if(vm.addUser.params.userStatus=='试用'&&vm.addUser.params.packageId!=""){
                     alert("试用用户，只能选择未办理套餐");
                     return
                 }
-                if(vm.addUser.params.userStatus=='正式'&&vm.addUser.params.packageId==''){
+                if(vm.addUser.params.userStatus=='正式'&&vm.addUser.params.packageId==""){
                     alert("正式用户，不能选择未办理套餐");
                     return
                 }
-                if(vm.addUser.params.name!=""&&vm.addUser.params.phone!=""&&vm.addUser.params.province!=""&&vm.addUser.params.city!=""&&vm.addUser.params.county!=""&&vm.addUser.params.trade!=""&&vm.addUser.params.company!=""){
-                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                vm.post(vm.addUser.url,vm.addUser.params,function(response){
                         if(response.success){
                             $("#addUser").modal("hide");
                             vm.$router.push({path:"/home/success"});
@@ -236,13 +262,9 @@
                             alert(response.message);
                         }
                     },function (error) {
-                        console.log(error)
-                    });
-                }else{
-                    alert("除关键词外，不能为空或不选！")
-                }
-                
-                
+                        console.log(error);
+              });
+
             }
         },
         mounted(){

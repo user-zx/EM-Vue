@@ -626,19 +626,19 @@
                 obj.judgeResult=judgeResult;
                 vm.confirmSalesLeads.params.push(obj);
             },
-            confirmSalesLeadsFun(){
+            confirmSalesLeadsFun(){//提交研判结果
                 let vm =this;
                 $(window).scrollTop=0;
                 if(vm.confirmSalesLeads.params.length>0) {
-                    vm.post(vm.confirmSalesLeads.url, vm.confirmSalesLeads.params, (response) => {
-                        if (response.success) {
-                            vm.confirmSalesLeads.params=[];
-                            alert(response.data);
-                            $(window).scrollTop=0;
-                        }
-                    }, (error) => {
-                        console.log(error);
-                    });
+                            vm.post(vm.confirmSalesLeads.url, vm.confirmSalesLeads.params, (response) => {
+                                if (response.success) {
+                                    vm.confirmSalesLeads.params=[];
+                                    alert(response.data);
+                                    $(window).scrollTop=0;
+                                }
+                            }, (error) => {
+                                console.log(error);
+                            });
                 }else{
                     alert("请研判主贴！～")
                 }
