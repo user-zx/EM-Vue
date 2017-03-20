@@ -125,27 +125,35 @@
         mounted(){    
                 let vm = this;  
                 $(document).on("change","#fileName",function(){
-                    if($("#fileName")[0].files[0]){
-                        var fileanme = $("#fileName")[0].files[0].name;
+                if($("#fileName")[0].files[0]){
+                   var fileanme = $("#fileName")[0].files[0].name;
                         
                  $.ajaxFileUpload({   
                     url: vm.fileUrl,
                     fileElementId:"fileName",
                     secureuri: false, 
-                    dataType: 'json', 
+                    dataType: 'JSON', 
                     type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
                     success:function(data,status){
-                    
-                        console.log(data); 
-                        if(!data.success){
-                            alert(data.message)
+                        //console.log(data);
+                        if(data="批量添加关键词保存失败，请联系管理员解决"){
+                            alert(data)
+                            return fasle;
+                        }
+                      let json_data = JSON.parse(data);
+                      if(json_data.success){
+                        if(json_data.data = "关键词已经存在"){
                              vm.textareaVal = "";
-                             alert("添加失败");
-                        }else{ 
-                           vm.textareaVal = fileanme; 
-                        }   
-                      
+                            alert(json_data.data)
+                        }else{
+                             vm.textareaVal = fileanme;
+                             alert(json_data.data);
+                        }
+                      }else{
+                        vm.textareaVal = "";
+                        alert("添加失败");
+                      }
                     },
                     error: function (data, status, e){//服务器响应失败处理函数
                         alert(e);
