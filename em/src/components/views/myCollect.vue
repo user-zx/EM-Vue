@@ -356,7 +356,7 @@
                 let vm=this;
                 console.log(vm.initsearchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
-                	console.log(response);
+                	//console.log(response);
                     if(response.ok){
                         if(response.data.success){
                         	vm.collectTotalPages=response.data.data.totalPages;
