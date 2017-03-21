@@ -305,10 +305,12 @@
                 },function (error) {
                     console.log(error);
                 });
+                $("input[name=sex] ").eq(0).iCheck("check");
+                $("input[name=sex] ").eq(1).iCheck("uncheck");
             },
             saveMathcingFalseFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
-                if(vm.searchCon.shengVal.length<1){
+/*                if(vm.searchCon.shengVal.length<1){
                     alert("请选择省份");
                     return;
                 }
@@ -319,7 +321,7 @@
                 if(vm.searchCon.xianVal.length<1){
                     alert("请选择县区");
                     return;
-                }
+                }*/
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
@@ -331,6 +333,8 @@
                 },function (error) {
                     console.log(error);
                 });
+                $("input[name=sex] ").eq(0).iCheck("check");
+                $("input[name=sex] ").eq(1).iCheck("uncheck");
             },
             reSaveMathcingFalseFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
