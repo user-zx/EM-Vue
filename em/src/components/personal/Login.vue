@@ -73,10 +73,9 @@
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function () {
                 vm.rememberMe=true;
-                //vm.setCookie("username",account,"password",encrypedPwd,7);
             }).on("ifUnchecked",function () {
-                vm.rememberMe=false;
-            }); 
+                vm.rememberMe=false; 
+            });  
        },
 	  	methods:{
 	  		//写ajax请求
@@ -126,15 +125,16 @@
                 vm.$http.post(vm.apiUrl, params).then(function(result){
                     if(result.ok){  
                         if(result.data.success){
-							vm.hint = false;     
-							if(vm.rememberMe){   
+						   
+							if(vm.rememberMe){  
+								vm.hint = false;   
 								vm.remember_Me = true;
 								vm.setCookie("username",params.account,"password",vm.item.password,"rememberMe",vm.remember_Me,7);
-								
 							}else{
 								vm.remember_Me = false;
+								vm.setCookie("username","","password","","rememberMe",vm.remember_Me,0);
 							}
-							vm.$router.push({path:"/home/sellClue"}); 
+							vm.$router.push({path:"/home/sellClue"});
 						}else{ 
 							vm.hint = true;  
 							vm.item.account = "";
