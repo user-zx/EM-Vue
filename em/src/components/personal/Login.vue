@@ -44,7 +44,8 @@
                     publicKeyModulus:"",
 				},
 				hint:false,
-                rememberMe:false
+                rememberMe:"",
+                remember_Me:"",
 	  		}
 	  	},
 	  	mounted: function () {
@@ -55,22 +56,29 @@
               	vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
 				vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
              })*/
+             let vm = this;
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
 	        }); 
+
+	        if(vm.getCookie("rememberMe")){
+	        	$("#remember").iCheck("check")
+	        	vm.item.account = vm.getCookie("username");
+	        	vm.item.password = vm.getCookie("password");
+	        }else{ 
+	        	$("#remember").iCheck("uncheck")
+	        } 
+	       
 	  		$("#remember").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function () {
                 vm.rememberMe=true;
-               
                 //vm.setCookie("username",account,"password",encrypedPwd,7);
             }).on("ifUnchecked",function () {
                 vm.rememberMe=false;
-                console.log("0");
             }); 
        },
 	  	methods:{
-	  	
 	  		//写ajax请求
             generateKey() {
 				let url='apis/generateKey.do';
@@ -105,23 +113,28 @@
 				let publicKeyModulus= vm.item.publicKeyModulus;
 				if(publicKeyExponent==""&&publicKeyModulus==""){
 				    location.href='/login';
-				    return;
+				    return false;
 				}
                 RSAUtils.setMaxDigits(200);
                 let key = new RSAUtils.getKeyPair(publicKeyExponent, "", publicKeyModulus);
                 let encrypedPwd = RSAUtils.encryptedString(key,vm.item.password);
-                vm.item.password=encrypedPwd;
+               // vm.item.password=encrypedPwd;
                 let params=new Object();
                 params.account=vm.item.account;
-                params.password=vm.item.password;
+                params.password = encrypedPwd; 
                 params.rememberMe = vm.rememberMe;
                 vm.$http.post(vm.apiUrl, params).then(function(result){
                     if(result.ok){  
                         if(result.data.success){
-							vm.hint = false;             
-                            // sessionStorage.setItem("username", result.data.data);
-                            //sessionStorage.setItem("usernumber",vm.item.account);
-                            vm.$router.push({path:"/home/sellClue"}); 
+							vm.hint = false;     
+							if(vm.rememberMe){   
+								vm.remember_Me = true;
+								vm.setCookie("username",params.account,"password",vm.item.password,"rememberMe",vm.remember_Me,7);
+								
+							}else{
+								vm.remember_Me = false;
+							}
+							//vm.$router.push({path:"/home/sellClue"}); 
 						}else{ 
 							vm.hint = true;  
 							vm.item.account = "";
@@ -149,15 +162,15 @@
 		            }
 		        }
 		        return "";
-		    },
-		     setCookie(c_name, n_value, p_name, p_value, expiredays) { //设置cookie
+		    }, 
+		     setCookie(c_name, n_value, p_name, p_value,r_name,r_value,expiredays) { //设置cookie
 		        var exdate = new Date();
 		        exdate.setDate(exdate.getDate() + expiredays);
-		        document.cookie = c_name + "=" + escape(n_value) + "^" + p_name + "=" + escape(p_value) + ((expiredays == null) ? "" : "^;expires=" + exdate.toGMTString());
+		        document.cookie = c_name + "=" + escape(n_value) + "^" + p_name + "=" + escape(p_value) + "^" +  r_name + "=" + escape(r_value) +((expiredays == null) ? "" : "^;expires=" + exdate.toGMTString());
 		        console.log(document.cookie)
    		 	},
 
-	  	 }
+	  	 } 
 	  }
 </script>  
      
