@@ -106,7 +106,7 @@
 			      			   
 			      			    <a  class="a-upload btn col-sm-6 panel-body-btn"> 
 			      			    	 <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
-			      			    	 <input type="file" name="fileName" @change="fileUpload" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
+			      			    	 <input type="file" name="fileName"  id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
 			      			    </a>                                 
                               
 			      			   <a type="button" class="btn  col-sm-6 panel-body-btn" href="/apis/excel/downloadKeywordImportTemplate"><span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板</a> 
@@ -209,7 +209,7 @@
 	  	data(){ 
 	  		return{
 	  			register_login:  true,
-	  			register_message: false ,
+	  			register_message: false,
 	  			register_pay: false,    
 	  			phoneText:"",
 	  			verification:"",  
@@ -294,18 +294,7 @@
 	  				vm.database.keywordList = "";
 	  			}
 	  			vm.$router.push({path:"/"});
-	  			//console.log(vm.database);
-				/*let post = common.post;
-	  			post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
- 					window.location.href = "/"
-
-	  			},(err)=>{
-	  				console.log("注册失败了");
-	  				window.location.href = "/"
-	  				vm.register_login = true;
-		  			vm.register_message =false;
-		  			vm.register_pay = false;
-	  			})*/
+	  			
             },
 	  		loginPhone(){ 
 	  			let vm = this;
@@ -408,32 +397,7 @@
 	  		chnageArea(el){ 
 	  			console.log(el.target);  
 	  		},
-	  		fileUpload(){
-	  			/*let vm = this;  
-		  		vm.database.keywordList = $("#fileName")[0].files[0].name;
-		  		//console.log(vm.database); 
-		  		 $.ajaxFileUpload({ 
-		  		 	url: vm.fileUrl,
-		  		 	fileElementId:"fileName",
-		  		 	secureuri: false, 
-		  		 	dataType: 'json',
-		  		 	type:"post", 
-		  		 	data: {keywordOwner:vm.database.phone,keywordList:vm.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
-		  		 	success:function(data,status){
-		  		 		if(!data.success){
-		  		 			//alert()
-		  		 			console.log(data.message);
-		  		 			alert(data.message)
-		  		 		}
-		  		 	},
-		  		 	error: function (data, status, e){//服务器响应失败处理函数
-                        //alert(e); 
-                        console.log(e); 
-                    }
-		  		 })
-		  		
-		  		  return false;*/
-	  		}   
+	  		
 	  	},
 	  	mounted(){
 	  		let _that = this;
@@ -515,24 +479,45 @@
 	  		})
 
 	  		$(document).on("change","#fileName",function(){
-	  			_that.database.keywordList = $("#fileName")[0].files[0].name;
+	  			   if($("#fileName")[0].files[0]){
+	  			   	 let fileanme = $("#fileName")[0].files[0].name;
+	  			   	 console.log(fileanme);
 	  			 $.ajaxFileUpload({ 
 		  		 	url: _that.fileUrl,
 		  		 	fileElementId:"fileName",
 		  		 	secureuri: false,   
-		  		 	dataType: 'json',   
+		  		 	dataType: 'JSON',   
 		  		 	type:"post",          
 		  		 	data: {keywordOwner:_that.database.phone,keywordList:_that.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
 		  		 	success:function(data,status){
-		  		 		console.log(data); 
-		  		 		if(!data.success){
-		  		 			console.log(data.message);
-		  		 		} 
+		  		 		  if(data="批量添加关键词保存失败，请联系管理员解决"){
+                            alert(data)
+                            return fasle;
+                        }
+		  		 		 let json_data = JSON.parse(data);
+		  		 	
+                      if(json_data.success){
+                        if(json_data.data = "关键词已经存在"){
+                             _that.database.keywordList = "";
+                            alert(json_data.data)
+                        }else{
+                             _that.database.keywordList = fileanme;
+                             alert(json_data.data)
+                        }
+                      }else{
+                        _that.database.keywordList = "";
+                        alert("添加失败");
+                      }
 		  		 	},
 		  		 	error: function (data, status, e){//服务器响应失败处理函数
                         console.log(e); 
                     }
 		  		 })
+	  			   }else{
+                alert("添加失败")
+                return false;    
+              }
+	  			
 	  		});
 			$(".tab-box").on("click","a",function () {
 				$(this).parent().addClass("active").siblings().removeClass("active");

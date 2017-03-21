@@ -110,7 +110,7 @@ jQuery.extend({
                     if ( status != "error" )
                     {
                         // process the data (runs the xml through httpData regardless of callback)
-                        console.log(s);
+                        
                         var data = jQuery.uploadHttpData( xml, s.dataType );
                         // If a local callback was specified, fire it and pass it the data
                         if ( s.success )
@@ -199,10 +199,7 @@ jQuery.extend({
 
     uploadHttpData: function( r, type ) {
         var data = !type;
-        console.log(r);
-        console.log(r.responseJSON);
 
-        
         data = type == "xml" || data ? r.responseXML : r.responseText;
         // If the type is "script", eval it in global context
         if ( type == "script" )
