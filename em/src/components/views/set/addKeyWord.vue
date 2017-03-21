@@ -138,10 +138,10 @@
                     type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
                     success:function(data,status){
-                        //console.log(data);
-                        if(data="批量添加关键词保存失败，请联系管理员解决"){
+                        console.log(data);
+                        if(data=="批量添加关键词保存失败，请联系管理员解决"){
                             alert(data)
-                            return fasle;
+                            return false;
                         }
                       let json_data = JSON.parse(data);
                       if(json_data.success){

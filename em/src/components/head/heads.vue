@@ -54,10 +54,11 @@ export default{
     mounted(){
         let vm = this;
         vm.$http.post("../apis/findUserName").then((res)=>{
-            //console.log(res);
+           // console.log(res);
             if(res.ok){
                 if(res.data.success){ 
                     vm.username = res.data.data;
+                   // console.log(vm.username);
                 }else{
                     vm.username = "";
                 }

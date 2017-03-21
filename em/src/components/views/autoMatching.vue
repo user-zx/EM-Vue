@@ -105,8 +105,8 @@
                         <img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
                         </li>
                     </ul>
-                
-                    <button class="btn btn-search" v-if="!artItem.checkStatus && artItem.salesLeads.matchingResult=='匹配成功'" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
+                    
+                    <button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
                 </div> 
 				<menu class="clearfix" v-if="artItem.salesLeads.matchingResult=='匹配成功'">
 					<li v-show="artItem.salesLeads.address"><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
@@ -268,6 +268,7 @@
                                 vm.artList.artContent = newArr;
                                 vm.artList.totalPages = response.data.data.totalPages;
                                 vm.notResult=false;
+                                //console.log(vm.artList.artContent);
                             }else{ 
                                 vm.notResult=true;
                                 vm.artList.artContent="";
@@ -283,7 +284,7 @@
                     if(response.ok){
                         if(response.data.success){
                             vm.matchingTotalpages=response.data.data.totalPages;
-                            console.log(response.data.data);
+                            //console.log(response.data.data);
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
                                 $("#pagination").jqPaginator({

@@ -621,8 +621,8 @@
                              vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
                              vm.$store.commit("setExpenseModelStatus",true)
                              $("#expense").modal("show"); 
-                             console.log(vm.modelData.url);
-                             console.log( vm.modelData.itemData );  
+                            /// console.log(vm.modelData.url);
+                             //console.log( vm.modelData.itemData );  
                         }else{
                              vm.$store.commit("setExpenseModelStatus",false) 
                              $("#expense").modal("show");  

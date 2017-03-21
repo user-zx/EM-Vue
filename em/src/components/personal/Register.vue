@@ -489,8 +489,8 @@
 		  		 	dataType: 'JSON',   
 		  		 	type:"post",          
 		  		 	data: {keywordOwner:_that.database.phone,keywordList:_that.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
-		  		 	success:function(data,status){
-		  		 		  if(data="批量添加关键词保存失败，请联系管理员解决"){
+		  		 	success:function(data,status){ 
+		  		 		  if(data=="批量添加关键词保存失败，请联系管理员解决"){
                             alert(data)
                             return fasle;
                         }

@@ -320,8 +320,9 @@
         components:{rePassword,addKeyWord,chargeQR},
         mounted(){
 			let vm =this;
-			/*个人信息*/       
-			let data = sessionStorage.getItem('usernumber');
+			/*个人信息*/        
+			/*let data = ;
+			console.log(data); */
 			vm.$http.post("../apis/personal/findPersonalInfo","").then(function(res){
                 if(res.ok) {
                     if (res.data.success) {
@@ -330,6 +331,7 @@
                         //console.log(vm.personalInfoObj.user.phone);
                      vm.personalInfoObj.user.userAccount=vm.personalInfoObj.user.userAccount.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
                         vm.keyWordSearchCon.userAccount = vm.personalInfoObj.user.phone;
+
                     }
                 } 
 			});
@@ -370,17 +372,22 @@
             * createUser
             * */
             /*消费记录 personal/findConsumeList  {pageNumber:1,pageSize:100}*/
+        	
+            vm.consumeListSearchCon.userAccount = "13612345678";
+            console.log(  vm.consumeListSearchCon);   
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
+            	
                 if (res.ok) {
                     if (res.data.success) {
                            if(res.data.data.totalPages==0){
                                 vm.notResult=true; 
                            }else{ vm.notResult=false; }
-                        
                     	vm.expenseTotalpages=res.data.data.totalPages;
+
                       let typeOf = typeof res.data.data;  
 
-                        if(typeOf!="string") {
+                      	if(res.data.data.totalPages!=0){
+                      		 if(typeOf!="string") {
                             $("#expenseCalendar .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.consumeListSearchCon.pageSize,
@@ -397,14 +404,29 @@
                             });
                         }else{
                             alert(res.data.data);
-                        
 						}
+                      	}
+
+                       
                     }
                 }
             });
 
 		}, 
 		methods:{
+			getCookie(c_name) {			//根据分隔符每个变量的值
+	        	if (document.cookie.length > 0) {
+	          	 let c_start = document.cookie.indexOf(c_name + "=")
+	            if (c_start != -1) {
+	                c_start = c_start + c_name.length + 1;
+	              let  c_end = document.cookie.indexOf("^", c_start);
+	                if (c_end == -1)
+	                    c_end = document.cookie.length;
+	                return unescape(document.cookie.substring(c_start, c_end));
+			            }
+			        }
+			        return "";
+		    }, 
 			bootstrap_Switch(){
 					let vm = this; 
                    	$(".switch").bootstrapSwitch({

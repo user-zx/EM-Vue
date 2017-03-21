@@ -60,8 +60,10 @@
 	        	vm.item.account = vm.getCookie("username");
 	        	vm.item.password = vm.getCookie("password");
 	        }else{ 
-	        	$("#remember").iCheck("uncheck")
-	        } 
+	        	$("#remember").iCheck("uncheck");
+	        	vm.item.account = "";
+	        	vm.item.password = "";
+	        }  
 	       
 	  		$("#remember").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
@@ -127,7 +129,9 @@
 							}else{
 								vm.remember_Me = false;
 								vm.setCookie("username","","password","","rememberMe",vm.remember_Me,0);
-							}
+							} 
+							/*vm.$store.commit("")*/
+							localStorage.setItem("usernumber", params.account);
 							vm.$router.push({path:"/home/sellClue"});
 						}else{ 
 							vm.hint = true;  
@@ -157,7 +161,7 @@
 		        }
 		        return "";
 		    }, 
-		     setCookie(c_name, n_value, p_name, p_value,r_name,r_value,expiredays) { //设置cookie
+		    setCookie(c_name, n_value, p_name, p_value,r_name,r_value,expiredays) { //设置cookie
 		        var exdate = new Date();
 		        exdate.setDate(exdate.getDate() + expiredays);
 		        document.cookie = c_name + "=" + escape(n_value) + "^" + p_name + "=" + escape(p_value) + "^" +  r_name + "=" + escape(r_value) +((expiredays == null) ? "" : "^;expires=" + exdate.toGMTString());
