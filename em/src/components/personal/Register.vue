@@ -496,8 +496,8 @@
                         }
 		  		 		 let json_data = JSON.parse(data);
 		  		 	
-                      if(json_data.success){
-                        if(json_data.data = "关键词已经存在"){
+                      if(json_data.success){  
+                        if(json_data.data == "添加的关键词已经存在"){
                              _that.database.keywordList = "";
                             alert(json_data.data)
                         }else{

@@ -85,28 +85,26 @@
                
                let post = commont.post;
                let param = {};
-
+               
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                   
+                  
                     if(res.ok){
                         if(res.data.success){
-                            // console.log(res.data.data);
+                             
                             if(res.data.data=="添加的关键词已经存在"){
                                 vm.textareaVal="";
                                 alert("该关键词已存在");
-                                
                             }else{
                             if(patt.test(param.keywordList)){
                                alert("添加文件成功");
                             }else{ 
                                 alert("添加关键词成功");
                                 vm.textareaVal = "";
-                               
                                 vm.$emit("updateList",param.keywordList);
                                 vm.$emit("gofirst"); 
-                            } 
+                            }  
                           }
                         }else{
                             alert("添加关键词失败");
@@ -129,7 +127,6 @@
                 $(document).on("change","#fileName",function(){
                 if($("#fileName")[0].files[0]){
                    var fileanme = $("#fileName")[0].files[0].name;
-                        
                  $.ajaxFileUpload({   
                     url: vm.fileUrl,
                     fileElementId:"fileName",
@@ -138,17 +135,18 @@
                     type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
                     success:function(data,status){
-                        console.log(data);
+                      
                         if(data=="批量添加关键词保存失败，请联系管理员解决"){
                             alert(data)
                             return false;
-                        }
+                        }   
                       let json_data = JSON.parse(data);
+                      console.log(json_data);
                       if(json_data.success){
-                        if(json_data.data = "关键词已经存在"){
-                             vm.textareaVal = "";
+                        if(json_data.data == "添加的关键词已经存在"){
+                             vm.textareaVal = ""; 
                             alert(json_data.data)
-                        }else{
+                        }else{  
                              vm.textareaVal = fileanme;
                              alert(json_data.data);
                         }

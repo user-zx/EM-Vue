@@ -11,7 +11,7 @@ import storeConfig from "./store.config.js";
 import "babel-polyfill";  
               
    
-//Vue.config.debug = true;  
+Vue.config.debug = true;   
 //调用   
 Vue.use(VueRouter);
 Vue.use(vueResource); 

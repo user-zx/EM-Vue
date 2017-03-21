@@ -373,8 +373,8 @@
             * */
             /*消费记录 personal/findConsumeList  {pageNumber:1,pageSize:100}*/
         	
-            vm.consumeListSearchCon.userAccount = "13612345678";
-            console.log(  vm.consumeListSearchCon);   
+            vm.consumeListSearchCon.userAccount = localStorage.getItem("usernumber");
+            //console.log(  vm.consumeListSearchCon);    
             vm.$http.post(vm.consumeListUrl,vm.consumeListSearchCon).then(function(res) {
             	
                 if (res.ok) {

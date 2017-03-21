@@ -6,7 +6,10 @@ export default{
 		selectDate:{
 			startDate:"",
 			endDate:"",
-		}
+		},
+		usernumber:{
+			data:"",
+		},
 	},
 	mutations:{
 		setExpenseModelStatus(state,param){
@@ -18,6 +21,9 @@ export default{
 		changeEndDate(state,date){
 			state.selectDate.endDate = date;
 		},
+		saveNum(state,num){
+			state.usernumber.data = num;
+		}
 	}
 }
 

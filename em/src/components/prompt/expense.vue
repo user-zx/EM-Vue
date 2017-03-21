@@ -36,7 +36,7 @@
 			continueToAdd(){
 				
 				let vm = this;  
-								
+				console.log(vm.indexData);					
 				vm.$http.post(vm.indexData.url,vm.indexData.index).then((result)=>{
 						//console.log(result);
 						
@@ -50,7 +50,6 @@
 				   	 	vm.indexData.itemData.qq = result.data.data.qq;  
 				   	 	vm.indexData.itemData.checkStatus = true; 
 				   	 	$("#expense").modal("hide"); 
-				   	 	
 				   	 }else{ 
 				   	 	console.log('test'); 
 				   	 	vm.indexData.itemData.address = "";
