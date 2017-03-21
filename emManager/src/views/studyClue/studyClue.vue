@@ -425,6 +425,7 @@
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n){
                                     vm.replyList.params.pageNumber = n;
+                                    $(".reply-article .btn-box button").removeClass('active');
                                     vm.post(vm.replyList.url,vm.replyList.params,(response)=>{
                                         if(response.success){
                                             vm.studyClueList.result.replyList=response.data;
@@ -468,6 +469,7 @@
                 });
             },
             getClueList(){
+                $("#pagination").empty();
                 this.pageState=true;
                 this.studyClueList.result.topic={};
                 this.studyClueList.result.replyList=[];
@@ -479,8 +481,10 @@
                 vm.post(vm.getStudiedList.url,vm.getStudiedList.params,(response)=>{
                     if(response.success){
                         let result=response.data;
-                        for(let i in result.content){
+                        for(let i=0;i< result.content.length;i++){
+                            console.log(result.content[i].judgeDate);
                             result.content[i].judgeDate=new Date(result.content[i].judgeDate).Format("yyyy-MM-dd hh:mm:ss");
+                            console.log(result.content[i].judgeDate);
                         }
                         vm.getStudiedList.result=result;
                         setTimeout(()=>{
@@ -630,18 +634,27 @@
                 let vm =this;
                 $(window).scrollTop=0;
                 if(vm.confirmSalesLeads.params.length>0) {
-                            vm.post(vm.confirmSalesLeads.url, vm.confirmSalesLeads.params, (response) => {
-                                if (response.success) {
-                                    vm.confirmSalesLeads.params=[];
-                                    alert(response.data);
-                                    $(window).scrollTop=0;
-                                }
-                            }, (error) => {
-                                console.log(error);
-                            });
+                          if(!$(".article-item .btn-box button").hasClass('active')){
+                                  alert("请研判主贴！～");
+                                  return;
+                          }
+                          if($(".article-content .btn-box").length!=vm.confirmSalesLeads.params.length){
+                              alert("还有数据没研判！～");
+                              return;
+                          }
                 }else{
-                    alert("请研判主贴！～")
+                    alert("请研判数据！");
+                    return;
                 }
+                vm.post(vm.confirmSalesLeads.url, vm.confirmSalesLeads.params, (response) => {
+                    if (response.success) {
+                        vm.confirmSalesLeads.params=[];
+                        alert(response.data);
+                        $(window).scrollTop=0;
+                    }
+                }, (error) => {
+                    console.log(error);
+                });
             }
         },
         mounted(){
