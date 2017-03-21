@@ -134,7 +134,7 @@
 							}else{
 								vm.remember_Me = false;
 							}
-							//vm.$router.push({path:"/home/sellClue"}); 
+							vm.$router.push({path:"/home/sellClue"}); 
 						}else{ 
 							vm.hint = true;  
 							vm.item.account = "";
