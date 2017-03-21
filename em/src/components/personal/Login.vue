@@ -49,18 +49,12 @@
 	  		}
 	  	},
 	  	mounted: function () {
-	  		/*let vm = this;
-	  		let url='apis/generateKey.do';
-	  		let params='';
-	  		vm.$http.post(url, params).then(function (result) {
-              	vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
-				vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
-             })*/
+	  		
              let vm = this;
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
 	        }); 
-
+	        
 	        if(vm.getCookie("rememberMe")){
 	        	$("#remember").iCheck("check")
 	        	vm.item.account = vm.getCookie("username");
