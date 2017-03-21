@@ -110,6 +110,7 @@
             // }
             aClick:function(item,index){
                $("#leftTag li").eq(index).addClass('active').siblings('li').removeClass('active');
+               location.reload();
             }
         },
 

@@ -87,7 +87,7 @@
                         <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png"/>
                         <img v-else src="../../assets/images/unSucImg.png" />
                     </h4> 
-                    <div class="sellClue_list_div_div"> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>匹配时间:</i>{{artItem.salesLeads.matchingDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+                    <div class="sellClue_list_div_div"> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span v-if="artItem.salesLeads.matchingResult=='匹配成功'"><i >匹配时间:</i>{artItem.salesLeads.matchingDate}</span><span v-else><i >提交时间:</i>{{artItem.salesLeads.matchingDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
                    
                     <ul v-if="artItem.salesLeads.matchingResult=='匹配成功'" class="sellClue_list_div_ul"> 
@@ -283,6 +283,7 @@
                     if(response.ok){
                         if(response.data.success){
                             vm.matchingTotalpages=response.data.data.totalPages;
+                            console.log(response.data.data);
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string") {
                                 $("#pagination").jqPaginator({

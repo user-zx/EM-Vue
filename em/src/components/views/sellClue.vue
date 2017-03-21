@@ -297,9 +297,11 @@ ss<template>
 
     
                 vm.initsearchCon.pageNumber=1;
+                // console.log(vm.initsearchCon);
                 this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
+                        	// console.log(response.data.data);
                               vm.sellClueTotalPages=response.data.data.totalPages;
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
@@ -624,7 +626,7 @@ ss<template>
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
                             let temporaryArr = [];
-                            // console.log(arr);    
+                            console.log(arr);    
                             for (let i in arr){
                                 for (let j in conObj){
 
