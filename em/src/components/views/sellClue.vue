@@ -102,7 +102,7 @@ ss<template>
 					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
 				</li>			</ul>      
  			 
-			<button class="btn btn-search" v-if="!artItem.salesLeads.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
+			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
 		</div> 
 		<menu class="clearfix">   
 			<li v-show="artItem.salesLeads.address">
