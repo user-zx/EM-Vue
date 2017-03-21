@@ -19,7 +19,7 @@
 			</label>
 			<p class="clear login_p_one">
 				 <label>
-					 <input type="checkbox"  id="remember" >记住密码
+					 <input type="checkbox"  id="remember">记住密码
 				 </label>        
 				<router-link to="/personal/forgetPassword">忘记密码</router-link>
 			</p> 
@@ -48,7 +48,13 @@
 	  		}
 	  	},
 	  	mounted: function () {
-	  		let vm = this;
+	  		/*let vm = this;
+	  		let url='apis/generateKey.do';
+	  		let params='';
+	  		vm.$http.post(url, params).then(function (result) {
+              	vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
+				vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
+             })*/
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
 	        }); 
@@ -56,12 +62,15 @@
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function () {
                 vm.rememberMe=true;
-              
+               
+                //vm.setCookie("username",account,"password",encrypedPwd,7);
             }).on("ifUnchecked",function () {
                 vm.rememberMe=false;
-            });
+                console.log("0");
+            }); 
        },
 	  	methods:{
+	  	
 	  		//写ajax请求
             generateKey() {
 				let url='apis/generateKey.do';
@@ -77,7 +86,6 @@
 						vm.login();
 						return false;
 					}else if(account=="" || password==""){
-						//console.log($(".showError")[0])
 						vm.hint = true;
                          $(".showError").html("手机号或密码不能为空!");
 					}else{
@@ -108,7 +116,7 @@
                     if(result.ok){  
                         if(result.data.success){
 							vm.hint = false;             
-                           // sessionStorage.setItem("username", result.data.data);
+                            // sessionStorage.setItem("username", result.data.data);
                             //sessionStorage.setItem("usernumber",vm.item.account);
                             vm.$router.push({path:"/home/sellClue"}); 
 						}else{ 
@@ -125,8 +133,28 @@
 				if(this.hint){
 					this.hint  = false;
 				}
-			}
-	  	}
+			},
+			getCookie(c_name) {			//根据分隔符每个变量的值
+        	if (document.cookie.length > 0) {
+          	 let c_start = document.cookie.indexOf(c_name + "=")
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1;
+              let  c_end = document.cookie.indexOf("^", c_start);
+                if (c_end == -1)
+                    c_end = document.cookie.length;
+                return unescape(document.cookie.substring(c_start, c_end));
+		            }
+		        }
+		        return "";
+		    },
+		     setCookie(c_name, n_value, p_name, p_value, expiredays) { //设置cookie
+		        var exdate = new Date();
+		        exdate.setDate(exdate.getDate() + expiredays);
+		        document.cookie = c_name + "=" + escape(n_value) + "^" + p_name + "=" + escape(p_value) + ((expiredays == null) ? "" : "^;expires=" + exdate.toGMTString());
+		        console.log(document.cookie)
+   		 	},
+
+	  	 }
 	  }
 </script>  
      
