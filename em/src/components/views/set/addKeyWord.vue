@@ -92,9 +92,11 @@
                    
                     if(res.ok){
                         if(res.data.success){
-                            console.log(res.data);
+                            // console.log(res.data.data);
                             if(res.data.data=="添加的关键词已经存在"){
-                                alert("该关键词已存在")
+                                vm.textareaVal="";
+                                alert("该关键词已存在");
+                                
                             }else{
                             if(patt.test(param.keywordList)){
                                alert("添加文件成功");

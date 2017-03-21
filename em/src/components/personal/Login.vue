@@ -24,7 +24,7 @@
 				<router-link to="/personal/forgetPassword">忘记密码</router-link>
 			</p> 
 			<button type="button" class="btn  btn-em" @click="generateKey()" >立即登录</button>      
-			<p>还没有慧数医美?<router-link to="/personal/register" class="login_p_two_a">立即注册</router-link></p>
+			<p>还没有慧数医美?<a href="/personal/register" class="login_p_two_a" @click="clearstorage">立即注册</a></p>
 		</div> 
 		
 	</div>
@@ -87,6 +87,9 @@
 						$(".showError").html("手机号或密码出错!");
 					}
                 });
+            },
+            clearstorage(){
+            	sessionStorage.clear();
             },
 	  		login() {
 				let vm  = this;

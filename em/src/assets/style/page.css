@@ -180,7 +180,13 @@
 }
 .pageList .pagination>li>a,.pageList .pagination>li>span{
 	color:#333333;
+	width:34px;
+	height:31px;
+	padding:0;
+	text-align:center;
+	line-height:31px;
 }
+.pageList .pagination>li:first-child a,.pageList .pagination>li:last-child a{width:60px;}
 
 .pageList .pagination{margin-right:10px;}
 .tz-pagination{margin-top:20px;}
