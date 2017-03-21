@@ -47,19 +47,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-3 col-md-3">
-                                <label class="checkbox">
-                                    <input type="checkbox" class="mbx" v-model="searchCity" />
-                                    不限地区
-                                </label>
-                            </div>
-                        </div>
+                       <!--  <div class="form-group">
+                           <div class="col-md-offset-3 col-md-3">
+                               <label class="checkbox">
+                                   <input type="checkbox" class="mbx" v-model="searchCity" />
+                                   不限地区
+                               </label>
+                           </div>
+                       </div> -->
                         <div class="form-group">
                             <label class="col-md-3 control-label">所属行业：</label>
                             <div class="col-md-6">
                                 <select class="form-control selectpicker trade" title="请选择所属行业" v-model="addUser.params.trade">
-                                    <option value="">不限</option>
+                                <!--     <option value="">不限</option> -->
                                     <option v-for="item in userTrade1.result" v-bind:value="item.name">{{item.name}}</option>
                                 </select>
                             </div>
