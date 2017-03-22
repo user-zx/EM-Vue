@@ -108,7 +108,8 @@
         methods:{
             addMatchFun(){
                 let vm=this;  
-                if(vm.data.author==""||vm.data.title==""||vm.data.homeLink==""){alert("昵称、标题或链接不能为空")}else{
+                if(vm.data.author==""||vm.data.title==""||vm.data.homeLink==""||vm.data.source==""){alert("昵称、标题或链接不能为空")}else{
+                    console.log(vm.data);
                 vm.$http.post("../apis/salesLeads/checkDomainNameSource",{url:vm.data.homeLink,source:vm.data.source}).then((res)=>{
                     console.log(res);
                     if(res.ok){

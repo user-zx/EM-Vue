@@ -127,12 +127,12 @@
 											<a href="javascript:void(0);">微信</a>
 										</li>
 										<li>
-											<a href="javascript:void(0);">支付宝</a>
+											<a :href="alipay">支付宝</a>
 										</li>
 									</ul>
 								</div>
 								<span class="col-sm-6">
-									<img src="../../assets/images/payQR.png" height="221" width="269">
+									<img :src="qrsrc" height="221" width="269">
 									<p class="text-center">使用微信（支付宝）扫一扫支付</p>
 								</span>
 							</div>
@@ -207,9 +207,9 @@
 	  export default{
 	  	data(){ 
 	  		return{
-	  			register_login:  true,
-	  			register_message: false,
-	  			register_pay: false,    
+	  			register_login:  false,
+	  			register_message: true,
+	  			register_pay: false,     
 	  			phoneText:"",
 	  			verification:"",  
 	  			cellPhone:"",
@@ -225,6 +225,8 @@
 	  			uploadWord:"点击这里上传文件",
 	  			isFile:false, 
 	  			fileUrl:"../apis/excel/importKeywordList",
+	  			alipayID:"",
+	  			qrsrc:"",
 	  		}
 	  	}, 
 	  	methods:{
@@ -260,10 +262,10 @@
                 if(patt.test(vm.database.keywordList)){
                     vm.database.keywordList = "";
                 }
-                console.log(vm.database); 
+               // console.log(vm.database); 
                 let post = common.post;
-                post(vm.$http,"/apis/registerUser",vm.database,(res)=>{
-                	console.log(res);
+                post(vm.$http,"../apis/registerUser",vm.database,(res)=>{
+                	//console.log(res);
 					if(res.ok){
 					    if(res.data.success){
                             $(".active_i_two>s").animate({width: "100%"}, 600,function(){
@@ -276,10 +278,20 @@
 					}
             	},(err)=>{
                     console.log("注册失败了");
-					/*window.location.href = "/"
-					vm.register_login = true;
-					 vm.register_message =false;
-					 vm.register_pay = false;*/
+                })
+                post(vm.$http,"../apis/interface/getOpenAccountPackage","",(res)=>{
+                	console.log(res);
+                	if(res.ok){
+                		if(res.data.success){
+                			vm.alipayID = res.data.data.id;
+                			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"";
+                			vm.alipay = "../apis/personal/alipayRecharge="+vm.alipayID+"";
+                		}else{
+                			alert("暂时无法开户,请稍后再试");
+                		}
+                	}
+                },(err)=>{
+  						alert("暂时无法开户,请稍后再试");
                 })
 	  		}, 
 	  		provinceSelect(){
@@ -299,7 +311,7 @@
 	  			let vm = this;
 				var re = /^1\d{10}$/;
 	  			if(re.test($("#phone").val())){
-	  				vm.phoneText = ""
+	  				vm.phoneText = "";
 	  			}else{
 	  				vm.phoneText = "手机号格式不正确"
 	  			}

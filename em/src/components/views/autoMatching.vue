@@ -123,15 +123,14 @@
 				</menu> 
 			</div>
 			<div class="pageList clearfix" v-show="!notResult" >
-            <ul class="pull-right tz-pagination" >
-                                <li>跳转到第</li>
-                                <li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
-                                <li>页</li>
-                                <li><button class="btn btn-sm" @click="go">GO</button></li>
-                            </ul>
+                <ul class="pull-right tz-pagination" >
+                        <li>跳转到第</li>
+                        <li ><input type="text" id="go-input" style="width:33px;background:#ddd;outline:none;border:1px solid #ddd;text-align:center;"></li>
+                        <li>页</li>
+                        <li><button class="btn btn-sm" @click="go">GO</button></li>
+                 </ul>
 				<ul :class="{clearfix:page.clearfix, pagination:page.pagination}" class="pull-right" id="pagination">
 				</ul>
-                 
 			</div>
 		</div>  
         <add-matching @increment="getArtListFun"></add-matching>
@@ -255,7 +254,9 @@
         methods:{
             artListFun(){
                 let vm = this;
+
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
+                    console.log(response); 
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
@@ -299,7 +300,6 @@
                                     onPageChange: function (n) {
                                         vm.initsearchCon.pageNumber = n;
                                         vm.artListFun();
-                                        
                                     }
                                 });
                             }else{ 
@@ -309,11 +309,12 @@
                             }
                         }else{
                             console.log(response.data.message);
-
+                            vm.notResult = true;
                         }
                     }
                 },(err)=>{
                     console.log(err);
+                    vm.notResult = true;
                 });
             },
              go(){
