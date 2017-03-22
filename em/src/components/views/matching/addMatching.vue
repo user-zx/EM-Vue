@@ -11,15 +11,15 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">目标昵称：</label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" v-model:value="data.author" placeholder="请您输入目标昵称" />
+                                <input class="form-control" type="text" v-model="data.author" placeholder="请您输入目标昵称" />
                             </div>
                             
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">目标来源：</label>
                             <div class="col-md-5">
-                                <select class="form-control selectpicker" v-model:value="data.source" title="目标来源">
-                                    <option v-for="item in source" v-bind:value="item">{{item}}</option>
+                                <select class="form-control selectpicker" v-model="data.source" title="目标来源">
+                                    <option v-for="item in source">{{item}}</option>
                                 </select>
                             </div>
                            
@@ -27,16 +27,16 @@
 						<div class="form-group">
                             <label class="col-md-4 control-label">文章标题：</label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" v-model:value="data.title" placeholder="请您输入目标主页标题" />
+                                <input class="form-control" type="text" v-model="data.title" placeholder="请您输入目标主页标题" />
                             </div>
                            
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">原文地址：</label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" v-model:value="data.homeLink" placeholder="请您输入目标主页链接" />
+                                <input class="form-control" type="text" v-model="data.homeLink" placeholder="请您输入目标主页链接" />
                             </div>
-                           
+                            
                         </div>
                         <div class="form-group" v-if="errorMsg.length>0">
                             <div class="col-md-12">
@@ -77,25 +77,18 @@
                     title:""
                 },
                 errorMsg:"",
-                source:["微博","百度贴吧"]
+                source:["微博","百度贴吧"],
             }
         },
         mounted(){
-            let vm =this;
-          /*  vm.$http.post(vm.sourceType).then((result)=>{
-                if(result.ok){
-                    if (result.data.success){
-                        vm.source=result.data.data;
-                         setTimeout(function () {
-                            $(".selectpicker").selectpicker("refresh")
-                        },200);
-                    }
-                }
-            });*/  
+            let vm =this;   
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
             });
+            /*$("#addMatching").on("show.bs.modal",function(){
+
+            })*/
             $("#addMatching").on("hide.bs.modal",function () {
                 vm.data.source="";
                 vm.data.homeLink="";
@@ -103,14 +96,17 @@
                 vm.data.title = "";
             }).on("hidden.bs.modal",function () {
                 $(".selectpicker").selectpicker("refresh");
-            });
+            });     
         },
         methods:{
             addMatchFun(){
-                let vm=this;  
-                if(vm.data.author==""||vm.data.title==""||vm.data.homeLink==""||vm.data.source==""){alert("昵称、标题或链接不能为空")}else{
-                    console.log(vm.data);
-                vm.$http.post("../apis/salesLeads/checkDomainNameSource",{url:vm.data.homeLink,source:vm.data.source}).then((res)=>{
+                let vm=this;     
+                 console.log(vm.data); 
+                if(vm.data.author==""||vm.data.title==""||vm.data.homeLink==""||vm.data.source==""){
+                    alert("昵称、标题或链接不能为空");
+                    return false;
+                }else{
+                vm.$http.post("../apis/salesLeads/checkDomainNameSource",vm.data).then((res)=>{
                     console.log(res);
                     if(res.ok){
                         if(res.data.data){
@@ -124,9 +120,9 @@
                           });
                         }else{
                             alert("目标来源与原文地址不匹配");
-                             vm.data.source="";
                              vm.data.homeLink="";
                              vm.data.author="";
+                             vm.data.title = ""; 
                             return false;
                         }  
                     }

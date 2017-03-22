@@ -639,7 +639,7 @@
 }
 .register_centre_div>span{position:relative;}
 .register_centre_div .active_span_text{color:#333333;width:57px;font-size:14px; position:absolute;bottom:-34px;left:-6px;}
-.register_centre_div .active_span_text:last-of-type{width:72px;bottom:-34px;left:-15px;}
+.register_centre_div .active_span_text:last-of-type{width:100px;bottom:-34px;left:-29px;}
 #province>select{margin-left:10px; width:100px} 
 .kv-file-content{
 	display: none !important;
