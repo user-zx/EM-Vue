@@ -256,10 +256,6 @@
                      alert("公司名称不能长于25个字符");
                      return
                 }
-                if(vm.addUser.params.province.length<1&&vm.addUser.params.city.length<1){
-                     alert("所在地区不能为空");
-                     return
-                }
                 if(vm.addUser.params.trade==""){
                      alert("所属行业不能为空");
                      return
@@ -272,8 +268,8 @@
                     alert("正式用户，不能选择未办理套餐");
                     return
                 }
-               
-                vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==true){
+                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
                         if(response.success){
                             $("#addUser").modal("hide");
                             vm.$router.push({path:"/home/success"});
@@ -281,8 +277,20 @@
                             alert(response.message);
                         }
                     },function (error) {
-                        console.log(error);
-              });
+                        console.log(error)
+                    });
+                }else if(vm.addUser.params.province!=""&&vm.addUser.params.city!=""&&vm.addUser.params.county!=""&&vm.searchCity==false){
+                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                        if(response.success){
+                            $("#addUser").modal("hide");
+                            vm.$router.push({path:"/home/success"});
+                        }else{
+                            alert(response.message);
+                        }
+                    },function (error) {
+                        console.log(error)
+                    });
+                }
 
             }
         },

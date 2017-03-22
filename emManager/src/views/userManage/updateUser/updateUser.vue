@@ -237,12 +237,14 @@
                 $("input[type=radio]").iCheck('destroy'); 
                 vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
                     if (response.success) {
+                       
                         vm.addUser.params = response.data;
                         trade=response.data.trade;
                         province=vm.addUser.params.province;
                         city=vm.addUser.params.city;
                         county=vm.addUser.params.county;
                         vm.post(vm.packageList1.url, "", function (response) {
+
                             if (response.success) {
                                 if (response.data.length > 0) {
                                     vm.packageList1.result = response.data;

@@ -272,6 +272,9 @@
                     alert("请选择县区");
                     return;
                 }
+                 if(vm.saveMatching.params.phone.length<1&&vm.saveMatching.params.email.length<1){
+                        alert("请选填手机号或者邮箱！")
+                }
                 if(vm.saveMatching.params.phone.length>0){
                     if(vm.saveMatching.params.phone.length>11){
                         alert("请输入正确的手机号！");
@@ -284,7 +287,7 @@
                     }
                 }
                 if(vm.saveMatching.params.email.length>0){
-                    let reg=/^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/;
+                    let reg=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                     if(!reg.test(vm.saveMatching.params.email)){
                         alert("请输入正确的邮箱格式！");
                         return;
@@ -294,13 +297,23 @@
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
                 vm.saveMatching.params.matchingResult = "匹配成功";
-                vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
-                    if(response.success){
-                        vm.getList();
-                    }
-                },function (error) {
-                    console.log(error);
-                });
+                 if(vm.searchCon.shengVal!=""&&vm.searchCon.shiVal!=""&&vm.searchCon.xianVal!=""&&vm.saveMatching.params.phone!=""){
+                            vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
+                                                if(response.success){
+                                                    vm.getList();
+                                                }
+                                            },function (error) {
+                                                console.log(error);
+                            });
+                }else if (vm.searchCon.shengVal!=""&&vm.searchCon.shiVal!=""&&vm.searchCon.xianVal!=""&&vm.saveMatching.params.email!="") {
+                           vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
+                                               if(response.success){
+                                                   vm.getList();
+                                               }
+                                           },function (error) {
+                                               console.log(error);
+                           });
+                }
                 $("input[name=sex] ").eq(0).iCheck("check");
                 $("input[name=sex] ").eq(1).iCheck("uncheck");
             },
