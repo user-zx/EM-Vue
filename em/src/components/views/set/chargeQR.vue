@@ -7,17 +7,13 @@
                     <h4 class="modal-title" id="addKeyWordLabel"></h4>
                 </div>
                 <div class="modal-body text-center">
-                	<h1 id="WeChat_text" v-show="textIsShow"> 
-                		<button type="button" class="btn btn-default" id="WeChat" @click="WeChat_event">微信</button>
-                		<a :href="alipay">支付宝</a>
+                	<h1 id="WeChat_text"> 
+                		<button type="button" class="btn btn-default btn-block btn-info">微信</button>
+                		<a :href="alipay" class="btn btn-default btn-block">支付宝</a>
                 	</h1>
-					<img :src="qrsrc" height="258" width="258" v-show="imgIsShow">
-					<div v-show="imgIsShow" id="WeChat_btn">
-						<button type="button" class="btn btn-default "  @click="WeChat_back">返回</button>
-					</div>
-					
+					<img :src="qrsrc" height="258" width="258" >
                 </div>  
-                <div class="modal-footer"> 
+                <div class="modal-footer">   
                     <button type="button" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
                     <!-- <button type="button" class="btn btn-search" >&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button> --> 
                 </div>
@@ -32,21 +28,10 @@
 			return {
 				qrsrc:"",
 				alipay:"",
-				imgIsShow:false,
-				textIsShow:true,
 			}
 		},
 		methods:{
-			WeChat_event(){
-				let vm = this;
-				vm.imgIsShow = true;
-				vm.textIsShow = false;
-			},
-			WeChat_back(){
-				let vm = this;
-				vm.imgIsShow = false;
-				vm.textIsShow = true;
-			}
+			
 		},
 		mounted(){ 
 			let vm = this; 
@@ -69,15 +54,13 @@
 		position: relative;
 	} 
 	#WeChat_text{
-		line-height: 180px;
+		width: 100px;  
+		margin-left: 100px;
 	}
-	#WeChat{
-		font-size: 30px;
-	}
-	#WeChat_btn{
+	.modal-body>img{
 		position: absolute;
-		top: 10px;	
-		left: 50%;
-		margin-left: -25px;
+		top: 0px;
+		right: 50px;
 	}
+	
 </style>
