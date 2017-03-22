@@ -47,19 +47,18 @@
                                 </select>
                             </div>
                         </div>
-                       <!--  <div class="form-group">
+                       <div class="form-group">
                            <div class="col-md-offset-3 col-md-3">
                                <label class="checkbox">
                                    <input type="checkbox" class="mbx" v-model="searchCity" />
                                    不限地区
                                </label>
                            </div>
-                       </div> -->
+                       </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">所属行业：</label>
                             <div class="col-md-6">
                                 <select class="form-control selectpicker trade" title="请选择所属行业" v-model="addUser.params.trade">
-                                <!--     <option value="">不限</option> -->
                                     <option v-for="item in userTrade1.result" v-bind:value="item.name">{{item.name}}</option>
                                 </select>
                             </div>
@@ -206,6 +205,9 @@
                 vm.addUser.params.province=vm.searchCon.sheng1Val;
                 vm.addUser.params.city=vm.searchCon.shi1Val;
                 vm.addUser.params.county=vm.searchCon.xian1Val;
+                if(vm.addUser.params.packageId==null||vm.addUser.params.packageId==undefined){
+                         vm.addUser.params.packageId="";
+                }
                 if(vm.addUser.params.userStatus=='试用'&&vm.addUser.params.packageId!=''){
                     alert("试用用户，只能选择未办理套餐");
                     return
@@ -293,6 +295,9 @@
                             $(".shengs").selectpicker('val',province).selectpicker("refresh");
                             $(".shis").selectpicker('val',city).selectpicker("refresh");
                             $(".xians").selectpicker('val',county).selectpicker("refresh");
+                            vm.searchCon.sheng1Val= vm.addUser.params.province;
+                            vm.searchCon.shi1Val= vm.addUser.params.city;
+                            vm.searchCon.xian1Val=vm.addUser.params.county;
                             setTimeout(()=>{
                                 vm.addUser.params.trade=trade;
                                 $(".trade").selectpicker("refresh").selectpicker('val',trade);
