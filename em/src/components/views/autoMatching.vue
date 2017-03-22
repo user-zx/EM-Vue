@@ -106,8 +106,8 @@
                         </li>
                     </ul>
                     
-                    <button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
-                </div> 
+                    <button class="btn btn-search" v-if="!artItem.checkStatus&&artItem.salesLeads.matchingResult!='暂未匹配'" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
+                </div>  
 				<menu class="clearfix" v-if="artItem.salesLeads.matchingResult=='匹配成功'">
 					<li v-show="artItem.salesLeads.address"><img src="../../assets/images/location.png" height="25" width="22" alt=""><strong>{{artItem.salesLeads.address}}</strong></li>
 					<li v-show="artItem.salesLeads.phone"><img src="../../assets/images/phone.png" height="22" width="18"><strong>{{artItem.salesLeads.phone}}</strong></li>
