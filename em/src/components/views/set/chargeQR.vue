@@ -54,13 +54,15 @@
 		position: relative;
 	} 
 	#WeChat_text{
-		width: 100px;  
-		margin-left: 100px;
+		margin-right: 310px;
 	}
 	.modal-body>img{
 		position: absolute;
 		top: 0px;
 		right: 50px;
+	}
+	#WeChat_text>a{
+		margin-top: 20px;
 	}
 	
 </style>
