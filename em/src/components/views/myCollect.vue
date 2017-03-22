@@ -282,7 +282,7 @@
 				$(this).addClass("active").siblings().removeClass("active");
             });
            
-			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
+			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":100,"pageNumber":1}).then(function(response){
 				if(response.ok){
 				    if(response.data.success){
                         let typeOf=response.data.data;
@@ -354,9 +354,9 @@
 			},
 			getArtListFun(){
                 let vm=this;
-                console.log(vm.initsearchCon);
+                console.log(vm.initsearchCon); 
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
-                	//console.log(response);
+                	console.log(response);
                     if(response.ok){
                         if(response.data.success){
                         	vm.collectTotalPages=response.data.data.totalPages;
@@ -621,8 +621,6 @@
                              vm.modelData.itemData = vm.artList.artContent[index].salesLeads;
                              vm.$store.commit("setExpenseModelStatus",true)
                              $("#expense").modal("show"); 
-                            /// console.log(vm.modelData.url);
-                             //console.log( vm.modelData.itemData );  
                         }else{
                              vm.$store.commit("setExpenseModelStatus",false) 
                              $("#expense").modal("show");  

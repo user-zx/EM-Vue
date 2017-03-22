@@ -1,20 +1,30 @@
 <template>
 	<div class="findPassword">
-		<heads :topMessage="isShow"></heads>
+		<!-- <heads :topMessage="isShow"></heads> -->
+	
+		<div id="heads" class="heads navbar navbar-default">
+	        <div class="navbar-header">
+	            <a class="navbar-brand" href="/home">
+	              <img src="../../assets/images/logo.png" alt="logo"/>
+	            </a>
+	        </div> 
+         </div> 
 		<div class="findPassword_body">
-				<h2>找回密码</h2>
+				<h2>找回密码</h2> 
 				<div class="form-horizontal" role="form">
 				<div style="width:70%;margin:0 auto;">
 					    <div class="form-group">
 					    
 						    <label class="col-sm-3 control-label" for="phone">手机号:</label>
 						    <div class="col-sm-7">
+						    	 <input type="text" style="position: absolute;top: -9999px"/>
 			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required  v-model="alterData.phone">
 			   			    </div>
 			  			</div>
 			  			<div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
 						    <div class="col-sm-4">
+						    	<input type="text" style="position: absolute;top: -9999px"/>
 						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification" @input="detection">
 						    </div> 
 						    <div class="col-sm-3">
@@ -24,9 +34,10 @@
 		  				 <div class="form-group">
 						       <label for="password" class="col-sm-3 control-label">新密码:</label>
 							    <div class="col-sm-7"> 
+							       <input type="password" style="position: absolute;top: -9999px"/>
 							        <input type="password" class="form-control" id="password" placeholder="请输入密码"   v-model="alterData.newPass">  
 						        </div>
-		  				 </div>
+		  				 </div> 
 		  				 <div class="form-group">
 		  					<div class="col-sm-offset-3 col-sm-7">
 		  						<button type="button" class="btn btn-em btn-block"  @click="submit($event)" id="login_btn ">提交</button> 
@@ -48,7 +59,7 @@
 	</div>  
 </template>
 <script>
-    import heads from "../head/heads.vue";
+    //import heads from "../head/heads.vue";
     import common from "../../assets/js/common.js";
 	export default{
 		data(){
@@ -120,8 +131,14 @@
 				}
 			} 
 		},
+		mounted:function(){
+			let vm = this;
+			vm.verification = "";
+			vm.alterData.phone = "";
+			vm.alterData.newPass = "";
+		},
 		components:{
-			heads
+			/*heads*/
 		}
 	}
 </script>
@@ -156,5 +173,8 @@
 		position: absolute;
 		top: 20px; 
 		left: 45px;
-	}   
+	} 
+	.heads{position:fixed;top:0;width:100%;height:65px;padding-left:30px;padding-right:30px;border-radius: 0;border:none;background-color: #32ccca;margin-bottom:0;z-index: 8888;
+        box-shadow:0 0 3px #999;}
+    .heads .navbar-brand{height:auto;}  
 </style>  

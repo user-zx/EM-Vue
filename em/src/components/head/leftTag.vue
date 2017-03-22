@@ -101,17 +101,11 @@
             foots,
         },
         methods:{ 
-           /* currentFun:function(item,index,el){  
-               $(".router-link-active").parent("li").addClass('active').siblings('li').removeClass('active')
-            }*/
-            // fc:function(item,index,el){
-            //     console.log(item);
-            //     console.log(el)
-            // }
+            
             aClick:function(item,index){
                $("#leftTag li").eq(index).addClass('active').siblings('li').removeClass('active');
-               location.reload();
-            }
+               
+            } 
         },
 
     }

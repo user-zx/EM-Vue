@@ -28,7 +28,7 @@
 	export default{
 		data(){
 			return {
-				status:this.$store.state.expenseModel.status,
+				status:"", 
 				text:"",
 			}
 		},
@@ -36,9 +36,9 @@
 			continueToAdd(){
 				
 				let vm = this;  
-				console.log(vm.indexData);					
+									
 				vm.$http.post(vm.indexData.url,vm.indexData.index).then((result)=>{
-						//console.log(result);
+						console.log(result);
 						
 				   if(result.ok){   
 				   	 if(result.data.success){  
@@ -49,9 +49,10 @@
 				   	 	vm.indexData.itemData.wechat = result.data.data.wechat;
 				   	 	vm.indexData.itemData.qq = result.data.data.qq;  
 				   	 	vm.indexData.itemData.checkStatus = true; 
+				   	 	console.log(vm.indexData.itemData);
 				   	 	$("#expense").modal("hide"); 
 				   	 }else{ 
-				   	 	console.log('test'); 
+				   	 	console.log('test11'); 
 				   	 	vm.indexData.itemData.address = "";
 				   	 	vm.indexData.itemData.phone = "";
 				   	 	vm.indexData.itemData.email = "";

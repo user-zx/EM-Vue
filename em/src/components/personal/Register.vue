@@ -1,13 +1,12 @@
 <template>
 	<div id="register">
 	     <div id="heads" class="heads navbar navbar-default">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/home">
-              <img src="../../assets/images/logo.png" alt="logo"/>
-            </a>
-        </div> 
-      
-       </div> 
+	        <div class="navbar-header">
+	            <a class="navbar-brand" href="/home">
+	              <img src="../../assets/images/logo.png" alt="logo"/>
+	            </a>
+	        </div> 
+         </div> 
 		<div class="register_centre container">
 			<div class="panel">
 				<div class="panel-heading" id="register_centre_heading">

@@ -553,7 +553,7 @@
             getLinkStatus(index,artItemId){
                 let vm = this;
                 vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
-                    //console.log(result);
+                  
                     if(result.ok){  
                         if(result.data.success){
 
@@ -568,7 +568,7 @@
                         }
                     }
                 }, (err)=>{
-                     console.log(err); 
+                   
                      vm.$store.commit("setExpenseModelStatus",false) 
                      alert(err);  
                      return false;

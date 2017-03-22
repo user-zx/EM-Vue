@@ -8,10 +8,12 @@
 			<img src="../../assets/images/loginWord.png"  alt="">
 			<label>
 				<img src="../../assets/images/login_user.png"  alt="">
+				 <input type="text" style="position: absolute;top: -9999px;display:none"/>
 				<input type="text" name="" class="form-control" v-model="item.account" placeholder="手机号" @input="changeVal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required>
 			</label> 
 			<label>
 				<img src="../../assets/images/login_password.png"  alt="">
+				 <input type="password" style="position: absolute;top: -9999px;display:none"/>
 				<input type="password" name="" class="form-control" v-model="item.password" placeholder="密码" @input="changeVal">
 			</label>
 			<label>

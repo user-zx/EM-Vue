@@ -34,11 +34,9 @@ Vue.http.interceptors.push((request, next) => {
 });
 
 const router = new VueRouter(routerConfig);
-const store = new Vuex.Store(storeConfig) 
+const store = new Vuex.Store(storeConfig);
+ 
 const app =  new Vue({	
-	data:{
-		aa:"bb"
-	},
 	store,
 	router,
 }).$mount("#app");

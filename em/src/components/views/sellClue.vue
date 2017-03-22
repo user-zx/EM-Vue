@@ -616,7 +616,7 @@ ss<template>
 
             
            
-			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
+			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":100,"pageNumber":1}).then(function(response){
 				if(response.ok){  
 				    if(response.data.success){
 				        let typeOf=typeof response.data.data;
