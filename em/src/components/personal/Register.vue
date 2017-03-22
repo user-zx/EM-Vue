@@ -227,6 +227,7 @@
 	  			fileUrl:"../apis/excel/importKeywordList",
 	  			alipayID:"",
 	  			qrsrc:"",
+	  			alipay:"",
 	  		}
 	  	}, 
 	  	methods:{
