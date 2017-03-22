@@ -175,10 +175,8 @@
                     number:""
                 },
                 receiveMatchingTask:{
-                    url:"../../apis/matching/receiveMatchingTask",
-                    params:{
-                        matchingSource:"普通匹配"
-                    },
+                    url:"../../apis/matching/receiveGeneralMatchingTask",
+                    params:"",
                     result:{}
                 },
                 saveMatching:{
