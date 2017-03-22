@@ -46,12 +46,12 @@
                                     <option v-for="item in xian1">{{item}}</option>
                                 </select>
                             </div>
-                         <!--    <div class="col-md-offset-3 col-md-3">
+                           <div class="col-md-offset-3 col-md-3">
                              <label class="checkbox">
                                  <input type="checkbox" class="mbx" v-model="searchCity" />
                                  不限地区
                              </label>
-                         </div> -->
+                         </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">所属行业：</label>
