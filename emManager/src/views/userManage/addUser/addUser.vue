@@ -97,12 +97,15 @@
                             <div class="col-md-6">
                                 <textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="addUser.params.keywordList"></textarea>
                             </div>
-                            <!--<div class="col-md-offset-3 col-md-6">-->
-                                <!--<div class="upload-box">-->
-                                    <!--<a href="javascript:void(0);"><img src="./images/set_icon.png"/>批量添加</a>-->
-                                    <!--<a href="javascript:void(0);"><img src="./images/set_icon1.png" />下载文件模版</a>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                            <div class="col-md-offset-3 col-md-6">
+                                <div class="upload-box">
+                                    <a href="javascript:void(0);" id="a-upload">
+                                      <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
+                                        <input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">批量添加
+                                    </a>
+                                    <a href="../apis/excel/downloadKeywordImportTemplate"><img src="./images/set_icon1.png" />下载文件模版</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,10 +161,25 @@
             border-top:none;
             text-align: center;
         }
+    };
+    #fileName{
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer;
+    }
+    #a-upload{
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;  
     }
 </style>
 <script>
     import data from '../../../assets/data/data';
+    import "../../../assets/vendor/ajaxfileupload.js";
     export default{
         data(){
             return{
@@ -254,6 +272,7 @@
                     alert("正式用户，不能选择未办理套餐");
                     return
                 }
+               
                 vm.post(vm.addUser.url,vm.addUser.params,function(response){
                         if(response.success){
                             $("#addUser").modal("hide");
@@ -268,6 +287,37 @@
             }
         },
         mounted(){
+            //文件上传
+            let vm_this = this;
+            $(document).on("change","#fileName",function(){
+                let fileName = $("#fileName")[0].files[0].name;
+                
+               
+                console.log(vm_this.addUser.params.keywordList);
+               if(vm_this.addUser.params.phone!=""&&fileName!=""){
+
+                     $.ajaxFileUpload({
+                        url:"../apis/excel/importKeywordList",
+                        fileElementId:"fileName",
+                        secureuri: false,
+                        dataType: 'JSON',
+                        type:"post",   
+                        data: {keywordOwner:vm_this.addUser.params.phone,keywordList:fileName},   
+                        success:function(data,status){
+                          
+                            let dataObj = JSON.parse(data)
+                            if(dataObj.success){
+                                alert(dataObj.data);
+                                 vm_this.addUser.params.keywordList = fileName
+                            }else{
+                                alert("添加失败")
+                                vm_this.addUser.params.keywordList = "";
+                            }
+                            
+                        },
+                     })
+               }
+            })
             $(".mbx").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function(){
@@ -282,7 +332,7 @@
                 $('.mcity').prop('disabled', false);
                 $(".mcity").selectpicker('val','').selectpicker('refresh');
             });
-            let vm=this,shiIndex1,xianIndex1;
+            let vm = this,shiIndex1,xianIndex1;
             $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex1=clickedIndex-1;
                 vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
