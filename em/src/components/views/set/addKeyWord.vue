@@ -87,17 +87,30 @@
                
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
+
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
                     if(res.ok){
                         if(res.data.success){
-                            if(res.data.data=="添加的关键词已经存在"){
+                          if(patt.test(param.keywordList)){
+                                 vm.textareaVal = param.keywordList;
+                               $('#addKeyWord').on('hidden.bs.modal', function () {
+                                 vm.textareaVal = "";
+                              })
+                                vm.$emit("updateList","");
+                                $('#addKeyWord').modal('hide');
+                               return false;
+                          }else if(res.data.data=="添加的关键词已经存在"){
                                 vm.textareaVal="";
                                 alert("该关键词已存在");
                             }else{
                             if(patt.test(param.keywordList)){
                                  vm.$emit("updateList","");
                                alert("添加文件成功");
-                               $('#addKeyWord').modal('hide');
+                                 vm.textareaVal = param.keywordList;
+                                  $('#addKeyWord').modal('hide');
+                               $('#addKeyWord').on('hidden.bs.modal', function () {
+                                 vm.textareaVal = "";
+                              })
                             }else{ 
                                 alert("添加关键词成功");
                                 vm.textareaVal = "";
@@ -113,7 +126,6 @@
                     }   
                     
                },(err)=>{ 
-                    console.log(err); 
                     $('#addKeyWord').modal('hide');
                     vm.textareaVal = "";
                })
