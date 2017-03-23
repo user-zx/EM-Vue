@@ -75,9 +75,10 @@
 			submit:function(){ 
 				let vm = this;
 				let post = common.post;
-				console.log(vm.status);
+				console.log(vm.alterData);
 				if(vm.status){
-					post(vm.$http,"/apis/personal/retrievePassword",vm.alterData,(res)=>{
+					post(vm.$http,"../apis/personal/retrievePassword",vm.alterData,(res)=>{
+						console.log(res);
 					 if(res.ok){  
 					  	if(res.data.success){ 
 					  		window.location.href = "#/login";
@@ -97,8 +98,10 @@
 			getVerification:function(){
 				let post = common.post;
 				let vm = this;  
-				if(vm.alterData.phone.length==11){
-					post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",vm.alterData.phone,(res)=>{
+
+				if(vm.alterData.phone.length==11){ 
+					post(vm.$http,"../apis/personal/sendShortMessage",vm.alterData.phone,(res)=>{
+						console.log(res);
 						if(res.ok){
 							if(res.data.success){
 								vm.status = true;
