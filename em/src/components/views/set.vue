@@ -306,7 +306,6 @@
 					pageSize:6,
 					userAccount:"",
 					keyword:"",
-					
 				},
 				consumeListSearchCon:{
 				    pageNumber:1,
@@ -314,7 +313,6 @@
 					userAccount:""
 				},
 				chargeQRId:"",
-				
 			}
 		},
         components:{rePassword,addKeyWord,chargeQR},
@@ -474,11 +472,6 @@
 			jumpFirstPage(){
 				let vm =this;
 				
-				$("#keyWordSet .pagination").jqPaginator('option',{
-					currentPage:1,
-  
-				});
-
 				vm.keyWordSearchCon.pageNumber=1;
 
 				vm.getKeywordListFun();
@@ -529,6 +522,7 @@
             	$(".switch").bootstrapSwitch('destroy');
 
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+                	console.log(res);
                     if(res.ok){ 
                         if(res.data.success){
 
@@ -640,14 +634,15 @@
 			},
 			updateClue(){
 				let vm = this;
-				
+				console.log(vm.keyWordSearchCon);
 			   vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-			  
+			  	console.log(res);
 				if(res.ok){
 				    if(res.data.success){
 				    
 				              if(res.data.data.totalPages==0){
                                 vm.keynotResult=true; 
+                                return false;
                            }else{ vm.keynotResult=false; };
 
                            

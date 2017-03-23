@@ -52,7 +52,6 @@
     opacity: 0;
     filter: alpha(opacity=0);
     cursor: pointer;
-    
 }
 </style>
 <script>
@@ -89,21 +88,22 @@
                param.keywordOwner = vm.userNumber;
                param.keywordList = vm.textareaVal;
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                  
                     if(res.ok){
                         if(res.data.success){
-                             
                             if(res.data.data=="添加的关键词已经存在"){
                                 vm.textareaVal="";
                                 alert("该关键词已存在");
                             }else{
                             if(patt.test(param.keywordList)){
+                                 vm.$emit("updateList","");
                                alert("添加文件成功");
+                               $('#addKeyWord').modal('hide');
                             }else{ 
                                 alert("添加关键词成功");
                                 vm.textareaVal = "";
                                 vm.$emit("updateList",param.keywordList);
                                 vm.$emit("gofirst"); 
+                                $('#addKeyWord').modal('hide');
                             }  
                           }
                         }else{
@@ -111,10 +111,10 @@
                             vm.textareaVal = "";
                         }
                     }   
-                    $('#addKeyWord').modal('hide')
+                    
                },(err)=>{ 
                     console.log(err); 
-                    $('#addKeyWord').modal('hide')
+                    $('#addKeyWord').modal('hide');
                     vm.textareaVal = "";
                })
             }
@@ -143,7 +143,7 @@
                       let json_data = JSON.parse(data);
                       console.log(json_data);
                       if(json_data.success){
-                        if(json_data.data == "添加的关键词已经存在"){
+                        if(json_data.data == "导入的关键词已经存在"){
                              vm.textareaVal = ""; 
                             alert(json_data.data)
                         }else{  
