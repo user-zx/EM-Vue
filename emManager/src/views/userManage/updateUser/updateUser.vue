@@ -267,6 +267,11 @@
                             if (response.success) {
                                 if (response.data.length > 0) {
                                     vm.packageList1.result = response.data;
+                                    if( province==""&&city==""){
+                                         $(".mbx").iCheck("check");
+                                    }else{
+                                         $(".mbx").iCheck("uncheck");
+                                    }
                                     setTimeout(function () {
                                         $(".mbx").iCheck({
                                             checkboxClass : 'icheckbox_square-blue',
