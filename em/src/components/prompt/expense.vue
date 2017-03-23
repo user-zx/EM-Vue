@@ -5,8 +5,8 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							  <h4 class="text-center" v-if="status">点击查看将会扣除一次查看机会,是否继续</h4>
-							  <h4 class="text-center" v-else >余额不足,请充值</h4>
+							  <h4 class="text-center">{{hintVal}}</h4>
+							 <!--  <h4 class="text-center" v-else >余额不足,请充值</h4> -->
 						</div> 
 						  <div class="modal-footer" v-if="status">  
 				                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 
@@ -28,18 +28,16 @@
 	export default{
 		data(){
 			return {
-				status:"", 
+				status:"",
 				text:"",
+				hintVal:"",
 			}
 		},
 		methods:{
 			continueToAdd(){
 				
 				let vm = this;  
-									
 				vm.$http.post(vm.indexData.url,vm.indexData.index).then((result)=>{
-						console.log(result);
-						
 				   if(result.ok){   
 				   	 if(result.data.success){  
 				   	 	vm.indexData.itemData.address = result.data.data.address;
@@ -48,11 +46,9 @@
 				   	 	vm.indexData.itemData.ip = result.data.data.ip;
 				   	 	vm.indexData.itemData.wechat = result.data.data.wechat;
 				   	 	vm.indexData.itemData.qq = result.data.data.qq;  
-				   	 	vm.indexData.itemData.checkStatus = true; 
-				   	 	console.log(vm.indexData.itemData);
+				   	 	vm.$emit("upload")
 				   	 	$("#expense").modal("hide"); 
-				   	 }else{ 
-				   	 	console.log('test11'); 
+				   	 }else{  
 				   	 	vm.indexData.itemData.address = "";
 				   	 	vm.indexData.itemData.phone = "";
 				   	 	vm.indexData.itemData.email = "";
@@ -63,26 +59,34 @@
 				   	 	$("#expense").modal("hide");
 				   	 } 
 				   }		     
-					
 				},(err)=>{
 					alert(err);
 					return false;
-
 				});
 			}
 		}, 
 		mounted(){   
 			let vm =this;  
 			
+			/*vm.$nextTick(function(){
+				vm.status=vm.$store.state.expenseModel.status;
+				console.log(vm.status);
+			})*/
 
 			$("#expense").on("show.bs.modal",function() {
-				//console.log(vm.$store.state.expenseModel.status);			
+							
 			}).on("shown.bs.modal",function(){ 
-				vm.status=vm.$store.state.expenseModel.status;
+				
+				vm.status = vm.$store.state.expenseModel.status;
+				if(vm.status){
+					vm.hintVal = "点击查看将会扣除一次查看机会,是否继续";
+				}else{
+					vm.hintVal = "余额不足,请充值";
+				}
 			}).on("hide.bs.modal",function(){
 
 			}).on("hidden.bs.modal",function(){
-
+ 
 			});   
 
 		}, 

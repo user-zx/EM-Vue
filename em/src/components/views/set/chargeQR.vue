@@ -37,9 +37,8 @@
 			let vm = this; 
 			 $('#chargeQR').on('shown.bs.modal', function () {
   				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR+"";
-  				vm.alipay = "../apis/personal/alipayRecharge="+vm.chargeQR+"";
-  				console.log(vm.alipay);
- 			})  
+  				vm.alipay = "../apis/personal/alipayRecharge?pkgId="+vm.chargeQR+"";
+ 			})   
 		},
 		props:["chargeQR"]
 	}

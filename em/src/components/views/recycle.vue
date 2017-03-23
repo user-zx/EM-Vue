@@ -1,6 +1,6 @@
 <template>
 	<div class="viewLog publicClass">
-         <expense :indexData="modelData"></expense>
+         <expense :indexData="modelData" @upload="getArtListFun"></expense>
 		<div class="search-box"> 
 			<div class="form-horizontal clearfix" role="search">
 				<div class="col-md-2">
@@ -108,37 +108,64 @@
                      <button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)">联系人信息</button>
                 </div>
 				  
-				<menu  class="clearfix">     
-					<li v-show="artItem.salesLeads.address">   
-						<img src="../../assets/images/location.png" height="25" width="22" alt="">
-						<strong >{{artItem.salesLeads.address}}</strong>
-					</li> 
-					<li v-show="artItem.salesLeads.phone">
-						<img src="../../assets/images/phone.png" height="22" width="18">
-						<strong >{{artItem.salesLeads.phone}}</strong>
-					</li>
-					<li v-show="artItem.salesLeads.email">
-						<img src="../../assets/images/email.png" height="21" width="25">
-						<strong >{{artItem.salesLeads.email}}</strong>
-					</li>
-					<li v-show="artItem.salesLeads.ip">
-						<img src="../../assets/images/IP.png" height="25" width="25">
-						<strong >{{artItem.salesLeads.ip}}</strong>
-					</li>
-					<li v-show="artItem.salesLeads.wechat">
-						<img src="../../assets/images/wechat.png" height="24" width="24">
-						<strong >{{artItem.salesLeads.wechat}}</strong>
-					</li>
-					<li v-show="artItem.salesLeads.qq">
-						<img src="../../assets/images/QQ.png" height="24" width="23">
-						<strong >{{artItem.salesLeads.qq}}</strong>
-					</li>
-                    <li v-show="artItem.salesLeads.otherInfoContent"> 
-                        <img src="../../assets/images/qt.png" height="22" width="22">
-                        <strong>{{artItem.salesLeads.otherInfoName}} : </strong>
-                        <strong>{{artItem.salesLeads.otherInfoContent}}</strong>
-                     </li>  
-				</menu>  
+				<menu class="clearfix">   
+                        <li v-if="artItem.salesLeads.address=='默认值'">
+                            <img src="../../assets/images/location.png" height="25" width="22" alt="">
+                        </li> 
+                        <li v-else-if="artItem.salesLeads.address!='默认值' && artItem.salesLeads.address!=''&&artItem.salesLeads.address!=null">
+                            <img src="../../assets/images/location.png" height="25" width="22" alt="">
+                            <strong  >{{artItem.salesLeads.address}}</strong>
+                        </li>
+                        
+                        <li v-if="artItem.salesLeads.phone=='默认值'">
+                            <img src="../../assets/images/phone.png" height="22" width="18">
+                        </li>
+                        <li v-else-if="artItem.salesLeads.phone!='默认值' && artItem.salesLeads.phone!=''&&artItem.salesLeads.phone!=null">
+                            <img src="../../assets/images/phone.png" height="25" width="22" alt="">
+                            <strong  >{{artItem.salesLeads.phone}}</strong>
+                        </li>
+                            
+                        <li v-if="artItem.salesLeads.email=='默认值'">
+                            <img src="../../assets/images/email.png" height="21" width="25">
+                        </li>
+                        <li v-else-if="artItem.salesLeads.email!='默认值' && artItem.salesLeads.email!=''&&artItem.salesLeads.email!=null">
+                            <img src="../../assets/images/email.png" height="25" width="22" alt="">
+                            <strong  >{{artItem.salesLeads.email}}</strong>
+                        </li>
+                        
+                        <li v-if="artItem.salesLeads.ip=='默认值'">
+                            <img src="../../assets/images/IP.png" height="25" width="25">
+                        </li>
+                        <li v-else-if="artItem.salesLeads.ip!='默认值' && artItem.salesLeads.ip!=''&&artItem.salesLeads.ip!=null">
+                            <img src="../../assets/images/IP.png" height="25" width="22" alt="">
+                            <strong  >{{artItem.salesLeads.ip}}</strong>
+                        </li>
+
+                        <li v-if="artItem.salesLeads.wechat=='默认值'">
+                            <img src="../../assets/images/wechat.png" height="24" width="24">
+                        </li>
+                        <li v-else-if="artItem.salesLeads.wechat!='默认值' && artItem.salesLeads.wechat!=''&&artItem.salesLeads.wechat!=null">
+                            <img src="../../assets/images/wechat.png" height="25" width="22" alt="">
+                            <strong  >{{artItem.salesLeads.wechat}}</strong>
+                        </li>
+
+                        <li v-if="artItem.salesLeads.qq=='默认值'"> 
+                            <img src="../../assets/images/QQ.png" height="24" width="23">
+                        </li>    
+                        <li v-else-if="artItem.salesLeads.qq!='默认值' && artItem.salesLeads.qq!=''&&artItem.salesLeads.qq!=null">
+                            <img src="../../assets/images/QQ.png" height="25" width="22" alt="">
+                            <strong  >{{artItem.salesLeads.qq}}</strong>
+                        </li>
+                            
+                        <li v-if="artItem.salesLeads.otherInfoContent=='默认值'"> 
+                            <img src="../../assets/images/qt.png" height="22" width="22">
+                        </li> 
+                        <li v-else-if="artItem.salesLeads.otherInfoContent!='默认值' && artItem.salesLeads.otherInfoContent!='' && artItem.salesLeads.otherInfoContent!= null">
+                            <img src="../../assets/images/qt.png" height="25" width="22" alt="">
+                            <strong>{{artItem.salesLeads.otherInfoName}}</strong>
+                            <strong>{{artItem.salesLeads.otherInfoContent}}</strong>
+                        </li> 
+                </menu>   
 				
 			</div> 
 			<div class="pageList clearfix" v-show="!notResult">

@@ -1,6 +1,6 @@
 ss<template>
 <div class="sellClue publicClass">
-	<expense :indexData="modelData"></expense>
+	<expense :indexData="modelData" @upload="getArtListFun"></expense>
 	
 	<div class="search-box">
 		<div class="form-horizontal clearfix" role="search">
@@ -100,40 +100,67 @@ ss<template>
 					<button  v-else  class="btn" @click="labelFun(index,artItem.salesLeads.id)"
 					:disabled="!artItem.checkStatus">
 					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
-				</li>			</ul>      
+				</li></ul>      
  			 
 			<button class="btn btn-search" v-if="!artItem.checkStatus" @click="getLinkStatus(index,artItem.salesLeads.id)" data-toggle="modal" data-target="#expense">联系人信息</button>        
 		</div> 
 		<menu class="clearfix">   
-			<li v-show="artItem.salesLeads.address">
+			<li v-if="artItem.salesLeads.address=='默认值'">
+				<img src="../../assets/images/location.png" height="25" width="22" alt="">
+			</li> 
+			<li v-else-if="artItem.salesLeads.address!='默认值' && artItem.salesLeads.address!=''&&artItem.salesLeads.address!=null">
 				<img src="../../assets/images/location.png" height="25" width="22" alt="">
 				<strong  >{{artItem.salesLeads.address}}</strong>
-			</li> 
-			<li v-show="artItem.salesLeads.phone">
+			</li>
+			
+			<li v-if="artItem.salesLeads.phone=='默认值'">
 				<img src="../../assets/images/phone.png" height="22" width="18">
-				<strong >{{artItem.salesLeads.phone}}</strong>
 			</li>
-			<li v-show="artItem.salesLeads.email">
+			<li v-else-if="artItem.salesLeads.phone!='默认值' && artItem.salesLeads.phone!=''&&artItem.salesLeads.phone!=null">
+				<img src="../../assets/images/phone.png" height="25" width="22" alt="">
+				<strong  >{{artItem.salesLeads.phone}}</strong>
+			</li>
+				
+			<li v-if="artItem.salesLeads.email=='默认值'">
 				<img src="../../assets/images/email.png" height="21" width="25">
-				<strong>{{artItem.salesLeads.email}}</strong>
 			</li>
-			<li v-show="artItem.salesLeads.ip">
+			<li v-else-if="artItem.salesLeads.email!='默认值' && artItem.salesLeads.email!=''&&artItem.salesLeads.email!=null">
+				<img src="../../assets/images/email.png" height="25" width="22" alt="">
+				<strong  >{{artItem.salesLeads.email}}</strong>
+			</li>
+			
+			<li v-if="artItem.salesLeads.ip=='默认值'">
 				<img src="../../assets/images/IP.png" height="25" width="25">
-				<strong >{{artItem.salesLeads.ip}}</strong>
 			</li>
-			<li v-show="artItem.salesLeads.wechat">
+			<li v-else-if="artItem.salesLeads.ip!='默认值' && artItem.salesLeads.ip!=''&&artItem.salesLeads.ip!=null">
+				<img src="../../assets/images/IP.png" height="25" width="22" alt="">
+				<strong  >{{artItem.salesLeads.ip}}</strong>
+			</li>
+
+			<li v-if="artItem.salesLeads.wechat=='默认值'">
 				<img src="../../assets/images/wechat.png" height="24" width="24">
-				<strong>{{artItem.salesLeads.wechat}}</strong>
 			</li>
-			<li v-show="artItem.salesLeads.qq"> 
+			<li v-else-if="artItem.salesLeads.wechat!='默认值' && artItem.salesLeads.wechat!=''&&artItem.salesLeads.wechat!=null">
+				<img src="../../assets/images/wechat.png" height="25" width="22" alt="">
+				<strong  >{{artItem.salesLeads.wechat}}</strong>
+			</li>
+
+			<li v-if="artItem.salesLeads.qq=='默认值'"> 
 				<img src="../../assets/images/QQ.png" height="24" width="23">
-				<strong>{{artItem.salesLeads.qq}}</strong>
 			</li>    
-			<li v-show="artItem.salesLeads.otherInfoContent"> 
+			<li v-else-if="artItem.salesLeads.qq!='默认值' && artItem.salesLeads.qq!=''&&artItem.salesLeads.qq!=null">
+				<img src="../../assets/images/QQ.png" height="25" width="22" alt="">
+				<strong  >{{artItem.salesLeads.qq}}</strong>
+			</li>
+				
+			<li v-if="artItem.salesLeads.otherInfoContent=='默认值'"> 
 				<img src="../../assets/images/qt.png" height="22" width="22">
-				<strong>{{artItem.salesLeads.otherInfoName}} : </strong>
+			</li> 
+			<li v-else-if="artItem.salesLeads.otherInfoContent!='默认值' && artItem.salesLeads.otherInfoContent!='' && artItem.salesLeads.otherInfoContent!= null">
+				<img src="../../assets/images/qt.png" height="25" width="22" alt="">
+				<strong>{{artItem.salesLeads.otherInfoName}}</strong>
 				<strong>{{artItem.salesLeads.otherInfoContent}}</strong>
-			</li>  
+			</li> 
 		</menu>   
 	
 	</div>  
@@ -244,7 +271,6 @@ ss<template>
 			}
 		},
 		methods:{
-            
             go(){
 				let vm =this;
 				
@@ -491,7 +517,6 @@ ss<template>
                         } 
                     }
 				}, (err)=>{
-					
                      vm.$store.commit("setExpenseModelStatus",false) 
                      alert(err);  
                      return false;
@@ -514,7 +539,6 @@ ss<template>
                                 vm.artList.artContent=newArr;
                                 vm.artList.totalPages=response.data.data.totalPages;
                                 vm.notResult=false;
-
 							}else{ 
                                 vm.artList.artContent="";
                                 vm.artList.totalPages="";
@@ -541,7 +565,11 @@ ss<template>
 				let vm = this;
 				vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                 let typeOf = typeof response.data.data;
+                if(response.data.data.totalPages==0){
+                	return false;
+                }
                 vm.sellClueTotalPages=response.data.data.totalPages;
+                
                 if(typeOf!="string"){
                     $("#pagination").jqPaginator({
                         totalPages:  response.data.data.totalPages,
@@ -626,7 +654,7 @@ ss<template>
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
                             let temporaryArr = [];
-                            console.log(arr);    
+                          //  console.log(arr);    
                             for (let i in arr){
                                 for (let j in conObj){
 

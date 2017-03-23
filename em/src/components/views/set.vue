@@ -522,7 +522,6 @@
             	$(".switch").bootstrapSwitch('destroy');
 
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-                	console.log(res);
                     if(res.ok){ 
                         if(res.data.success){
 
@@ -627,16 +626,13 @@
                 if(res.ok) { 
                     if (res.data.success) {
                         vm.packageListArr=res.data.data;
-                        //console.log( vm.packageListArr);
                     }
                 }
             });
 			},
 			updateClue(){
 				let vm = this;
-				console.log(vm.keyWordSearchCon);
 			   vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-			  	console.log(res);
 				if(res.ok){
 				    if(res.data.success){
 				    

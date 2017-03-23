@@ -1,10 +1,10 @@
 <template>
     <div id="heads" class="heads navbar navbar-default">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/home">
+            <a class="navbar-brand" href="/home/sellClue">
               <img src="../../assets/images/logo.png" alt="logo"/>
             </a>
-        </div> 
+        </div>  
         <ul class="nav navbar-nav navbar-right" v-if="topMessage">
             <li>
               <router-link to="/home/set">
