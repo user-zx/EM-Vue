@@ -190,17 +190,19 @@
                 });
             }).on("hidden.bs.modal",function () {
                 let params={
-                    id:"",
-                    userAccount:"",
-                    password:"",
-                    userStatus:"正常",
-                    createDate:"",
-                    createUser:"",
-                    updateDate:"",
-                    updateUser:"",
-                    permissions:"",
+                        id:"",
+                        userAccount:"",
+                        password:"",
+                        userStatus:"正常",
+                        createDate:"",
+                        createUser:"",
+                        updateDate:"",
+                        updateUser:"",
+                        permissions:""
                 };
+                $(".surePwd").html("");
                 vm.addUser.params=params;
+                $("input[type='checkbox']").iCheck("destroy");
             });
         }
     }

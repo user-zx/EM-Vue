@@ -268,6 +268,14 @@
                     alert("正式用户，不能选择未办理套餐");
                     return
                 }
+                if(vm.addUser.params.userStatus=='冻结'&&vm.addUser.params.packageId!=""){
+                    alert("冻结用户，只能选择未办理套餐");
+                    return
+                }
+                if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==false){
+                        alert("省市县与不限地区选填一项！");
+                        return
+                }
                 if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==true){
                     vm.post(vm.addUser.url,vm.addUser.params,function(response){
                         if(response.success){
@@ -385,6 +393,23 @@
                 }).on("ifChecked",function () {
                     vm.addUser.params.packageId=$(this).val();
                 });
+            }).on("hidden.bs.modal",function () {
+                let params={
+                        id:"",
+                        phone:"",
+                        name:"",
+                        province:"",
+                        city:"",
+                        county:"",
+                        trade:"",
+                        company:"",
+                        userStatus:"试用",
+                        packageId:"",
+                        registerDate:"",
+                        keywordList:""
+                    };
+                vm.addUser.params=params;
+                $("input[type=radio]").iCheck("destroy");
             });
         }
     }

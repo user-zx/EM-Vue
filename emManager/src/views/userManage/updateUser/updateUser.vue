@@ -216,16 +216,37 @@
                     alert("正式用户，不能选择未办理套餐");
                     return
                 }
-                vm.post(vm.addUser.url,vm.addUser.params,function(response){
-                    if(response.success){
-                        $("#updateUser").modal("hide");
-                        vm.$router.push({path:"/home/success"});
-                    }else{
-                        alert(response.message);
-                    }
-                },function (error) {
-                    console.log(error)
-                });
+                 if(vm.addUser.params.userStatus=='冻结'&&vm.addUser.params.packageId!=""){
+                    alert("冻结用户，只能选择未办理套餐");
+                    return
+                }
+                if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==false){
+                        alert("省市县与不限地区选填一项！");
+                        return
+                }
+                if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==true){
+                   vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                                       if(response.success){
+                                           $("#updateUser").modal("hide");
+                                           vm.$router.push({path:"/home/success"});
+                                       }else{
+                                           alert(response.message);
+                                       }
+                                   },function (error) {
+                                       console.log(error)
+                    });
+                }else if(vm.addUser.params.province!=""&&vm.addUser.params.city!=""&&vm.addUser.params.county!=""&&vm.searchCity==false){
+                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
+                                        if(response.success){
+                                            $("#updateUser").modal("hide");
+                                            vm.$router.push({path:"/home/success"});
+                                        }else{
+                                            alert(response.message);
+                                        }
+                                    },function (error) {
+                                        console.log(error)
+                     });
+                }
             }
         },
         mounted(){
@@ -234,17 +255,15 @@
                 vm.addUser.params={};
                 vm.addUser.params.userStatus='';
                 vm.userStates=vm.searchData.userStates;
-                $("input[type=radio]").iCheck('destroy'); 
+                $("input[type=radio]").iCheck('destroy');
                 vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
                     if (response.success) {
-                       
                         vm.addUser.params = response.data;
                         trade=response.data.trade;
                         province=vm.addUser.params.province;
                         city=vm.addUser.params.city;
                         county=vm.addUser.params.county;
                         vm.post(vm.packageList1.url, "", function (response) {
-
                             if (response.success) {
                                 if (response.data.length > 0) {
                                     vm.packageList1.result = response.data;
