@@ -317,6 +317,7 @@
                 let vm=this;
               
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
+                	console.log(response);
                     if(response.ok) {
                         if (response.data.success) {
                             let typeOf = typeof response.data.data;
@@ -362,8 +363,9 @@
 			getArtListFun(){
                 let vm=this;
                  vm.initsearchCon=vm.searchCon;
-                // console.log(vm.initsearchCon);
+                 console.log(vm.initsearchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
+                	console.log(response);
                     if(response.ok){
                         if(response.data.success){
                         	 vm.viewLogTotalpages=response.data.data.totalPages;
@@ -382,7 +384,7 @@
                                     onPageChange: function (n) {
                                         vm.initsearchCon.pageNumber = n;
                                       
-                                        if(response.data.data.totalPages==1){
+                                        if(response.data.data.totalPages==0){
                                         	vm.notResult = true;
                                         }else{
                                         	vm.artListFun();
