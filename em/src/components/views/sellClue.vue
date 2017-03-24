@@ -53,11 +53,11 @@ ss<template>
 							<a href="javascript:void(0);" class="close-modal">&times;</a>
 						</div>
 					</div>
-					<div>
-						<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0"  href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a>
+					<div> 
+						<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0"  href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a>
 					</div>
 					<div class="h-box"> 
-						<div v-for="(hItem,index) in searchHead" v-if="hItem.length>0" v-bind:id="index"> 
+						<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index"> 
 							<div class="lyt-box"> 
 								<div class="lyt-item">
 									<div class="lyt-lt">{{index}}</div>
@@ -243,33 +243,33 @@ ss<template>
 			}
 		}, 
 		computed:{ 
-			// filteredData(){ 
-			// 	let vm = this;
-			// 	let obj_arr = {};
-			// 	 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
-			// 	let search_Head = vm.searchHead;
+			filteredData(){ 
+				let vm = this;
+				let obj_arr = {};
+				 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
+				let search_Head = vm.searchHead;
 
-			// 	let input_Arr = vm.inputArr
-			// 	for (let j in input_Arr) { 
-			// 		var arrObj = search_Head[input_Arr[j]];
- 		// 			for (let i = 0; i < arrObj.length; i++) {
- 		// 				arrObj[i].sing = input_Arr[j];
- 		// 			} 
-			// 		if(inputVal){  
-			// 		    arrObj = arrObj.filter(function(row) {
-   //                      return Object.keys(row).some(function(key) {
-   //                          return String(row[key]).toLowerCase().indexOf(inputVal) > -1
-   //                      }) 
-   //                   })
+				let input_Arr = vm.inputArr
+				for (let j in input_Arr) { 
+					var arrObj = search_Head[input_Arr[j]];
+ 					for (let i = 0; i < arrObj.length; i++) {
+ 						arrObj[i].sing = input_Arr[j];
+ 					} 
+					if(inputVal){  
+					    arrObj = arrObj.filter(function(row) {
+                        return Object.keys(row).some(function(key) {
+                            return String(row[key]).toLowerCase().indexOf(inputVal) > -1
+                        }) 
+                     })
 
-			// 		}  
+					}  
 					
-			// 		obj_arr[input_Arr[j]] = arrObj;
-			// 		console.log(obj_arr);
-			// 	} 
+					obj_arr[input_Arr[j]] = arrObj;
+					//console.log(obj_arr);
+				} 
 
-			// 	return obj_arr;
-			// }
+				return obj_arr;
+			}
 		},
 		methods:{
             go(){
@@ -302,7 +302,7 @@ ss<template>
                 if(vm.startDate==""){
                      vm.searchCon.publishStartDate = "";
                 }else{
-                     vm.searchCon.publishtStartDate = new Date(vm.startDate + " 00:00:00");
+                     vm.searchCon.publishStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.publishEndDate = "";
@@ -325,6 +325,7 @@ ss<template>
     
                 vm.initsearchCon.pageNumber=1;
                 // console.log(vm.initsearchCon);
+                console.log(vm.initsearchCon);
                 this.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
