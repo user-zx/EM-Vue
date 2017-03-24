@@ -205,7 +205,7 @@
 	  import "../../assets/js/area/jquery.provincesCity.js";
 	  import 'bootstrap-select'; 
 	  import "../../assets/js/ajaxfileupload.js";   
-	  export default{
+	  export default{ 
 	  	data(){ 
 	  		return{
 	  			register_login:  true,
