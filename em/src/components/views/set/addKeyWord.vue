@@ -78,9 +78,15 @@
             },
             submit(){
                var patt = new RegExp(".(xls|xlsx)$", "i");
+               var patc=new RegExp(/^[\u4e00-\u9fa5a-zA-Z]/);
                //patt.test("hello.xLs")
                let vm = this;
-                if(vm.textareaVal==""){alert("关键词不能为空")}else{
+                if(vm.textareaVal==""){
+                  alert("关键词不能为空");
+                }else if(!patc.test(vm.textareaVal)){
+                   vm.textareaVal=="";
+                  alert("关键字不能以数字或特殊字符开头");
+                  }else{
                
                let post = commont.post;
                let param = {};

@@ -200,7 +200,7 @@
 	color:#ffffff;
 }
 
-
+.search-box .select{width:14% !important;}
 .search-box .form-horizontal>div{padding-left:0;}
 .search-box .form-horizontal .col-md-1 .row{margin:0;}
 .search-box .form-horizontal .form-group{margin-left:0;}

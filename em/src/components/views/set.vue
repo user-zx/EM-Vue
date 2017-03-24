@@ -135,7 +135,7 @@
 				<div class="panel panel-em">
 					<div class="panel-body" >
 						<div class="search-box clearfix">
-							<button class="btn btn-search-o" type="button" data-toggle="modal" data-target="#addKeyWord">添加关键词</button> 
+							<button class="btn btn-search-o addKeyWord" type="button"  data-toggle="modal" data-target="#addKeyWord" >添加关键词</button> <span v-if="personalInfoObj.user.userStatus=='冻结'" class="text-warning">您的账户已被冻结</span> 
 							<div class="navbar-form navbar-right" role="search" style="margin-top: 0">
 								<div class="input-group" style="position:relative;" >
 								    <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
@@ -321,6 +321,7 @@
 			/*个人信息*/        
 			/*let data = ;
 			console.log(data); */
+
 			vm.$http.post("../apis/personal/findPersonalInfo","").then(function(res){
                 if(res.ok) {
                     if (res.data.success) {
@@ -329,7 +330,13 @@
                         //console.log(vm.personalInfoObj.user.phone);
                      vm.personalInfoObj.user.userAccount=vm.personalInfoObj.user.userAccount.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
                         vm.keyWordSearchCon.userAccount = vm.personalInfoObj.user.phone;
-
+                            
+                             if(vm.personalInfoObj.user.userStatus=="冻结"){
+		    				   
+		    		             $('.addKeyWord').attr({
+	  					         'disabled':true,
+	  				            });
+                              }
                     }
                 } 
 			});
@@ -345,7 +352,8 @@
             /*关键词列表*/ 
 
 			vm.updateClue();
-          
+
+		   
 
             /**批量添加关键词   import/importKeywordList
 			 * fileName：       文件名称
@@ -463,8 +471,15 @@
             	},
 			
 			topUp(id){
+				if(this.personalInfoObj.user.userStatus=="冻结"){
+		    		
+		    		alert("您的账号已被冻结");
+		    		
+                     return false;
+		    	}else{
 				this.chargeQRId = id; 
-				$('#chargeQR').modal('show')
+				$('#chargeQR').modal('show');
+			     }
 			},
 			currTab2(){
 				$('#myTab li:eq(1) a').tab('show')

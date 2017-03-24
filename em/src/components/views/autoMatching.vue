@@ -5,14 +5,14 @@
         
 		<div class="search-box">
 			<div class="form-horizontal clearfix" role="search">
-				<div class="col-md-2 col-xs-2">
+				<div class=" col-xs-2">
 					<select v-model="searchCon.matchingResult" class="form-control selectpicker" title="匹配结果">
 						<option value="">不限</option>
 						<option value="匹配成功">匹配成功</option>
 						<option value="暂未匹配">暂未匹配</option>
 					</select>
 				</div>
-				<div class="col-md-2 col-xs-2">
+				<div class=" col-xs-2">
 					<select v-model="searchCon.labelStatus" class="form-control selectpicker" title="标记状态">
 						<option value="">不限</option>
 						<option value="已处理">已处理</option>
@@ -20,16 +20,16 @@
 					</select>
 				</div>
               
-                 <div class="col-md-2 col-xs-2" id="myVueCalendar">  
+                 <div class=" col-xs-2" id="myVueCalendar">  
                     <myVueCalendar ></myVueCalendar>
                 </div> 
-				<div class="col-md-3 col-xs-3">  
+				<div class=" col-xs-3">  
 					<div class="form-group" style="position:relative;">
                      <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
 						<input id="search-k" v-model="searchCon.author" type="text" class="form-control" placeholder="请输入昵称进行搜索">
 					</div>
 				</div>
-				<div class="col-md-1 col-xs-1">
+				<div class=" col-xs-1">
 					<button type="button" class="btn btn-search" @click="multipleSearch()"
                      style="border-radius: 0 4px 4px 0;" >搜索</button> 
 					<div class="dropdown-menu search-menu">
@@ -87,7 +87,7 @@
                         <img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png"/>
                         <img v-else src="../../assets/images/unSucImg.png" />
                     </h4> 
-                    <div class="sellClue_list_div_div"> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span v-if="artItem.salesLeads.matchingResult=='匹配成功'"><i >匹配时间:</i>{artItem.salesLeads.matchingDate}</span><span v-else><i >提交时间:</i>{{artItem.salesLeads.matchingDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
+                    <div class="sellClue_list_div_div"> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span v-if="artItem.salesLeads.matchingResult=='匹配成功'"><i >匹配时间:</i>{{artItem.salesLeads.matchingDate}}</span><span v-else><i >发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span></div>
                     <p>{{artItem.salesLeads.content}}</p>
                    
                     <ul v-if="artItem.salesLeads.matchingResult=='匹配成功'" class="sellClue_list_div_ul"> 
@@ -217,8 +217,8 @@
                     pageSize:6,
                     pageNumber:1,
 					matchingResult:"",
-					matchingStartDate:"",
-					matchingEndDate:"",
+					publishStartDate:"",
+					publishEndDate:"",
                     labelStatus:"",
                     keywords:"",
                 },
@@ -226,8 +226,8 @@
                     pageSize:6,
                     pageNumber:1,
                     matchingResult:"",
-                    matchingStartDate:"",
-                    matchingEndDate:"",
+                    publishStartDate:"",
+                    publishEndDate:"",
                     labelStatus:"",
                     keywords:"",
                 },
@@ -286,7 +286,7 @@
 							}
 							vm.searchHead=conObj;
                         }else{
-                            console.log(response.data.data);
+                            // console.log(response.data.data);
 						}
                     }else{
                         alert(response.data.message);
@@ -307,10 +307,12 @@
                             if(typeOf!="string") { 
                                 let newArr = response.data.data.list;
                                 for (var i in newArr) {
-                                    newArr[i].salesLeads.createDate = new Date(newArr[i].salesLeads.createDate).Format("yyyy-MM-dd hh:mm:ss");
+                                    newArr[i].salesLeads.matchingDate = new Date(newArr[i].salesLeads.matchingDate).Format("yyyy-MM-dd hh:mm:ss");
+                              newArr[i].salesLeads.publishDate = new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
                                     newArr[i].isShow = true;
                                 }
                                 vm.artList.artContent = newArr;
+                              
                                 vm.artList.totalPages = response.data.data.totalPages;
                                 vm.notResult=false;
                             }else{ 
@@ -351,12 +353,12 @@
                                 vm.artList.totalPages="";
                             }
                         }else{
-                            console.log(response.data.message);
+                           
                             vm.notResult = true;
                         }
                     }
                 },(err)=>{
-                    console.log(err);
+                  
                     vm.notResult = true;
                 });
             },
@@ -389,19 +391,19 @@
             multipleSearch(){
                 let vm=this;
                 if(vm.startDate==""){
-                     vm.searchCon.checkStartDate = "";
+                     vm.searchCon.publishStartDate = "";
                 }else{
-                     vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
+                     vm.searchCon.publishStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
-                    vm.searchCon.checkEndDate = "";
+                    vm.searchCon.publishEndDate = "";
                 }else{ 
-                    vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                    vm.searchCon.publishEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
                
-                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<=vm.searchCon.checkStartDate){
-                    vm.searchCon.checkEndDate  = "";
-                    vm.searchCon.checkStartDate = "";
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.publishEndDate<=vm.searchCon.publishStartDate){
+                    vm.searchCon.publishEndDate  = "";
+                    vm.searchCon.publishStartDate = "";
                     $("#dataPlug-in-one>input").val("")
                     $("#dataPlug-in-two>input").val("")
                     $("#dataPlug-in-one>button>span").css("display","none");

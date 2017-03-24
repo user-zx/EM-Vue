@@ -4,14 +4,14 @@ ss<template>
 	
 	<div class="search-box">
 		<div class="form-horizontal clearfix" role="search">
-			<div class="col-md-2">
+			<div class="col-xs-2 select">
 				<select v-model="searchCon.source" class="form-control selectpicker" title="线索来源">
 					<option value="">不限</option>
 					<option value="微博">微博</option>
 					<option value="百度贴吧">百度贴吧</option>
 				</select>
 			 </div>
-			<div class="col-md-2">
+			<div class="col-xs-2 select">
 				<select v-model="searchCon.type" class="form-control selectpicker" title="线索类型">
 					<option value="">不限</option>
 					<option value="原创">原创</option>
@@ -19,24 +19,24 @@ ss<template>
 					<option value="评论">评论</option>
 				</select>
 			</div>
-			<div class="col-md-2">
+			<div class="col-xs-2 select">
 				<select v-model="searchCon.labelStatus" class="form-control selectpicker" title="标记状态">
 					<option value="">不限</option>
 					<option value="已处理">已处理</option>
 					<option value="未处理">未处理</option>
 				</select>
 			</div>
-             <div class="col-md-2 col-xs-2" id="myVueCalendar">  
+             <div class="col-xs-2" id="myVueCalendar">  
                 <myVueCalendar></myVueCalendar>
             </div> 
-			<div class="col-md-2">
+			<div class="col-xs-2">
 			    
 				<div class="form-group" style="position:relative;" >
 				    <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
 					<input id="search-k" v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
 				</div>
 			</div>
-			<div class="col-md-2">
+			<div class="col-xs-2">
 				<button type="button" class="btn btn-search" @click="multipleSearch()" style="border-radius: 0 4px 4px 0;" >搜索</button>
 				<a href="javascript:void(0);" class="dropdown-toggle dropdown-modal">关键词筛选<i class="caret"></i></a>
 				<div class="dropdown-menu search-menu">
@@ -54,10 +54,10 @@ ss<template>
 						</div>
 					</div>
 					<div>
-						<a v-for="(hItem,index) in filteredData" v-if="hItem.length>0"  href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a>
+						<a v-for="(hItem,index) in searchHead" v-if="hItem.length>0"  href="javascript:void(0);" @click="goAnchor(index)" class="search-h">{{index}}</a>
 					</div>
 					<div class="h-box"> 
-						<div v-for="(hItem,index) in filteredData" v-if="hItem.length>0" v-bind:id="index"> 
+						<div v-for="(hItem,index) in searchHead" v-if="hItem.length>0" v-bind:id="index"> 
 							<div class="lyt-box"> 
 								<div class="lyt-item">
 									<div class="lyt-lt">{{index}}</div>
@@ -220,8 +220,8 @@ ss<template>
                     keywords:"",
                     source:"",
                     type:"",
-                    checkStartDate:"",
-                    checkEndDate:""
+                    publishStartDate:"",
+                    publishEndDate:""
                 },
                 initsearchCon:{
                     pageNumber:1,
@@ -230,8 +230,8 @@ ss<template>
                     keywords:"",
                     source:"",
                     type:"",
-                    checkStartDate:"",
-                    checkEndDate:""
+                    publishStartDate:"",
+                    publishEndDate:""
                 },
                 promptMessage:"",
                 modelData:{},
@@ -243,32 +243,33 @@ ss<template>
 			}
 		}, 
 		computed:{ 
-			filteredData(){ 
-				let vm = this;
-				let obj_arr = {};
-				 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
-				let search_Head = vm.searchHead;
+			// filteredData(){ 
+			// 	let vm = this;
+			// 	let obj_arr = {};
+			// 	 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
+			// 	let search_Head = vm.searchHead;
 
-				let input_Arr = vm.inputArr
-				for (let j in input_Arr) { 
-					var arrObj = search_Head[input_Arr[j]];
- 					for (let i = 0; i < arrObj.length; i++) {
- 						arrObj[i].sing = input_Arr[j];
- 					} 
-					if(inputVal){  
-					    arrObj = arrObj.filter(function(row) {
-                        return Object.keys(row).some(function(key) {
-                            return String(row[key]).toLowerCase().indexOf(inputVal) > -1
-                        }) 
-                     })
+			// 	let input_Arr = vm.inputArr
+			// 	for (let j in input_Arr) { 
+			// 		var arrObj = search_Head[input_Arr[j]];
+ 		// 			for (let i = 0; i < arrObj.length; i++) {
+ 		// 				arrObj[i].sing = input_Arr[j];
+ 		// 			} 
+			// 		if(inputVal){  
+			// 		    arrObj = arrObj.filter(function(row) {
+   //                      return Object.keys(row).some(function(key) {
+   //                          return String(row[key]).toLowerCase().indexOf(inputVal) > -1
+   //                      }) 
+   //                   })
 
-					}  
+			// 		}  
 					
-					obj_arr[input_Arr[j]] = arrObj
-				} 
+			// 		obj_arr[input_Arr[j]] = arrObj;
+			// 		console.log(obj_arr);
+			// 	} 
 
-				return obj_arr;
-			}
+			// 	return obj_arr;
+			// }
 		},
 		methods:{
             go(){
@@ -299,19 +300,19 @@ ss<template>
             multipleSearch(){
                 let vm=this;
                 if(vm.startDate==""){
-                     vm.searchCon.checkStartDate = "";
+                     vm.searchCon.publishStartDate = "";
                 }else{
-                     vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
+                     vm.searchCon.publishtStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
-                    vm.searchCon.checkEndDate = "";
+                    vm.searchCon.publishEndDate = "";
                 }else{ 
-                	vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                	vm.searchCon.publishEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
                
-                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<=vm.searchCon.checkStartDate){
-                	vm.searchCon.checkEndDate  = "";
-                	vm.searchCon.checkStartDate = "";
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.publishEndDate<=vm.searchCon.publishStartDate){
+                	vm.searchCon.publishEndDate  = "";
+                	vm.searchCon.publishStartDate = "";
                 	$("#dataPlug-in-one>input").val("")
                 	$("#dataPlug-in-two>input").val("")
                 	$("#dataPlug-in-one>button>span").css("display","none");
@@ -644,7 +645,7 @@ ss<template>
 
             
            
-			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":100,"pageNumber":1}).then(function(response){
+			vm.$http.post('../apis/personal/findKeywordList',{"pageSize":10000,"pageNumber":1}).then(function(response){
 				if(response.ok){  
 				    if(response.data.success){
 				        let typeOf=typeof response.data.data;

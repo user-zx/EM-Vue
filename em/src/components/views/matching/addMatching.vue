@@ -120,9 +120,7 @@
                           });
                         }else{
                             alert("目标来源与原文地址不匹配");
-                             vm.data.homeLink="";
-                             vm.data.author="";
-                             vm.data.title = ""; 
+
                             return false;
                         }  
                     }
@@ -137,3 +135,5 @@
        
     }
 </script>
+
+
