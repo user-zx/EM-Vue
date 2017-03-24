@@ -286,7 +286,7 @@
                 		if(res.data.success){
                 			vm.alipayID = res.data.data.id;
                 			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"";
-                			vm.alipay = "../apis/personal/alipayRecharge?pkgId="+vm.alipayID+"";
+                			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"";
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
                 		}
