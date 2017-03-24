@@ -548,7 +548,7 @@
                         if(res.ok){
                             if(res.data.success){
                                 this.artList.artContent[index].isShow=false;
-                               this.getArtListFun();
+                             
                                 if($(".sellClue_list_div").length==1){
                                 	this.notResult = true;
                                 }

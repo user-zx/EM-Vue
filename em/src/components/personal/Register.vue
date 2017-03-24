@@ -127,7 +127,8 @@
 											<a href="javascript:void(0);">微信</a>
 										</li>
 										<li>
-											<a :href="alipay">支付宝</a>
+											<span  class="btn btn-default btn-block" @click="alipayEvent">支付宝</span>
+                							<div style="display:none;" id="alipayID_DIV"></div>
 										</li>
 									</ul>
 								</div>
@@ -263,10 +264,8 @@
                 if(patt.test(vm.database.keywordList)){
                     vm.database.keywordList = "";
                 }
-               // console.log(vm.database); 
                 let post = common.post;
                 post(vm.$http,"../apis/registerUser",vm.database,(res)=>{
-                	//console.log(res);
 					if(res.ok){
 					    if(res.data.success){
                             $(".active_i_two>s").animate({width: "100%"}, 600,function(){
@@ -281,7 +280,7 @@
                     console.log("注册失败了");
                 })
                 post(vm.$http,"../apis/interface/getOpenAccountPackage","",(res)=>{
-                	console.log(res);
+                	//console.log(res);
                 	if(res.ok){
                 		if(res.data.success){
                 			vm.alipayID = res.data.data.id;
@@ -295,6 +294,19 @@
   						alert("暂时无法开户,请稍后再试");
                 })
 	  		}, 
+	  		alipayEvent(){
+	  			let vm = this;
+				vm.$http.get(vm.alipay).then((res)=>{
+					if(res.data.success){ 
+					    $("#alipayID_DIV").html(res.data.data)
+					}else{
+						alert(res.data.message);
+						return false;
+					}
+				},(err)=>{
+
+				})
+	  		},
 	  		provinceSelect(){
 	  			console.log($("#provinceSelect").val());
 	  		},

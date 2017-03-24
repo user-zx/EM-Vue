@@ -9,8 +9,9 @@
                 <div class="modal-body text-center">
                 	<h1 id="WeChat_text"> 
                 		<button type="button" class="btn btn-default btn-block btn-info">微信</button>
-                		<a :href="alipay" class="btn btn-default btn-block">支付宝</a>
-                	</h1>
+                		<span  class="btn btn-default btn-block" @click="alipayEvent">支付宝</span>
+                		<div style="display:none;" id="alipayID_DIV"></div>
+                	</h1> 
 					<img :src="qrsrc" height="258" width="258" >
                 </div>  
                 <div class="modal-footer">   
@@ -28,10 +29,23 @@
 			return {
 				qrsrc:"",
 				alipay:"",
+				alipay_div:"",
 			}
 		},
 		methods:{
-			
+			alipayEvent(){
+				let vm = this;
+				vm.$http.get(vm.alipay).then((res)=>{
+					if(res.data.success){ 
+					    $("#alipayID_DIV").html(res.data.data)
+					}else{
+						alert(res.data.message);
+						return false;
+					}
+				},(err)=>{
+
+				})
+			}
 		},
 		mounted(){ 
 			let vm = this; 
@@ -60,7 +74,7 @@
 		top: 0px;
 		right: 50px;
 	}
-	#WeChat_text>a{
+	#WeChat_text>span{
 		margin-top: 20px;
 	}
 	
