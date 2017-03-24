@@ -130,7 +130,6 @@
                             vm.textareaVal = "";
                         }
                     }   
-                    
                },(err)=>{ 
                     $('#addKeyWord').modal('hide');
                     vm.textareaVal = "";
