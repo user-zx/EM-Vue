@@ -28,7 +28,7 @@
 						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification" @input="detection">
 						    </div> 
 						    <div class="col-sm-3">
-						    	<button type="button" class="btn  verification-code" @click="getVerification()">获取验证码</button>
+						    	<button type="button" class="btn  verification-code" @click="getVerification">获取验证码</button>
 						    </div>
 		  				 </div>
 		  				 <div class="form-group">
@@ -75,10 +75,10 @@
 			submit:function(){ 
 				let vm = this;
 				let post = common.post;
-				console.log(vm.alterData);
+				
 				if(vm.status){
 					post(vm.$http,"../apis/personal/retrievePassword",vm.alterData,(res)=>{
-						console.log(res);
+						
 					 if(res.ok){  
 					  	if(res.data.success){ 
 					  		window.location.href = "#/login";
@@ -98,12 +98,29 @@
 			getVerification:function(){
 				let post = common.post;
 				let vm = this;  
-
+           
 				if(vm.alterData.phone.length==11){ 
 					post(vm.$http,"../apis/personal/sendShortMessage",vm.alterData.phone,(res)=>{
-						console.log(res);
+						
 						if(res.ok){
 							if(res.data.success){
+                     
+								 clearInterval(timer);
+								  $(".verification-code").attr({
+	  					         'disabled':true,
+	  				            });
+								let t=60,timer=null;
+                                timer=setInterval(()=>{
+                                    t--;
+                                    $(".verification-code").text(t+"秒后重试");
+								},1000);
+                                setTimeout(()=>{
+									clearInterval(timer);
+                                    $(".verification-code").text("获取验证码").removeAttr("disable");
+                                    $(".verification-code").attr({
+	  					         'disabled':false,
+	  				            });
+								},60000)
 								vm.status = true;
 								$("#lastname").on("input",function(){
 									if($(this).val()==res.data.data){

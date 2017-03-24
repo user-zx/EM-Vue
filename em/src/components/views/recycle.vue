@@ -3,14 +3,14 @@
          <expense :indexData="modelData" @upload="getArtListFun"></expense>
 		<div class="search-box"> 
 			<div class="form-horizontal clearfix" role="search">
-				<div class="col-md-2">
+				<div class="col-xs-2 select">
 					<select v-model="searchCon.source" class="form-control selectpicker" title="线索来源">
 						<option value="">不限</option>
 						<option value="微博">微博</option>
 						<option value="百度贴吧">百度贴吧</option>
 					</select>
 				</div>
-				<div class="col-md-2">
+				<div class="col-xs-2 select">
 					<select v-model="searchCon.type" class="form-control selectpicker" title="线索类型">
 						<option value="">不限</option>
 						<option value="原创">原创</option>
@@ -18,7 +18,7 @@
 						<option value="评论">评论</option>
 					</select>
 				</div>
-				<div class="col-md-2">
+				<div class="col-xs-2 select">
 					<select v-model="searchCon.labelStatus" class="form-control selectpicker" title="标记状态">
 						<option value="">不限</option>
 						<option value="已处理">已处理</option>
@@ -26,17 +26,17 @@
 					</select>
 				</div>
          
-             <div class="col-md-2 col-xs-2" id="myVueCalendar">  
+             <div class="col-xs-2" id="myVueCalendar">  
                 <myVueCalendar ></myVueCalendar>
             </div>
-            <div class="col-md-2">
+            <div class="col-xs-2">
                 
                 <div class="form-group" style="position:relative;" >
                     <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
                     <input id="search-k" v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-xs-2">
                 <button type="button" class="btn btn-search" @click="multipleSearch()" style="border-radius: 0 4px 4px 0;" >搜索</button>
 					<a href="javascript:void(0);" class="dropdown-toggle dropdown-modal">关键词筛选<i class="caret"></i></a>
 					<div class="dropdown-menu search-menu">
@@ -112,7 +112,7 @@
                         <li v-if="artItem.salesLeads.address=='默认值'">
                             <img src="../../assets/images/location.png" height="25" width="22" alt="">
                         </li> 
-                        <li v-else-if="artItem.salesLeads.address!='默认值' && artItem.salesLeads.address!=''&&artItem.salesLeads.address!=null">
+                        <li v-else-if="artItem.salesLeads.address!='默认值' && artItem.salesLeads.address!=''&& artItem.salesLeads.address!=null">
                             <img src="../../assets/images/location.png" height="25" width="22" alt="">
                             <strong  >{{artItem.salesLeads.address}}</strong>
                         </li>
@@ -214,8 +214,8 @@
                     keywords:"",
                     source:"",
                     type:"",
-                    checkStartDate:"",
-                    checkEndDate:""
+                    ignoreStartDate:"",
+                    ignoreEndDate:""
                 },
                initsearchCon:{
                     pageSize:6,
@@ -225,8 +225,8 @@
                     keywords:"",
                     source:"",
                     type:"",
-                    checkStartDate:"",
-                    checkEndDate:""
+                   ignoreStartDate:"",
+                    ignoreEndDate:""
                 },                
                 modelData:{},
                 startDate:"",
@@ -428,19 +428,19 @@
             multipleSearch(){
                 let vm=this; 
                 if(vm.startDate==""){
-                     vm.searchCon.checkStartDate = "";
+                     vm.searchCon.ignoreStartDate = "";
                 }else{
-                     vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
+                     vm.searchCon.ignoreStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
-                    vm.searchCon.checkEndDate = "";
+                    vm.searchCon.ignoreEndDate = "";
                 }else{ 
-                    vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                    vm.searchCon.ignoreEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
                
-                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<=vm.searchCon.checkStartDate){
-                    vm.searchCon.checkEndDate  = "";
-                    vm.searchCon.checkStartDate = "";
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.ignoreEndDate<=vm.searchCon.ignoreStartDate){
+                    vm.searchCon.ignoreEndDate  = "";
+                    vm.searchCon.ignoreStartDate = "";
                     $("#dataPlug-in-one>input").val("")
                     $("#dataPlug-in-two>input").val("")
                     $("#dataPlug-in-one>button>span").css("display","none");

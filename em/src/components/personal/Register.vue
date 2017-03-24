@@ -59,19 +59,19 @@
 		            </div>
 		            <div class="form-horizontal" role="form" v-show="register_message" id="zc-2">
 		            	<div class="form-group">
-						    <label class="col-sm-2 control-label" for="phone">姓名:</label>
+						    <label class="col-sm-2 control-label" for="phone"><span class="text-danger">*</span> 姓名:</label>
 						    <div class="col-sm-9">
 			      			    <input type="text" class="form-control" id="phone" placeholder="请输入姓名" v-model="database.name">
 			   			    </div>
 			  			</div> 
 			  			  <div class="form-group">
-						    <label class="col-sm-2 control-label" for="phone">公司名称:</label>
+						    <label class="col-sm-2 control-label" for="phone"><span class="text-danger">*</span> 公司名称:</label>
 						    <div class="col-sm-9"> 
 			      			    <input type="text" class="form-control" id="companyName" placeholder="请输入公司名称" v-model="database.company">
 			   			    </div>
 			  			 </div> 
 			  			 <div class="form-group">
-			  			 	 <label class="col-sm-2 control-label" for="phone">所在地区:</label>
+			  			 	 <label class="col-sm-2 control-label" for="phone"><span class="text-danger">*</span> 所在地区:</label>
 			  			 	 <div  id="province">    
 			  			 	 </div>
 			  			 </div>
@@ -85,7 +85,7 @@
 						    </div>
  						 </div>
  						 <div class="form-group">
-						    <label class="col-sm-2 control-label" for="phone">所属行业:</label>
+						    <label class="col-sm-2 control-label" for="phone"><span class="text-danger">*</span> 所属行业:</label>
 						    <div class="col-sm-5" v-show="industryHad">
 			      			     <select class="form-control selectpicker" title="选择所属行业" id="industrySelect" >
 									<option v-for="item in industryData">{{item}}</option>
@@ -176,7 +176,7 @@
 	}
 
 	
-	#zc-2 .control-label{padding-right:0;}
+	#zc-2 .control-label{padding-right:0;padding-left:0;}
 	 .btn-info{background-color:#32ccca;border-color:#32ccca;}
 	 .btn-info:hover{background-color:#32ccca;}
 	 .btn-info:focus{background-color:#32ccca;}
@@ -210,7 +210,8 @@
 	  		return{
 	  			register_login:  true,
 	  			register_message: false,
-	  			register_pay: false,     
+	  			register_pay: false,
+	  			checked:false,     
 	  			phoneText:"",
 	  			verification:"",  
 	  			cellPhone:"",
@@ -255,8 +256,7 @@
 	  			sessionStorage.setItem("password",vm.password);
 	  		},
 	  		message(){
-	  			this.register_message = false;
-	  			this.register_pay = true; 
+	  			
 	  			let vm = this;
 	  			
                 let patt = new RegExp(".(xls|xlsx)$", "i");
@@ -264,6 +264,17 @@
                 if(patt.test(vm.database.keywordList)){
                     vm.database.keywordList = "";
                 }
+
+              if(vm.database.trade==""||vm.database.name==""||vm.database.company==""){
+              	alert("姓名、公司、所在行业不能为空");
+
+              }else if(vm.checked==false){
+              if(vm.database.province==""||vm.database.city==""||vm.database.county==""){
+                   alert("所在地区选择不全");
+               }
+              }else{
+                vm.register_message = false;
+	  			vm.register_pay = true; 
                 let post = common.post;
                 post(vm.$http,"../apis/registerUser",vm.database,(res)=>{
 					if(res.ok){
@@ -280,7 +291,8 @@
                     console.log("注册失败了");
                 })
                 post(vm.$http,"../apis/interface/getOpenAccountPackage","",(res)=>{
-                	//console.log(res);
+
+                
                 	if(res.ok){
                 		if(res.data.success){
                 			vm.alipayID = res.data.data.id;
@@ -293,6 +305,7 @@
                 },(err)=>{
   						alert("暂时无法开户,请稍后再试");
                 })
+             }
 	  		}, 
 	  		alipayEvent(){
 	  			let vm = this;
@@ -457,14 +470,17 @@
             $("#provinceSelect").on("changed.bs.select",function(){
 	  			 _that.database.province = $(this).val();
 	  			 $("#one").iCheck("uncheck");
+	  			 _that.checked=false;
 	  		}); 
 	  		$("#citySelect").on("changed.bs.select",function(){
 	  			_that.database.city = $(this).val();
 	  			 $("#one").iCheck("uncheck");
+	  			 _that.checked=false;
 	  		});  
 	  		$("#countySelect").on("changed.bs.select",function(){
 	  			_that.database.county = $(this).val();
 	  			 $("#one").iCheck("uncheck");
+	  			 _that.checked=false;
 	  		}); 
 	  		
 	  		$("#industrySelect").on("changed.bs.select",function(){
@@ -473,10 +489,14 @@
 	  				_that.database.trade = $(this).val();
 	  			}
 	  		}); 
-
+            $("#one").on("ifUnchecked",function(){  
+	  			
+	  			_that.checked=false;
+	  		});
 	  		$("#one").on("ifChecked",function(){  
-	  			$(".selectpicker").val("").selectpicker('refresh')
-	  		})
+	  			$("#province .selectpicker").val("").selectpicker('refresh');
+	  			_that.checked=true;
+	  		});
 	  		let industry = common.post;
 	  		
 	  		industry(_that.$http,"../apis/personal/findAllTrade","",(res)=>{
@@ -581,7 +601,7 @@
 		border: 1px solid #e5e5e5;
 	}
 	#zc-2 {
-		padding: 50px 98px; 
+		padding: 50px 90px; 
 	} 
 	#register_centre_heading{
 		font-size: 0;
