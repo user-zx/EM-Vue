@@ -208,8 +208,8 @@
 	  export default{ 
 	  	data(){ 
 	  		return{
-	  			register_login:  true,
-	  			register_message: false,
+	  			register_login:  false,
+	  			register_message: true,
 	  			register_pay: false,
 	  			checked:false,     
 	  			phoneText:"",
@@ -258,7 +258,7 @@
 	  		message(){
 	  			
 	  			let vm = this;
-	  			
+	  			//console.log(vm.checked);
                 let patt = new RegExp(".(xls|xlsx)$", "i");
 
                 if(patt.test(vm.database.keywordList)){
@@ -268,10 +268,8 @@
               if(vm.database.trade==""||vm.database.name==""||vm.database.company==""){
               	alert("姓名、公司、所在行业不能为空");
 
-              }else if(vm.checked==false){
-              if(vm.database.province==""||vm.database.city==""||vm.database.county==""){
-                   alert("所在地区选择不全");
-               }
+              }else if(!vm.checked&&(vm.database.province==""||vm.database.city==""||vm.database.county=="")){
+               	 alert("所在地区选择不全");
               }else{
                 vm.register_message = false;
 	  			vm.register_pay = true; 
