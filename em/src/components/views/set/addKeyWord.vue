@@ -84,8 +84,9 @@
                 if(vm.textareaVal==""){
                   alert("关键词不能为空");
                 }else if(!patc.test(vm.textareaVal)){
-                   vm.textareaVal=="";
+                  vm.textareaVal="";
                   alert("关键字不能以数字或特殊字符开头");
+
                   }else{
                
                let post = commont.post;

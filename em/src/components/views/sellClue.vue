@@ -299,18 +299,30 @@ ss<template>
             },  
             multipleSearch(){
                 let vm=this;
+                console.log(vm.startDate);
+                console.log(vm.endDate);
                 if(vm.startDate==""){
-                     vm.searchCon.publishStartDate = "";
+                     vm.searchCon.publishStartDate ="";
+                     if(vm.startDate==""&&vm.endDate!=""){
+                      alert("开始时间不能为空");
+                      return false;
+                }
                 }else{
                      vm.searchCon.publishStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.publishEndDate = "";
+                    if(vm.startDate!=""&&vm.endDate==""){
+                	  alert("结束时间不能为空");
+                      return false;       
+                }
                 }else{ 
                 	vm.searchCon.publishEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
                
                 if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.publishEndDate<=vm.searchCon.publishStartDate){
+                	vm.startDate="";
+                	vm.endDate="";
                 	vm.searchCon.publishEndDate  = "";
                 	vm.searchCon.publishStartDate = "";
                 	$("#dataPlug-in-one>input").val("")
@@ -508,8 +520,10 @@ ss<template>
             getLinkStatus(index,salesLeadsId){
 				let vm=this;
 				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
+					console.log(result)
 					 if(result.ok){  
                         if(result.data.success){
+                        	console.log(result.data);
                         	vm.modelData.url = vm.messageList;
 							vm.modelData.index = salesLeadsId; 
 							vm.modelData.itemData = vm.artList.artContent[index].salesLeads;

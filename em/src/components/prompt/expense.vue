@@ -36,8 +36,10 @@
 		methods:{
 			continueToAdd(){
 				
-				let vm = this;  
+				let vm = this; 
+				 // console.log(vm.indexData.index)
 				vm.$http.post(vm.indexData.url,vm.indexData.index).then((result)=>{
+					
 				   if(result.ok){   
 				   	 if(result.data.success){  
 				   	 	vm.indexData.itemData.address = result.data.data.address;
@@ -45,7 +47,8 @@
 				   	 	vm.indexData.itemData.email = result.data.data.email;
 				   	 	vm.indexData.itemData.ip = result.data.data.ip;
 				   	 	vm.indexData.itemData.wechat = result.data.data.wechat;
-				   	 	vm.indexData.itemData.qq = result.data.data.qq;  
+				   	 	vm.indexData.itemData.qq = result.data.data.qq; 
+				   	 	
 				   	 	vm.$emit("upload")
 				   	 	$("#expense").modal("hide"); 
 				   	 }else{  
