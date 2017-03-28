@@ -101,7 +101,7 @@
 						<li v-bind:class="{active:artItem.labelStatus}">
 							<a v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</a>
 					<button  v-else  class="btn" @click="labelFun(index,artItem.salesLeads.id)"
-					:disabled="artItem.checkStatus">
+					:disabled="!artItem.checkStatus">
 					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    
 						</li>
 					</ul>   
@@ -207,6 +207,7 @@
 				searchCon:{  
                     pageSize:6,
                     pageNumber:1,
+                    ignoreSalesleads:"否",
                     checkStatus:"是",
 					labelStatus:"",
 					keywords:"",
@@ -218,6 +219,7 @@
 				initsearchCon:{  
                     pageSize:6,
                     pageNumber:1,
+                    ignoreSalesleads:"否",
                     checkStatus:"是",
 					labelStatus:"",
 					keywords:"",

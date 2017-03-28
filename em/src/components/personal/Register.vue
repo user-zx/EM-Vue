@@ -31,9 +31,7 @@
 						    <div class="col-sm-5">
 			      			    <input type="text" class="form-control" id="phone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required @input="loginPhone()" v-model="cellPhone" @blur="remember">
 			   			    </div>
-			   			    <div  class="col-sm-3">
-			   			    	<p  style="margin:0;padding-top: 8px">{{phoneText}}</p>
-			   			    </div>
+
 			  			 </div> 
 			  			 <div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
@@ -49,6 +47,9 @@
 						    <div class="col-sm-5"> 
 						        <input type="password" class="form-control" id="password" placeholder="请输入密码" disabled="true" @input="changePassword" v-model="password" @blur="remember">  
 						    </div>
+			   			    <div  class="col-sm-3">
+			   			    	<p  style="margin:0;color:red;">{{pwText}}</p>
+			   			    </div>
 		  				 </div>
 		  				 <p class="text-center" id="TY">点击下一步,则表示您接受<router-link to="/personal/userInstructions"> 《用户须知》</router-link></p>
 		  				<div class="form-group"> 
@@ -208,11 +209,11 @@
 	  export default{ 
 	  	data(){ 
 	  		return{
-	  			register_login: true ,
+	  			register_login: true,
 	  			register_message: false,
 	  			register_pay: false,
 	  			checked:false,     
-	  			phoneText:"",
+	  			pwText:"",
 	  			verification:"",  
 	  			cellPhone:"",
 	  			testCode:"",
@@ -274,6 +275,10 @@
                 vm.register_message = false;
 	  			vm.register_pay = true; 
                 let post = common.post;
+                if(vm.checked){
+                	vm.database.province=vm.database.city=vm.database.county="不限";
+                };
+                console.log(vm.database);
                 post(vm.$http,"../apis/registerUser",vm.database,(res)=>{
 					if(res.ok){
 					    if(res.data.success){
@@ -344,6 +349,12 @@
 	  			let post = common.post;
 	  			let vm = this;
 	  			let valuePhone = $("#phone").val();
+	  			var re = /^1\d{10}$/;
+	  			if($("#phone").val()==""){
+	  				alert("手机号不能为空");
+	  			}
+	  			if($("#phone").val()!=""&&!re.test($("#phone").val())){alert("手机格式不正确")}
+
 	  			if(valuePhone.length==11){    
  	  				post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
 						if(res.ok){ 
@@ -384,9 +395,8 @@
 	  				     'disabled':true,
 	  				 }); 
 				  }
-	  			}else{
-					alert("手机号不能为空！");
-				}	
+	  			}
+					
 	  		},
 	  		changeVerification(){
 	  			var vm = this;
@@ -402,14 +412,17 @@
 	  			}
 	  		},
 	  		changePassword(){
-	  			if($("#password").val()!=""){
+	  			var pat=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+	  			if($("#password").val()!=""&&pat.test($("#password").val())){
+	  				this.pwText="";
 	  				$("#login_btn").attr({
 	  					'disabled':false
 	  				})
 	  			}else{
 	  				$("#login_btn").attr({
 	  					'disabled':true
-	  				})
+	  				});
+	  				this.pwText="密码应为6-16位，字母与数字组合";
 	  			}
 	  		},
 	  		industryBtn(){
@@ -449,9 +462,14 @@
             _that.password=password;
             $("#lastname").attr({'disabled':false,});
          	$("#password").attr({'disabled':false,});
-          }
-         
-
+          };
+            
+	  	if(sessionStorage.getItem("password")){
+	  				$("#login_btn").attr({
+	  					'disabled':false,
+	  				});
+	  		};
+	  		
 
             $("#province").ProvinceCity();
            

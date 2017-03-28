@@ -195,7 +195,7 @@
 								<tr class="active">
 									<th>时间</th>
 									<th class="text-center">消费类型</th>
-									<th class="text-center">消费金额</th>
+									<th class="text-center">消费内容</th>
 									<th class="text-center">消费状态</th>
 								</tr>
 							</thead>
@@ -203,9 +203,11 @@
 								<tr v-for="consumeItem in consumeListObj.content">
 									<td>{{consumeItem.consumeDate}}</td>
 									<td class="text-center">{{consumeItem.type}}</td>
-									<td class="text-center">¥{{consumeItem.amount}}</td>
+									<td v-if="consumeItem.type=='消费金额'" class="text-center">¥{{consumeItem.amount}}</td>
+									<td v-else-if="consumeItem.type=='查看线索'">1次</td>
 									<td class="text-center"><span class="text-em">成功</span></td>
 								</tr>
+
 							</tbody>
 						</table>
 						<div class="pageList clearfix" v-show="!notResult">
