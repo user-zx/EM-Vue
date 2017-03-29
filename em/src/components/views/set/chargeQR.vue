@@ -35,9 +35,10 @@
 		methods:{
 			alipayEvent(){
 				let vm = this;
-				vm.$http.get(vm.alipay).then((res)=>{
-					if(res.data.success){ 
-					    $("#alipayID_DIV").html(res.data.data)
+				//console.log(vm.alipay); 
+				vm.$http.post(vm.alipay,vm.chargeQR.phone).then((res)=>{
+					if(res.data.success){  
+					   // $("#alipayID_DIV").html(res.data.data)
 					}else{
 						alert(res.data.message);
 						return false;
@@ -50,8 +51,9 @@
 		mounted(){ 
 			let vm = this; 
 			 $('#chargeQR').on('shown.bs.modal', function () {
-  				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR+"";
-  				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR+"";
+			 	console.log(vm.chargeQR); 
+  				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"";
+  				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"";
  			})   
 		},
 		props:["chargeQR"]
