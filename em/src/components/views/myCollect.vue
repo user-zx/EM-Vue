@@ -442,11 +442,19 @@
 				let vm=this;
 				  if(vm.startDate==""){
                      vm.searchCon.checkStartDate = "";
+                     if(vm.startDate==""&&vm.endDate!=""){
+                      alert("开始时间不能为空");
+                      return false;
+                  }
                 }else{
                      vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.checkEndDate = "";
+                    if(vm.startDate!=""&&vm.endDate==""){
+                	  alert("结束时间不能为空");
+                      return false; 
+                      }   
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
@@ -461,8 +469,8 @@
                     alert("开始时间不能大于结束时间!")
                     return false; 
                 }
-                 vm.initsearchCon=vm.searchCon;
-
+                var init=JSON.parse(JSON.stringify(vm.searchCon));
+               vm.initsearchCon=init;
   
 				vm.initsearchCon.pageNumber=1;
 				console.log(vm.initsearchCon);

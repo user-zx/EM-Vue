@@ -287,7 +287,8 @@ ss<template>
 					currentPage:index,
 				});
 				vm.initsearchCon.pageNumber=index;
-				vm.page();
+				console.log(vm.initsearchCon);
+				vm.getArtListFun();
 			}
 			},  
             goAnchor(selector) {
@@ -332,7 +333,9 @@ ss<template>
                 	alert("开始时间不能大于结束时间!")
                 	return false; 
                 }
-                 vm.initsearchCon=vm.searchCon;
+               var init=JSON.parse(JSON.stringify(vm.searchCon));
+               vm.initsearchCon=init;
+                 // vm.initsearchCon=vm.searchCon;
 
     
                 vm.initsearchCon.pageNumber=1;

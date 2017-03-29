@@ -429,11 +429,19 @@
                 let vm=this; 
                 if(vm.startDate==""){
                      vm.searchCon.ignoreStartDate = "";
+                      if(vm.startDate==""&&vm.endDate!=""){
+                      alert("开始时间不能为空");
+                      return false;
+                      }
                 }else{
                      vm.searchCon.ignoreStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.ignoreEndDate = "";
+                    if(vm.startDate!=""&&vm.endDate==""){
+                      alert("结束时间不能为空");
+                      return false;  
+                      }
                 }else{ 
                     vm.searchCon.ignoreEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
@@ -448,8 +456,8 @@
                     alert("开始时间不能大于结束时间!")
                     return false; 
                 }
-                 vm.initsearchCon=vm.searchCon;
-
+                var init=JSON.parse(JSON.stringify(vm.searchCon));
+               vm.initsearchCon=init;
                 vm.initsearchCon.pageNumber=1;
                 console.log(vm.searchCon);
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
@@ -551,6 +559,7 @@
                      vm.$http.post("../apis/userSalesLeads/updateOrSaveUserSaleLeads",{salesLeadsId:artId,labelStatus:"已处理"}).then((res)=>{
                         if(res.ok){ 
                             if(res.data.success){
+                                this.getArtListFun();
                                 vm.artList.artContent[index].ignoreStatus=false;
                                 if($(".sellClue_list_div").length==1){
                                     this.notResult = true;

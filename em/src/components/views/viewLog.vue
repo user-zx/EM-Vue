@@ -441,11 +441,19 @@
 				let vm=this; 
 				 if(vm.startDate==""){
                      vm.searchCon.checkStartDate = "";
+                     if(vm.startDate==""&&vm.endDate!=""){
+                      alert("开始时间不能为空");
+                      return false;
+                      }
                 }else{
                      vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.checkEndDate = "";
+                     if(vm.startDate!=""&&vm.endDate==""){
+                	  alert("结束时间不能为空");
+                      return false;
+                      }  
                 }else{ 
                     vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
                 }
@@ -460,7 +468,8 @@
                     alert("开始时间不能大于结束时间!")
                     return false; 
                 }
-                 vm.initsearchCon=vm.searchCon;
+                var init=JSON.parse(JSON.stringify(vm.searchCon));
+               vm.initsearchCon=init;
 
 				vm.initsearchCon.pageNumber=1;
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
@@ -474,10 +483,10 @@
                                     totalPages: response.data.data.totalPages,
                                     visiblePages: vm.initsearchCon.pageSize,
                                     currentPage: vm.initsearchCon.pageNumber,
-                                    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                   
                                     prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
                                     next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-                                    last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                    
                                     page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                     onPageChange: function (n) {
                                         vm.initsearchCon.pageNumber = n;
