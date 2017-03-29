@@ -2,7 +2,7 @@
 	<div class="login">
 		<div class="login_div">
 			<img src="../../assets/images/login-logo.png" alt="">
-			<img class="pull-right" src="../../assets/images/login-tel.png" alt="">
+			<img class="pull-right" src="../../assets/images/login-tel.png" style="margin-top:8px;" alt="">
 		</div>
 		<div class="login_input">
 			<img src="../../assets/images/loginWord.png"  alt="">

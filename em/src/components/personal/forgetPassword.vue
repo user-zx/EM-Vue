@@ -24,7 +24,7 @@
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
 						    <div class="col-sm-4">
 						    	<input type="text" style="position: absolute;top: -9999px"/>
-						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification" @input="detection">
+						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" v-model="verification"  disabled="true">
 						    </div> 
 						    <div class="col-sm-3">
 						    	<button type="button" class="btn  verification-code" @click="getVerification">获取验证码</button>
@@ -34,12 +34,16 @@
 						       <label for="password" class="col-sm-3 control-label">新密码:</label>
 							    <div class="col-sm-7"> 
 							       <input type="password" style="position: absolute;top: -9999px"/>
-							        <input type="password" class="form-control" id="password" placeholder="请输入密码"   v-model="alterData.newPass">  
+							        <input type="password" class="form-control" id="password" placeholder="请输入密码" @input="changePassword"  v-model="alterData.newPass" disabled="true">  
 						        </div>
+						        
 		  				 </div> 
+		  				 <div  class="text-center">
+			   			    	<p  style="margin:0;color:red;">{{pwText}}</p>
+			   			    </div>
 		  				 <div class="form-group">
 		  					<div class="col-sm-offset-3 col-sm-7">
-		  						<button type="button" class="btn btn-em btn-block"  @click="submit($event)" id="login_btn ">提交</button> 
+		  						<button type="button" class="btn btn-em btn-block"  @click="submit($event)" disabled="true" id="login_btn">提交</button> 
 		  					</div>
 		  				 </div> 
 		  				 <div class="form-group"> 
@@ -69,6 +73,9 @@
 				hint:"",
 				isShow:false,
 				timer:"",
+
+				pwText:"",
+
 				timerOut:"",
 			}
 		}, 
@@ -108,6 +115,11 @@
 						console.log(res);
 						if(res.ok){
 							if(res.data.success){
+
+                             $("#lastname").attr({
+	  					         'disabled':false,
+	  				            });
+
 								 clearInterval(vm.timer);
 								  $(".verification-code").attr({
 	  					         'disabled':true,
@@ -131,9 +143,15 @@
 									if($(this).val()==res.data.data){
 										vm.status = true;
 										$("#lastname").parent("div").removeClass('has-error')
+										$("#password").attr({
+	  					                  'disabled': false,
+	   			                       	});
 									}else{
 										vm.status = false;
 										$("#lastname").parent("div").addClass('has-error');
+										$("#password").attr({
+	  					                  'disabled':true,
+	   			                       	});
 									} 
 								})
 							}else{
@@ -144,17 +162,31 @@
 						}
 					},(err)=>{
 						alert("出错了");
+						 $("#lastname").attr({
+	  				     'disabled':true,
+	  				 }); 
 						return false;
 					})
 				}else{ 
 					$("#lastname").parent("div").addClass('has-error'); 
 				}
 			},
-			detection(){
-				if ($("#lastname").val().length==0) {   
-					$("#lastname").parent("div").removeClass('has-error')
-				}
-			},
+
+		  		changePassword(){
+	  			var pat=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+	  			if($("#password").val()!=""&&pat.test($("#password").val())){
+	  				this.pwText="";
+	  				$("#login_btn").attr({
+	  					'disabled':false,
+	  				})
+	  			}else{
+	  				$("#login_btn").attr({
+	  					'disabled':true,
+	  				});
+	  				this.pwText="密码应为6-16位，字母与数字组合";
+	  			}
+	  		},
+
 			clear(){ 
 				let vm = this;
 				clearInterval(vm.timer);
@@ -162,6 +194,7 @@
 				$(".verification-code").text("获取验证码");
 			},
 		},
+
 		mounted:function(){
 			let vm = this;
 			vm.verification = "";
@@ -176,6 +209,7 @@
 			/*heads*/
 		}
 	}
+}
 </script>
 
 <style scoped>

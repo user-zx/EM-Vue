@@ -359,13 +359,14 @@
  	  				post(vm.$http,"../apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
 						if(res.ok){ 
 							if(res.data.success){
+								$("#getYzm").attr({
+	  					         'disabled':true,
+	  				            });
 								vm.verification = res.data.data;
 								$("#lastname").attr({
 	  					         'disabled':false,
 	  				            });
-	  				            $("#getYzm").attr({
-	  					         'disabled':true,
-	  				            });
+	  				            
 	  				            clearInterval(timer);
 								let t=60,timer=null;
                                 timer=setInterval(()=>{
