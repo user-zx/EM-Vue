@@ -76,13 +76,12 @@
 			submit:function(){ 
 				let vm = this;
 				let post = common.post;
-				
 				if(vm.status){
 					post(vm.$http,"../apis/personal/retrievePassword",vm.alterData,(res)=>{
-						
 					 if(res.ok){  
 					  	if(res.data.success){ 
-					  		window.location.href = "#/login";
+					  		vm.hint = "修改成功"
+					  		window.location.href = "/";
 					  	}else{
 					  		vm.hint = res.data.message;
 					  	}
@@ -106,6 +105,7 @@
 	  			if($("#phone").val()!=""&&!re.test($("#phone").val())){alert("手机格式不正确")}
 				if(vm.alterData.phone.length==11){ 
 					post(vm.$http,"../apis/personal/sendShortMessage",vm.alterData.phone,(res)=>{
+						console.log(res);
 						if(res.ok){
 							if(res.data.success){
 								 clearInterval(vm.timer);
