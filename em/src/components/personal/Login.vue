@@ -82,9 +82,11 @@
 	  	methods:{
 	  		//写ajax请求
             generateKey() {
-				let url='apis/generateKey.do';
+				let url='/apis/generateKey.do';
 				let vm=this;
+
                 vm.$http.post(url, '').then(function (result) {
+                	
 					vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
 					vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
 					let account = vm.item.account;
@@ -123,8 +125,9 @@
                 vm.params.account=vm.item.account;
                 vm.params.password = encrypedPwd; 
                 vm.params.rememberMe = vm.rememberMe;
-                //console.log(vm.rememberMe);
+                //console.log( vm.params);    
                 vm.$http.post(vm.apiUrl,  vm.params).then(function(result){
+
                     if(result.ok){  
                         if(result.data.success){
 							if(vm.rememberMe){  

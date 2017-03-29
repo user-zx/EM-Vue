@@ -73,9 +73,7 @@
 				hint:"",
 				isShow:false,
 				timer:"",
-
 				pwText:"",
-
 				timerOut:"",
 			}
 		}, 

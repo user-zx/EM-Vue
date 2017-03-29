@@ -36,6 +36,7 @@
 			  			 <div class="form-group">
 						    <label for="lastname" class="col-sm-3 control-label">验证码:</label>
 						    <div class="col-sm-3">
+						    	<input type="text" name="" style="display:none;position:absolute;top: -5000px">
 						        <input type="text" class="form-control" id="lastname" placeholder="请输入验证码" disabled="true" @input="changeVerification" v-model="testCode"@blur="remember">
 						    </div>
 						    <div class="col-sm-1">
