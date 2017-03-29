@@ -69,6 +69,7 @@
 				status:false,
 				hint:"",
 				isShow:false,
+				timer:"",
 			}
 		}, 
 		methods:{  
@@ -98,24 +99,28 @@
 			getVerification:function(){
 				let post = common.post;
 				let vm = this;  
-           
+               var re = /^1\d{10}$/;
+	  			if($("#phone").val()==""){
+	  				alert("手机号不能为空");
+	  			}
+	  			if($("#phone").val()!=""&&!re.test($("#phone").val())){alert("手机格式不正确")}
 				if(vm.alterData.phone.length==11){ 
 					post(vm.$http,"../apis/personal/sendShortMessage",vm.alterData.phone,(res)=>{
 						
 						if(res.ok){
 							if(res.data.success){
                      
-								 clearInterval(timer);
+								 clearInterval(vm.timer);
 								  $(".verification-code").attr({
 	  					         'disabled':true,
 	  				            });
-								let t=60,timer=null;
-                                timer=setInterval(()=>{
+								let t=60;
+                                vm.timer=setInterval(()=>{
                                     t--;
                                     $(".verification-code").text(t+"秒后重试");
 								},1000);
                                 setTimeout(()=>{
-									clearInterval(timer);
+									clearInterval(vm.timer);
                                     $(".verification-code").text("获取验证码").removeAttr("disable");
                                     $(".verification-code").attr({
 	  					         'disabled':false,
@@ -156,6 +161,8 @@
 			vm.verification = "";
 			vm.alterData.phone = "";
 			vm.alterData.newPass = "";
+			
+			
 		},
 		components:{
 			/*heads*/
