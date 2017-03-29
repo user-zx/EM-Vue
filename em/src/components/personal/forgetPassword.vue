@@ -73,9 +73,7 @@
 				hint:"",
 				isShow:false,
 				timer:"",
-
 				pwText:"",
-
 				timerOut:"",
 			}
 		}, 
@@ -209,7 +207,6 @@
 			/*heads*/
 		}
 	}
-}
 </script>
 
 <style scoped>
