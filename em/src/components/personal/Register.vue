@@ -298,9 +298,9 @@
 
                 
                 	if(res.ok){
-                		if(res.data.success){
-                			vm.alipayID = res.data.data.id;
-                			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"";
+                		if(res.data.success){  
+                			vm.alipayID = res.data.data.id; 
+                			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"";
                 			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"";
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
@@ -313,7 +313,7 @@
 	  		}, 
 	  		alipayEvent(){
 	  			let vm = this;
-				vm.$http.get(vm.alipay).then((res)=>{
+				vm.$http.post(vm.alipay,vm.database.phone).then((res)=>{
 					if(res.data.success){ 
 					    $("#alipayID_DIV").html(res.data.data)
 					}else{
