@@ -277,6 +277,8 @@
                         return
                 }
                 if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==true){
+                vm.addUser.params.province=vm.addUser.params.city=vm.addUser.params.county="不限";
+                   
                     vm.post(vm.addUser.url,vm.addUser.params,function(response){
                         if(response.success){
                             $("#addUser").modal("hide");

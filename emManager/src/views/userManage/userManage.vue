@@ -243,10 +243,11 @@
                     vm.userList.params.city=vm.searchCon.shiVal;
                     vm.userList.params.county=vm.searchCon.xianVal;
                 }else{
-                    vm.userList.params.province="null";
-                    vm.userList.params.city="null";
-                    vm.userList.params.county="null";
+                    vm.userList.params.province="不限";
+                    vm.userList.params.city="不限";
+                    vm.userList.params.county="不限";
                 }
+               
                 vm.paginator();
             },
             showModal(modalName,params){
