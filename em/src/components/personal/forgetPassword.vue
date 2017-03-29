@@ -73,11 +73,10 @@
 				hint:"",
 				isShow:false,
 				timer:"",
-<<<<<<< HEAD
+
 				pwText:"",
-=======
+
 				timerOut:"",
->>>>>>> bbabd6979088fdcba3246af23421c3c1501515ec
 			}
 		}, 
 		methods:{  
@@ -116,12 +115,11 @@
 					post(vm.$http,"../apis/personal/sendShortMessage",vm.alterData.phone,(res)=>{
 						if(res.ok){
 							if(res.data.success){
-<<<<<<< HEAD
+
                              $("#lastname").attr({
 	  					         'disabled':false,
 	  				            });
-=======
->>>>>>> bbabd6979088fdcba3246af23421c3c1501515ec
+
 								 clearInterval(vm.timer);
 								  $(".verification-code").attr({
 	  					         'disabled':true,
@@ -173,7 +171,7 @@
 					$("#lastname").parent("div").addClass('has-error'); 
 				}
 			},
-<<<<<<< HEAD
+
 		  		changePassword(){
 	  			var pat=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
 	  			if($("#password").val()!=""&&pat.test($("#password").val())){
@@ -188,12 +186,7 @@
 	  				this.pwText="密码应为6-16位，字母与数字组合";
 	  			}
 	  		},
-=======
-			detection(){
-				if ($("#lastname").val().length==0) {   
-					$("#lastname").parent("div").removeClass('has-error')
-				}
-			},
+
 			clear(){ 
 				let vm = this;
 				clearInterval(vm.timer);
@@ -201,7 +194,7 @@
 				$(".verification-code").text("获取验证码");
 			},
 		},
->>>>>>> bbabd6979088fdcba3246af23421c3c1501515ec
+
 		mounted:function(){
 			let vm = this;
 			vm.verification = "";
