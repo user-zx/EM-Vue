@@ -356,7 +356,7 @@
 	  			if($("#phone").val()!=""&&!re.test($("#phone").val())){alert("手机格式不正确")}
 
 	  			if(valuePhone.length==11){    
- 	  				post(vm.$http,"/apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
+ 	  				post(vm.$http,"../apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
 						if(res.ok){ 
 							if(res.data.success){
 								$("#getYzm").attr({

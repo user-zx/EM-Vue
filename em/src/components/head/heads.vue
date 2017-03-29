@@ -11,7 +11,7 @@
                     <img src="../../assets/images/user.png" alt="" height="22" width="22"/> {{username}}
               </router-link>
             </li>    
-            <li @click="quit()" >
+            <li @click="quit()">
                     <a href="javascript:void(0);"> 
                     <img src="../../assets/images/tc.png" alt="" height="20" width="20"/> 退出登录</a>
             </li>
@@ -42,7 +42,8 @@ export default{
                if(response.ok){
                    if(response.status){
                        this.username = "";
-                       window.location.href = "/"
+                       window.location.href = "/";
+                      // console.log(document.cookie("username"));
                    } 
                }
             }, (response)=>{
@@ -54,11 +55,9 @@ export default{
     mounted(){
         let vm = this;
         vm.$http.post("../apis/findUserName").then((res)=>{
-           // console.log(res);
             if(res.ok){
                 if(res.data.success){ 
                     vm.username = res.data.data;
-                   // console.log(vm.username);
                 }else{
                     vm.username = "";
                 }

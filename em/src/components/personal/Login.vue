@@ -47,17 +47,20 @@
 				},
 				hint:false,
                 rememberMe:"",
-                remember_Me:"",
+               
+                params:{},
 	  		}
 	  	},
 	  	mounted: function () {
 	  		
              let vm = this;
+             vm.rememberMe = vm.getCookie("rememberMe");
+
 	        this.$nextTick(function () {
 	         // 代码保证 this.$el 在 document 中
 	        }); 
-	        
-	        if(vm.getCookie("rememberMe")){
+	      	
+	        if(vm.rememberMe){
 	        	$("#remember").iCheck("check")
 	        	vm.item.account = vm.getCookie("username");
 	        	vm.item.password = vm.getCookie("password");
@@ -66,11 +69,12 @@
 	        	vm.item.account = "";
 	        	vm.item.password = "";
 	        }  
-	       
+	       //console.log(document.cookie);
 	  		$("#remember").iCheck({
                 checkboxClass : 'icheckbox_square-blue',
             }).on("ifChecked",function () {
                 vm.rememberMe=true;
+               
             }).on("ifUnchecked",function () {
                 vm.rememberMe=false; 
             });  
@@ -79,9 +83,8 @@
 	  		//写ajax请求
             generateKey() {
 				let url='apis/generateKey.do';
-				let params='';
 				let vm=this;
-                vm.$http.post(url, params).then(function (result) {
+                vm.$http.post(url, '').then(function (result) {
 					vm.item.publicKeyExponent=result.data.data.publicKeyExponent;
 					vm.item.publicKeyModulus=result.data.data.publicKeyModulus;
 					let account = vm.item.account;
@@ -116,24 +119,21 @@
                 let key = new RSAUtils.getKeyPair(publicKeyExponent, "", publicKeyModulus);
                 let encrypedPwd = RSAUtils.encryptedString(key,vm.item.password);
                // vm.item.password=encrypedPwd;
-                let params=new Object();
-                params.account=vm.item.account;
-                params.password = encrypedPwd; 
-                params.rememberMe = vm.rememberMe;
-                vm.$http.post(vm.apiUrl, params).then(function(result){
+                
+                vm.params.account=vm.item.account;
+                vm.params.password = encrypedPwd; 
+                vm.params.rememberMe = vm.rememberMe;
+                //console.log(vm.rememberMe);
+                vm.$http.post(vm.apiUrl,  vm.params).then(function(result){
                     if(result.ok){  
                         if(result.data.success){
-						   
 							if(vm.rememberMe){  
 								vm.hint = false;   
-								vm.remember_Me = true;
-								vm.setCookie("username",params.account,"password",vm.item.password,"rememberMe",vm.remember_Me,7);
+								vm.checkCookie(vm.params.account,vm.item.password,vm.rememberMe);
 							}else{
-								vm.remember_Me = false;
-								vm.setCookie("username","","password","","rememberMe",vm.remember_Me,0);
+								vm.cleanCookie("username","password","rememberMe")
 							} 
-							/*vm.$store.commit("")*/
-							localStorage.setItem("usernumber", params.account);
+							localStorage.setItem("usernumber", vm.params.account);
 							vm.$router.push({path:"/home/sellClue"});
 						}else{ 
 							vm.hint = true;  
@@ -169,7 +169,26 @@
 		        document.cookie = c_name + "=" + escape(n_value) + "^" + p_name + "=" + escape(p_value) + "^" +  r_name + "=" + escape(r_value) +((expiredays == null) ? "" : "^;expires=" + exdate.toGMTString());
 		        console.log(document.cookie)
    		 	},
+   		    checkCookie(name,password,remember){      //检测cookie是否存在，如果存在则直接读取，否则创建新的cookie
 
+			    //alert(document.cookie)
+			   
+			     let vm = this;
+			     let user_name = vm.getCookie('username');
+			     let pass_word = vm.getCookie('password');
+			 	
+
+
+			     if (user_name != null && user_name != "" && pass_word != null && pass_word != "") {
+			        console.log('cookie已经存在');
+			     }else {
+			           vm.setCookie("username", name,"password",password,"rememberMe",remember,7);
+			     }
+			    // alert(document.cookie)
+			 },
+			cleanCookie (c_name, p_name,r_name) {     //使cookie过期
+			     document.cookie = c_name + "=" + ";" + p_name + "=" + ";" + r_name + "=" + ";expires=Thu, 01-Jan-70 00:00:01 GMT";
+			 }
 	  	 } 
 	  }
 </script>  

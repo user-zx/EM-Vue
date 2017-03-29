@@ -3,14 +3,7 @@
 </template>
   
 <script> 
-/*export default {
-  name: 'app',
-  data () {      
-    return {
-      aa:"aaa"
-    }
-  }   
-} */  
+
 
 </script>
   

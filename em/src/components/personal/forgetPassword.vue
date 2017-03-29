@@ -14,7 +14,6 @@
 				<div class="form-horizontal" role="form">
 				<div style="width:70%;margin:0 auto;">
 					    <div class="form-group">
-					    
 						    <label class="col-sm-3 control-label" for="phone">手机号:</label>
 						    <div class="col-sm-7">
 						    	 <input type="text" style="position: absolute;top: -9999px"/>
@@ -49,7 +48,7 @@
 		  				 </div> 
 		  				 <div class="form-group"> 
 		  					<div class="col-sm-12"> 
-		  						<p class="text-center return"><router-link to="/"> >>返回登录 </router-link></p>
+		  						<p class="text-center return"><router-link to="/" v-on:click.native="clear"> >>返回登录 </router-link></p>
 		  					</div> 
 		  				 </div>
 		  				 <div class="form-group">
@@ -74,7 +73,11 @@
 				hint:"",
 				isShow:false,
 				timer:"",
+<<<<<<< HEAD
 				pwText:"",
+=======
+				timerOut:"",
+>>>>>>> bbabd6979088fdcba3246af23421c3c1501515ec
 			}
 		}, 
 		methods:{  
@@ -111,12 +114,14 @@
 	  			if($("#phone").val()!=""&&!re.test($("#phone").val())){alert("手机格式不正确")}
 				if(vm.alterData.phone.length==11){ 
 					post(vm.$http,"../apis/personal/sendShortMessage",vm.alterData.phone,(res)=>{
-						
 						if(res.ok){
 							if(res.data.success){
+<<<<<<< HEAD
                              $("#lastname").attr({
 	  					         'disabled':false,
 	  				            });
+=======
+>>>>>>> bbabd6979088fdcba3246af23421c3c1501515ec
 								 clearInterval(vm.timer);
 								  $(".verification-code").attr({
 	  					         'disabled':true,
@@ -126,13 +131,15 @@
                                     t--;
                                     $(".verification-code").text(t+"秒后重试");
 								},1000);
-                                setTimeout(()=>{
+                                vm.timerOut = setTimeout(()=>{
 									clearInterval(vm.timer);
                                     $(".verification-code").text("获取验证码").removeAttr("disable");
                                     $(".verification-code").attr({
-	  					         'disabled':false,
-	  				            });
-								},60000)
+	  					         	'disabled':false,
+	  				            	});
+								},60000);
+                                localStorage.setItem("Interval",vm.timer);
+                                localStorage.setItem("Timeout",vm.timerOut);
 								vm.status = true;
 								$("#lastname").on("input",function(){
 									if($(this).val()==res.data.data){
@@ -166,6 +173,7 @@
 					$("#lastname").parent("div").addClass('has-error'); 
 				}
 			},
+<<<<<<< HEAD
 		  		changePassword(){
 	  			var pat=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
 	  			if($("#password").val()!=""&&pat.test($("#password").val())){
@@ -180,13 +188,29 @@
 	  				this.pwText="密码应为6-16位，字母与数字组合";
 	  			}
 	  		},
+=======
+			detection(){
+				if ($("#lastname").val().length==0) {   
+					$("#lastname").parent("div").removeClass('has-error')
+				}
+			},
+			clear(){ 
+				let vm = this;
+				clearInterval(vm.timer);
+				clearTimeout(vm.timerOut);
+				$(".verification-code").text("获取验证码");
+			},
+		},
+>>>>>>> bbabd6979088fdcba3246af23421c3c1501515ec
 		mounted:function(){
 			let vm = this;
 			vm.verification = "";
 			vm.alterData.phone = "";
 			vm.alterData.newPass = "";
-			
-			
+			var Interval = localStorage.getItem("Interval");
+			var Timeout = localStorage.getItem("Timeout");
+			clearInterval(Interval);
+			clearTimeout(Timeout); 
 		},
 		components:{
 			/*heads*/
