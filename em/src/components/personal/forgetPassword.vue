@@ -209,7 +209,7 @@
 			/*heads*/
 		}
 	}
-}
+
 </script>
 
 <style scoped>
