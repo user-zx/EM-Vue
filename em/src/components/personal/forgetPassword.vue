@@ -161,7 +161,6 @@
 				clearTimeout(vm.timerOut);
 				$(".verification-code").text("获取验证码");
 			},
-        
 		},
 		mounted:function(){
 			let vm = this;
