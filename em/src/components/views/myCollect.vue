@@ -444,36 +444,34 @@
                      vm.searchCon.checkStartDate = "";
                      if(vm.startDate==""&&vm.endDate!=""){
                       alert("开始时间不能为空");
-                      return false;
+                      return;
                   }
                 }else{
-                     vm.searchCon.checkStartDate = new Date(vm.startDate + " 00:00:00");
+                     vm.searchCon.checkStartDate = new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.checkEndDate = "";
                     if(vm.startDate!=""&&vm.endDate==""){
                 	  alert("结束时间不能为空");
-                      return false; 
+                      return; 
                       }   
                 }else{ 
-                    vm.searchCon.checkEndDate =new Date(vm.endDate + " 23:59:59") ;
+                    vm.searchCon.checkEndDate =new Date((vm.endDate + " 23:59:59").replace(/-/g,"/"));
                 }
                
-                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<=vm.searchCon.checkStartDate){
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<vm.searchCon.checkStartDate){
                     vm.searchCon.checkEndDate  = "";
                     vm.searchCon.checkStartDate = "";
-                    $("#dataPlug-in-one>input").val("")
-                    $("#dataPlug-in-two>input").val("")
                     $("#dataPlug-in-one>button>span").css("display","none");
                     $("#dataPlug-in-two>button>span").css("display","none");
                     alert("开始时间不能大于结束时间!")
-                    return false; 
+                    return; 
                 }
                 var init=JSON.parse(JSON.stringify(vm.searchCon));
                vm.initsearchCon=init;
   
 				vm.initsearchCon.pageNumber=1;
-				console.log(vm.initsearchCon);
+				
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){

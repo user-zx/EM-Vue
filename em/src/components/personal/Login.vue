@@ -8,7 +8,7 @@
 		</div>
 		<div class="login_input">
 		    
-			<img src="../../assets/images/loginWord.png" style="margin-left:30px;" alt="">
+			<img src="../../assets/images/loginWord.png" style="margin:0 0 15px 15px;" alt="">
 			
 			<label>
 				<img src="../../assets/images/login_user.png"  alst="">
@@ -216,15 +216,15 @@
       
 	}
 .login_div_parent{
-	border-bottom:1px solid rgba(242,242,242,0.25);
-    padding-bottom:20px;
+	border-bottom:1px solid rgba(242,242,242,0.1);
+    padding-bottom:15px;
     }
 	.login_input{
 		width: 380px;
 		height: 390px;  
 		position: absolute; 
 		left: 50%; 
-		top: 50%; 
+		top: 46%; 
 		margin-left: -190px;	
 		margin-top: -195px;
 	} 
@@ -242,13 +242,13 @@
 
 	  }
 	   .login_input>label:first-of-type input{
-          border-radius:4px 4px 0 0;
-          height:60px;
+          border-radius:4px 4px 4px 4px;
+          height:50px;
          background:rgba(242,242,242,0.85);
 	  }
 	   .login_input>label:nth-of-type(2) input{
-          border-radius:0 0 4px 4px ;
-           height:60px;
+          border-radius:4px 4px 4px 4px ;
+           height:50px;
            margin-top:10px;
            background:rgba(242,242,242,0.85);
 	  }
@@ -256,19 +256,15 @@
 	.login_input>label>img{
 		position: absolute;
 		left:25px;
-		top: 20px;
+		top: 16px;
 		width: 17px; 
 
 	}
 	 .login_input label:nth-of-type(2) img{
-	 	top:28px;	
+	 	top:23px;	
 
 	 }
-	.login_input>img{
-		width: 320px;
-		height:48px;
-		margin: 20px 0;
-	}
+
 	.login_input p:last-child{margin:0;
        color:#ffffff;
        text-align:center;
@@ -297,7 +293,7 @@
 		width: 100%;
 		margin-bottom: 15px;
 		padding:10px 12px;
-		height:60px;
+		height:50px;
 		font-size:20px;
 		font-weight:700;
 	}

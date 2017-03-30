@@ -394,30 +394,29 @@
                      vm.searchCon.publishStartDate = "";
                      if(vm.startDate==""&&vm.endDate!=""){
                       alert("开始时间不能为空");
-                      return false;
+                      return;
                       }
                 }else{
-                     vm.searchCon.publishStartDate = new Date(vm.startDate + " 00:00:00");
+                     vm.searchCon.publishStartDate = new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.publishEndDate = "";
                     if(vm.startDate!=""&&vm.endDate==""){
                       alert("结束时间不能为空");
-                      return false;    
+                      return;    
                       }
                 }else{ 
-                    vm.searchCon.publishEndDate =new Date(vm.endDate + " 23:59:59") ;
+                    vm.searchCon.publishEndDate =new Date((vm.endDate + " 23:59:59").replace(/-/g,"/")); 
                 }
                
                 if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.publishEndDate<=vm.searchCon.publishStartDate){
                     vm.searchCon.publishEndDate  = "";
                     vm.searchCon.publishStartDate = "";
-                    $("#dataPlug-in-one>input").val("")
-                    $("#dataPlug-in-two>input").val("")
+
                     $("#dataPlug-in-one>button>span").css("display","none");
                     $("#dataPlug-in-two>button>span").css("display","none");
                     alert("开始时间不能大于结束时间!")
-                    return false; 
+                    return; 
                 }
                 var init=JSON.parse(JSON.stringify(vm.searchCon));
                vm.initsearchCon=init;
