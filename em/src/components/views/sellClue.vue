@@ -326,13 +326,14 @@ ss<template>
                 	alert("开始时间不能大于结束时间!");
                 	return;
                 }
+                console.log(vm.searchCon); 
                var init=JSON.parse(JSON.stringify(vm.searchCon));
-               vm.initsearchCon=init;
+
+               vm.initsearchCon= init;
 
                 vm.initsearchCon.pageNumber=1;
-            
+                console.log(vm.initsearchCon);
                 vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
-
                     if(response.ok){ 
                         if(response.data.success){
                         	
@@ -608,22 +609,24 @@ ss<template>
 			});
 			}
 		},   
-		mounted:function(){
+		mounted(){ 
             let vm=this;    
             $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.day-cell",function(){ 
                 vm.startDate = $(this).attr("data-date");   
+                console.log( vm.startDate );
                 $("#dataPlug-in-one>button>span").css("display","inline-block")
-                                          
+                console.log($("#dataPlug-in-one>button>span")[0]);
             }) 
-            $(document).on("click","#dataPlug-in-one>button>span", function() {
-                vm.startDate="";
+            $(document).on("click","#dataPlug-in-one>button", function() {
+                vm.startDate="";   
                 $(this).css("display","none");
+               	console.log( vm.startDate);
             }); 
             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
                 vm.endDate = $(this).attr("data-date");  
                 $("#dataPlug-in-two>button>span").css("display","inline-block")
-            })      
-            $(document).on('click', '#dataPlug-in-two>button>span', function() {
+            })        
+            $(document).on('click', '#dataPlug-in-two>button', function() {
                 vm.endDate  = "";   
                 $(this).css("display","none");
             });  
