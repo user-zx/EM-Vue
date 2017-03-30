@@ -1,15 +1,19 @@
 <template>
 	<div class="login">
+	    <div class="login_div_parent">
 		<div class="login_div">
-			<img src="../../assets/images/login-logo.png" alt="">
+			<img src="../../assets/images/login-logo.png"  alt="">
 			<img class="pull-right" src="../../assets/images/login-tel.png" style="margin-top:8px;" alt="">
 		</div>
+		</div>
 		<div class="login_input">
-			<img src="../../assets/images/loginWord.png"  alt="">
+		    
+			<img src="../../assets/images/loginWord.png" style="margin-left:30px;" alt="">
+			
 			<label>
-				<img src="../../assets/images/login_user.png"  alt="">
+				<img src="../../assets/images/login_user.png"  alst="">
 				 <input type="text" style="position: absolute;top: -9999px;display:none"/>
-				<input type="text" name="" class="form-control" v-model="item.account" placeholder="手机号" @input="changeVal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required>
+				<input type="text" name="" class="form-control" v-model="item.account" placeholder="输入手机号" @input="changeVal" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" title="输入11位有效的手机号" pattern="1[0-9]{10}" required>
 			</label> 
 			<label>
 				<img src="../../assets/images/login_password.png"  alt="">
@@ -201,59 +205,79 @@
 	.login{  
 		width: 100%;  
 		height: 100%;
-		padding-top:25px;     
-		background: url("../../assets/images/login.jpg");
+		padding-top:15px;     
+		background: url("../../assets/images/login.png") center center;
 		-webkit-background-size: 100% 100%;
 		     -o-background-size: 100% 100%;
 		        background-size: 100% 100%;
 		position: relative;
 	}
-	.login_div{width:70%;margin:0 auto;}
-
+	.login_div{width:70%;margin:0 auto;
+      
+	}
+.login_div_parent{
+	border-bottom:1px solid rgba(242,242,242,0.25);
+    padding-bottom:20px;
+    }
 	.login_input{
-		width: 320px;
-		height: 285px;  
+		width: 380px;
+		height: 390px;  
 		position: absolute; 
 		left: 50%; 
 		top: 50%; 
-		margin-left: -160px;	
-		margin-top: -142.5px;
+		margin-left: -190px;	
+		margin-top: -195px;
 	} 
+	.login_input label{
+		font-weight:normal;
+	}
 	.login_input>label{
 		width: 100%;
 		position: relative;
 		margin-bottom:1px;
 	}
 	  .login_input>label>input{
-	  	padding-left: 30px;
+	  	padding-left:55px;
 	  	border:none;
 
 	  }
-	   .login_input label:first-of-type input{
+	   .login_input>label:first-of-type input{
           border-radius:4px 4px 0 0;
-
+          height:60px;
+         background:rgba(242,242,242,0.85);
 	  }
-	   .login_input label:nth-of-type(2) input{
+	   .login_input>label:nth-of-type(2) input{
           border-radius:0 0 4px 4px ;
+           height:60px;
+           margin-top:10px;
+           background:rgba(242,242,242,0.85);
 	  }
 
 	.login_input>label>img{
 		position: absolute;
-		left: 7px;
-		top: 5px;
+		left:25px;
+		top: 20px;
 		width: 17px; 
 
 	}
+	 .login_input label:nth-of-type(2) img{
+	 	top:28px;	
+
+	 }
 	.login_input>img{
 		width: 320px;
 		height:48px;
 		margin: 20px 0;
 	}
-	.login_input p{margin:0;}
+	.login_input p:last-child{margin:0;
+       color:#ffffff;
+       text-align:center;
+	}
 
 	.login_p_one{
-		margin-top: 10px;
+		
 		font: 12px "Microsoft Yahei";
+		color:#ffffff;
 	} 
 	.login_p_one>label{
 		cursor: pointer;
@@ -271,12 +295,16 @@
 	.login_input>button{
 		display: block;
 		width: 100%;
-		margin-bottom: 10px;
+		margin-bottom: 15px;
 		padding:10px 12px;
+		height:60px;
+		font-size:20px;
+		font-weight:700;
 	}
 	.login_p_two_a{
-		color: #ee7306;
+		color: #32ccca;
 		text-decoration: none;
+		border-bottom:1px solid #32ccca;
 	}   
 	.showError{
 		color:red;

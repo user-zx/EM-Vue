@@ -24,7 +24,7 @@
     .wrapper .wrapper-content{width: 100%;padding:20px 15px;height: 100%;}
     .poss{position: static;}
     .leftTag{position: fixed;left:0;top:65px;bottom: 0;padding-top:25px;width:135px;background-color: #273e4c;}
-    .leftTag>ul>li.last{width:135px;margin-top:40px;}
+    .leftTag>ul>li.last{position:fixed;width:135px;bottom:15px;}
     .leftTag>ul>li>a{text-align: center;color:#eeffff;border-left:3px solid transparent;}
     .leftTag>ul>li>a>.icons{display: block;width:35px;height:35px;margin:0 auto;background-image: url("../../assets/images/left_top_icon.png");background-repeat: no-repeat;}
     .icons-1{background-position: 3px 8px;}
