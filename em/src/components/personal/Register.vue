@@ -313,10 +313,12 @@
 	  		}, 
 	  		alipayEvent(){
 	  			let vm = this;
-				console.log()
+				 var popup = window.open()
 				vm.$http.post(vm.alipay).then((res)=>{
 					if(res.data.success){ 
-					    $("#alipayID_DIV").html(res.data.data)
+						localStorage.setItem("playApply",res.data.data);
+					    //$("#alipayID_DIV").html(res.data.data) 
+					    popup.location.href = 'http://localhost/src/components/pay/apply.html';
 					}else{
 						alert(res.data.message);
 						return false;

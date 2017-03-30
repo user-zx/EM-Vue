@@ -300,8 +300,8 @@ ss<template>
             },  
             multipleSearch(){
                 let vm=this;
-                console.log(vm.startDate);
-                console.log(vm.endDate);
+                //console.log(vm.startDate);
+                //console.log(vm.endDate);
                 if(vm.startDate==""){
                      vm.searchCon.publishStartDate ="";
                      if(vm.startDate==""&&vm.endDate!=""){
@@ -337,7 +337,7 @@ ss<template>
                vm.initsearchCon=init;
                  // vm.initsearchCon=vm.searchCon;
 
-    
+    			
                 vm.initsearchCon.pageNumber=1;
                 // console.log(vm.initsearchCon);
                 console.log(vm.initsearchCon);

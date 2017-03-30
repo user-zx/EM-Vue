@@ -22,8 +22,8 @@
         </div>
     </div>
 </template>
-
 <script>
+	
 	export default{
 		data(){
 			return {
@@ -35,17 +35,14 @@
 		methods:{
 			alipayEvent(){
 				let vm = this;
-				//console.log(vm.alipay); 
-				  var newWindow = window.open('loading page');
+				
+				  var popup = window.open()
 				vm.$http.post(vm.alipay,vm.chargeQR.phone).then((res)=>{
-
 					if(res.data.success){  
-						
-					    //$("#alipayID_DIV").html(res.data.data)
-					    let data = res.data.data
-					    vm.$store.commit("data",data)
-						newWindow.location.href = './apply.vue';
-
+					    localStorage.setItem("playApply",res.data.data);
+					    //let b = localStorage.getItem("playApply")
+						//console.log(b); 
+						popup.location.href = 'http://localhost/src/components/pay/apply.html';
 						//$("#alipayID_DIV").html(res.data.data);
 					}else{ 
 						alert(res.data.message);
