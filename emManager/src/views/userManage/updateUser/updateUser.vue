@@ -93,12 +93,15 @@
                             <div class="col-md-6">
                                 <textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="addUser.params.keywordList"></textarea>
                             </div>
-                            <!--<div class="col-md-offset-3 col-md-6">-->
-                            <!--<div class="upload-box">-->
-                            <!--<a href="javascript:void(0);"><img src="./images/set_icon.png"/>批量添加</a>-->
-                            <!--<a href="javascript:void(0);"><img src="./images/set_icon1.png" />下载文件模版</a>-->
-                            <!--</div>-->
-                            <!--</div>-->
+                            <div class="col-md-offset-3 col-md-6">
+                                <div class="upload-box">
+                                    <a href="javascript:void(0);" id="a-upload">
+                                        <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span>
+                                        <input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">批量添加
+                                    </a>
+                                    <a href="../apis/excel/downloadKeywordImportTemplate"><img src="../addUser/images/set_icon1.png" />下载文件模版</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,6 +157,20 @@
         border-top:none;
         text-align: center;
     }
+    }
+    #fileName{
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer;
+    }
+    #a-upload{
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
     }
 </style>
 <script>
@@ -251,6 +268,30 @@
         },
         mounted(){
             let vm=this,shiIndex1,xianIndex1,trade,province='北京',city='北京',county='东城区';
+            $("#fileName").on("change",function(){
+                let fileName = $("#fileName")[0].files[0].name;
+                if(vm.addUser.params.phone!=""&&fileName!=""){
+                    $.ajaxFileUpload({
+                        url:"../apis/excel/importKeywordList",
+                        fileElementId:"fileName",
+                        secureuri: false,
+                        dataType: 'JSON',
+                        type:"post",
+                        data: {keywordOwner:vm.addUser.params.phone,keywordList:fileName},
+                        success:function(data,status){
+                            let dataObj = JSON.parse(data)
+                            if(dataObj.success){
+                                alert(dataObj.data);
+                                vm.addUser.params.keywordList = fileName;
+                            }else{
+                                alert("添加失败")
+                                vm.addUser.params.keywordList = "";
+                            }
+
+                        }
+                    })
+                }
+            });
             $("#updateUser").on("show.bs.modal",function () {
                 vm.addUser.params={};
                 vm.addUser.params.userStatus='';

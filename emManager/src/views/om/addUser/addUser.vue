@@ -33,7 +33,7 @@
                             <label class="col-md-3 control-label">用户权限：</label>
                             <div class="col-md-6" id="qx">
                                 <label v-for="item in permissions.result">
-                                    <input type="checkbox" name="userStatus" :value="item.id"/>
+                                    <input type="checkbox" name="userStatus" v-model="permissions1" :value="item.id"/>
                                     {{item.name}}
                                 </label>
                             </div>
@@ -100,6 +100,7 @@
         data(){
             return{
                 "msg":"添加用户",
+                permissions1:[],
                 addUser:{
                     url:"../apis/operation/saveOperationUser",
                     params:{
@@ -132,8 +133,7 @@
             },
             addUsers(){
                 let vm =this,
-                     surePwd=$(".surePwd").val(),
-                     qx=$("#qx").find("input[type='checkbox']").is(':checked');
+                     surePwd=$(".surePwd").val();
                 vm.addUser.params.createDate=new Date();
                 vm.addUser.params.createUser=sessionStorage.getItem("userAccount");
                 if(vm.addUser.params.userAccount.length<6 || vm.addUser.params.userAccount.length>16){
@@ -152,7 +152,7 @@
                    alert("两次输入密码不一致");
                    return;
                 }
-                if(!qx){
+                if(vm.addUser.params.permissions.split(',')<1){
                    alert("至少选一个权限");
                    return;
                 }
@@ -185,7 +185,7 @@
                     arr.push($(this).val());
                     vm.addUser.params.permissions=arr.toString();
                 }).on("ifUnchecked",function () {
-                    arr.remove($(this).val());
+                    arr.remove(arr.indexOf($(this).val()));
                     vm.addUser.params.permissions=arr.toString();
                 });
             }).on("hidden.bs.modal",function () {
@@ -200,7 +200,8 @@
                         updateUser:"",
                         permissions:""
                 };
-                $(".surePwd").html("");
+                arr=[];
+                $(".surePwd").val("");
                 vm.addUser.params=params;
                 $("input[type='checkbox']").iCheck("destroy");
             });

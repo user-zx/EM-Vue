@@ -66,15 +66,15 @@
                             <label class="col-md-3 control-label">用户状态：</label>
                             <div class="col-md-6">
                                 <label>
-                                    <input type="radio" name="userStatus" value="试用" checked />
+                                    <input type="radio" name="userStatus" v-model="addUser.params.userStatus" value="试用" />
                                     试用
                                 </label>
                                 <label>
-                                    <input type="radio" name="userStatus" value="正式" />
+                                    <input type="radio" name="userStatus" v-model="addUser.params.userStatus" value="正式" />
                                     正式
                                 </label>
                                 <label>
-                                    <input type="radio" name="userStatus" value="冻结" />
+                                    <input type="radio" name="userStatus" v-model="addUser.params.userStatus" value="冻结" />
                                     冻结
                                 </label>
                             </div>
@@ -83,11 +83,11 @@
                             <label class="col-md-3 control-label">套餐状态：</label>
                             <div class="col-md-9">
                                 <label>
-                                    <input type="radio" value="" name="packageId" checked/>
+                                    <input type="radio" value="" v-model="addUser.params.packageId" name="packageId"/>
                                     未办理套餐
                                 </label>
                                 <label v-for="item in packageList.result">
-                                    <input type="radio" v-bind:value="item.id" name="packageId"/>
+                                    <input type="radio" v-bind:value="item.id" v-model="addUser.params.packageId" name="packageId"/>
                                     {{item.name}}
                                 </label>
                             </div>
@@ -307,13 +307,9 @@
         mounted(){
             //文件上传
             let vm_this = this;
-            $(document).on("change","#fileName",function(){
+            $("#fileName").on("change",function(){
                 let fileName = $("#fileName")[0].files[0].name;
-                
-               
-                console.log(vm_this.addUser.params.keywordList);
                if(vm_this.addUser.params.phone!=""&&fileName!=""){
-
                      $.ajaxFileUpload({
                         url:"../apis/excel/importKeywordList",
                         fileElementId:"fileName",
@@ -322,7 +318,6 @@
                         type:"post",   
                         data: {keywordOwner:vm_this.addUser.params.phone,keywordList:fileName},   
                         success:function(data,status){
-                          
                             let dataObj = JSON.parse(data)
                             if(dataObj.success){
                                 alert(dataObj.data);
@@ -411,6 +406,14 @@
                         keywordList:""
                     };
                 vm.addUser.params=params;
+                let searchCon={
+                    sheng1Val:"",
+                        shi1Val:"",
+                        xian1Val:"",
+                };
+                vm.searchCon=searchCon;
+                vm.radio_packageId="",
+                vm.radio_userStatus="试用",
                 $("input[type=radio]").iCheck("destroy");
             });
         }
