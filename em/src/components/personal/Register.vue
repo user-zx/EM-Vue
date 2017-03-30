@@ -542,8 +542,8 @@
 	  		$(".btn-default").hover(function(){
 	  			$(this).css("backgroundColor","white")
 	  		})
-
-	  		$(document).on("change","#fileName",function(){
+	  		 
+	  		$("#fileName").on("change",function(){
 	  			   if($("#fileName")[0].files[0]){
 	  			   	 let fileanme = $("#fileName")[0].files[0].name;
 	  			   	 console.log(fileanme);

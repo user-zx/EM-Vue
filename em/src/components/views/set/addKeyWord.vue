@@ -136,14 +136,12 @@
                     vm.textareaVal = "";
                })
             }
-        }
+          },
+          fileUpload(){
+             let vm = this; 
 
-        },
-        props:['userNumber'],  
-        mounted(){    
-                let vm = this;  
-                $(document).on("change","#fileName",function(){
-                console.log('test11111');   
+             $("#fileName").on("change",function(){
+                
                 if($("#fileName")[0].files[0]){
                    var fileanme = $("#fileName")[0].files[0].name;
                  $.ajaxFileUpload({   
@@ -153,10 +151,6 @@
                     dataType: 'JSON', 
                     type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
-                     beforeSend :function(xmlHttp){ 
-                      xmlHttp.setRequestHeader("If-Modified-Since","0"); 
-                      xmlHttp.setRequestHeader("Cache-Control","no-cache");
-                    },
                     success:function(data,status){
                       console.log(data);
                         if(data=="批量添加关键词保存失败，请联系管理员解决"){
@@ -189,6 +183,12 @@
                 return false;    
               }
           }) 
+          }
+        },
+        props:['userNumber'],  
+        mounted(){    
+                let vm = this;  
+               vm.fileUpload();
           
                 
             $("#addKeyWord").on("hidden.bs.modal",function(){
