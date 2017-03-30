@@ -279,7 +279,7 @@
                 if(vm.checked){
                 	vm.database.province=vm.database.city=vm.database.county="不限";
                 };
-                console.log(vm.database);
+                //console.log(vm.database);
                 post(vm.$http,"../apis/registerUser",vm.database,(res)=>{
 					if(res.ok){
 					    if(res.data.success){
@@ -299,8 +299,9 @@
                 
                 	if(res.ok){
                 		if(res.data.success){  
+                			 let startTIME = new Date().getTime();
                 			vm.alipayID = res.data.data.id; 
-                			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"";
+                			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"&outTradeNo="+startTIME+""; 
                 			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"";
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
@@ -313,10 +314,12 @@
 	  		}, 
 	  		alipayEvent(){
 	  			let vm = this;
-				console.log()
+				 var popup = window.open()
 				vm.$http.post(vm.alipay).then((res)=>{
 					if(res.data.success){ 
-					    $("#alipayID_DIV").html(res.data.data)
+						localStorage.setItem("playApply",res.data.data);
+					    //$("#alipayID_DIV").html(res.data.data) 
+					    popup.location.href = 'http://yimei.huishu.com.cn/src/components/pay/apply.html';
 					}else{
 						alert(res.data.message);
 						return false;
@@ -541,7 +544,7 @@
 	  			$(this).css("backgroundColor","white")
 	  		})
 
-	  		$(document).on("change","#fileName",function(){
+	  		$("#fileName").on("change",function(){
 	  			   if($("#fileName")[0].files[0]){
 	  			   	 let fileanme = $("#fileName")[0].files[0].name;
 	  			   	 console.log(fileanme);

@@ -242,7 +242,6 @@
 				let obj_arr = {};
 				 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
 				let search_Head = vm.searchHead;
-
 				let input_Arr = vm.inputArr
 				for (let j in input_Arr) { 
 					var arrObj = search_Head[input_Arr[j]];
@@ -317,7 +316,8 @@
                                 conObj={
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
-                                 let temporaryArr = [];    
+                                 let temporaryArr = []; 
+
                             for (let i in arr){
                                 for (let j in conObj){
                                 	temporaryArr.push(j)
@@ -335,6 +335,7 @@
                                for (var i = 0; i < temporaryArr.length; i++) {
                             	  	 if (n_arr.indexOf(temporaryArr[i]) == -1) n_arr.push(temporaryArr[i]);
                             	  }
+                            	 
                            		vm.inputArr = n_arr;	
 						}
 					}

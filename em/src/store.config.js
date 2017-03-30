@@ -10,6 +10,9 @@ export default{
 		usernumber:{
 			data:"",
 		},
+		applyData:{
+			data:"",
+		}
 	},
 	mutations:{
 		setExpenseModelStatus(state,param){
@@ -23,6 +26,9 @@ export default{
 		},
 		saveNum(state,num){
 			state.usernumber.data = num;
+		},
+		applyPlay(state,data){
+			state.applyData.data = data;
 		}
 	}
 }

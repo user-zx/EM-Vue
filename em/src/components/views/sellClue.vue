@@ -30,7 +30,6 @@ ss<template>
                 <myVueCalendar></myVueCalendar>
             </div> 
 			<div class="col-xs-2">
-			    
 				<div class="form-group" style="position:relative;" >
 				    <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
 					<input id="search-k" v-model="searchCon.keywords" type="text" class="form-control" placeholder="请输入关键词">
@@ -265,7 +264,6 @@ ss<template>
 					}  
 					
 					obj_arr[input_Arr[j]] = arrObj;
-					//console.log(obj_arr);
 				} 
 
 				return obj_arr;
@@ -300,7 +298,7 @@ ss<template>
             },  
             multipleSearch(){
                 let vm=this;
-                 console.log(vm.startDate);
+
                 if(vm.startDate==""){
                      vm.searchCon.publishStartDate ="";
                      if(vm.startDate==""&&vm.endDate!=""){
@@ -630,6 +628,7 @@ ss<template>
                 $(this).css("display","none");
             });  
               
+              
             
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
@@ -667,13 +666,11 @@ ss<template>
                                     A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[],M:[],N:[],O:[],P:[],Q:[],R:[],S:[],T:[],U:[],V:[],W:[],X:[],Y:[],Z:[]
                                 };
                             let temporaryArr = [];
-                          //  console.log(arr);    
+                           
                             for (let i in arr){
                                 for (let j in conObj){
-
+                                	temporaryArr.push(j)
                                     if(j==arr[i].keywordInitial){
-                                    
-                                    	temporaryArr.push(j)
                                         const obj=new Object();
                                         obj.id=arr[i].id;
                                         obj.keyword=arr[i].keyword;
@@ -687,6 +684,7 @@ ss<template>
                                for (var i = 0; i < temporaryArr.length; i++) {
                             	  	 if (n_arr.indexOf(temporaryArr[i]) == -1) n_arr.push(temporaryArr[i]);
                             	  }
+                            	  //console.log(n_arr);
                            		vm.inputArr = n_arr;	  
 						}
 					} 
