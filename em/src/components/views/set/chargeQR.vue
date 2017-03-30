@@ -37,12 +37,13 @@
 				let vm = this;
 				
 				  var popup = window.open()
-				vm.$http.post(vm.alipay,vm.chargeQR.phone).then((res)=>{
+				 
+				vm.$http.post(vm.alipay).then((res)=>{
 					if(res.data.success){  
 					    localStorage.setItem("playApply",res.data.data);
 					    //let b = localStorage.getItem("playApply")
 						//console.log(b); 
-						popup.location.href = 'http://localhost/src/components/pay/apply.html';
+						popup.location.href = 'http://yimei.huishu.com.cn/src/components/pay/apply.html';
 						//$("#alipayID_DIV").html(res.data.data);
 					}else{ 
 						alert(res.data.message);

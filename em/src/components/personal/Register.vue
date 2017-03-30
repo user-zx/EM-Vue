@@ -318,7 +318,7 @@
 					if(res.data.success){ 
 						localStorage.setItem("playApply",res.data.data);
 					    //$("#alipayID_DIV").html(res.data.data) 
-					    popup.location.href = 'http://localhost/src/components/pay/apply.html';
+					    popup.location.href = 'http://yimei.huishu.com.cn/src/components/pay/apply.html';
 					}else{
 						alert(res.data.message);
 						return false;
