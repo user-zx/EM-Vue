@@ -279,7 +279,7 @@
                 if(vm.checked){
                 	vm.database.province=vm.database.city=vm.database.county="不限";
                 };
-                console.log(vm.database);
+                //console.log(vm.database);
                 post(vm.$http,"../apis/registerUser",vm.database,(res)=>{
 					if(res.ok){
 					    if(res.data.success){
@@ -299,8 +299,9 @@
                 
                 	if(res.ok){
                 		if(res.data.success){  
+                			 let startTIME = new Date().getTime();
                 			vm.alipayID = res.data.data.id; 
-                			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"";
+                			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"&outTradeNo="+startTIME+""; 
                 			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"";
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
@@ -542,7 +543,7 @@
 	  		$(".btn-default").hover(function(){
 	  			$(this).css("backgroundColor","white")
 	  		})
-	  		 
+
 	  		$("#fileName").on("change",function(){
 	  			   if($("#fileName")[0].files[0]){
 	  			   	 let fileanme = $("#fileName")[0].files[0].name;

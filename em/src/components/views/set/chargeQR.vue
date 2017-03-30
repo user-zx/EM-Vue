@@ -57,7 +57,9 @@
 		mounted(){ 
 			let vm = this; 
 			 $('#chargeQR').on('shown.bs.modal', function () { 
-  				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
+			 	 let startTIME = new Date().getTime();
+			 	 //console.log(startTIME); 
+  				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"&outTradeNo="+startTIME+"";
   				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
  			})   
 		},
