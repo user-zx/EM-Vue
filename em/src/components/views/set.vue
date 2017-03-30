@@ -314,7 +314,7 @@
 					pageSize:6,  
 					userAccount:""
 				},
-				chargeQRId:"",
+				chargeQRId:{},
 			}
 		},
         components:{rePassword,addKeyWord,chargeQR},
@@ -479,8 +479,10 @@
 		    		
                      return false;
 		    	}else{
-				this.chargeQRId = id; 
-				$('#chargeQR').modal('show');
+		    		//console.log(this.consumeListSearchCon.userAccount);
+					this.chargeQRId.id = id; 
+					this.chargeQRId.phone = this.consumeListSearchCon.userAccount
+					$('#chargeQR').modal('show');
 			     }
 			},
 			currTab2(){

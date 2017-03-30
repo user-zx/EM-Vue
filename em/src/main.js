@@ -20,6 +20,7 @@ Vue.http.interceptors.push((request, next) => {
    
     request.method = 'POST';
     next((response) => {
+      //console.log(response); 
       if(response.ok){
         if(response.data.success){
           return response;

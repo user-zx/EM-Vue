@@ -35,10 +35,12 @@
 		methods:{
 			alipayEvent(){
 				let vm = this;
-				vm.$http.get(vm.alipay).then((res)=>{
-					if(res.data.success){ 
+				//console.log(vm.alipay); 
+				vm.$http.post(vm.alipay).then((res)=>{
+					if(res.data.success){  
+						//window.open("./apply.html")
 					    $("#alipayID_DIV").html(res.data.data)
-					}else{
+					}else{ 
 						alert(res.data.message);
 						return false;
 					}
@@ -49,9 +51,9 @@
 		},
 		mounted(){ 
 			let vm = this; 
-			 $('#chargeQR').on('shown.bs.modal', function () {
-  				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR+"";
-  				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR+"";
+			 $('#chargeQR').on('shown.bs.modal', function () { 
+  				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
+  				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
  			})   
 		},
 		props:["chargeQR"]

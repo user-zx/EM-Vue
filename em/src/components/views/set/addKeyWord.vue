@@ -143,6 +143,7 @@
         mounted(){    
                 let vm = this;  
                 $(document).on("change","#fileName",function(){
+                  console.log('test111');
                 if($("#fileName")[0].files[0]){
                    var fileanme = $("#fileName")[0].files[0].name;
                  $.ajaxFileUpload({   
@@ -153,11 +154,10 @@
                     type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
                     success:function(data,status){
-                      
                         if(data=="批量添加关键词保存失败，请联系管理员解决"){
                             alert(data)
                             return false;
-                        }   
+                        }     
                       let json_data = JSON.parse(data);
                       console.log(json_data);
                       if(json_data.success){
