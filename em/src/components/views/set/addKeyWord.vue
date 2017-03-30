@@ -143,7 +143,7 @@
         mounted(){    
                 let vm = this;  
                 $(document).on("change","#fileName",function(){
-                  console.log('test111');
+                console.log('test11111');   
                 if($("#fileName")[0].files[0]){
                    var fileanme = $("#fileName")[0].files[0].name;
                  $.ajaxFileUpload({   
@@ -153,13 +153,18 @@
                     dataType: 'JSON', 
                     type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
+                     beforeSend :function(xmlHttp){ 
+                      xmlHttp.setRequestHeader("If-Modified-Since","0"); 
+                      xmlHttp.setRequestHeader("Cache-Control","no-cache");
+                    },
                     success:function(data,status){
+                      console.log(data);
                         if(data=="批量添加关键词保存失败，请联系管理员解决"){
                             alert(data)
                             return false;
                         }     
                       let json_data = JSON.parse(data);
-                      console.log(json_data);
+                      console.log(json_data);  
                       if(json_data.success){
                         if(json_data.data == "导入的关键词已经存在"){
                              vm.textareaVal = ""; 

@@ -621,20 +621,20 @@ ss<template>
             let vm=this;    
             $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.day-cell",function(){ 
                 vm.startDate = $(this).attr("data-date");   
-                $("#dataPlug-in-one>button>span").css("display","inline-block")
+                //$("#dataPlug-in-one>button>span").css("display","inline-block")
             }) 
-            $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
-                vm.startDate  = "";
-                $(this).css("display","none");
-            }); 
+            // $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
+            //     vm.startDate  = "";
+            //     $(this).css("display","none");
+            // });  
             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
                 vm.endDate = $(this).attr("data-date");  
-                $("#dataPlug-in-two>button>span").css("display","inline-block")
-            })      
-            $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
-                vm.endDate  = "";   
-                $(this).css("display","none");
-            });  
+                //$("#dataPlug-in-two>button>span").css("display","inline-block")
+            })       
+            // $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
+            //     vm.endDate  = "";   
+            //     $(this).css("display","none");
+            // });   
               
             
             $(".selectpicker").selectpicker({
