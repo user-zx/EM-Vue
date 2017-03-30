@@ -36,10 +36,16 @@
 			alipayEvent(){
 				let vm = this;
 				//console.log(vm.alipay); 
+				  var newWindow = window.open('loading page');
 				vm.$http.post(vm.alipay,vm.chargeQR.phone).then((res)=>{
 					if(res.data.success){  
-						//window.open("./apply.html")
-					    $("#alipayID_DIV").html(res.data.data)
+						
+					    //$("#alipayID_DIV").html(res.data.data)
+					    let data = res.data.data
+					    vm.$store.commit("data",data)
+						newWindow.location.href = './apply.vue';
+
+						//$("#alipayID_DIV").html(res.data.data);
 					}else{ 
 						alert(res.data.message);
 						return false;
