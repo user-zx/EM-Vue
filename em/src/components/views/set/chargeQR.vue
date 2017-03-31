@@ -35,16 +35,9 @@
 		methods:{
 			alipayEvent(){
 				let vm = this;
-				
-				  var popup = window.open()
-				 
 				vm.$http.post(vm.alipay).then((res)=>{
 					if(res.data.success){  
-					    localStorage.setItem("playApply",res.data.data);
-					    //let b = localStorage.getItem("playApply")
-						//console.log(b); 
-						popup.location.href = 'http://yimei.huishu.com.cn/src/components/pay/apply.html';
-						//$("#alipayID_DIV").html(res.data.data);
+						$("#alipayID_DIV").html(res.data.data); 
 					}else{ 
 						alert(res.data.message);
 						return false;
@@ -58,7 +51,6 @@
 			let vm = this; 
 			 $('#chargeQR').on('shown.bs.modal', function () { 
 			 	 let startTIME = new Date().getTime();
-			 	 //console.log(startTIME); 
   				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"&outTradeNo="+startTIME+"";
   				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
  			})   

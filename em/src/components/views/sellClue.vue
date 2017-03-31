@@ -306,7 +306,9 @@ ss<template>
                      return;
                 }
                 }else{
+                	//console.log(vm.startDate);
                      vm.searchCon.publishStartDate = new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
+                     //console.log(vm.searchCon.publishStartDate);
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.publishEndDate = "";
@@ -326,13 +328,14 @@ ss<template>
                 	alert("开始时间不能大于结束时间!");
                 	return;
                 }
-                console.log(vm.searchCon); 
-               var init=JSON.parse(JSON.stringify(vm.searchCon));
 
-               vm.initsearchCon= init;
+                //console.log(vm.searchCon); 
+               //var init=JSON.parse(JSON.stringify(vm.searchCon));
+
+               vm.initsearchCon= vm.searchCon;
 
                 vm.initsearchCon.pageNumber=1;
-                console.log(vm.initsearchCon);
+                console.log(vm.initsearchCon);  
                 vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
@@ -470,7 +473,7 @@ ss<template>
                 }
                 return y+"-"+m+"-"+d;
             },
-            publishSearch(str){
+          /*  publishSearch(str){
                 let vm = this;
                 switch (str){
 					case "不限":
@@ -511,7 +514,7 @@ ss<template>
                         vm.multipleSearch();
                         break;
                 }
-            },
+            },*/
             getLinkStatus(index,salesLeadsId){
 				let vm=this;
 				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{
@@ -613,22 +616,23 @@ ss<template>
             let vm=this;    
             $(document).on("click","#dataPlug-in-one .datepicker-dateRange>.day-cell",function(){ 
                 vm.startDate = $(this).attr("data-date");   
-                console.log( vm.startDate );
+                //console.log( vm.startDate );
                 $("#dataPlug-in-one>button>span").css("display","inline-block")
-                console.log($("#dataPlug-in-one>button>span")[0]);
-            }) 
-            $(document).on("click","#dataPlug-in-one>button", function() {
-                vm.startDate="";   
-                $(this).css("display","none");
-               	console.log( vm.startDate);
-            }); 
+                //console.log($("#dataPlug-in-one>button>span")[0]);
+            })       
+            $("#dataPlug-in-one>button").on("click", function() {
+                vm.startDate="";
+                console.log('test');           
+                $(this).children('span').css("display","none");
+               	console.log( vm.startDate);  
+            });    
             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
                 vm.endDate = $(this).attr("data-date");  
                 $("#dataPlug-in-two>button>span").css("display","inline-block")
             })        
-            $(document).on('click', '#dataPlug-in-two>button', function() {
-                vm.endDate  = "";   
-                $(this).css("display","none");
+            $('#dataPlug-in-two>button').on('click', function() {
+                vm.endDate  = "";    
+                $(this).children('span').css("display","none");
             });  
               
               

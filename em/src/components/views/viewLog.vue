@@ -242,19 +242,19 @@
                 vm.startDate = $(this).attr("data-date");   
                 $("#dataPlug-in-one>button>span").css("display","inline-block")
             }) 
-            $(document).on('click', '#dataPlug-in-one>button>span', function(event) {
+            $(document).on('click', '#dataPlug-in-one>button', function(event) {
                 vm.startDate  = "";
-                $(this).css("display","none");
+                $(this).children('span').css("display","none");
             }); 
             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
                 vm.endDate = $(this).attr("data-date");  
                 $("#dataPlug-in-two>button>span").css("display","inline-block")
             })      
-            $(document).on('click', '#dataPlug-in-two>button>span', function(event) {
+            $(document).on('click', '#dataPlug-in-two>button', function(event) {
                 vm.endDate  = "";   
-                $(this).css("display","none");
+                $(this).children('span').css("display","none");
             });   
-            
+              
              
 		    $(".selectpicker").selectpicker({
                 style: 'btn-default',
@@ -467,8 +467,8 @@
                     alert("开始时间不能大于结束时间!")
                     return; 
                 }
-                var init=JSON.parse(JSON.stringify(vm.searchCon));
-               vm.initsearchCon=init;
+                //var init=JSON.parse(JSON.stringify(vm.searchCon));
+               vm.initsearchCon=vm.searchCon;
 
 				vm.initsearchCon.pageNumber=1;
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{

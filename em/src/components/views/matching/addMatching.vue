@@ -32,11 +32,16 @@
                            
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">原文地址：</label>
+                            <label class="col-md-4 control-label">主页链接：</label>
                             <div class="col-md-5">
                                 <input class="form-control" type="text" v-model="data.homeLink" placeholder="请您输入目标主页链接" />
+                            </div>  
+                        </div>  
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">原文地址：</label>
+                            <div class="col-md-5"> 
+                                <input class="form-control" type="text" v-model="data.link" placeholder="请您输入原文地址" />
                             </div>
-                            
                         </div>
                         <div class="form-group" v-if="errorMsg.length>0">
                             <div class="col-md-12">
@@ -74,7 +79,8 @@
                     source:"",
                     homeLink:"",
                     author:"",
-                    title:""
+                    title:"",
+                    link:"",
                 },
                 errorMsg:"",
                 source:["微博","百度贴吧"],
@@ -94,6 +100,7 @@
                 vm.data.homeLink="";
                 vm.data.author="";
                 vm.data.title = "";
+                vm.data.link = "";
             }).on("hidden.bs.modal",function () {
                 $(".selectpicker").selectpicker("refresh");
             });     
@@ -101,13 +108,12 @@
         methods:{
             addMatchFun(){
                 let vm=this;     
-                 console.log(vm.data); 
-                if(vm.data.author==""||vm.data.title==""||vm.data.homeLink==""||vm.data.source==""){
+                if(vm.data.author==""||vm.data.title==""||vm.data.homeLink==""||vm.data.source==""||vm.data.link == ""){
                     alert("昵称、标题或链接不能为空");
                     return false;
                 }else{
                 vm.$http.post("../apis/salesLeads/checkDomainNameSource",vm.data).then((res)=>{
-                    console.log(res);
+                   
                     if(res.ok){
                         if(res.data.data){
                              vm.$http.post(vm.addMatchingUrl,vm.data).then((result)=>{

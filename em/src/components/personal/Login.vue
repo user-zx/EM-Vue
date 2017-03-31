@@ -175,7 +175,7 @@
 		        var exdate = new Date();
 		        exdate.setDate(exdate.getDate() + expiredays);
 		        document.cookie = c_name + "=" + escape(n_value) + "^" + p_name + "=" + escape(p_value) + "^" +  r_name + "=" + escape(r_value) +((expiredays == null) ? "" : "^;expires=" + exdate.toGMTString());
-		        console.log(document.cookie)
+		        //console.log(document.cookie)
    		 	},
    		    checkCookie(name,password,remember){      //检测cookie是否存在，如果存在则直接读取，否则创建新的cookie
 
