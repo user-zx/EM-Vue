@@ -96,6 +96,7 @@
                param.keywordList = vm.textareaVal;
 
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
+                    console.log(res);
                     if(res.ok){
                         if(res.data.success){
                           if(patt.test(param.keywordList)){
