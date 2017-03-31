@@ -95,7 +95,7 @@ ss<template>
 					<a href="javascript:void(0);" class="btn" @click="ignoreFun(index,artItem.salesLeads.id)"><img src="../../assets/images/forgetClue.png" height="16" width="16">忽略线索</a>
 				</li> 
 				<li v-bind:class="{active:artItem.labelStatus}">
-					<button v-if="artItem.labelStatus" href="javascript:void(0);" class="btn" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</button>
+					<button v-if="artItem.labelStatus" href="javascript:void(0);" class="btn handled" @click="labelFun(index,artItem.salesLeads.id)"><img src="../../assets/images/handled.png" height="17" width="14">已处理</button>
 					<button  v-else  class="btn" @click="labelFun(index,artItem.salesLeads.id)"
 					:disabled="!artItem.checkStatus">
 					<img src="../../assets/images/handle.png" height="17" width="14" >标记处理</button>    

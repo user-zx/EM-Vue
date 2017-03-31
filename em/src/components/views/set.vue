@@ -204,7 +204,7 @@
 									<td>{{consumeItem.consumeDate}}</td>
 									<td class="text-center">{{consumeItem.type}}</td>
 									<td v-if="consumeItem.type=='消费金额'" class="text-center">¥{{consumeItem.amount}}</td>
-									<td v-else-if="consumeItem.type=='查看线索'">1次</td>
+									<td v-else-if="consumeItem.type=='查看线索'" class="text-center">1次</td>
 									<td class="text-center"><span class="text-em">成功</span></td>
 								</tr>
 

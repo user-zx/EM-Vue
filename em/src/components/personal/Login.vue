@@ -3,7 +3,8 @@
 	    <div class="login_div_parent">
 		<div class="login_div">
 			<img src="../../assets/images/login-logo.png"  alt="">
-			<img class="pull-right" src="../../assets/images/login-tel.png" style="margin-top:8px;" alt="">
+			<!-- <img class="pull-right" src="../../assets/images/login-tel.png" style="margin-top:8px;" alt=""> -->
+			<div class="pull-right login_tel" >咨询电话：18611924575</div>
 		</div>
 		</div>
 		<div class="login_input">
@@ -215,10 +216,11 @@
 	.login_div{width:70%;margin:0 auto;
       
 	}
-.login_div_parent{
+    .login_div_parent{
 	border-bottom:1px solid rgba(242,242,242,0.1);
     padding-bottom:15px;
     }
+    .login_tel{font-size:20px;color:#ffffff;line-height:36px;font-weight:200;font-family:"微软雅黑";}
 	.login_input{
 		width: 380px;
 		height: 390px;  
