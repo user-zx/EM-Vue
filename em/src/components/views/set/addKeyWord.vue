@@ -71,12 +71,12 @@
             clearValue:function(){
 
                 let vm = this;
-               console.log(vm.arr.join());
+               //console.log(vm.arr.join());
                 
-                vm.$http.post("../apis/excel/batchDeleteKeyword",vm.arr.join()).then((res)=>{
-                      console.log(res);
+                vm.$http.post("../apis/excel/batchDeleteKeyword?keywordIdList="+vm.arr.join()).then((res)=>{
+                      //console.log(res);
                 },(err)=>{
-                      console.log(err);
+                      //console.log(err);
                 })
                 let  patta = new RegExp(".(xls|xlsx)$", "i");
                
