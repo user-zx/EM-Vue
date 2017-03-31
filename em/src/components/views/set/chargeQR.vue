@@ -48,11 +48,26 @@
 			}
 		},
 		mounted(){ 
-			let vm = this; 
+			let vm = this,timer = null; 
 			 $('#chargeQR').on('shown.bs.modal', function () { 
 			 	 let startTIME = new Date().getTime();
   				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"&outTradeNo="+startTIME+"";
   				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
+  				timer = setInterval(function(){
+  					vm.$http.post("../apis/wxpay/findRechargeInfo",startTIME).then((res)=>{
+  					if(res.ok){
+  						if(res.data.success){
+	  							alert("支付成功");
+	  							clearInterval(timer);
+	  						}
+	  					}
+	  				},(err)=>{
+	  					console.log(err);
+	  				})
+  				},500) 
+ 			});
+ 			$('#chargeQR').on("hidden.bs.modal",function(){
+ 				clearInterval(timer);
  			})   
 		},
 		props:["chargeQR"]

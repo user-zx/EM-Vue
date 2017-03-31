@@ -68,6 +68,9 @@
         methods:{ 
           
             clearValue:function(){
+
+
+
                 let  patta = new RegExp(".(xls|xlsx)$", "i");
                
                 if(patta.test(this.textareaVal)){
@@ -137,58 +140,60 @@
                     vm.textareaVal = "";
                })
             }
+
           },
-          fileUpload(){
-             let vm = this; 
-             $("#fileName").on("change",function(){
-                if($("#fileName")[0].files[0]){
-                   var fileanme = $("#fileName")[0].files[0].name;
-                 $.ajaxFileUpload({   
-                    url: vm.fileUrl,
-                    fileElementId:"fileName",
-                    secureuri: false, 
-                    dataType: 'JSON', 
-                    type:"post",    
-                    data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
-                    success:function(data,status){
-                      //console.log(data);
-                        if(data.data=="批量添加关键词保存失败，请联系管理员解决"){
-                            alert(data.data)
-                            return false;
-                        }    
-                      let json_data = JSON.parse(data);
-                     // console.log(json_data);   
-                      if(json_data.success){
-                        if(json_data.data == "关键词导入成功"){
-                             vm.textareaVal = fileanme;
-                             alert(json_data.data); 
-                        }else{  
-                            alert(json_data.data)
-                            vm.textareaVal = ""; 
-                        }
-                      }else{
-                        vm.textareaVal = "";
-                        alert("添加失败");
-                      }
-                    },
-                    error: function (data, status, e){//服务器响应失败处理函数
-                        alert(e);
-                         vm.textareaVal = "添加失败";
-                          $('#addKeyWord').modal('hide')
-                    }
-                 })     
-              }else{
-                alert("添加失败")
-                return false;    
-              }
-          }) 
-          }
         },
         props:['userNumber'],  
         mounted(){    
                 let vm = this;  
-               vm.fileUpload();
-          
+                $(document).on("change","#fileName",function(){
+                       var that = this;
+                      if($("#fileName")[0].files[0]){
+                         var fileanme = $("#fileName")[0].files[0].name;
+                       $.ajaxFileUpload({   
+                          url: vm.fileUrl,
+                          fileElementId:"fileName",
+                          secureuri: false, 
+                          dataType: 'JSON', 
+                          type:"post",    
+                          data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
+                          success:function(data,status){
+                              if(data.data=="批量添加关键词保存失败，请联系管理员解决"){
+                                  alert(data.data)
+                                  return false;
+                              }    
+                            let json_data = JSON.parse(data);
+                            console.log(json_data);
+                            //let arr =  json_data.data.split(",");
+                           
+
+                            if(json_data.success){
+                              if(json_data.data == "关键词导入成功"){
+                                   vm.textareaVal = fileanme;
+                                   alert(json_data.data); 
+                              }else{  
+                                  alert(json_data.data)
+                                  vm.textareaVal = ""; 
+                              }
+                            }else{
+                              vm.textareaVal = "";
+                              alert("添加失败");
+                            }
+                          },
+                          error: function (data, status, e){//服务器响应失败处理函数
+                              alert(e);
+                               vm.textareaVal = "添加失败";
+                                $('#addKeyWord').modal('hide')
+                          }
+                       })     
+                    }else{
+                      alert("添加失败")
+                      return false;    
+                    }
+                      var file = $("#fileName");
+                      file.after(file.clone().val(""));
+                      file.remove(); 
+                  })
                 
             $("#addKeyWord").on("hidden.bs.modal",function(){
                

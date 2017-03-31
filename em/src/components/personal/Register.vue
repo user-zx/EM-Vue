@@ -232,6 +232,7 @@
 	  			alipayID:"",
 	  			qrsrc:"",
 	  			alipay:"",
+	  			timer_register:"",
 	  		}
 	  	}, 
 	  	methods:{
@@ -294,6 +295,7 @@
             	},(err)=>{
                     console.log("注册失败了");
                 })
+               
                 post(vm.$http,"../apis/interface/getOpenAccountPackage","",(res)=>{
                 	
                 	if(res.ok){
@@ -302,6 +304,18 @@
                 			vm.alipayID = res.data.data.id; 
                 			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"&outTradeNo="+startTIME+""; 
                 			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"";
+                			vm.timer_register = setInterval(function(){
+			  					vm.$http.post("../apis/wxpay/findRechargeInfo",startTIME).then((res)=>{
+			  					if(res.ok){
+			  						if(res.data.success){
+				  							alert("支付成功");
+				  							clearInterval(vm.timer_register);
+				  						}
+				  					}
+				  				},(err)=>{
+				  					console.log(err);
+				  				})
+			  				},500)
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
                 		}
@@ -329,6 +343,7 @@
 	  		},
 	  		submit(){ 
 	  			let vm = this;
+	  			clearInterval(vm.timer_register);
 	  			var patt = new RegExp(".(xls|xlsx)$", "i"); 
 	  			
 	  			if(patt.test(vm.database.keywordList)){
