@@ -63,14 +63,21 @@
                 //uploadWord:"文件上传" 
                 textareaVal:"",
                 fileUrl:"../apis/excel/importKeywordList",
+                arr:[],
             } 
         },  
         methods:{ 
           
             clearValue:function(){
 
-
-
+                let vm = this;
+               console.log(vm.arr.join());
+                
+                vm.$http.post("../apis/excel/batchDeleteKeyword",vm.arr.join()).then((res)=>{
+                      console.log(res);
+                },(err)=>{
+                      console.log(err);
+                })
                 let  patta = new RegExp(".(xls|xlsx)$", "i");
                
                 if(patta.test(this.textareaVal)){
@@ -99,7 +106,7 @@
                param.keywordList = vm.textareaVal;
 
                post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                    console.log(res);
+                    //console.log(res);
                     if(res.ok){
                         if(res.data.success){
                           if(patt.test(param.keywordList)){
@@ -165,14 +172,15 @@
                             let json_data = JSON.parse(data);
                             console.log(json_data);
                             //let arr =  json_data.data.split(",");
-                           
+                           vm.arr = json_data.data.idList;
+                           console.log(vm.arr);
 
                             if(json_data.success){
-                              if(json_data.data == "关键词导入成功"){
+                              if(json_data.data.message == "关键词添加成功"){
                                    vm.textareaVal = fileanme;
-                                   alert(json_data.data); 
+                                   alert("关键词添加成功"); 
                               }else{  
-                                  alert(json_data.data)
+                                  alert(json_data.data.message)
                                   vm.textareaVal = ""; 
                               }
                             }else{
