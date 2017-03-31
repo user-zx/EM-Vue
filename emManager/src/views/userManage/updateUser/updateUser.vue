@@ -308,12 +308,14 @@
                             if (response.success) {
                                 if (response.data.length > 0) {
                                     vm.packageList1.result = response.data;
-                                    if( province==""&&city==""){
-                                         $(".mbx").iCheck("check");
-                                    }else{
-                                         $(".mbx").iCheck("uncheck");
-                                    }
                                     setTimeout(function () {
+                                        if(!province&&!city&&!county){
+                                            $('.mbx').iCheck('check');
+                                            vm.searchCity=true,
+                                                $('#sheng1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                                            $('#shi1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                                            $('#xian1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                                        }
                                         $(".mbx").iCheck({
                                             checkboxClass : 'icheckbox_square-blue',
                                         }).on("ifChecked",function(){
@@ -321,12 +323,14 @@
                                             vm.searchCon.shi1Val="",
                                             vm.searchCon.xian1Val="",
                                             vm.searchCity=true,
-                                            $('.mcity').prop('disabled', true);
-                                            $(".mcity").selectpicker('val','').selectpicker('refresh');
+                                            $('#sheng1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                                            $('#shi1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                                            $('#xian1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
                                         }).on("ifUnchecked",function () {
-                                            vm.searchCity=false,
-                                            $('.mcity').prop('disabled', false);
-                                            $(".mcity").selectpicker('val','').selectpicker('refresh');
+                                            vm.searchCity=false;
+                                            $('#sheng1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                                            $('#shi1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                                            $('#xian1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
                                         });
                                         $("input[name=userStatus]").iCheck({
                                             radioClass : 'iradio_square-blue',
@@ -380,7 +384,12 @@
                 vm.userTrade1.result={};
                 vm.userStates=[];
                 vm.addUser.params.userStatus='';
-                $("input[type=radio]").iCheck('destroy'); 
+                vm.searchCity=false;
+                $('.mbx').iCheck('uncheck');
+                $('#sheng1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                $('#shi1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                $('#xian1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                $("input[type=radio]").iCheck('destroy');
             });
             $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {
                 shiIndex1=clickedIndex-1;

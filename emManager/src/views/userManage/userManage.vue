@@ -47,8 +47,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 close-time">
                         <input type="text" class="form-control" readonly id="regTime" placeholder="注册时间"/>
+                        <span class="close" @click="clearTime()">&times;</span>
                     </div>
                     <div class="col-md-4">
                         <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="userList.params.keyword"/>
@@ -120,6 +121,22 @@
             margin-top: 100px;
             display: none;
        }
+        .close-time{
+            position: relative;
+            .close{
+                display: none;
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                float: none;
+                margin-top: -3px;
+            }
+            &:hover{
+                .close{
+                    display: inline-block;
+                }
+             }
+        }
 </style>
 <script>
     import data from '../../assets/data/data.js';
@@ -183,6 +200,11 @@
         },
         components:{addUser,userInfo,updateUser},
         methods:{
+            clearTime(){
+                $("#regTime").val("");
+                this.userList.params.registerStartDate="";
+                this.userList.params.registerEndDate="";
+            },
             post(urls, params, successFun, errorFun){
                 this.$http.post(urls, params).then((response) => {
                     if (response.ok) {
@@ -229,6 +251,7 @@
                            /* alert("没有数据！");*/
                            $(".noData").show();
                            $(".table").hide();
+                            $("#pagination").empty();
                         }
                     }
                 },function (error) {

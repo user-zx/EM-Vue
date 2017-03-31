@@ -23,8 +23,9 @@
                         <option v-for="item in searchData.matchSource" :value="item">{{item}}</option>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 close-time">
                     <input type="text" class="form-control" readonly id="matchTime" placeholder="匹配时间" />
+                    <span class="close" @click="clearTime()">&times;</span>
                 </div>
                 <div class="col-md-4">
                     <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="matchingRecordList.params.keywords"/>
@@ -79,11 +80,27 @@
         </div>
     </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
    .noData{
             margin-top: 100px;
             display: none;
+   }
+   .close-time{
+       position: relative;
+       .close{
+           display: none;
+           position: absolute;
+           right: 20px;
+           top: 50%;
+           float: none;
+           margin-top: -5px;
        }
+       &:hover{
+           .close{
+               display: inline-block;
+           }
+       }
+   }
 </style>
 <script>
     import data from '../../../assets/data/data.js';
@@ -113,6 +130,11 @@
         },
         components:{},
         methods:{
+            clearTime(){
+                $("#matchTime").val("");
+                this.matchingRecordList.params.matchingStartDate="";
+                this.matchingRecordList.params.matchingEndDate="";
+            },
             post(urls, params, successFun, errorFun){
                 this.$http.post(urls, params).then((response) => {
                     if (response.ok) {

@@ -247,9 +247,11 @@
                     vm.activePer=arr.toString();
                 });
             }).on("hidden.bs.modal",function () {
+                arr=[];
                 vm.newPermissionsArr=[];
+                vm.activePer="";
                 vm.addUser.params={};
-                vm.$router.push({path:"/home/saveOperationUserSuccess"});
+                //vm.$router.push({path:"/home/saveOperationUserSuccess"});
             });
         }
     }

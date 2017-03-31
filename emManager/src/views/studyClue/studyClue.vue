@@ -577,6 +577,7 @@
                 this.pageState=true;
                 this.studyClueListState=false;
                 this.reStudyClue=false;
+                this.getClueList();
             },
             /*重新研判获取信息*/
             getSingleInfoFun(id){
@@ -634,14 +635,30 @@
                 let vm =this;
                 $(window).scrollTop=0;
                 if(vm.confirmSalesLeads.params.length>0) {
-                          if(!$(".article-item .btn-box button").hasClass('active')){
-                                  alert("请研判主贴！～");
-                                  return;
-                          }
-                          if($(".article-content .btn-box").length!=vm.confirmSalesLeads.params.length){
-                              alert("还有数据没研判！～");
-                              return;
-                          }
+                    if(!$(".article-item .btn-box button").hasClass('active')){
+                        alert("请研判主贴！～");
+                        return;
+                    }else{
+                        if($(".reply-article .btn-box").length>0){
+                            console.log($(".reply-article .btn-box").length,"***",vm.confirmSalesLeads.params.length);
+                            if(vm.replyList.params.pageNumber==1){
+                                if($(".reply-article .btn-box").length!=vm.confirmSalesLeads.params.length-1){
+                                    alert("还有数据没研判！～");
+                                    return;
+                                }
+                            }else{
+                                if($(".reply-article .btn-box").length!=vm.confirmSalesLeads.params.length){
+                                    alert("还有数据没研判！～");
+                                    return;
+                                }
+                            }
+
+                        }
+                    }
+//                    if($(".article-content .btn-box").length!=vm.confirmSalesLeads.params.length){
+//                        alert("还有数据没研判！～");
+//                        return;
+//                    }
                 }else{
                     alert("请研判数据！");
                     return;

@@ -235,13 +235,17 @@
                 vm.saveMatching.params=params;
                 vm.post(vm.receiveMatchingTask.url,vm.receiveMatchingTask.params,function (response) {
                     if(response.success){
-                        let result=response.data;
-                        result.publishDate=new Date(response.data.publishDate).Format("yyyy-MM-dd hh:mm:ss");
-                        vm.receiveMatchingTask.result=result;
-                        vm.getMatchingNumber();
-                        setTimeout(()=>{
-                            $('.selectpicker').selectpicker("val","").selectpicker("refresh");
-                        },200);
+                        if(typeof response.data ==="object") {
+                            let result = response.data;
+                            result.publishDate = new Date(response.data.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+                            vm.receiveMatchingTask.result = result;
+                            vm.getMatchingNumber();
+                            setTimeout(()=>{
+                                $('.selectpicker').selectpicker("val", "").selectpicker("refresh");
+                            },200);
+                        }else{
+                            alert(response.data);
+                        }
                     }
                 },function (error) {
                     console.log(error);
@@ -300,21 +304,21 @@
                 vm.saveMatching.params.matchingResult = "匹配成功";
                // console.log(vm.saveMatching.params);  
                 if(vm.searchCon.shengVal!=""&&vm.searchCon.shiVal!=""&&vm.searchCon.xianVal!=""&&vm.saveMatching.params.phone!=""){
-                            vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
-                                                if(response.success){
-                                                    vm.getList();
-                                                }
-                                            },function (error) {
-                                                console.log(error);
-                            });
+                    vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
+                        if(response.success){
+                            vm.getList();
+                        }
+                    },function (error) {
+                        console.log(error);
+                    });
                 }else if (vm.searchCon.shengVal!=""&&vm.searchCon.shiVal!=""&&vm.searchCon.xianVal!=""&&vm.saveMatching.params.email!="") {
-                           vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
-                                                if(response.success){
-                                                    vm.getList();
-                                                }
-                                            },function (error) {
-                                                console.log(error);
-                            });
+                    vm.post(vm.saveMatching.url, vm.saveMatching.params, function (response) {
+                        if (response.success) {
+                            vm.getList();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
                 }
                 
                 $("input[name=sex] ").eq(0).iCheck("check");
@@ -322,18 +326,6 @@
             },
             saveMathcingFalseFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
-            /*if(vm.searchCon.shengVal.length<1){
-                    alert("请选择省份");
-                    return;
-                }
-                if(vm.searchCon.shiVal.length<1){
-                    alert("请选择市");
-                    return;
-                }
-                if(vm.searchCon.xianVal.length<1){
-                    alert("请选择县区");
-                    return;
-                }*/
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
@@ -350,18 +342,6 @@
             },
             reSaveMathcingFalseFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
-                if(vm.searchCon.shengVal.length<1){
-                    alert("请选择省份");
-                    return;
-                }
-                if(vm.searchCon.shiVal.length<1){
-                    alert("请选择市");
-                    return;
-                }
-                if(vm.searchCon.xianVal.length<1){
-                    alert("请选择县区");
-                    return;
-                }
                 vm.saveMatching.params.salesLeadsId = vm.receiveMatchingTask.result.id;
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
@@ -431,9 +411,15 @@
                     otherInfoName:"",
                     otherInfoContent:"",
                     updateUser:""
+                },
+                searchCon={
+                    shengVal:"",
+                    shiVal:"",
+                    xianVal:"",
                 };
                 vm.receiveMatchingTask.result={};
                 vm.saveMatching.params=params;
+                vm.searchCon=searchCon;
                 $(".city").selectpicker("val","").selectpicker("refresh");
                 $('input[type=radio]').iCheck("destory");
                 vm.post(vm.getSalesLeads.url,id,function (response) {
@@ -452,19 +438,23 @@
                             otherInfoContent:result.otherInfoContent,
                             updateUser:result.updateUser
                         };
-                        let addressArr=result.address.split('-');
-                        let index=vm.sheng.indexOf(addressArr[0]);
-                        vm.shi=data.citySearch.GT[index];
-                        let index2=vm.shi.indexOf(addressArr[1]);
-                        vm.xian=data.citySearch.GC[index][index2];
-                        setTimeout(()=>{
-                            $("#sheng").selectpicker("refresh").selectpicker("val",addressArr[0]);
-                            $("#shi").selectpicker("refresh").selectpicker("val",addressArr[1]);
-                            $("#xian").selectpicker("refresh").selectpicker("val",addressArr[2]);
-                            vm.searchCon.shengVal=addressArr[0];
-                            vm.searchCon.shiVal=addressArr[1];
-                            vm.searchCon.xianVal=addressArr[2];
-                        },300);
+                        if(result.address!="--"){
+                            let addressArr=result.address.split('-');
+                            let index=vm.sheng.indexOf(addressArr[0]);
+                            vm.shi=data.citySearch.GT[index];
+                            let index2=vm.shi.indexOf(addressArr[1]);
+                            vm.xian=data.citySearch.GC[index][index2];
+                            setTimeout(()=>{
+                                $("#sheng").selectpicker("refresh").selectpicker("val",addressArr[0]);
+                                $("#shi").selectpicker("refresh").selectpicker("val",addressArr[1]);
+                                $("#xian").selectpicker("refresh").selectpicker("val",addressArr[2]);
+                                vm.searchCon.shengVal=addressArr[0];
+                                vm.searchCon.shiVal=addressArr[1];
+                                vm.searchCon.xianVal=addressArr[2];
+                            },300);
+                        }else{
+                            vm.searchCon=searchCon;
+                        }
                         result.publishDate=new Date(response.data.publishDate).Format("yyyy-MM-dd hh:mm:ss");
                         vm.receiveMatchingTask.result=result;
                         vm.saveMatching.params=reSaveResult;

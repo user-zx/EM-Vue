@@ -237,8 +237,12 @@
                 vm.addUser.params.city=vm.searchCon.shi1Val;
                 vm.addUser.params.county=vm.searchCon.xian1Val;
                 vm.addUser.params.registerDate=new Date();
-                if(vm.addUser.params.name.length>17){
-                     alert("姓名不能长于16个字符");
+                if(!vm.addUser.params.name){
+                    alert("请输入姓名");
+                    return;
+                }
+                if(vm.addUser.params.name.length<2&&vm.addUser.params.name.length>5){
+                     alert("姓名长度为2-5个字符");
                      return
                 }
                 if(vm.addUser.params.phone.length>0){
@@ -251,6 +255,9 @@
                         alert("请输入正确的手机号！");
                         return;
                     }
+                }else{
+                    alert("请输入手机号！");
+                    return;
                 }
                 if(vm.addUser.params.company.length>25){
                      alert("公司名称不能长于25个字符");
@@ -338,12 +345,14 @@
                 vm.searchCon.shi1Val="",
                 vm.searchCon.xian1Val="",
                 vm.searchCity=true,
-                $('.mcity').prop('disabled', true);
-                $(".mcity").selectpicker('val','').selectpicker('refresh');
+                $('#sheng1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                $('#shi1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                $('#xian1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
             }).on("ifUnchecked",function () {
                 vm.searchCity=false;
-                $('.mcity').prop('disabled', false);
-                $(".mcity").selectpicker('val','').selectpicker('refresh');
+                $('#sheng1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                $('#shi1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                $('#xian1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
             });
             let vm = this,shiIndex1,xianIndex1;
             $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {
@@ -415,6 +424,11 @@
                 vm.radio_packageId="",
                 vm.radio_userStatus="试用",
                 $("input[type=radio]").iCheck("destroy");
+                vm.searchCity=false;
+                $('.mbx').iCheck('uncheck');
+                $('#sheng1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                $('#shi1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
+                $('#xian1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
             });
         }
     }
