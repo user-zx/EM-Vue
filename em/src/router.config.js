@@ -9,7 +9,7 @@ import autoMatching from "./components/views/autoMatching.vue"
 import viewLog from "./components/views/viewLog.vue"
 import recycle from "./components/views/recycle.vue"
 import set from "./components/views/set.vue"
-import userInstructions from './components/personal/userInstructions.vue';
+import userInstructions from './components/personal/userInstructions.vue'
 export default {
     mode:"history",
     base:__dirname, 
@@ -26,6 +26,6 @@ export default {
         { path: '/personal/forgetPassword', component: forgetPassword },
         { path: '/personal/userInstructions', component: userInstructions },
         { path: '/personal/register', component: register },
-        { path: '*', component: notPage}, 
+        { path: '*', component: notPage},
     ],
 }
