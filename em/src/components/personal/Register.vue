@@ -295,8 +295,7 @@
                     console.log("注册失败了");
                 })
                 post(vm.$http,"../apis/interface/getOpenAccountPackage","",(res)=>{
-
-                
+                	
                 	if(res.ok){
                 		if(res.data.success){  
                 			 let startTIME = new Date().getTime();

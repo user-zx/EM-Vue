@@ -1,5 +1,5 @@
 <template>
-	<div class="set publicClass">
+	<div class="set publicClass">	
 		<ul id="myTab" class="nav nav-tabs">
 			<li class="active">
 				<a href="javascript:void(0);" data-toggle="tab" data-target="#personalInfo">个人信息</a>
@@ -72,7 +72,9 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							套餐信息
-							<a href="javascript:void(0);" class="btn btn-search-o" @click="currTab2()">立即充值</a>
+							<a v-if="personalInfoObj.user.userStatus=='冻结'" href="#pay"  class="btn btn-search-o" data-toggle="modal" data-target="#pay">立即开户</a>
+							<a v-else-if="personalInfoObj.user.userStatus!='冻结'" href="javascript:void(0);" class="btn btn-search-o" @click="currTab2()">立即充值</a>
+								
 						</h4>
 					</div>
 					<div class="panel-body">
@@ -110,7 +112,7 @@
 				</div>
 			</div>
 			<div id="combo" class="tab-pane fade">
-				<div class="panel panel-em">
+				<div class="panel panel-em" >
 					<div class="panel-body">
 						<div class="row">
 							<div v-if="packageListArr=='暂无数据'" class="col-md-3 panel-body-div">
@@ -132,7 +134,7 @@
 				</div>
 			</div>
 			<div id="keyWordSet" class="tab-pane fade">
-				<div class="panel panel-em">
+				<div class="panel panel-em" :class="{'noData':keynotResult}">
 					<div class="panel-body" >
 						<div class="search-box clearfix">
 							<button class="btn btn-search-o addKeyWord" type="button"  data-toggle="modal" data-target="#addKeyWord" >添加关键词</button> <span v-if="personalInfoObj.user.userStatus=='冻结'" class="text-warning">您的账户已被冻结</span> 
@@ -185,7 +187,7 @@
 				</div>
 			</div>
 			<div id="expenseCalendar" class="tab-pane fade">
-				<div class="panel panel-em">
+				<div class="panel panel-em" :class="{'noData':notResult}">
 					<div class="panel-body">
 					<div class="notResult" v-if="notResult">
 							<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
@@ -229,9 +231,12 @@
 		<add-key-word :userNumber="keyWordSearchCon.userAccount" @updateList="updateClue" @gofirst="jumpFirstPage"></add-key-word> 
 		<re-password></re-password>
 		<charge-q-r :chargeQR="chargeQRId"></charge-q-r>
+		<pay></pay>
 	</div> 
 </template> 
 <style scoped>
+     #keyWordSet .noData{background-color:#f2f2f2;}
+     #expenseCalendar .noData{background-color:#f2f2f2;}
 	.nav-tabs{padding-left:20px;padding-right:20px;margin-bottom:15px;box-shadow:1px 1px 1px #e8e8e8;background-color: #ffffff;}
 	.nav-tabs>li{padding-left:15px;padding-right:15px;}
 	.nav-tabs>li>a{border-left:0;border-right:0;border-top:0;padding-top:15px;padding-bottom:15px;font-size:16px;color:#333333;border-bottom:2px solid transparent;}
@@ -280,6 +285,7 @@
 	import rePassword from './set/repassword.vue';
 	import addKeyWord from './set/addKeyWord.vue';
 	import chargeQR from "./set/chargeQR.vue";
+	import pay from "./set/pay.vue";
 
 	export default {
 		data(){
@@ -317,7 +323,7 @@
 				chargeQRId:{},
 			}
 		},
-        components:{rePassword,addKeyWord,chargeQR},
+        components:{rePassword,addKeyWord,chargeQR,pay},
         mounted(){
 			let vm =this;
 			/*个人信息*/        
