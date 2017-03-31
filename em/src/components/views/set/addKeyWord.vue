@@ -140,9 +140,7 @@
           },
           fileUpload(){
              let vm = this; 
-
              $("#fileName").on("change",function(){
-                
                 if($("#fileName")[0].files[0]){
                    var fileanme = $("#fileName")[0].files[0].name;
                  $.ajaxFileUpload({   
@@ -153,20 +151,20 @@
                     type:"post",    
                     data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
                     success:function(data,status){
-                      console.log(data);
-                        if(data=="批量添加关键词保存失败，请联系管理员解决"){
-                            alert(data)
+                      //console.log(data);
+                        if(data.data=="批量添加关键词保存失败，请联系管理员解决"){
+                            alert(data.data)
                             return false;
-                        }     
+                        }    
                       let json_data = JSON.parse(data);
-                      console.log(json_data);  
+                     // console.log(json_data);   
                       if(json_data.success){
-                        if(json_data.data == "导入的关键词已经存在"){
-                             vm.textareaVal = ""; 
-                            alert(json_data.data)
-                        }else{  
+                        if(json_data.data == "关键词导入成功"){
                              vm.textareaVal = fileanme;
-                             alert(json_data.data);
+                             alert(json_data.data); 
+                        }else{  
+                            alert(json_data.data)
+                            vm.textareaVal = ""; 
                         }
                       }else{
                         vm.textareaVal = "";

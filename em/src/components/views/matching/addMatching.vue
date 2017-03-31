@@ -34,13 +34,13 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">主页链接：</label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" v-model="data.link" placeholder="请您输入目标主页链接" />
+                                <input class="form-control" type="text" v-model="data.homeLink" placeholder="请您输入目标主页链接" />
                             </div>  
                         </div>  
                         <div class="form-group">
                             <label class="col-md-4 control-label">原文地址：</label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="text" v-model="data.homeLink" placeholder="请您输入原文地址" />
+                            <div class="col-md-5"> 
+                                <input class="form-control" type="text" v-model="data.link" placeholder="请您输入原文地址" />
                             </div>
                         </div>
                         <div class="form-group" v-if="errorMsg.length>0">

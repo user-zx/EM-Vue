@@ -544,7 +544,7 @@
 	  		$("#fileName").on("change",function(){
 	  			   if($("#fileName")[0].files[0]){
 	  			   	 let fileanme = $("#fileName")[0].files[0].name;
-	  			   	 console.log(fileanme);
+	  			   	 //console.log(fileanme);
 	  			 $.ajaxFileUpload({ 
 		  		 	url: _that.fileUrl,
 		  		 	fileElementId:"fileName",
@@ -560,12 +560,12 @@
 		  		 		 let json_data = JSON.parse(data);
 		  		 	
                       if(json_data.success){  
-                        if(json_data.data == "添加的关键词已经存在"){
-                             _that.database.keywordList = "";
-                            alert(json_data.data)
-                        }else{
-                             _that.database.keywordList = fileanme;
+                        if(json_data.data == "关键词导入成功"){
+                              _that.database.keywordList = fileanme;
                              alert(json_data.data)
+                        }else{
+                            _that.database.keywordList = "";
+                            alert(json_data.data)
                         }
                       }else{
                         _that.database.keywordList = "";
