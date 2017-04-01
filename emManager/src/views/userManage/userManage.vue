@@ -308,14 +308,14 @@
                 shiIndex=clickedIndex-1;
                 vm.shi=vm.searchData.citySearch.GT[shiIndex];
             }).on("hide.bs.select",function () {
-                $("#shi").selectpicker("refresh").selectpicker('val', '');
-                $("#xian").selectpicker("refresh").selectpicker('val', '');
+                $("#shi").selectpicker('val', '').selectpicker("refresh");
+                $("#xian").selectpicker('val', '').selectpicker("refresh");
             });
             $("#shi").on("changed.bs.select",function (e,clickedIndex) {
                 xianIndex=clickedIndex-1;
                 vm.xian=vm.searchData.citySearch.GC[shiIndex][xianIndex];
             }).on("hide.bs.select",function () {
-                $("#xian").selectpicker("refresh").selectpicker('val', '');
+                $("#xian").selectpicker('val', '').selectpicker("refresh");
             });
             $("#regTime").daterangepicker({
                 autoUpdateInput:false,

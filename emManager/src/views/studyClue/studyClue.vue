@@ -152,7 +152,7 @@
         </div>
         <div class="col-md-12" v-if="reStudyClue">
             <div class="search-box text-right">
-                <a href="javascript:void(0);" class="text-dark" @click="paginator2()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
+                <a href="javascript:void(0);" class="text-dark" @click="paginator3()"><i class="glyphicon glyphicon-list"></i> 查看研判记录</a>
             </div>
             <div class="article-box">
                 <div class="article-content">
@@ -564,6 +564,51 @@
                     console.log(error);
                 });
             },
+            paginator3(){
+                let vm=this;
+                let params={
+                    pageNumber:1,
+                    pageSize:10,
+                    judgeStartDate:"",
+                    judgeEndDate:"",
+                    judgeResult:"",
+                    source:"",
+                    keyword:""
+                };
+                vm.pageState=false;
+                vm.studyClueListState=true;
+                vm.reStudyClue=false;
+                vm.getStudiedList.params=params;
+                vm.post(vm.getStudiedList.url,vm.getStudiedList.params,function (response) {
+                    if(response.success){
+                        $(".noData").hide();
+                        $(".table").show();
+                        if(response.data.content.length>0&&response.data) {
+                            vm.getStudiedList.result = response.data;
+                            $("#pagination1").jqPaginator({
+                                totalPages: vm.getStudiedList.result.totalPages,
+                                visiblePages: vm.getStudiedList.params.pageSize,
+                                currentPage: vm.getStudiedList.params.pageNumber,
+                                first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+                                prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+                                next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+                                last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+                                page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+                                onPageChange: function (n) {
+                                    vm.getStudiedList.params.pageNumber = n;
+                                    vm.getStudyClueList();
+                                }
+                            });
+                        }else{
+                            /* alert("没有数据！");*/
+                            $(".noData").show();
+                            $(".table").hide();
+                        }
+                    }
+                },function (error) {
+                    console.log(error);
+                });
+            },
             searchStudyClueList(){
                 let vm=this;
                 vm.getStudiedList.params.pageNumber=1;
@@ -598,7 +643,7 @@
                 vm.reSetStudyClue.params.judgeResult="确认线索";
                 vm.post(vm.reSetStudyClue.url,vm.reSetStudyClue.params,(response)=>{
                     if(response.success){
-                        vm.paginator2();
+                        vm.paginator3();
                     }
                 },(error)=>{
                     console.log(error);
@@ -609,7 +654,7 @@
                 vm.reSetStudyClue.params.judgeResult="非线索";
                 vm.post(vm.reSetStudyClue.url,vm.reSetStudyClue.params,(response)=>{
                     if(response.success){
-                        vm.paginator2();
+                        vm.paginator3();
                     }
                 },(error)=>{
                     console.log(error);

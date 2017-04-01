@@ -92,21 +92,21 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">关键词配置：</label>
-                            <div class="col-md-6">
-                                <textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="addUser.params.keywordList"></textarea>
-                            </div>
-                            <div class="col-md-offset-3 col-md-6">
-                                <div class="upload-box">
-                                    <a href="javascript:void(0);" id="a-upload">
-                                      <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
-                                        <input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">批量添加
-                                    </a>
-                                    <a href="../apis/excel/downloadKeywordImportTemplate"><img src="./images/set_icon1.png" />下载文件模版</a>
-                                </div>
-                            </div>
-                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-md-3 control-label">关键词配置：</label>-->
+                            <!--<div class="col-md-6">-->
+                                <!--<textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="addUser.params.keywordList"></textarea>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-offset-3 col-md-6">-->
+                                <!--<div class="upload-box">-->
+                                    <!--<a href="javascript:void(0);" id="a-upload">-->
+                                      <!--<span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> -->
+                                        <!--<input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">批量添加-->
+                                    <!--</a>-->
+                                    <!--<a href="../apis/excel/downloadKeywordImportTemplate"><img src="./images/set_icon1.png" />下载文件模版</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -174,7 +174,7 @@
     #a-upload{
         position: relative;
         overflow: hidden;
-        cursor: pointer;  
+        cursor: pointer;
     }
 </style>
 <script>
@@ -266,7 +266,7 @@
                 if(vm.addUser.params.trade==""){
                      alert("所属行业不能为空");
                      return
-                } 
+                }
                 if(vm.addUser.params.userStatus=='试用'&&vm.addUser.params.packageId!=""){
                     alert("试用用户，只能选择未办理套餐");
                     return
@@ -280,12 +280,11 @@
                     return
                 }
                 if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==false){
-                        alert("省市县与不限地区选填一项！");
-                        return
+                    alert("省市县与不限地区选填一项！");
+                    return
                 }
                 if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==true){
-                vm.addUser.params.province=vm.addUser.params.city=vm.addUser.params.county="不限";
-                   
+                    vm.addUser.params.province=vm.addUser.params.city=vm.addUser.params.county="不限";
                     vm.post(vm.addUser.url,vm.addUser.params,function(response){
                         if(response.success){
                             $("#addUser").modal("hide");
@@ -322,8 +321,8 @@
                         fileElementId:"fileName",
                         secureuri: false,
                         dataType: 'JSON',
-                        type:"post",   
-                        data: {keywordOwner:vm_this.addUser.params.phone,keywordList:fileName},   
+                        type:"post",
+                        data: {keywordOwner:vm_this.addUser.params.phone,keywordList:fileName},
                         success:function(data,status){
                             let dataObj = JSON.parse(data)
                             if(dataObj.success){
@@ -333,7 +332,7 @@
                                 alert("添加失败")
                                 vm_this.addUser.params.keywordList = "";
                             }
-                            
+
                         },
                      })
                }
@@ -417,12 +416,10 @@
                 vm.addUser.params=params;
                 let searchCon={
                     sheng1Val:"",
-                        shi1Val:"",
-                        xian1Val:"",
+                    shi1Val:"",
+                    xian1Val:"",
                 };
                 vm.searchCon=searchCon;
-                vm.radio_packageId="",
-                vm.radio_userStatus="试用",
                 $("input[type=radio]").iCheck("destroy");
                 vm.searchCity=false;
                 $('.mbx').iCheck('uncheck');

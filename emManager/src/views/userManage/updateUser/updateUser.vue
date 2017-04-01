@@ -77,32 +77,30 @@
                             <label class="col-md-3 control-label">套餐状态：</label>
                             <div class="col-md-9">
                                 <label>
-                                    <input type="radio" value="" name="packageId" v-if="addUser.params.packageId=='' || addUser.params.packageId==null || addUser.params.packageId==undefined" checked/>
-                                    <input type="radio" value="" name="packageId" v-else-if="addUser.params.packageId!='' || addUser.params.packageId!=null || addUser.params.packageId!=undefined" />
+                                    <input type="radio" value="" name="packageId" class="notPackageId"/>
                                     未办理套餐
                                 </label>
                                 <label v-for="item in packageList1.result">
-                                    <input type="radio" v-bind:value="item.id" v-if="item.id==addUser.params.packageId" checked name="packageId"/>
-                                    <input type="radio" v-bind:value="item.id" v-else name="packageId"/>
+                                    <input type="radio" v-bind:value="item.id" v-model="addUser.params.packageId" name="packageId"/>
                                     {{item.name}}
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">关键词配置：</label>
-                            <div class="col-md-6">
-                                <textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="addUser.params.keywordList"></textarea>
-                            </div>
-                            <div class="col-md-offset-3 col-md-6">
-                                <div class="upload-box">
-                                    <a href="javascript:void(0);" id="a-upload">
-                                        <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span>
-                                        <input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">批量添加
-                                    </a>
-                                    <a href="../apis/excel/downloadKeywordImportTemplate"><img src="../addUser/images/set_icon1.png" />下载文件模版</a>
-                                </div>
-                            </div>
-                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-md-3 control-label">关键词配置：</label>-->
+                            <!--<div class="col-md-6">-->
+                                <!--<textarea class="form-control" placeholder="请输入您需要添加的关键词，批量添加关键词请使用中文逗号隔开" v-model="addUser.params.keywordList"></textarea>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-offset-3 col-md-6">-->
+                                <!--<div class="upload-box">-->
+                                    <!--<a href="javascript:void(0);" id="a-upload">-->
+                                        <!--<span class="glyphicon glyphicon-folder-open panel-body-span-button"></span>-->
+                                        <!--<input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">批量添加-->
+                                    <!--</a>-->
+                                    <!--<a href="../apis/excel/downloadKeywordImportTemplate"><img src="../addUser/images/set_icon1.png" />下载文件模版</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -178,14 +176,15 @@
     export default{
         data(){
             return{
-                "msg":"添加用户",
                 searchCity:false,
                 getUser:{
                     url:"../apis/user/findUserById",
                 },
                 addUser:{
                     url:"../apis/user/saveUser",
-                    params:{}
+                    params:{
+                        packageId:"",
+                    }
                 },
                 packageList1:{
                     url:"../apis/package/findOnShelvesList",
@@ -222,8 +221,8 @@
                 vm.addUser.params.province=vm.searchCon.sheng1Val;
                 vm.addUser.params.city=vm.searchCon.shi1Val;
                 vm.addUser.params.county=vm.searchCon.xian1Val;
-                if(vm.addUser.params.packageId==null||vm.addUser.params.packageId==undefined){
-                         vm.addUser.params.packageId="";
+                if(vm.addUser.params.packageId==null||vm.addUser.params.packageId==undefined||vm.addUser.params.packageId==""){
+                     vm.addUser.params.packageId="";
                 }
                 if(vm.addUser.params.userStatus=='试用'&&vm.addUser.params.packageId!=''){
                     alert("试用用户，只能选择未办理套餐");
@@ -238,30 +237,31 @@
                     return
                 }
                 if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==false){
-                        alert("省市县与不限地区选填一项！");
-                        return
+                    alert("省市县与不限地区选填一项！");
+                    return
                 }
-                if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==true){
+                if(!vm.addUser.params.province&&!vm.addUser.params.city&&!vm.addUser.params.county&&vm.searchCity==true){
+                    vm.addUser.params.province=vm.addUser.params.city=vm.addUser.params.county="不限";
                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
-                                       if(response.success){
-                                           $("#updateUser").modal("hide");
-                                           vm.$router.push({path:"/home/success"});
-                                       }else{
-                                           alert(response.message);
-                                       }
-                                   },function (error) {
-                                       console.log(error)
+                           if(response.success){
+                               $("#updateUser").modal("hide");
+                               vm.$router.push({path:"/home/success"});
+                           }else{
+                               alert(response.message);
+                           }
+                       },function (error) {
+                           console.log(error)
                     });
                 }else if(vm.addUser.params.province!=""&&vm.addUser.params.city!=""&&vm.addUser.params.county!=""&&vm.searchCity==false){
                     vm.post(vm.addUser.url,vm.addUser.params,function(response){
-                                        if(response.success){
-                                            $("#updateUser").modal("hide");
-                                            vm.$router.push({path:"/home/success"});
-                                        }else{
-                                            alert(response.message);
-                                        }
-                                    },function (error) {
-                                        console.log(error)
+                            if(response.success){
+                                $("#updateUser").modal("hide");
+                                vm.$router.push({path:"/home/success"});
+                            }else{
+                                alert(response.message);
+                            }
+                        },function (error) {
+                            console.log(error)
                      });
                 }
             }
@@ -296,7 +296,6 @@
                 vm.addUser.params={};
                 vm.addUser.params.userStatus='';
                 vm.userStates=vm.searchData.userStates;
-                $("input[type=radio]").iCheck('destroy');
                 vm.post(vm.getUser.url,vm.$store.state.userManager.userId, function (response) {
                     if (response.success) {
                         vm.addUser.params = response.data;
@@ -309,10 +308,10 @@
                                 if (response.data.length > 0) {
                                     vm.packageList1.result = response.data;
                                     setTimeout(function () {
-                                        if(!province&&!city&&!county){
+                                        if((!province&&!city&&!county)||(province=='不限'&&city=='不限'&&county=='不限')){
                                             $('.mbx').iCheck('check');
                                             vm.searchCity=true,
-                                                $('#sheng1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
+                                            $('#sheng1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
                                             $('#shi1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
                                             $('#xian1').prop('disabled', true).selectpicker('val','').selectpicker('refresh');
                                         }
@@ -353,11 +352,14 @@
                     console.log(error);
                 });
             }).on("shown.bs.modal",function () {
-                if(vm.addUser.params.province){
+                if(vm.addUser.params.province&&vm.addUser.params.city&&vm.addUser.params.county&&vm.addUser.params.province!='不限'&&vm.addUser.params.city!='不限'&&vm.addUser.params.county!='不限'){
                     shiIndex1=vm.searchData.citySearch.GP.indexOf(province);
                     vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
                     xianIndex1=vm.searchData.citySearch.GT[shiIndex1].indexOf(city);
                     vm.xian1=vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
+                }
+                if(vm.addUser.params.packageId==null||vm.addUser.params.packageId==undefined||vm.addUser.params.packageId==""){
+                    $(".notPackageId").iCheck("check");
                 }
                 vm.post(vm.userTrade1.url, "", function (response) {
                     if (response.success) {
@@ -379,7 +381,27 @@
                     console.log(error);
                 });
             }).on("hidden.bs.modal",function () {
-                vm.addUser.params={};
+                let params={
+                    id:"",
+                    phone:"",
+                    name:"",
+                    province:"",
+                    city:"",
+                    county:"",
+                    trade:"",
+                    company:"",
+                    userStatus:"试用",
+                    packageId:"",
+                    registerDate:"",
+                    keywordList:""
+                };
+                vm.addUser.params=params;
+                let searchCon={
+                    sheng1Val:"",
+                    shi1Val:"",
+                    xian1Val:"",
+                };
+                vm.searchCon=searchCon;
                 vm.packageList1.result={};
                 vm.userTrade1.result={};
                 vm.userStates=[];
@@ -389,21 +411,23 @@
                 $('#sheng1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
                 $('#shi1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
                 $('#xian1').prop('disabled', false).selectpicker('val','').selectpicker('refresh');
-                $("input[type=radio]").iCheck('destroy');
+                $("input[type=radio]").iCheck('uncheck');
             });
-            $("#sheng1").on("changed.bs.select",function (e,clickedIndex) {
-                shiIndex1=clickedIndex-1;
-                vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
-            }).on("hide.bs.select",function () {
-                $("#shi1").selectpicker("refresh").selectpicker('val', '');
-                $("#xian1").selectpicker("refresh").selectpicker('val', '');
-            });
-            $("#shi1").on("changed.bs.select",function (e,clickedIndex) {
-                xianIndex1=clickedIndex-1;
-                vm.xian1=vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
-            }).on("hide.bs.select",function () {
-                $("#xian1").selectpicker("refresh").selectpicker('val', '');
-            });
+            if(vm.addUser.params.province&&vm.addUser.params.city&&vm.addUser.params.county&&vm.addUser.params.province!='不限'&&vm.addUser.params.city!='不限'&&vm.addUser.params.county!='不限') {
+                $("#sheng1").on("changed.bs.select", function (e, clickedIndex) {
+                    shiIndex1 = clickedIndex - 1;
+                    vm.shi1 = vm.searchData.citySearch.GT[shiIndex1];
+                }).on("hide.bs.select", function () {
+                    $("#shi1").selectpicker("refresh").selectpicker('val', '');
+                    $("#xian1").selectpicker("refresh").selectpicker('val', '');
+                });
+                $("#shi1").on("changed.bs.select", function (e, clickedIndex) {
+                    xianIndex1 = clickedIndex - 1;
+                    vm.xian1 = vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
+                }).on("hide.bs.select", function () {
+                    $("#xian1").selectpicker("refresh").selectpicker('val', '');
+                });
+            }
         }
     }
 </script>

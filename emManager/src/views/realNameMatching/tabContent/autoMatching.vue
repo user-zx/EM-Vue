@@ -234,6 +234,7 @@
                 vm.receiveMatchingTask.result={};
                 vm.saveMatching.params=params;
                 vm.searchCon=searchCon;
+                $('.city').selectpicker("val","").selectpicker("refresh");
                 vm.post(vm.receiveMatchingTask.url,vm.receiveMatchingTask.params,function (response) {
                     if(response.success){
                         if(typeof response.data ==="object"){
@@ -265,20 +266,21 @@
             },
             saveMathcingFun(){
                 let vm =this,address = vm.searchCon.shengVal+"-"+vm.searchCon.shiVal+"-"+vm.searchCon.xianVal;
-                if(vm.searchCon.shengVal.length<1){
+                if(vm.searchCon.shengVal==undefined||vm.searchCon.shengVal==null||vm.searchCon.shengVal==""||vm.searchCon.shengVal.length<1){
                     alert("请选择省份");
                     return;
                 }
-                if(vm.searchCon.shiVal.length<1){
+                if(vm.searchCon.shiVal==undefined||vm.searchCon.shiVal==null||vm.searchCon.shiVal==""||vm.searchCon.shiVal.length<1){
                     alert("请选择市");
                     return;
                 }
-                if(vm.searchCon.xianVal.length<1){
+                if(vm.searchCon.xianVal==undefined||vm.searchCon.xianVal==null||vm.searchCon.xianVal==""||vm.searchCon.xianVal.length<1){
                     alert("请选择县区");
                     return;
                 }
-                 if(vm.saveMatching.params.phone.length<1&&vm.saveMatching.params.email.length<1){
-                        alert("请选填手机号或者邮箱！")
+                if((vm.saveMatching.params.phone==undefined||vm.saveMatching.params.phone==null||vm.saveMatching.params.phone==""||vm.saveMatching.params.phone.length<1)&&(vm.saveMatching.params.email==undefined||vm.saveMatching.params.email==null||vm.saveMatching.params.email==""||vm.saveMatching.params.email.length<1)){
+                    alert("请选填手机号或者邮箱！");
+                    return
                 }
                 if(vm.saveMatching.params.phone.length>0){
                     if(vm.saveMatching.params.phone.length>11){
@@ -302,23 +304,13 @@
                 vm.saveMatching.params.address = address;
                 vm.saveMatching.params.updateUser = sessionStorage.getItem("userAccount");
                 vm.saveMatching.params.matchingResult = "匹配成功";
-                 if(vm.searchCon.shengVal!=""&&vm.searchCon.shiVal!=""&&vm.searchCon.xianVal!=""&&vm.saveMatching.params.phone!=""){
-                    vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
-                        if(response.success){
-                            vm.getList();
-                        }
-                    },function (error) {
-                        console.log(error);
-                    });
-                }else if (vm.searchCon.shengVal!=""&&vm.searchCon.shiVal!=""&&vm.searchCon.xianVal!=""&&vm.saveMatching.params.email!="") {
-                   vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
-                       if(response.success){
-                           vm.getList();
-                       }
-                   },function (error) {
-                       console.log(error);
-                   });
-                }
+                vm.post(vm.saveMatching.url,vm.saveMatching.params,function (response) {
+                    if(response.success){
+                        vm.getList();
+                    }
+                },function (error) {
+                    console.log(error);
+                });
                 $("input[name=sex] ").eq(0).iCheck("check");
                 $("input[name=sex] ").eq(1).iCheck("uncheck");
             },
@@ -362,7 +354,7 @@
                     alert("请选择市");
                     return;
                 }
-                if(vm.searchCon.xianVa==undefined||vm.searchCon.xianVal==null||vm.searchCon.xianVal==""||vm.searchCon.xianVal.length<1){
+                if(vm.searchCon.xianVal==undefined||vm.searchCon.xianVal==null||vm.searchCon.xianVal==""||vm.searchCon.xianVal.length<1){
                     alert("请选择县区");
                     return;
                 }
