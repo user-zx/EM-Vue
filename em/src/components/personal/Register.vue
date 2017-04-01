@@ -210,8 +210,8 @@
 	  export default{ 
 	  	data(){ 
 	  		return{
-	  			register_login:true,
-	  			register_message: false,
+	  			register_login:false,
+	  			register_message:  true,
 	  			register_pay: false,
 	  			checked:false,     
 	  			pwText:"",
@@ -307,11 +307,11 @@
 				  							alert("支付成功");
 				  							clearInterval(vm.timer_register);
 				  						}
-				  					}
+				  					} 
 				  				},(err)=>{
 				  					console.log(err);
 				  				})
-			  				},500)
+			  				},500)    
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
                 		}
@@ -345,6 +345,7 @@
 	  			if(patt.test(vm.database.keywordList)){
 	  				vm.database.keywordList = "";
 	  			}
+
 	  			vm.$router.push({path:"/"});
 	  			
             },
@@ -369,6 +370,7 @@
 
 	  			if(valuePhone.length==11){    
  	  				post(vm.$http,"../apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
+ 	  					console.log(res);
 						if(res.ok){ 
 							if(res.data.success){
 								$("#getYzm").attr({
