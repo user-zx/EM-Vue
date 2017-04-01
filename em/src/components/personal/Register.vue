@@ -210,8 +210,8 @@
 	  export default{ 
 	  	data(){ 
 	  		return{
-	  			register_login: false,
-	  			register_message:  true,
+	  			register_login:true,
+	  			register_message: false,
 	  			register_pay: false,
 	  			checked:false,     
 	  			pwText:"",
