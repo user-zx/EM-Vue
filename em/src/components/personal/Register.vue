@@ -105,7 +105,7 @@
 						    <div class="col-sm-9">
 			      			   <textarea class="form-control" style="height: 178px;resize:none;" placeholder="您所关注的一些关键词, 多个关键词以中文逗号隔开。" id="uploadFile" v-model="database.keywordList"></textarea>  
 			      			   
-			      			    <a  class="a-upload btn col-sm-6 panel-body-btn"> 
+			      			    <a  class="a-upload btn col-sm-6 panel-body-btn" id="upload-box-a"> 
 			      			    	 <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
 			      			    	 <input type="file" name="fileName"  id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
 			      			    </a>                                 
@@ -212,9 +212,9 @@
 	  		return{
 	  			register_login: true,
 	  			register_message: false,
-	  			register_pay: false,
+	  			register_pay: false, 
 	  			checked:false,     
-	  			pwText:"",
+	  			pwText:"", 
 	  			verification:"",  
 	  			cellPhone:"",
 	  			testCode:"",
@@ -261,13 +261,10 @@
 	  		message(){
 	  			
 	  			let vm = this;
-	  			//console.log(vm.checked);
                 let patt = new RegExp(".(xls|xlsx)$", "i");
-
                 if(patt.test(vm.database.keywordList)){
                     vm.database.keywordList = "";
                 }
-
               if(vm.database.trade==""||vm.database.name==""||vm.database.company==""){
               	alert("姓名、公司、所在行业不能为空");
 
@@ -297,7 +294,6 @@
                 })
                
                 post(vm.$http,"../apis/interface/getOpenAccountPackage","",(res)=>{
-                	
                 	if(res.ok){
                 		if(res.data.success){  
                 			 let startTIME = new Date().getTime();
@@ -311,11 +307,11 @@
 				  							alert("支付成功");
 				  							clearInterval(vm.timer_register);
 				  						}
-				  					}
+				  					} 
 				  				},(err)=>{
 				  					console.log(err);
 				  				})
-			  				},500)
+			  				},500)    
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
                 		}
@@ -349,6 +345,7 @@
 	  			if(patt.test(vm.database.keywordList)){
 	  				vm.database.keywordList = "";
 	  			}
+
 	  			vm.$router.push({path:"/"});
 	  			
             },
@@ -373,6 +370,7 @@
 
 	  			if(valuePhone.length==11){    
  	  				post(vm.$http,"../apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
+ 	  					console.log(res);
 						if(res.ok){ 
 							if(res.data.success){
 								$("#getYzm").attr({
@@ -555,45 +553,41 @@
 	  			$(this).css("backgroundColor","white")
 	  		})
 
-	  		$("#fileName").on("change",function(){
-	  			   if($("#fileName")[0].files[0]){
-	  			   	 let fileanme = $("#fileName")[0].files[0].name;
-	  			   	 //console.log(fileanme);
+	  		$("#upload-box-a").on("change",function(){
+	  			  let fileanme = $("#fileName")[0].files[0].name;
 	  			 $.ajaxFileUpload({ 
 		  		 	url: _that.fileUrl,
 		  		 	fileElementId:"fileName",
 		  		 	secureuri: false,   
 		  		 	dataType: 'JSON',   
 		  		 	type:"post",          
-		  		 	data: {keywordOwner:_that.database.phone,keywordList:_that.database.keywordList},　　　　　　　　　 	　　　　　　　　　  
+		  		 	data: {keywordOwner:1111111,keywordList:_that.database.keywordList},　　　　　　　　　 	
 		  		 	success:function(data,status){ 
-		  		 		  if(data=="批量添加关键词保存失败，请联系管理员解决"){
-                            alert(data)
-                            return fasle;
-                        }
-		  		 		 let json_data = JSON.parse(data);
-		  		 	
+		  		 		//console.log(data);
+		  		 		if(data=="关键词用户不能为空"){
+		  		 			alert(data)
+		  		 			return false;
+		  		 		}
+		  		 		//keywordOwner:_that.database.phone,keywordList:_that.database.keywordList
+		  		 	 let json_data = JSON.parse(data);
                       if(json_data.success){  
-                        if(json_data.data == "关键词导入成功"){
+                        if(json_data.data.message == "关键词添加成功"){
                               _that.database.keywordList = fileanme;
-                             alert(json_data.data)
+                             alert("关键词添加成功");
                         }else{
                             _that.database.keywordList = "";
-                            alert(json_data.data)
+                           alert(json_data.data.message)
                         }
                       }else{
                         _that.database.keywordList = "";
                         alert("添加失败");
                       }
 		  		 	},
-		  		 	error: function (data, status, e){//服务器响应失败处理函数
-                        console.log(e); 
-                    }
-		  		 })
-	  			   }else{
-                alert("添加失败")
-                return false;    
-              }
+			  		 	error: function (data, status, e){//服务器响应失败处理函数
+	                        console.log(e); 
+	                    }
+		  			})
+	  			  
 	  			
 	  		});
 			$(".tab-box").on("click","a",function () {

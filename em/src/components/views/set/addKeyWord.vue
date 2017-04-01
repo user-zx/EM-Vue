@@ -11,7 +11,7 @@
 						</textarea>
                     <div class="upload-box">   
                         <a href="javascript:void(0);"  class="btn panel-body-btn a-upload" id="upload-box-a">
-                              <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span> 
+                              <span class="glyphicon glyphicon-folder-open panel-body-span-button"></span>
                               <input type="file" name="fileName" id="fileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">文件上传
                         </a>       
                         <a href="../apis/excel/downloadKeywordImportTemplate" class="btn panel-body-btn">
@@ -43,16 +43,17 @@
     cursor: pointer;
     overflow: hidden;
     display: inline-block;
+     height: 42px;
 }
     .a-upload input {
     position: absolute;
     font-size: 100px;
     right: 0;
     top: 0;
-    opacity: 0;
     filter: alpha(opacity=0);
     cursor: pointer;
 }
+  
 </style>
 <script>
     import commont from "../../../assets/js/common.js"
@@ -60,151 +61,148 @@
         data(){
             return{
                 msg:"添加关键词", 
-                //uploadWord:"文件上传" 
                 textareaVal:"",
                 fileUrl:"../apis/excel/importKeywordList",
-                arr:[],
+                arr:'',
             } 
         },  
         methods:{ 
-          
             clearValue:function(){
-
                 let vm = this;
                //console.log(vm.arr.join());
-                
-                vm.$http.post("../apis/excel/batchDeleteKeyword?keywordIdList="+vm.arr.join()).then((res)=>{
-                      //console.log(res);
-                },(err)=>{
-                      //console.log(err);
-                })
+              /* console.log(vm.arr);
+                if(vm.arr!=undefined){
+                    vm.$http.post("../apis/excel/batchDeleteKeyword?keywordIdList="+vm.arr.join()).then((res)=>{
+                          //console.log(res);
+                    },(err)=>{
+                          //console.log(err);
+                    })
+                }*/
                 let  patta = new RegExp(".(xls|xlsx)$", "i");
-               
                 if(patta.test(this.textareaVal)){
-                   
                 }else{ 
                     this.textareaVal = "";
                 }  
             },
             submit(){
+               let vm = this;
                var patt = new RegExp(".(xls|xlsx)$", "i");
                var patc=new RegExp(/^[\u4e00-\u9fa5a-zA-Z]/);
-               //patt.test("hello.xLs")
-               let vm = this;
                 if(vm.textareaVal==""){
                   alert("关键词不能为空");
-                }else if(!patc.test(vm.textareaVal)){
-                  vm.textareaVal="";
-                  alert("关键字不能以数字或特殊字符开头");
-
+                }else if(patc.test(vm.textareaVal)){
+                  vm.ajaxFileUpload();
+                  
                   }else{
-               
-               let post = commont.post;
-               let param = {};
-               
-               param.keywordOwner = vm.userNumber;
-               param.keywordList = vm.textareaVal;
-
-               post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                    //console.log(res);
-                    if(res.ok){
-                        if(res.data.success){
-                          if(patt.test(param.keywordList)){
-                                 vm.textareaVal = param.keywordList;
-                               $('#addKeyWord').on('hidden.bs.modal', function () {
-                                 vm.textareaVal = "";
-                              })
-                                vm.$emit("updateList","");
-                                $('#addKeyWord').modal('hide');
-                               return false;
-                          }else if(res.data.data=="添加的关键词已经存在"){
-                                vm.textareaVal="";
-                                alert("该关键词已存在");
+                   let post = commont.post;
+                   let param = {};
+                   param.keywordOwner = vm.userNumber;
+                   param.keywordList = vm.textareaVal;
+                   post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
+                      
+                        if(res.ok){
+                            if(res.data.success){
+                              if(patt.test(param.keywordList)){
+                                     vm.textareaVal = param.keywordList;
+                                   $('#addKeyWord').on('hidden.bs.modal', function () {
+                                     vm.textareaVal = "";
+                                  })
+                                    vm.$emit("updateList","");
+                                    $('#addKeyWord').modal('hide');
+                                   return false;
+                              }else if(res.data.data=="添加的关键词已经存在"){
+                                    vm.textareaVal="";
+                                    alert("该关键词已存在");
+                                }else{
+                                if(patt.test(param.keywordList)){
+                                     vm.$emit("updateList","");
+                                   alert("添加文件成功");
+                                     vm.textareaVal = param.keywordList;
+                                      $('#addKeyWord').modal('hide');
+                                   $('#addKeyWord').on('hidden.bs.modal', function () {
+                                     vm.textareaVal = "";
+                                  })
+                                }else{ 
+                                    alert("添加关键词成功");
+                                    vm.textareaVal = "";
+                                    vm.$emit("updateList",param.keywordList);
+                                    vm.$emit("gofirst"); 
+                                    $('#addKeyWord').modal('hide');
+                                }  
+                              }
                             }else{
-                            if(patt.test(param.keywordList)){
-                                 vm.$emit("updateList","");
-                               alert("添加文件成功");
-                                 vm.textareaVal = param.keywordList;
-                                  $('#addKeyWord').modal('hide');
-                               $('#addKeyWord').on('hidden.bs.modal', function () {
-                                 vm.textareaVal = "";
-                              })
-                            }else{ 
-                                alert("添加关键词成功");
+                                alert("添加关键词失败");
                                 vm.textareaVal = "";
-                                vm.$emit("updateList",param.keywordList);
-                                vm.$emit("gofirst"); 
-                                $('#addKeyWord').modal('hide');
-                            }  
-                          }
-                        }else{
-                            alert("添加关键词失败");
-                            vm.textareaVal = "";
-                        }
-                    }   
-               },(err)=>{ 
-                    $('#addKeyWord').modal('hide');
-                    vm.textareaVal = "";
-               })
-            }
+                            }
+                        }   
+                    },(err)=>{ 
+                        $('#addKeyWord').modal('hide');
+                        vm.textareaVal = "";
+                   })
+                 }
 
+
+          },
+          ajaxFileUpload(){
+               let vm = this;
+               //let fileanme = $("#fileName")[0].files[0].name;
+               $.ajaxFileUpload({   
+                  url: vm.fileUrl,
+                  fileElementId:"fileName",
+                  secureuri: false, 
+                  dataType: 'JSON', 
+                  type:"post",    
+                  data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
+                  success:function(data,status){
+                       if(data=="关键词用户不能为空"){
+                        alert(data)
+                        return false;
+                      }
+                    let json_data = JSON.parse(data);
+                    if(json_data.success){
+                      if(json_data.data.message == "关键词添加成功"){
+                           alert("关键词添加成功");
+                          //$('#addKeyWord').modal('hide')  
+                          $('#addKeyWord').on('hidden.bs.modal', function () {
+                           vm.$emit("updateList","");
+                         })
+                      }else{  
+                          alert(json_data.data.message)
+                          vm.textareaVal = ""; 
+                          return false;
+                      }  
+                    }else{
+                      vm.textareaVal = "";
+                      alert("添加失败");
+                       return false;
+                    }
+                  },
+                  error: function (data, status, e){//服务器响应失败处理函数
+                      alert(e);
+                       vm.textareaVal = "添加失败";
+                        $('#addKeyWord').modal('hide')
+                         return false;
+                  }
+               })     
+              let file = $("#fileName");
+              file.after(file.clone().val(""));
+              file.remove(); 
           },
         },
         props:['userNumber'],  
         mounted(){    
                 let vm = this;  
-                $(document).on("change","#fileName",function(){
-                       var that = this;
-                      if($("#fileName")[0].files[0]){
-                         var fileanme = $("#fileName")[0].files[0].name;
-                       $.ajaxFileUpload({   
-                          url: vm.fileUrl,
-                          fileElementId:"fileName",
-                          secureuri: false, 
-                          dataType: 'JSON', 
-                          type:"post",    
-                          data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
-                          success:function(data,status){
-                              if(data.data=="批量添加关键词保存失败，请联系管理员解决"){
-                                  alert(data.data)
-                                  return false;
-                              }    
-                            let json_data = JSON.parse(data);
-                            console.log(json_data);
-                            //let arr =  json_data.data.split(",");
-                           vm.arr = json_data.data.idList;
-                           console.log(vm.arr);
-
-                            if(json_data.success){
-                              if(json_data.data.message == "关键词添加成功"){
-                                   vm.textareaVal = fileanme;
-                                   alert("关键词添加成功"); 
-                              }else{  
-                                  alert(json_data.data.message)
-                                  vm.textareaVal = ""; 
-                              }
-                            }else{
-                              vm.textareaVal = "";
-                              alert("添加失败");
-                            }
-                          },
-                          error: function (data, status, e){//服务器响应失败处理函数
-                              alert(e);
-                               vm.textareaVal = "添加失败";
-                                $('#addKeyWord').modal('hide')
-                          }
-                       })     
-                    }else{
-                      alert("添加失败")
-                      return false;    
-                    }
-                      var file = $("#fileName");
-                      file.after(file.clone().val(""));
-                      file.remove(); 
-                  })
-                
-            $("#addKeyWord").on("hidden.bs.modal",function(){
+                $("#upload-box-a").on("change",function(){
+                    let fileanme = $("#fileName")[0].files[0].name;
+                     vm.textareaVal = fileanme;
+                }) 
                
+                 
+            $("#addKeyWord").on("hidden.bs.modal",function(){
+               vm.textareaVal = "";
+               let file = $("#fileName");
+                file.after(file.clone().val(""));
+                file.remove(); 
             });
            
         }
