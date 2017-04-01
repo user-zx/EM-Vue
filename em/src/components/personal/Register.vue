@@ -2,9 +2,9 @@
 	<div id="register">
 	     <div id="heads" class="heads navbar navbar-default">
 	        <div class="navbar-header">
-	            <div class="navbar-brand" >
+	            <a class="navbar-brand" href="/">
 	              <img src="../../assets/images/logo.png" alt="logo"/>
-	            </div>
+	            </a>
 	        </div> 
          </div> 
 		<div class="register_centre container">
