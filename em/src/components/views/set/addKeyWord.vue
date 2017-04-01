@@ -92,14 +92,14 @@
                   alert("关键词不能为空");
                 }else if(patc.test(vm.textareaVal)){
                   vm.ajaxFileUpload();
-                 
+                  
                   }else{
                    let post = commont.post;
                    let param = {};
                    param.keywordOwner = vm.userNumber;
                    param.keywordList = vm.textareaVal;
                    post(vm.$http,"../apis/excel/batchAddKeyword",param,(res)=>{
-                        //console.log(res);
+                      
                         if(res.ok){
                             if(res.data.success){
                               if(patt.test(param.keywordList)){
@@ -135,11 +135,13 @@
                                 vm.textareaVal = "";
                             }
                         }   
-                   },(err)=>{ 
+                    },(err)=>{ 
                         $('#addKeyWord').modal('hide');
                         vm.textareaVal = "";
                    })
                  }
+
+
           },
           ajaxFileUpload(){
                let vm = this;
@@ -160,7 +162,10 @@
                     if(json_data.success){
                       if(json_data.data.message == "关键词添加成功"){
                            alert("关键词添加成功");
-                          $('#addKeyWord').modal('hide') 
+                          //$('#addKeyWord').modal('hide')  
+                          $('#addKeyWord').on('hidden.bs.modal', function () {
+                           vm.$emit("updateList","");
+                         })
                       }else{  
                           alert(json_data.data.message)
                           vm.textareaVal = ""; 
