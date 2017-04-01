@@ -472,7 +472,7 @@
                vm.initsearchCon=vm.searchCon;
   
 				vm.initsearchCon.pageNumber=1;
-				
+				console.log(vm.initsearchCon);
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){

@@ -1,9 +1,9 @@
 <template>
     <div id="heads" class="heads navbar navbar-default">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/home/sellClue">
+            <div class="navbar-brand" >
               <img src="../../assets/images/logo.png" alt="logo"/>
-            </a>
+            </div>
         </div>  
         <ul class="nav navbar-nav navbar-right" v-if="topMessage">
             <li>

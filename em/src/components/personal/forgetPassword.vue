@@ -4,9 +4,9 @@
 	
 		<div id="heads" class="heads navbar navbar-default">
 	        <div class="navbar-header">
-	            <a class="navbar-brand" href="/home">
+	            <div class="navbar-brand" >
 	              <img src="../../assets/images/logo.png" alt="logo"/>
-	            </a>
+	            </div>
 	        </div> 
          </div> 
 		<div class="findPassword_body">
