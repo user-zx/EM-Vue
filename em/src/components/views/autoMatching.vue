@@ -418,8 +418,13 @@
                     return; 
                 }
                 //var init=JSON.parse(JSON.stringify(vm.searchCon));
-               vm.initsearchCon=vm.searchCon;
-
+               //vm.initsearchCon=vm.searchCon;
+                vm.initsearchCon.labelStatus= vm.searchCon.labelStatus;
+               vm.initsearchCon.keywords= vm.searchCon.keywords;
+               vm.initsearchCon.source= vm.searchCon.source;
+               vm.initsearchCon.type= vm.searchCon.type;
+               vm.initsearchCon.publishStartDate= vm.searchCon.publishStartDate;
+               vm.initsearchCon.publishEndDate= vm.searchCon.publishEndDate;
                 vm.initsearchCon.pageNumber=1;
                     this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){

@@ -137,7 +137,7 @@
 				<div class="panel panel-em" :class="{'noData':keynotResult}">
 					<div class="panel-body" >
 						<div class="search-box clearfix">
-							<button class="btn btn-search-o addKeyWord" type="button"  data-toggle="modal" data-target="#addKeyWord" >添加关键词</button> <span v-if="personalInfoObj.user.userStatus=='冻结'" class="text-warning">您的账户已被冻结</span> 
+							<button class="btn btn-search-o addKeyWord" type="button"  data-toggle="modal" data-target="#addKeyWord">添加关键词</button> <span v-if="personalInfoObj.user.userStatus=='冻结'" class="text-warning">您的账户已被冻结</span> 
 							<div class="navbar-form navbar-right" role="search" style="margin-top: 0">
 								<div class="input-group" style="position:relative;" >
 								    <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">

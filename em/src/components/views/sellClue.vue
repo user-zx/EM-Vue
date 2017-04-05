@@ -331,13 +331,17 @@ ss<template>
 
                 //console.log(vm.searchCon); 
                //var init=JSON.parse(JSON.stringify(vm.searchCon));
-       
-               vm.initsearchCon= vm.searchCon;
-
-
-                vm.initsearchCon.pageNumber=1;
-                //console.log(vm.initsearchCon);  
+       			
+               vm.initsearchCon.labelStatus= vm.searchCon.labelStatus;
+               vm.initsearchCon.keywords= vm.searchCon.keywords;
+               vm.initsearchCon.source= vm.searchCon.source;
+               vm.initsearchCon.type= vm.searchCon.type; 
+               vm.initsearchCon.publishStartDate= vm.searchCon.publishStartDate;
+               vm.initsearchCon.publishEndDate= vm.searchCon.publishEndDate;
+               // vm.initsearchCon = vm.searchCon;
+               vm.initsearchCon.pageNumber=1;
                 vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
+                	console.log(response); 
                     if(response.ok){ 
                         if(response.data.success){
                               vm.sellClueTotalPages=response.data.data.totalPages;
@@ -473,48 +477,6 @@ ss<template>
                 }
                 return y+"-"+m+"-"+d;
             },
-          /*  publishSearch(str){
-                let vm = this;
-                switch (str){
-					case "不限":
-						vm.searchCon.publishStartDate="";
-                        vm.searchCon.publishEndDate="";
-                        vm.multipleSearch();
-						break;
-                    case "今天":
-                        const nowDate=vm.getDateStr(0);
-                        const startDate=nowDate+" 00:00:00";
-                        const endDate=nowDate+" 23:59:59";
-                        vm.searchCon.publishStartDate=new Date(startDate);
-                        vm.searchCon.publishEndDate=new Date(endDate);
-                        vm.multipleSearch();
-                        break;
-                    case "昨天":
-                        const yesterday=vm.getDateStr(-1);
-                        const yesterdayStartDate=yesterday+" 00:00:00";
-                        const yesterdayEndDate=yesterday+" 23:59:59";
-                        vm.searchCon.publishStartDate=new Date(yesterdayStartDate);
-                        vm.searchCon.publishStartDate=new Date(yesterdayEndDate);
-                        vm.multipleSearch();
-                        break;
-                    case "近一周":
-                        const tDay=vm.getDateStr(0);
-                        const weekDate=vm.getDateStr(-7);
-                        const weekStartDate=weekDate+" 00:00:00";
-                        const weekEndDate=tDay+" 23:59:59";
-                        vm.searchCon.publishStartDate=new Date(weekStartDate);
-                        vm.searchCon.publishStartDate=new Date(weekEndDate);
-                        vm.multipleSearch();
-                        break;
-                    case "自定义":
-                        const customStartDate=$(".startDate").val()+" 00:00:00";
-                        const customEndDate=$(".endDate").val()+" 23:59:59";
-                        vm.searchCon.publishStartDate=new Date(customStartDate);
-                        vm.searchCon.publishStartDate=new Date(customEndDate);
-                        vm.multipleSearch();
-                        break;
-                }
-            },*/
             getLinkStatus(index,salesLeadsId){
 				let vm=this;
 				vm.$http.post("../apis/userSalesLeads/checkUserCount").then((result)=>{

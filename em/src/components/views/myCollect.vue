@@ -209,7 +209,6 @@
 				searchCon:{
                     pageSize:6,
                     pageNumber:1, 
-//                    checkStatus:"是", 
 					labelStatus:"",
 					keywords:"",
 					source:"",
@@ -220,7 +219,6 @@
 				initsearchCon:{
                     pageSize:6,
                     pageNumber:1,
-//                    checkStatus:"是", 
 					labelStatus:"",
 					keywords:"",
 					source:"",
@@ -381,7 +379,7 @@
 			},
 			getArtListFun(){
                 let vm=this;
-                console.log(vm.initsearchCon); 
+                //console.log(vm.initsearchCon); 
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                 	console.log(response);
                     if(response.ok){
@@ -469,10 +467,15 @@
                     return; 
                 }
                 //var init=JSON.parse(JSON.stringify(vm.searchCon));
-               vm.initsearchCon=vm.searchCon;
-  
+               //vm.initsearchCon=vm.searchCon;
+  				vm.initsearchCon.labelStatus= vm.searchCon.labelStatus;
+               vm.initsearchCon.keywords= vm.searchCon.keywords;
+               vm.initsearchCon.source= vm.searchCon.source;
+               vm.initsearchCon.type= vm.searchCon.type;
+               vm.initsearchCon.publishStartDate= vm.searchCon.publishStartDate;
+               vm.initsearchCon.publishEndDate= vm.searchCon.publishEndDate;
 				vm.initsearchCon.pageNumber=1;
-				console.log(vm.initsearchCon);
+				//console.log(vm.initsearchCon);
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){

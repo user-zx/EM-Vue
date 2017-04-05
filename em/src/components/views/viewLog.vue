@@ -394,8 +394,12 @@
 			},
 			getArtListFun(){
                 let vm=this;
-                 vm.initsearchCon=vm.searchCon;
-                 console.log(vm.initsearchCon);
+               vm.initsearchCon.labelStatus= vm.searchCon.labelStatus;
+               vm.initsearchCon.keywords= vm.searchCon.keywords;
+               vm.initsearchCon.source= vm.searchCon.source;
+               vm.initsearchCon.type= vm.searchCon.type;
+               vm.initsearchCon.publishStartDate= vm.searchCon.publishStartDate;
+               vm.initsearchCon.publishEndDate= vm.searchCon.publishEndDate;
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                 	console.log(response);
                     if(response.ok){
