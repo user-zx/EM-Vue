@@ -247,7 +247,7 @@ ss<template>
 				let obj_arr = {};
 				 var inputVal = vm.inputVal && vm.inputVal.toLowerCase(); 
 				let search_Head = vm.searchHead;
-
+				
 				let input_Arr = vm.inputArr
 				for (let j in input_Arr) { 
 					var arrObj = search_Head[input_Arr[j]];
@@ -335,11 +335,10 @@ ss<template>
                vm.initsearchCon= vm.searchCon;
 
                 vm.initsearchCon.pageNumber=1;
-                console.log(vm.initsearchCon);  
+                //console.log(vm.initsearchCon);  
                 vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){ 
                         if(response.data.success){
-                        	
                               vm.sellClueTotalPages=response.data.data.totalPages;
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){

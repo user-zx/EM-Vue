@@ -162,7 +162,7 @@
                     if(json_data.success){
                       if(json_data.data.message == "关键词添加成功"){
                            alert("关键词添加成功");
-                          //$('#addKeyWord').modal('hide')  
+                          $('#addKeyWord').modal('hide')  
                           $('#addKeyWord').on('hidden.bs.modal', function () {
                            vm.$emit("updateList","");
                          })
