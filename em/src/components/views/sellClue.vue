@@ -369,10 +369,10 @@ ss<template>
                 });
             },
             singleSearch(keyword){
-            	console.log(keyword);
+            	
                 let vm = this;
                 this.$http.post(vm.bodyDataUrl,{"pageSize":6,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
-                	console.log(response);
+                	
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
