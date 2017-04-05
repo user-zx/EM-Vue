@@ -548,10 +548,10 @@
             	$(".switch").bootstrapSwitch('destroy');
 
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-                	//console.log(res);
+                	console.log(res);
                     if(res.ok){ 
                         if(res.data.success){
-
+                        	vm.keynotResult=false;
                             let typeOf = typeof res.data.data;
                             if(typeOf!="string") {
                                 let newArr=res.data.data.content;
@@ -566,7 +566,7 @@
            					 	},200);   
                             }else{
                                 alert(res.data.data);
-                                vm.notResult=true;
+                               vm.keynotResult=true;
                             }
                         }
                     }
@@ -596,7 +596,7 @@
 			    vm.keyWordSearchCon.pageNumber=1;
 			    vm.keyWordSearchCon.pageSize=6;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
-			    	//console.log(res);
+			    	console.log(res);
 			        if(res.ok){
 			            if(res.data.success){
                             let typeOf = typeof res.data.data;
