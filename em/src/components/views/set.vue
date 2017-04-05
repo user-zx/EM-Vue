@@ -116,7 +116,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div v-if="packageListArr=='暂无数据'" class="col-md-3 panel-body-div">
-								<div >
+								<div>
 									<h2>暂无数据</h2>
 								</div>
 							</div>
@@ -173,9 +173,9 @@
 								</tr>
 							</tbody>
 						</table>
-						<div v-if="!keynotResult" class="pageList clearfix" >
+						<div v-show="!keynotResult" class="pageList clearfix" id="addKey_Word">
 							<ul class="clearfix pagination pull-left" >
-
+								
 							</ul>
 							<ul class="pull-left tz-pagination" >
 								<li>跳转到第</li>
@@ -213,8 +213,8 @@
 
 							</tbody>
 						</table>
-						<div class="pageList clearfix" v-show="!notResult">
-						 
+						<div class="pageList clearfix" v-show="!notResult" id="consume_Item">
+						 	
 							<ul class="clearfix pagination pull-left">
 
 							</ul>
@@ -548,14 +548,15 @@
             	$(".switch").bootstrapSwitch('destroy');
 
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
-                	console.log(res);
+                
                     if(res.ok){ 
                         if(res.data.success){
-                        	vm.keynotResult=false;
+
                             let typeOf = typeof res.data.data;
                             if(typeOf!="string") {
                                 let newArr=res.data.data.content;
-                                for(var i in newArr){
+                              
+                                for(var i in newArr){  
                                     newArr[i].createDate=new Date(newArr[i].createDate).Format("yyyy-MM-dd hh:mm:ss");
                                     newArr[i].isShow=true;
                                 }
@@ -563,10 +564,11 @@
                              	setTimeout(function () {
           						  vm.bootstrap_Switch();
           						  newArr = [];
+
            					 	},200);   
                             }else{
                                 alert(res.data.data);
-                               vm.keynotResult=true;
+                                vm.keynotResult=true;
                             }
                         }
                     }
@@ -596,13 +598,13 @@
 			    vm.keyWordSearchCon.pageNumber=1;
 			    vm.keyWordSearchCon.pageSize=6;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
-			    	console.log(res);
 			        if(res.ok){
 			            if(res.data.success){
                             let typeOf = typeof res.data.data;
 							if(res.data.data.totalPages>0){
+								 vm.keynotResult=false;           
 								if(typeOf!="string") {
-									$("#keyWordSet .pagination").jqPaginator({
+									$("#addKey_Word .pagination").jqPaginator({
 										totalPages: res.data.data.totalPages,
 										visiblePages: vm.keyWordSearchCon.pageSize,
 										currentPage: vm.keyWordSearchCon.pageNumber,
