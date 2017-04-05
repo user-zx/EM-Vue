@@ -42,8 +42,8 @@ ss<template>
 					<div class="clearfix">
 						<div class="navbar-form navbar-left" role="form">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="输入关键词进行搜索" v-model="inputVal" />
-						    <span class="input-group-btn">
+								<input type="text" class="form-control" placeholder="输入关键词进行搜索" v-model="inputVal"/>
+						    	<span class="input-group-btn">
 						   				<button class="btn btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
 						   		</span>
 							</div>
@@ -369,8 +369,10 @@ ss<template>
                 });
             },
             singleSearch(keyword){
+            	console.log(keyword);
                 let vm = this;
                 this.$http.post(vm.bodyDataUrl,{"pageSize":6,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
+                	console.log(response);
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
@@ -386,7 +388,21 @@ ss<template>
 									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 									onPageChange: function (n){
 										vm.initsearchCon.pageNumber = n;
-										vm.page();
+										let typeOf=typeof response.data.data;
+			                            if(typeOf!="string"){
+			                                let newArr=response.data.data.list;
+			                                for(var i in newArr){
+			                                    newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+			                                     newArr[i].isShow = true;
+			                                }
+			                                vm.artList.artContent=newArr;
+			                                vm.artList.totalPages=response.data.data.totalPages;
+			                                vm.notResult=false;
+										}else{ 
+			                                vm.artList.artContent="";
+			                                vm.artList.totalPages="";
+			                                vm.notResult=true;
+										}
 									}
 								});
                             }else{
@@ -396,7 +412,11 @@ ss<template>
 							}
                         }  
                     }  
-                });
+                },(err)=>{
+					if(!err.ok){
+					   return false;
+				   }
+				});
             },
             favoritesFun(index,artId){
                 let vm = this;  
@@ -507,7 +527,6 @@ ss<template>
                             let typeOf=typeof response.data.data;
                             if(typeOf!="string"){
                                 let newArr=response.data.data.list;
-                                
                                 for(var i in newArr){
                                     newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
                                      newArr[i].isShow = true;

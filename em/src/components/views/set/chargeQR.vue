@@ -64,7 +64,7 @@
 	  				},(err)=>{
 	  					console.log(err);
 	  				})
-  				},500) 
+  				},1000) 
  			});
  			$('#chargeQR').on("hidden.bs.modal",function(){
  				clearInterval(timer);

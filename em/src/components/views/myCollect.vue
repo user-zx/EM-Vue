@@ -524,7 +524,21 @@
 									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 									onPageChange: function (n){
 										vm.initsearchCon.pageNumber = n;
-										vm.artListFun();
+										let typeOf=typeof response.data.data;
+			                            if(typeOf!="string"){
+			                                let newArr=response.data.data.list;
+			                                for(var i in newArr){
+			                                    newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
+			                                     newArr[i].isShow = true;
+			                                }
+			                                vm.artList.artContent=newArr;
+			                                vm.artList.totalPages=response.data.data.totalPages;
+			                                vm.notResult=false;
+										}else{ 
+			                                vm.artList.artContent="";
+			                                vm.artList.totalPages="";
+			                                vm.notResult=true;
+										}
 									}
 								});
                             }else{
