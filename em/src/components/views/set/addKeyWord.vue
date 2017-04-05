@@ -107,7 +107,7 @@
                                    $('#addKeyWord').on('hidden.bs.modal', function () {
                                      vm.textareaVal = "";
                                   })
-                                    vm.$emit("updateList","");
+                                    vm.$emit("updateList",true);
                                     $('#addKeyWord').modal('hide');
                                    return false;
                               }else if(res.data.data=="添加的关键词已经存在"){
@@ -115,7 +115,7 @@
                                     alert("该关键词已存在");
                                 }else{
                                 if(patt.test(param.keywordList)){
-                                     vm.$emit("updateList","");
+                                     vm.$emit("updateList",true);
                                    alert("添加文件成功");
                                      vm.textareaVal = param.keywordList;
                                       $('#addKeyWord').modal('hide');
@@ -125,7 +125,7 @@
                                 }else{ 
                                     alert("添加关键词成功");
                                     vm.textareaVal = "";
-                                    vm.$emit("updateList",param.keywordList);
+                                    vm.$emit("updateList",true);
                                     vm.$emit("gofirst"); 
                                     $('#addKeyWord').modal('hide');
                                 }  
@@ -153,7 +153,7 @@
                   dataType: 'JSON', 
                   type:"post",    
                   data: {keywordOwner:vm.userNumber,keywordList:vm.textareaVal},
-                  success:function(data,status){
+                  success:function(data,status){ 
                        if(data=="关键词用户不能为空"){
                         alert(data)
                         return false;
@@ -161,12 +161,12 @@
                     let json_data = JSON.parse(data);
                     if(json_data.success){
                       if(json_data.data.message == "关键词添加成功"){
-                           alert("关键词添加成功");
-                          $('#addKeyWord').modal('hide')  
-                          $('#addKeyWord').on('hidden.bs.modal', function () {
-                           vm.$emit("updateList","");
-                         })
-                      }else{  
+                             alert("关键词添加成功");
+                            $('#addKeyWord').modal('hide')  
+                            $('#addKeyWord').on('hidden.bs.modal', function () {
+                            vm.$emit("updateList",true);
+                         })  
+                      }else{      
                           alert(json_data.data.message)
                           vm.textareaVal = ""; 
                           return false;

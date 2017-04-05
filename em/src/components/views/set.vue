@@ -137,8 +137,9 @@
 				<div class="panel panel-em" :class="{'noData':keynotResult}">
 					<div class="panel-body" >
 						<div class="search-box clearfix">
-							<button class="btn btn-search-o addKeyWord" type="button"  data-toggle="modal" data-target="#addKeyWord">添加关键词</button> <span v-if="personalInfoObj.user.userStatus=='冻结'" class="text-warning">您的账户已被冻结</span> 
-							<div class="navbar-form navbar-right" role="search" style="margin-top: 0">
+							<button class="btn btn-search-o addKeyWord" type="button"  data-toggle="modal" data-target="#addKeyWord">添加关键词</button> 
+							<span v-if="personalInfoObj.user.userStatus=='冻结'" class="text-warning">您的账户已被冻结</span> 
+							<div class="navbar-form navbar-right showIs" role="search" style="margin-top: 0">
 								<div class="input-group" style="position:relative;" >
 								    <img src="../../assets/images/search.png" alt="" style="position:absolute;left:10px;top:10px;">
 									<input type="text" class="form-control input-search" v-model:value="keyWordSearchCon.keyword" id="search-k-key" placeholder="输入关键词进行查询">
@@ -160,7 +161,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(keyword,index) in keyWordListObj">
+								<tr v-for="(keyword,index) in keyWordListObj" class="view-text">
 									<td class="text-center">{{keyword.keyword}}</td>
 									<td class="text-center">{{keyword.createDate}}</td>
 									<td class="text-center">
@@ -189,9 +190,9 @@
 			<div id="expenseCalendar" class="tab-pane fade">
 				<div class="panel panel-em" :class="{'noData':notResult}">
 					<div class="panel-body">
-					<div class="notResult" v-if="notResult">
+						<div class="notResult" v-if="notResult">
 							<img src="../../assets/images/notResult.jpg" alt="暂无数据" />
-						</div>
+						</div> 
 						<table class="table table-hover" v-if="!notResult">
 							<thead>
 								<tr class="active">
@@ -547,6 +548,7 @@
             	$(".switch").bootstrapSwitch('destroy');
 
                 vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+                	//console.log(res);
                     if(res.ok){ 
                         if(res.data.success){
 
@@ -591,10 +593,10 @@
 			},
 			searchKeyWordFun(){
 			    let vm =this;
-				
 			    vm.keyWordSearchCon.pageNumber=1;
 			    vm.keyWordSearchCon.pageSize=6;
 			    vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
+			    	//console.log(res);
 			        if(res.ok){
 			            if(res.data.success){
                             let typeOf = typeof res.data.data;
@@ -612,31 +614,27 @@
 										onPageChange: function (n) {
 											vm.keyWordSearchCon.pageNumber = n;
 											vm.getKeywordListFun();
-
 										}
 									});
 								}else{
 									alert(res.data.data);
-									vm.notResult=true;
-								}
+									vm.keynotResult=true;
+								}    
 							}else{
-								vm.keyWordListObj="";
-								 }
-						}
+								    vm.keyWordListObj="";
+									vm.keynotResult=true;
+								}
+						} 
 					}
 				});
 			},
 			delKeyWordFun(index,id){
 			    if(window.confirm('确定删除该关键词吗？')){
                     let vm = this;
-                    //console.log(vm.keyWordListObj[index]);
-                   // console.log(id); 
                     vm.keyWordListObj[index].isShow=false;
-                    console.log(vm.keyWordListObj[index].isShow);
                     vm.$http.post(vm.delKeyWordUrl,id).then((res)=>{
                         if(res.ok) {
                             if (res.data.success) {
-                                console.log(res.data);
                                 alert('关键词删除成功');
                                 vm.updateClue();
                             }
@@ -655,19 +653,19 @@
                 }
             });
 			},
-			updateClue(){
+			updateClue(status){
 				let vm = this;
 			   vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then(function(res){
+			 	
 				if(res.ok){
 				    if(res.data.success){
-				    
+
 				              if(res.data.data.totalPages==0){
-                                vm.keynotResult=true; 
-                                return false;
-                           }else{ vm.keynotResult=false; };
-
-                           
-
+			              		vm.keynotResult=true; 
+                            	return false;
+                           }else{ 
+                           		vm.keynotResult=false;  
+                       		}; 
                         let typeOf = typeof res.data.data;
                         vm.keyWordTotalpages=res.data.data.totalPages;
                         if(typeOf!="string") {
@@ -681,13 +679,31 @@
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n) {
                                     vm.keyWordSearchCon.pageNumber = n;
-                                    vm.getKeywordListFun();
-
+                                     if(res.ok){  
+				                        if(res.data.success){
+				                            let typeOf = typeof res.data.data;
+				                            if(typeOf!="string") {
+				                                let newArr=res.data.data.content;
+				                                for(var i in newArr){
+				                                    newArr[i].createDate=new Date(newArr[i].createDate).Format("yyyy-MM-dd hh:mm:ss");
+				                                    newArr[i].isShow=true;
+				                                }
+				                                vm.keyWordListObj=newArr;
+				                             	setTimeout(function () {
+				          						  vm.bootstrap_Switch();
+				          						  newArr = [];
+				           					 	},200);   
+				                            }else{
+				                                alert(res.data.data);
+				                                vm.notResult=true;
+				                            }
+				                        }
+				                    }
                                 }
                             });
                         }else{
                             alert(res.data.data);
-                        }
+                        } 
                     }
 				}
             });
