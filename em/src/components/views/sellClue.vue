@@ -331,8 +331,9 @@ ss<template>
 
                 //console.log(vm.searchCon); 
                //var init=JSON.parse(JSON.stringify(vm.searchCon));
-
+       
                vm.initsearchCon= vm.searchCon;
+
 
                 vm.initsearchCon.pageNumber=1;
                 //console.log(vm.initsearchCon);  
@@ -620,10 +621,9 @@ ss<template>
                 //console.log($("#dataPlug-in-one>button>span")[0]);
             })       
             $("#dataPlug-in-one>button").on("click", function() {
-                vm.startDate="";
-                console.log('test');           
+                vm.startDate="";            
                 $(this).children('span').css("display","none");
-               	console.log( vm.startDate);  
+         
             });    
             $(document).on("click","#dataPlug-in-two .datepicker-dateRange>.day-cell",function(){
                 vm.endDate = $(this).attr("data-date");  

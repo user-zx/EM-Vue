@@ -81,12 +81,12 @@
 					<span v-if="artItem.salesLeads.type=='原创'" class="origin">{{artItem.salesLeads.type}}</span>
 					<span v-else-if="artItem.salesLeads.type=='转发'" class="blue">{{artItem.salesLeads.type}}</span>
 					<span v-else-if="artItem.salesLeads.type!=null">{{artItem.salesLeads.type}}</span>
-					<h4 v-if="artItem.salesLeads.title"> <a :href="artItem.salesLeads.link" target="_blank"></a> {{artItem.salesLeads.title}}</h4>   
+					<h4 v-if="artItem.salesLeads.title"> <a :href="artItem.salesLeads.link" target="_blank">{{artItem.salesLeads.title}}</a> </h4>   
 					<h4 v-else>	   
 						<a :href="artItem.salesLeads.link" target="_blank">
 							<img v-if="artItem.salesLeads.matchingResult=='匹配成功'" src="../../assets/images/sucImg.png" />
 							<img v-else src="../../assets/images/unSucImg.png" />
-						</a> 
+						</a>
 					</h4>
 					<div class="sellClue_list_div_div"> <span><i>关键词:</i> {{artItem.salesLeads.keywords}}</span> <span><i>发布者:</i>{{artItem.salesLeads.author}}</span><span><i>发布时间:</i>{{artItem.salesLeads.publishDate}}</span><span><i>线索来源:</i>{{artItem.salesLeads.source}}</span><a :href="artItem.salesLeads.link" target="_blank" title="点击跳转到原文">原文链接</a></div>
 					<p>{{artItem.salesLeads.content}}</p>
@@ -213,8 +213,8 @@
 					keywords:"",
 					source:"",
 					type:"",
-					checkStartDate:"",
-					checkEndDate:""
+					publishStartDate:"",
+					publishEndDate:""
 				},
 				initsearchCon:{  
                     pageSize:6,
@@ -225,8 +225,8 @@
 					keywords:"",
 					source:"",
 					type:"",
-					checkStartDate:"",
-					checkEndDate:""
+					publishStartDate:"",
+					publishEndDate:""
 				},
 				modelData:{},
 				startDate:"",
@@ -440,27 +440,27 @@
             multipleSearch(){
 				let vm=this; 
 				 if(vm.startDate==""){
-                     vm.searchCon.checkStartDate = "";
+                     vm.searchCon.publishStartDate = "";
                      if(vm.startDate==""&&vm.endDate!=""){
                       alert("开始时间不能为空");
                       return;
                       }
                 }else{
-                     vm.searchCon.checkStartDate =new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
+                     vm.searchCon.publishStartDate =new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
                 }
                 if(vm.endDate==""){   
-                    vm.searchCon.checkEndDate = "";
+                    vm.searchCon.publishEndDate = "";
                      if(vm.startDate!=""&&vm.endDate==""){
                 	  alert("结束时间不能为空");
                       return;
                       }  
                 }else{ 
-                    vm.searchCon.checkEndDate =new Date((vm.endDate + " 23:59:59").replace(/-/g,"/"));
+                    vm.searchCon.publishEndDate =new Date((vm.endDate + " 23:59:59").replace(/-/g,"/"));
                 }
                
-                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<=vm.searchCon.checkStartDate){
-                    vm.searchCon.checkEndDate  = "";
-                    vm.searchCon.checkStartDate = "";
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.publishEndDate<=vm.searchCon.publishStartDate){
+                    vm.searchCon.publishEndDate  = "";
+                    vm.searchCon.publishStartDate = "";
 
                     $("#dataPlug-in-one>button>span").css("display","none");
                     $("#dataPlug-in-two>button>span").css("display","none");

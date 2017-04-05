@@ -214,8 +214,8 @@
 					keywords:"",
 					source:"",
 					type:"",
-					checkStartDate:"",
-					checkEndDate:""
+					publishStartDate:"",
+					publishEndDate:""
 				},
 				initsearchCon:{
                     pageSize:6,
@@ -225,8 +225,8 @@
 					keywords:"",
 					source:"",
 					type:"",
-					checkStartDate:"",
-					checkEndDate:""
+					publishStartDate:"",
+					publishEndDate:""
 				},
 				modelData:{},
 				 startDate:"",
@@ -442,27 +442,27 @@
             multipleSearch(){
 				let vm=this;
 				  if(vm.startDate==""){
-                     vm.searchCon.checkStartDate = "";
+                     vm.searchCon.publishStartDate = "";
                      if(vm.startDate==""&&vm.endDate!=""){
                       alert("开始时间不能为空");
                       return;
                   }
                 }else{
-                     vm.searchCon.checkStartDate = new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
+                     vm.searchCon.publishStartDate = new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
                 }
                 if(vm.endDate==""){   
-                    vm.searchCon.checkEndDate = "";
+                    vm.searchCon.publishEndDate = "";
                     if(vm.startDate!=""&&vm.endDate==""){
                 	  alert("结束时间不能为空");
                       return; 
                       }   
                 }else{ 
-                    vm.searchCon.checkEndDate =new Date((vm.endDate + " 23:59:59").replace(/-/g,"/"));
+                    vm.searchCon.publishEndDate =new Date((vm.endDate + " 23:59:59").replace(/-/g,"/"));
                 }
                
-                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.checkEndDate<vm.searchCon.checkStartDate){
-                    vm.searchCon.checkEndDate  = "";
-                    vm.searchCon.checkStartDate = "";
+                if(vm.startDate!=""&&vm.endDate!=""&&vm.searchCon.publishEndDate<vm.searchCon.publishStartDate){
+                    vm.searchCon.publishEndDate  = "";
+                    vm.searchCon.publishStartDate = "";
                     $("#dataPlug-in-one>button>span").css("display","none");
                     $("#dataPlug-in-two>button>span").css("display","none");
                     alert("开始时间不能大于结束时间!")
@@ -472,7 +472,7 @@
                vm.initsearchCon=vm.searchCon;
   
 				vm.initsearchCon.pageNumber=1;
-				
+				console.log(vm.initsearchCon);
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
