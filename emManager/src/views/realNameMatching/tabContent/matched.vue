@@ -6,19 +6,19 @@
         <div class="search-box">
             <div class="row">
                 <div class="col-md-2">
-                    <select class="form-control selectpicker" title="匹配结果" v-model="matchingRecordList.params.matchingResult">
+                    <select class="form-control selectpicker" title="匹配结果" v-model="searchParams.matchingResult">
                         <option value="">不限</option>
                         <option v-for="item in searchData.matchResult" :value="item">{{item}}</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control selectpicker" title="线索来源" v-model="matchingRecordList.params.source">
+                    <select class="form-control selectpicker" title="线索来源" v-model="searchParams.source">
                         <option value="">不限</option>
                         <option v-for="item in searchData.salesSource" :value="item">{{item}}</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control selectpicker" title="匹配来源" v-model="matchingRecordList.params.matchingSource">
+                    <select class="form-control selectpicker" title="匹配来源" v-model="searchParams.matchingSource">
                         <option value="">不限</option>
                         <option v-for="item in searchData.matchSource" :value="item">{{item}}</option>
                     </select>
@@ -28,10 +28,10 @@
                     <span class="close" @click="clearTime()">&times;</span>
                 </div>
                 <div class="col-md-4">
-                    <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="matchingRecordList.params.keywords"/>
+                    <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="searchParams.keywords"/>
                 </div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-em" @click="search()">查询</button>
+                    <button type="button" class="btn btn-em" @click="search(matchingRecordList.params.matchingResult=searchParams.matchingResult,matchingRecordList.params.source=searchParams.source,matchingRecordList.params.matchingSource=searchParams.matchingSource,matchingRecordList.params.keywords=searchParams.keywords)">查询</button>
                 </div>
             </div>
         </div>
@@ -108,6 +108,12 @@
     export default{
         data(){
             return{
+                searchParams:{
+                        matchingResult:"",
+                        source:"",
+                        matchingSource:"",
+                        keywords:""
+                    },
                 matchingRecordList:{
                     url:"../../apis/matching/findMatchingRecordList",
                     params:{

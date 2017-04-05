@@ -7,11 +7,11 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="text" class="form-control" v-model="packageList.params.name" placeholder="请输入关键字进行搜索"/>
+                        <input type="text" class="form-control" v-model="searchParams.name" placeholder="请输入关键字进行搜索"/>
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-em" @click="search()">查询</button>
+                            <button type="button" class="btn btn-em" @click="search(packageList.params.name=searchParams.name)">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
                             <button type="button" data-toggle="modal" data-target="#addPackage" @click="addPackage()" class="btn btn-dark">
@@ -88,9 +88,18 @@
     export default{
         data(){
             return{
+                searchParams:{
+                        pageNumber:1,
+                        pageSize:10,
+                         name:""
+                    },
                 packageList:{
                     url:"../apis/package/findPackageList",
-                    params:{pageNumber:1,pageSize:10,name:""},
+                    params:{
+                        pageNumber:1,
+                        pageSize:10,
+                        name:""
+                    },
                     result:{}
                 },
                 updatePackage:{

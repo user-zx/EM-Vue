@@ -83,14 +83,14 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="研判结果" v-model="getStudiedList.params.judgeResult">
+                        <select class="form-control selectpicker" title="研判结果" v-model="searchpParams.judgeResult">
                             <option value="">不限</option>
                             <option value="确认线索">确认线索</option>
                             <option value="非线索">非线索</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="线索来源" v-model="getStudiedList.params.source">
+                        <select class="form-control selectpicker" title="线索来源" v-model="searchpParams.source">
                             <option value="">不限</option>
                             <option v-for="item in searchData.salesSource" v-bind:value="item">{{item}}</option>
                         </select>
@@ -99,11 +99,11 @@
                         <input type="text" class="form-control" readonly id="regTime" placeholder="研判时间"/>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" v-model="getStudiedList.params.keyword" placeholder="请输入关键字进行搜索"/>
+                        <input type="text" class="form-control" v-model="searchpParams.keyword" placeholder="请输入关键字进行搜索"/>
                     </div>
                     <div class="col-md-12">
                         <div class="text-center">
-                            <button type="button" class="btn btn-em" @click="searchStudyClueList()">查询</button>
+                            <button type="button" class="btn btn-em" @click="searchStudyClueList(getStudiedList.params.judgeResult=searchpParams.judgeResult,getStudiedList.params.source=searchpParams.source,getStudiedList.params.keyword=searchpParams.keyword)">查询</button>
                             <button type="button" class="btn btn-dark" @click="goBack()">
                                 返回研判
                             </button>
@@ -358,6 +358,11 @@
                     }
                 },
                 msg:"线索研判",
+                searchpParams:{
+                        judgeResult:"",
+                        source:"",
+                        keyword:""
+                    },
                 getStudiedList:{
                     url:"../apis/judge/findJudgeList",
                     params:{

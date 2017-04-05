@@ -7,24 +7,24 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户权限" v-model="userList.params.permissions">
+                        <select class="form-control selectpicker" title="用户权限" v-model="searchParams.permissions">
                             <option value="">不限</option>
                             <option v-for="item in searchData.userPermission" :value="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户状态" v-model="userList.params.userStatus">
+                        <select class="form-control selectpicker" title="用户状态" v-model="searchParams.userStatus">
                             <option value="">不限</option>
                             <option value="正常">正常</option>
                             <option value="冻结">冻结</option>
                         </select>
                     </div>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" v-model="userList.params.keyword" placeholder="请输入关键字进行搜索"/>
+                        <input type="text" class="form-control" v-model="searchParams.keyword" placeholder="请输入关键字进行搜索"/>
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-6 text-left">
-                            <button type="button" class="btn btn-em" @click="search()">查询</button>
+                            <button type="button" class="btn btn-em" @click="search(userList.params.permissions=searchParams.permissions,userList.params.userStatus=searchParams.userStatus,userList.params.keyword=searchParams.keyword)">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
                             <button type="button" data-toggle="modal" data-target="#addUser" @click="showModal(modal.addUser)" class="btn btn-dark">
@@ -96,6 +96,11 @@
     export default{
         data(){
             return{
+                searchParams:{
+                        userStatus:"",
+                        keyword:"",
+                        permissions:""
+                    },
                 userList:{
                     url:"../apis/operation/findOperationUserList",
                     params:{

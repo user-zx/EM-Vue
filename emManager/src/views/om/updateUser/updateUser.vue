@@ -172,7 +172,7 @@
                         console.log(error)
                     });
                 }else{
-                    alert("提示语")
+                    alert("提示语");
                 }
             },
             isArri(arr,str){

@@ -7,19 +7,19 @@
             <div class="search-box">
                 <div class="row">
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户行业" v-model="userList.params.trade">
+                        <select class="form-control selectpicker" title="用户行业" v-model="searchParams.trade">
                             <option value="">不限</option>
                             <option v-for="item in userTrade.result" v-bind:value="item.name">{{item.name}}</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="用户状态" v-model="userList.params.userStatus">
+                        <select class="form-control selectpicker" title="用户状态" v-model="searchParams.userStatus">
                             <option value="">不限</option>
                             <option v-for="item in searchData.userStates" v-bind:value="item">{{item}}</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control selectpicker" title="套餐状态" v-model="userList.params.packageId">
+                        <select class="form-control selectpicker" title="套餐状态" v-model="searchParams.packageId">
                             <option value="">不限</option>
                             <option v-for="item in packageList.result" v-bind:value="item.id">{{item.name}}</option>
                         </select>
@@ -48,15 +48,15 @@
                         </div>
                     </div>
                     <div class="col-md-4 close-time">
-                        <input type="text" class="form-control" readonly id="regTime" placeholder="注册时间"/>
+                        <input type="text" class="form-control" readonly id="regTime" placeholder="注册时间" />
                         <span class="close" @click="clearTime()">&times;</span>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="userList.params.keyword"/>
+                        <input type="text" class="form-control"  placeholder="请输入关键字进行搜索" v-model="searchParams.keyword"/>
                     </div>
                     <div class="col-md-4">
                         <div class="col-md-6 text-left">
-                            <button type="button" class="btn btn-em" @click="search()">查询</button>
+                            <button type="button" class="btn btn-em" @click="search(userList.params.trade=searchParams.trade,userList.params.userStatus=searchParams.userStatus,userList.params.packageId=searchParams.packageId,userList.params.keyword=searchParams.keyword)">查询</button>
                         </div>
                         <div class="col-md-6 text-right">
                             <button type="button" @click="showModal(modal.addUser)" class="btn btn-dark">
@@ -155,6 +155,14 @@
         data(){
             return{
                 searchCity:true,
+                searchParams:{
+                        trade:"",
+                        userStatus:"",
+                        packageId:"",
+                        province:"",
+                        city:"",
+                        county:""
+                    },
                 userList:{
                     url:"../apis/user/findUserList",
                     params:{
@@ -226,7 +234,7 @@
                 });
             },
             paginator(){
-                let vm =this;
+                let vm =this;   
                 vm.post(vm.userList.url,vm.userList.params,function (response) {
                     if(response.success){
                         $(".noData").hide();
@@ -243,15 +251,15 @@
                                 last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n){
-                                    vm.userList.params.pageNumber = n;
+                                    vm.userList.params.pageNumber = n;                      
                                     vm.getList();
+
                                 }
                             });
                         }else{
-                           /* alert("没有数据！");*/
                            $(".noData").show();
                            $(".table").hide();
-                            $("#pagination").empty();
+                           $("#pagination").empty();
                         }
                     }
                 },function (error) {
@@ -269,8 +277,7 @@
                     vm.userList.params.province="不限";
                     vm.userList.params.city="不限";
                     vm.userList.params.county="不限";
-                }
-               
+                }              
                 vm.paginator();
             },
             showModal(modalName,params){
