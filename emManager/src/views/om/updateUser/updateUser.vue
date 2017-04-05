@@ -137,8 +137,9 @@
             addUsers(){
                 let vm =this,
                 surePwd=$(".surePwd").val(),
-                    qx=$("#qx").find("input[type='checkbox']").is(':checked');
-                vm.addUser.params.createDate=new Date(vm.addUser.params.createDate);
+                    qx=$("#qx").find("input[type='checkbox']").is(':checked'),
+                    createDate=vm.addUser.params.createDate;
+                vm.addUser.params.createDate=new Date(Date.parse(createDate.replace(/-/g,"/")));
                 vm.addUser.params.updateDate=new Date();
                 vm.addUser.params.updateUser=sessionStorage.getItem("userAccount");
                 vm.addUser.params.permissions=vm.activePer;

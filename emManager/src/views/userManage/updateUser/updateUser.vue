@@ -236,11 +236,11 @@
                     alert("冻结用户，只能选择未办理套餐");
                     return
                 }
-                if(vm.addUser.params.province==""&&vm.addUser.params.city==""&&vm.addUser.params.county==""&&vm.searchCity==false){
+                if((!vm.addUser.params.province&&!vm.addUser.params.city&&!vm.addUser.params.county&&vm.searchCity==false)||(vm.addUser.params.province=='不限'&&vm.addUser.params.city=='不限'&&vm.addUser.params.county=='不限'&&vm.searchCity==false)){
                     alert("省市县与不限地区选填一项！");
                     return
                 }
-                if(!vm.addUser.params.province&&!vm.addUser.params.city&&!vm.addUser.params.county&&vm.searchCity==true){
+                if((!vm.addUser.params.province&&!vm.addUser.params.city&&!vm.addUser.params.county&&vm.searchCity==true)||(vm.addUser.params.province=='不限'&&vm.addUser.params.city=='不限'&&vm.addUser.params.county=='不限'&&vm.searchCity==true)){
                     vm.addUser.params.province=vm.addUser.params.city=vm.addUser.params.county="不限";
                    vm.post(vm.addUser.url,vm.addUser.params,function(response){
                            if(response.success){
@@ -252,7 +252,7 @@
                        },function (error) {
                            console.log(error)
                     });
-                }else if(vm.addUser.params.province!=""&&vm.addUser.params.city!=""&&vm.addUser.params.county!=""&&vm.searchCity==false){
+                }else if(vm.addUser.params.province!="不限"&&vm.addUser.params.city!="不限"&&vm.addUser.params.county!="不限"&&vm.addUser.params.province!=""&&vm.addUser.params.city!=""&&vm.addUser.params.county!=""&&vm.searchCity==false){
                     vm.post(vm.addUser.url,vm.addUser.params,function(response){
                             if(response.success){
                                 $("#updateUser").modal("hide");
@@ -414,20 +414,31 @@
                 $("input[type=radio]").iCheck('uncheck');
             });
             if(vm.addUser.params.province&&vm.addUser.params.city&&vm.addUser.params.county&&vm.addUser.params.province!='不限'&&vm.addUser.params.city!='不限'&&vm.addUser.params.county!='不限') {
-                $("#sheng1").on("changed.bs.select", function (e, clickedIndex) {
-                    shiIndex1 = clickedIndex - 1;
-                    vm.shi1 = vm.searchData.citySearch.GT[shiIndex1];
-                }).on("hide.bs.select", function () {
-                    $("#shi1").selectpicker("refresh").selectpicker('val', '');
-                    $("#xian1").selectpicker("refresh").selectpicker('val', '');
-                });
-                $("#shi1").on("changed.bs.select", function (e, clickedIndex) {
-                    xianIndex1 = clickedIndex - 1;
-                    vm.xian1 = vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
-                }).on("hide.bs.select", function () {
-                    $("#xian1").selectpicker("refresh").selectpicker('val', '');
-                });
+                vm.sheng1="";
+                vm.shi1="";
+                vm.xian1="";
             }
+            $("#sheng1").on("changed.bs.select", function (e, clickedIndex) {
+                shiIndex1 = clickedIndex - 1;
+                vm.shi1 = vm.searchData.citySearch.GT[shiIndex1];
+            }).on("hide.bs.select", function () {
+                $("#shi1").selectpicker('val', '');
+                $("#xian1").selectpicker('val', '');
+                vm.xian1="";
+                setTimeout(function () {
+                    $("#shi1").selectpicker("refresh");
+                    $("#xian1").selectpicker("refresh");
+                },100);
+            });
+            $("#shi1").on("changed.bs.select", function (e, clickedIndex) {
+                xianIndex1 = clickedIndex - 1;
+                vm.xian1 = vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
+            }).on("hide.bs.select", function () {
+                $("#xian1").selectpicker('val', '');
+                setTimeout(function () {
+                    $("#xian1").selectpicker("refresh");
+                },100);
+            });
         }
     }
 </script>
