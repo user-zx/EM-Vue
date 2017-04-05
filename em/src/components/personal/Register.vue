@@ -210,8 +210,8 @@
 	  export default{ 
 	  	data(){ 
 	  		return{
-	  			register_login: false,
-	  			register_message: true,
+	  			register_login: true,
+	  			register_message: false,
 	  			register_pay: false, 
 	  			checked:false,     
 	  			pwText:"", 
@@ -370,7 +370,7 @@
 
 	  			if(valuePhone.length==11){    
  	  				post(vm.$http,"../apis/personal/sendRegisterUserMessage.do",valuePhone,(res)=>{
- 	  					console.log(res);
+ 	  					//console.log(res);
 						if(res.ok){ 
 							if(res.data.success){
 								$("#getYzm").attr({
@@ -561,14 +561,13 @@
 		  		 	secureuri: false,   
 		  		 	dataType: 'JSON',   
 		  		 	type:"post",          
-		  		 	data: {keywordOwner:1111111,keywordList:_that.database.keywordList},　　　　　　　　　 	
+		  		 	data: {keywordOwner:_that.database.phone,keywordList:_that.database.keywordList},　　　　　　　　　 	
 		  		 	success:function(data,status){ 
-		  		 		//console.log(data);
+		  		 		
 		  		 		if(data=="关键词用户不能为空"){
 		  		 			alert(data)
 		  		 			return false;
 		  		 		}
-		  		 		//keywordOwner:_that.database.phone,keywordList:_that.database.keywordList
 		  		 	 let json_data = JSON.parse(data);
                       if(json_data.success){  
                         if(json_data.data.message == "关键词添加成功"){
