@@ -87,10 +87,10 @@
             submit(){
                let vm = this;
                var patt = new RegExp(".(xls|xlsx)$", "i");
-               var patc=new RegExp(/^[\u4e00-\u9fa5a-zA-Z]/);
+               //var patc=new RegExp(/^[\u4e00-\u9fa5a-zA-Z]/);//检测汉字
                 if(vm.textareaVal==""){
                   alert("关键词不能为空");
-                }else if(patc.test(vm.textareaVal)){
+                }else if(patt.test(vm.textareaVal)){
                   vm.ajaxFileUpload();
                   
                   }else{
