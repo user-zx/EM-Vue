@@ -18,7 +18,7 @@
                             <span class="glyphicon glyphicon-floppy-save panel-body-span-button"></span>下载文件模板
                         </a>
                     </div>
-                </div>
+                </div> 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" @click="clearValue()">&nbsp;&nbsp; 取 消 &nbsp;&nbsp;</button>
                     <button type="button" class="btn btn-search" @click="submit">&nbsp;&nbsp; 提 交 &nbsp;&nbsp;</button>
