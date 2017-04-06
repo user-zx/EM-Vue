@@ -58,8 +58,10 @@
   						console.log(res); 
   					if(res.ok){
   						if(res.data.success){
-	  							alert("支付成功");
-	  							clearInterval(timer);
+	  							if(res.data.status=="成功"){
+	  								alert("支付成功");
+	  								clearInterval(timer);
+	  							}
 	  						}
 	  					}
 	  				},(err)=>{
