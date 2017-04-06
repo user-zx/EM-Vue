@@ -96,7 +96,7 @@
 		},
 		mounted(){
 			let vm =this;
-			
+			let timer = null;
 			 $("#pay").on("show.bs.modal",function(){
 				 	vm.$http.post("../apis/personal/findPersonalInfo","").then(function(res){
 	                if(res.ok) {
@@ -106,9 +106,7 @@
 	                          //console.log(vm.personalInfoObj)    
 	                    }
 	                } 
-				});  
-
-
+			 });  
             vm.$http.post("../apis/interface/getOpenAccountPackage","").then((res)=>{
             	if(res.ok){
             		if(res.data.success){  
@@ -138,10 +136,11 @@
             },(err)=>{
             	alert("暂时无法开户,请稍后再试");
             })
-
 		})
-
-			
+			 
+			 $("#pay").on("hidden.bs.modal",function(){
+			 	clearInterval(timer);
+			 })
 
                 
 		$(".tab-box").on("click","a",function () {
