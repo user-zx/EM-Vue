@@ -304,18 +304,16 @@ ss<template>
                      if(vm.startDate==""&&vm.endDate!=""){
                       alert("开始时间不能为空");
                      return;
-                }
+                	}
                 }else{
-                	//console.log(vm.startDate);
                      vm.searchCon.publishStartDate = new Date((vm.startDate + " 00:00:00").replace(/-/g,"/"));
-                     //console.log(vm.searchCon.publishStartDate);
                 }
                 if(vm.endDate==""){   
                     vm.searchCon.publishEndDate = "";
                     if(vm.startDate!=""&&vm.endDate==""){
                 	  alert("结束时间不能为空");
                         return;     
-                }
+                	}
                 }else{ 
                 	vm.searchCon.publishEndDate =new Date((vm.endDate + " 23:59:59").replace(/-/g,"/")); 
                 }
@@ -328,9 +326,6 @@ ss<template>
                 	alert("开始时间不能大于结束时间!");
                 	return;
                 }
-
-                //console.log(vm.searchCon); 
-               //var init=JSON.parse(JSON.stringify(vm.searchCon));
        			
                vm.initsearchCon.labelStatus= vm.searchCon.labelStatus;
                vm.initsearchCon.keywords= vm.searchCon.keywords;
@@ -338,10 +333,9 @@ ss<template>
                vm.initsearchCon.type= vm.searchCon.type; 
                vm.initsearchCon.publishStartDate= vm.searchCon.publishStartDate;
                vm.initsearchCon.publishEndDate= vm.searchCon.publishEndDate;
-               // vm.initsearchCon = vm.searchCon;
                vm.initsearchCon.pageNumber=1;
                 vm.$http.post(vm.bodyDataUrl,vm.initsearchCon).then((response)=>{
-                	console.log(response); 
+                	//console.log(response); 
                     if(response.ok){ 
                         if(response.data.success){
                               vm.sellClueTotalPages=response.data.data.totalPages;
@@ -369,40 +363,37 @@ ss<template>
                 });
             },
             singleSearch(keyword){
-            	
-                let vm = this;
-                this.$http.post(vm.bodyDataUrl,{"pageSize":6,"pageNumber":1,"labelStatus":"","keywords":keyword,"source":"","type":""}).then((response)=>{
-                	
+                let vm = this; 
+               	vm.searchCon.keywords= keyword;  
+                this.$http.post(vm.bodyDataUrl,vm.searchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
 								$("#pagination").jqPaginator({
 									totalPages:  response.data.data.totalPages,
-									visiblePages: vm.initsearchCon.pageSize,
-									currentPage: vm.initsearchCon.pageNumber,
-									
+									visiblePages: vm.searchCon.pageSize,
+									currentPage: vm.searchCon.pageNumber,
 									prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 									next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-									
 									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-									onPageChange: function (n){
-										vm.initsearchCon.pageNumber = n;
-										let typeOf=typeof response.data.data;
-			                            if(typeOf!="string"){
-			                                let newArr=response.data.data.list;
+									onPageChange: function (n){  
+										vm.searchCon.pageNumber = n; 
+										vm.$http.post(vm.bodyDataUrl,vm.searchCon).then((res)=>{
+			                                let newArr = res.data.data.list;
 			                                for(var i in newArr){
 			                                    newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
 			                                     newArr[i].isShow = true;
 			                                }
 			                                vm.artList.artContent=newArr;
-			                                vm.artList.totalPages=response.data.data.totalPages;
+			                                vm.artList.totalPages=res.data.data.totalPages;
 			                                vm.notResult=false;
-										}else{ 
-			                                vm.artList.artContent="";
+										 },(err)=>{
+										 	vm.artList.artContent="";
 			                                vm.artList.totalPages="";
 			                                vm.notResult=true;
-										}
+										 }) 
+
 									}
 								});
                             }else{

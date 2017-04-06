@@ -347,7 +347,7 @@
             artListFun(){
                 let vm=this;
                  let autoHeight = "";
-                 console.log(vm.initsearchCon);
+                 //console.log(vm.initsearchCon);
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
                     if(response.ok) {
                         if (response.data.success) {
@@ -381,7 +381,7 @@
                 let vm=this;
                 //console.log(vm.initsearchCon); 
                 vm.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then(function (response) {
-                	console.log(response);
+                	//console.log(response);
                     if(response.ok){
                         if(response.data.success){
                         	vm.collectTotalPages=response.data.data.totalPages;
@@ -475,7 +475,7 @@
                vm.initsearchCon.publishStartDate= vm.searchCon.publishStartDate;
                vm.initsearchCon.publishEndDate= vm.searchCon.publishEndDate;
 				vm.initsearchCon.pageNumber=1;
-				//console.log(vm.initsearchCon);
+				
                 this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
                     if(response.ok){
                         if(response.data.success){
@@ -506,40 +506,39 @@
 			},
 			singleSearch(keyword){
 				let vm = this;
-                vm.initsearchCon.keywords=keyword;
+                vm.searchCon.keywords= keyword; 
 
-				this.$http.post(vm.saleLeadsListUrl,vm.initsearchCon).then((response)=>{
+				this.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((response)=>{
+					//console.log(response);
                     if(response.ok){
                         if(response.data.success){
                             let typeOf = typeof response.data.data;
                             if(typeOf!="string"){
 								$("#pagination").jqPaginator({
 									totalPages:  response.data.data.totalPages,
-									visiblePages: vm.initsearchCon.pageSize,
-									currentPage: vm.initsearchCon.pageNumber,
-									
+									visiblePages: vm.searchCon.pageSize,
+									currentPage: vm.searchCon.pageNumber,
 									prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
 									next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
 									
 									page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-									onPageChange: function (n){
-										vm.initsearchCon.pageNumber = n;
-										let typeOf=typeof response.data.data;
-			                            if(typeOf!="string"){
-			                                let newArr=response.data.data.list;
+									onPageChange: function (n){ 
+										vm.searchCon.pageNumber = n; 
+										vm.$http.post(vm.saleLeadsListUrl,vm.searchCon).then((res)=>{
+			                                let newArr = res.data.data.list;
 			                                for(var i in newArr){
 			                                    newArr[i].salesLeads.publishDate=new Date(newArr[i].salesLeads.publishDate).Format("yyyy-MM-dd hh:mm:ss");
 			                                     newArr[i].isShow = true;
 			                                }
 			                                vm.artList.artContent=newArr;
-			                                vm.artList.totalPages=response.data.data.totalPages;
+			                                vm.artList.totalPages=res.data.data.totalPages;
 			                                vm.notResult=false;
-										}else{ 
-			                                vm.artList.artContent="";
+										 },(err)=>{
+										 	vm.artList.artContent="";
 			                                vm.artList.totalPages="";
 			                                vm.notResult=true;
-										}
-									}
+										 }) 
+									  }
 								});
                             }else{
                                 vm.artList.artContent="";
