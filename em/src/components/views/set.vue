@@ -214,9 +214,8 @@
 							</tbody>
 						</table>
 						<div class="pageList clearfix" v-show="!notResult" id="consume_Item">
-						 	
 							<ul class="clearfix pagination pull-left">
-
+							
 							</ul>
 							 <ul class="pull-left tz-pagination" >
 								<li>跳转到第</li>
@@ -514,10 +513,10 @@
 
                  	alert("超过总页数");
                  }else{
-				$("#keyWordSet .pagination").jqPaginator('option',{
-					currentPage:index,
+				// $("#keyWordSet .pagination").jqPaginator('option',{
+				// 	currentPage:index,
   
-				});
+				// });
 
 				vm.keyWordSearchCon.pageNumber=index;
 
@@ -616,6 +615,7 @@
 										onPageChange: function (n) {
 											vm.keyWordSearchCon.pageNumber = n;
 											vm.getKeywordListFun();
+											//console.log('test');  
 										}
 									});
 								}else{
@@ -671,7 +671,7 @@
                         let typeOf = typeof res.data.data;
                         vm.keyWordTotalpages=res.data.data.totalPages;
                         if(typeOf!="string") {
-                            $("#keyWordSet .pagination").jqPaginator({
+                            $("#addKey_Word .pagination").jqPaginator({
                                 totalPages: res.data.data.totalPages,
                                 visiblePages: vm.keyWordSearchCon.pageSize,
                                 currentPage: vm.keyWordSearchCon.pageNumber,
@@ -681,7 +681,8 @@
                                 page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
                                 onPageChange: function (n) {
                                     vm.keyWordSearchCon.pageNumber = n;
-                                     if(res.ok){  
+                                     vm.$http.post(vm.keyWordListUrl,vm.keyWordSearchCon).then((res)=>{
+                                     	 if(res.ok){  
 				                        if(res.data.success){
 				                            let typeOf = typeof res.data.data;
 				                            if(typeOf!="string") {
@@ -701,6 +702,11 @@
 				                            }
 				                        }
 				                    }
+                                     },(err)=>{
+                                     	alert("出错了");
+                                     })
+                                   
+				                   // console.log('tes是的t');
                                 }
                             });
                         }else{

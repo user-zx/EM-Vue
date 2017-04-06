@@ -52,6 +52,7 @@
     top: 0;
     filter: alpha(opacity=0);
     cursor: pointer;
+    opacity: 0;
 }
   
 </style>

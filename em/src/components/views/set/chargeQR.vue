@@ -55,6 +55,7 @@
   				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
   				timer = setInterval(function(){
   					vm.$http.post("../apis/wxpay/findRechargeInfo",startTIME).then((res)=>{
+  						console.log(res); 
   					if(res.ok){
   						if(res.data.success){
 	  							alert("支付成功");
