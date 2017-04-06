@@ -54,7 +54,7 @@
   				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"&outTradeNo="+startTIME+"";
   				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
   				timer = setInterval(function(){
-  					vm.$http.post("../apis/wxpay/findRechargeInfo",startTIME).then((res)=>{
+  					vm.$http.post("../apis/wxpay/findRechargeInfo?outTradeNo="+startTIME).then((res)=>{
   						console.log(res); 
   					if(res.ok){
   						if(res.data.success){
@@ -65,7 +65,7 @@
 	  				},(err)=>{
 	  					console.log(err);
 	  				})
-  				},1000) 
+  				},3000)  
  			});
  			$('#chargeQR').on("hidden.bs.modal",function(){
  				clearInterval(timer);

@@ -301,7 +301,7 @@
                 			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"&outTradeNo="+startTIME+""; 
                 			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"&userAccount="+vm.database.phone+"";
                 			vm.timer_register = setInterval(function(){
-			  					vm.$http.post("../apis/wxpay/findRechargeInfo",startTIME).then((res)=>{
+			  					vm.$http.post("../apis/wxpay/findRechargeInfo?outTradeNo="+startTIME).then((res)=>{
 			  					if(res.ok){
 			  						if(res.data.success){
 				  							alert("支付成功");
@@ -311,7 +311,7 @@
 				  				},(err)=>{
 				  					console.log(err);
 				  				})
-			  				},500)    
+			  				},3000)     
                 		}else{
                 			alert("暂时无法开户,请稍后再试");
                 		}

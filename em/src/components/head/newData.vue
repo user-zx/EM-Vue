@@ -36,9 +36,10 @@
 					console.log(err);
 					return false;
 				})
-			timer = setInterval(autoplay,1000*60*5);
+			timer = setInterval(autoplay,1000*60*5);  
 			function autoplay(){  
 				post(vm.$http,vm.hintUrl,"",(res)=>{
+					console.log(res);  
 					vm.dataLength = res.data.data;
 					 if(vm.dataLength > vm.newdata){
 					 	vm.newSell = vm.dataLength - vm.newdata;
