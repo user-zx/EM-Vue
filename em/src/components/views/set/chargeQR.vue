@@ -58,7 +58,7 @@
   						//console.log(res); 
   					if(res.ok){
   						if(res.data.success){
-	  							if(res.data.status=="成功"){
+	  							if(res.data.data.status=="成功"){
 	  								alert("支付成功");
 	  								clearInterval(timer);
 	  							}
