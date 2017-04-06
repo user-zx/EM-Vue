@@ -103,39 +103,40 @@
 	                    if (res.data.success) {
 	                        vm.personalInfoObj.packageInfo = res.data.data.packageInfo;
 	                        vm.personalInfoObj.user = res.data.data.user; 
-	                          //console.log(vm.personalInfoObj)    
+
+				             vm.$http.post("../apis/interface/getOpenAccountPackage","").then((res)=>{
+			            	 if(res.ok){
+			            		if(res.data.success){  
+			            			let startTIME = new Date().getTime();
+			            			vm.alipayID = res.data.data.id; 
+			            			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.personalInfoObj.user.phone+"&outTradeNo="+startTIME+""; 
+			            			
+			            			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"&userAccount="+vm.personalInfoObj.user.phone+"";
+			            			timer = setInterval(function(){
+					  					vm.$http.post("../apis/wxpay/findRechargeInfo?outTradeNo="+startTIME).then((res)=>{
+					  					if(res.ok){
+					  						if(res.data.success){
+						  							if(res.data.data.status=="成功"){
+						  								alert("支付成功");
+						  								clearInterval(timer);
+						  							}
+						  						}
+						  					}
+						  				},(err)=>{
+						  					console.log(err);
+						  				})
+					  				},3000)  
+			            		}else{
+			            			alert("暂时无法开户,请稍后再试");
+			            		}
+			            	 }
+				            },(err)=>{
+				            	alert("暂时无法开户,请稍后再试");
+				            })
 	                    }
 	                } 
 			 });  
-            vm.$http.post("../apis/interface/getOpenAccountPackage","").then((res)=>{
-            	if(res.ok){
-            		if(res.data.success){  
-            			 let startTIME = new Date().getTime();
-            			vm.alipayID = res.data.data.id; 
-            			vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.alipayID+"&userAccount="+vm.personalInfoObj.user.phone+"&outTradeNo="+startTIME+""; 
-            			
-            			vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.alipayID+"&userAccount="+vm.personalInfoObj.user.phone+"";
-            			timer = setInterval(function(){
-		  					vm.$http.post("../apis/wxpay/findRechargeInfo?outTradeNo="+startTIME).then((res)=>{
-		  					if(res.ok){
-		  						if(res.data.success){
-			  							if(res.data.data.status=="成功"){
-			  								alert("支付成功");
-			  								clearInterval(timer);
-			  							}
-			  						}
-			  					}
-			  				},(err)=>{
-			  					console.log(err);
-			  				})
-		  				},3000)  
-            		}else{
-            			alert("暂时无法开户,请稍后再试");
-            		}
-            	}
-            },(err)=>{
-            	alert("暂时无法开户,请稍后再试");
-            })
+           
 		})
 			 
 			 $("#pay").on("hidden.bs.modal",function(){
