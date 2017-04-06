@@ -304,8 +304,9 @@
 			  					vm.$http.post("../apis/wxpay/findRechargeInfo?outTradeNo="+startTIME).then((res)=>{
 			  					if(res.ok){
 			  						if(res.data.success){
-				  							alert("支付成功");
-				  							clearInterval(vm.timer_register);
+				  							if(res.data.status=="支付成功"){
+				  								clearInterval(vm.timer_register);
+				  							}
 				  						}
 				  					} 
 				  				},(err)=>{
