@@ -469,7 +469,6 @@
                                     if(res.ok){
                                     	if(res.data.success){
                                     		console.log("操作成功");
-                                    		
                                     	}
                                     }
 								}  
@@ -477,15 +476,11 @@
 						});
                     })
             	},
-			
 			topUp(id){
 				if(this.personalInfoObj.user.userStatus=="冻结"){
-		    		
 		    		alert("您的账号已被冻结");
-		    		
                      return false;
 		    	}else{
-		    		//console.log(this.consumeListSearchCon.userAccount);
 					this.chargeQRId.id = id; 
 					this.chargeQRId.phone = this.consumeListSearchCon.userAccount
 					$('#chargeQR').modal('show');
