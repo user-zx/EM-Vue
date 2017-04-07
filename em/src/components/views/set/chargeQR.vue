@@ -61,6 +61,7 @@
 	  							if(res.data.data.status=="成功"){
 	  								alert("支付成功");
 	  								clearInterval(timer);
+	  								 $('#chargeQR').modal('hide');
 	  							}
 	  						}
 	  					}
