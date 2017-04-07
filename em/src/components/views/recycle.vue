@@ -519,6 +519,7 @@
                                             vm.artList.artContent=newArr;
                                             vm.artList.totalPages=res.data.data.totalPages;
                                             vm.notResult=false;
+                                            vm.searchCon.pageNumber = 1;
                                          },(err)=>{
                                             vm.artList.artContent="";
                                             vm.artList.totalPages="";
