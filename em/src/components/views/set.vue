@@ -126,7 +126,7 @@
 										<h5 class="comboName"> <span :title="packageItem.name">{{packageItem.name}}</span> <span class="price">¥{{packageItem.price}}</span></h5>
 										<p>内含<span :title="packageItem.leadsTimes" class="text-em">{{packageItem.leadsTimes}}次</span>线索查看</p>
 									</div>
-									<a href="javascript:void(0);" :id="packageItem.id" class="btn btn-combo" @click="topUp(packageItem.id)">立即充值</a>
+									<a href="javascript:void(0);" :id="packageItem.id" class="btn btn-combo" @click="topUp(packageItem.id,packageItem.name)">立即充值</a>
 								</div>
 							</div>
 						</div> 
@@ -210,7 +210,6 @@
 									<td v-else-if="consumeItem.type=='查看线索'" class="text-center">1次</td>
 									<td class="text-center"><span class="text-em">成功</span></td>
 								</tr>
-
 							</tbody>
 						</table>
 						<div class="pageList clearfix" v-show="!notResult" id="consume_Item">
@@ -262,7 +261,7 @@
 	.combo-box{background-color: #f2f2f2;border-radius:5px 5px 0 0;}
 	.combo-box .combo-body{padding:15px 20px;}
 	.combo-box .comboName{font-size:16px;color:#333333;position: relative;}
-	.comboName>span:first-child{display: block;max-width:70px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
+	.comboName>span:first-child{display: block;max-width:95px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
 	.comboName+p>span{display:inline-block;vertical-align:bottom;max-width:38px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} 
 	.comboName>span:nth-child(2){position: absolute;right: -10px;top: 0;}
 	.combo-box .comboName .price{float: right;color:#32ccca;}
@@ -476,12 +475,13 @@
 						});
                     })
             	},
-			topUp(id){
+			topUp(id,name){
 				if(this.personalInfoObj.user.userStatus=="冻结"){
 		    		alert("您的账号已被冻结");
                      return false;
 		    	}else{
 					this.chargeQRId.id = id; 
+					this.chargeQRId.name = name;
 					this.chargeQRId.phone = this.consumeListSearchCon.userAccount
 					$('#chargeQR').modal('show');
 			     }

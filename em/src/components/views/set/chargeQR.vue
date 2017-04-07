@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="addKeyWordLabel"></h4>
+                    <h4 class="modal-title text-center" id="addKeyWordLabel">{{chargeQR.name}}</h4>
                 </div>
                 <div class="modal-body text-center">
                 	<h1 id="WeChat_text"> 
@@ -30,6 +30,7 @@
 				qrsrc:"",
 				alipay:"",
 				alipay_div:"",
+
 			}
 		},
 		methods:{
@@ -50,12 +51,12 @@
 		mounted(){ 
 			let vm = this,timer = null; 
 			 $('#chargeQR').on('shown.bs.modal', function () { 
+			 	//console.log(vm.chargeQR);
 			 	 let startTIME = new Date().getTime();
   				vm.qrsrc = "../apis/wxpay/generateQRCode?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"&outTradeNo="+startTIME+"";
   				vm.alipay = "../apis/alipay/openAlipayPage?pkgId="+vm.chargeQR.id+"&userAccount="+vm.chargeQR.phone+"";
   				timer = setInterval(function(){
   					vm.$http.post("../apis/wxpay/findRechargeInfo?outTradeNo="+startTIME).then((res)=>{
-  						//console.log(res); 
   					if(res.ok){
   						if(res.data.success){
 	  							if(res.data.data.status=="成功"){
