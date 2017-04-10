@@ -358,14 +358,23 @@
                 shiIndex1=clickedIndex-1;
                 vm.shi1=vm.searchData.citySearch.GT[shiIndex1];
             }).on("hide.bs.select",function () {
-                $("#shi1").selectpicker("refresh").selectpicker('val', '');
-                $("#xian1").selectpicker("refresh").selectpicker('val', '');
+                $("#shi1").selectpicker('val', '');
+                $("#xian1").selectpicker('val', '');
+                vm.xian1="";
+                setTimeout(function () {
+                    $("#shi1").selectpicker("refresh");
+                    $("#xian1").selectpicker("refresh");
+                },100);
             });
             $("#shi1").on("changed.bs.select",function (e,clickedIndex) {
                 xianIndex1=clickedIndex-1;
                 vm.xian1=vm.searchData.citySearch.GC[shiIndex1][xianIndex1];
             }).on("hide.bs.select",function () {
-                $("#xian1").selectpicker("refresh").selectpicker('val', '');
+                 $("#xian1").selectpicker('val', '');
+                setTimeout(function () {
+                    $("#xian1").selectpicker("refresh");
+                },100);
+
             });
             $("#addUser").on("show.bs.modal",function () {
                 vm.post(vm.packageList.url,"",function (response) {

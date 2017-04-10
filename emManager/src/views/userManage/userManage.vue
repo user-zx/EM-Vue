@@ -317,12 +317,22 @@
             }).on("hide.bs.select",function () {
                 $("#shi").selectpicker('val', '').selectpicker("refresh");
                 $("#xian").selectpicker('val', '').selectpicker("refresh");
+                 $("#shi").selectpicker('val', '');
+                $("#xian").selectpicker('val', '');
+                vm.xian="";
+                setTimeout(function () {
+                    $("#shi").selectpicker("refresh");
+                    $("#xian").selectpicker("refresh");
+                },100);
             });
             $("#shi").on("changed.bs.select",function (e,clickedIndex) {
                 xianIndex=clickedIndex-1;
                 vm.xian=vm.searchData.citySearch.GC[shiIndex][xianIndex];
             }).on("hide.bs.select",function () {
-                $("#xian").selectpicker('val', '').selectpicker("refresh");
+                $("#xian").selectpicker('val', '');
+                setTimeout(function () {
+                    $("#xian").selectpicker("refresh");
+                },100);
             });
             $("#regTime").daterangepicker({
                 autoUpdateInput:false,
