@@ -136,7 +136,7 @@
 								</div>
 								<span class="col-sm-6">
 									<img :src="qrsrc" height="221" width="269">
-									<p class="text-center">使用微信（支付宝）扫一扫支付</p>
+									<p class="text-center">使用微信扫一扫支付</p>
 								</span>
 							</div>
 						    <div class="form-group">
