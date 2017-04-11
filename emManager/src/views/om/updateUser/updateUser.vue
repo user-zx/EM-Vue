@@ -239,8 +239,8 @@
                     }
                 }
                 $("input[readOnly]").keydown(function(e){
-                e.preventDefault();
-                };
+                        e.preventDefault();
+                });
                 $("input[type=checkbox]").iCheck({
                     checkboxClass : 'icheckbox_square-blue',
                 }).on("ifChecked",function () {
