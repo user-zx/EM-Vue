@@ -238,7 +238,7 @@
                         }
                     }
                 }
-                $("input[readOnly]").keydown(function(e) {
+                $("input[readOnly]").keydown(function(e){
                 e.preventDefault();
                 };
                 $("input[type=checkbox]").iCheck({
