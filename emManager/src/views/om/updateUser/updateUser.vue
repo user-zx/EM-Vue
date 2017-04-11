@@ -14,7 +14,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">用户名：</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" readonly placeholder="请输入用户名" v-model="addUser.params.userAccount" />
+                                <input type="text" class="form-control" readOnly placeholder="请输入用户名" v-model="addUser.params.userAccount" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -138,7 +138,7 @@
                 let vm =this,
                 surePwd=$(".surePwd").val(),
                     qx=$("#qx").find("input[type='checkbox']").is(':checked'),
-                    createDate=vm.addUser.params.createDate;
+                    createDate=vm.addUser.params.createDate.toString();
                 vm.addUser.params.createDate=new Date(Date.parse(createDate.replace(/-/g,"/")));
                 vm.addUser.params.updateDate=new Date();
                 vm.addUser.params.updateUser=sessionStorage.getItem("userAccount");
