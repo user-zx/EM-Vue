@@ -152,6 +152,7 @@
                    alert("两次输入密码不一致");
                    return;
                 }
+
                 if(vm.addUser.params.permissions.split(',')<1){
                    alert("至少选一个权限");
                    return;
@@ -183,9 +184,12 @@
                     checkboxClass : 'icheckbox_square-blue',
                 }).on("ifChecked",function () {
                     arr.push($(this).val());
+                    console.log(arr);
                     vm.addUser.params.permissions=arr.toString();
                 }).on("ifUnchecked",function () {
-                    arr.remove(arr.indexOf($(this).val()));
+                    /*arr.remove(arr.indexOf($(this).val()));*/
+                    arr.splice($.inArray($(this).val(), arr), 1);
+                     console.log(arr);
                     vm.addUser.params.permissions=arr.toString();
                 });
             }).on("hidden.bs.modal",function () {
