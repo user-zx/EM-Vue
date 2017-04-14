@@ -46,7 +46,7 @@
                             </p>
                         </div>
                         <div class="btn-box">
-                            <button class="btn btn-dark-o" type="button" @click="setConfirmParams(studyClueList.result.topic.id,'非线索')">非线索</button>
+                            <button class="btn btn-dark-o  noBtn" type="button" @click="setConfirmParams(studyClueList.result.topic.id,'非线索')">非线索</button>
                             <button class="btn btn-em-o" type="button" @click="setConfirmParams(studyClueList.result.topic.id,'确认线索')">确认线索</button>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                             </div>
                             {{item.id}}
                             <div class="btn-box">
-                                <button class="btn btn-dark-o" type="button" @click="setConfirmParams(item.id,'非线索')">非线索</button>
+                                <button class="btn btn-dark-o noBtn" type="button" @click="setConfirmParams(item.id,'非线索')">非线索</button>
                                 <button class="btn btn-em-o" type="button" @click="setConfirmParams(item.id,'确认线索')">确认线索</button>
                             </div>
                         </div>
@@ -68,6 +68,9 @@
                             <div class="search-box pull-left">
                                 <button type="button" class="btn btn-dark btn-dark-o" @click="confirmSalesLeadsFun();">
                                     提交研判结果
+                                </button>
+                                 <button type="button" class="btn btn-dark btn-dark-o btn-no">
+                                    全部为非线索
                                 </button>
                             </div>
                             <ul class="clearfix pagination pull-right" id="pagination">
@@ -179,10 +182,10 @@
     </div>
 </template>
 <style lang="scss" scoped>
-       .noData{
-            margin-top: 100px;
-            display: none;
-       }
+   .noData{
+        margin-top: 100px;
+        display: none;
+   }
     .text-yellow{color:#e29b4b;}
     .text-hidden{display: block;max-width:370px;padding:0 15px;overflow: hidden;text-align:left;text-overflow: ellipsis;white-space: nowrap;}
     .center-content{
@@ -666,6 +669,7 @@
                 });
             },
             setConfirmParams(salesLeadsId,judgeResult){
+                console.log(salesLeadsId);//id
                 let vm =this;
                 if(vm.confirmSalesLeads.params.length>0){
                     for(let i=0;i<vm.confirmSalesLeads.params.length;i++){
@@ -680,6 +684,8 @@
                 obj.salesLeadsId=salesLeadsId;
                 obj.judgeResult=judgeResult;
                 vm.confirmSalesLeads.params.push(obj);
+                console.log(obj);//数组中的一个对象
+                console.log(vm.confirmSalesLeads.params);//对象数组
             },
             confirmSalesLeadsFun(){//提交研判结果
                 let vm =this;
@@ -705,10 +711,6 @@
 
                         }
                     }
-//                    if($(".article-content .btn-box").length!=vm.confirmSalesLeads.params.length){
-//                        alert("还有数据没研判！～");
-//                        return;
-//                    }
                 }else{
                     alert("请研判数据！");
                     return;
@@ -724,14 +726,22 @@
                 });
             }
         },
-        mounted(){
+        mounted(){ 
+            $(document).on("click",".btn",function(){
+                $(this).addClass("active").siblings().removeClass("active");
+            });
+           
+            $(document).on("click",".btn-no",function(){
+                var noBtns = $(".noBtn");
+                noBtns.each(function(){
+                    $(this).click();  
+                });
+            });
             $(".selectpicker").selectpicker({
                 style: 'btn-default',
                 size: 4
             });
-            $(document).on("click",".btn",function(){
-                $(this).addClass("active").siblings().removeClass("active");
-            });
+           
             let vm=this;
         }
     }

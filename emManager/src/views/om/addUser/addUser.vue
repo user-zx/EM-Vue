@@ -187,7 +187,6 @@
                     console.log(arr);
                     vm.addUser.params.permissions=arr.toString();
                 }).on("ifUnchecked",function () {
-                    /*arr.remove(arr.indexOf($(this).val()));*/
                     arr.splice($.inArray($(this).val(), arr), 1);
                      console.log(arr);
                     vm.addUser.params.permissions=arr.toString();
